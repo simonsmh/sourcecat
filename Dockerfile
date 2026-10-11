@@ -37,6 +37,7 @@ COPY ./packages/db ./packages/db
 COPY ./packages/schemas ./packages/schemas
 COPY ./packages/shared ./packages/shared
 COPY ./packages/queryLanguage ./packages/queryLanguage
+COPY ./packages/codemirror-lang-tcl ./packages/codemirror-lang-tcl
 
 RUN yarn workspace @sourcecat/db install
 RUN yarn workspace @sourcecat/schemas install
@@ -74,6 +75,7 @@ COPY --from=shared-libs-builder /app/packages/db ./packages/db
 COPY --from=shared-libs-builder /app/packages/schemas ./packages/schemas
 COPY --from=shared-libs-builder /app/packages/shared ./packages/shared
 COPY --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
+COPY --from=shared-libs-builder /app/packages/codemirror-lang-tcl ./packages/codemirror-lang-tcl
 
 # Fixes arm64 timeouts
 RUN yarn workspace @sourcecat/web install
@@ -109,6 +111,7 @@ COPY --from=shared-libs-builder /app/packages/db ./packages/db
 COPY --from=shared-libs-builder /app/packages/schemas ./packages/schemas
 COPY --from=shared-libs-builder /app/packages/shared ./packages/shared
 COPY --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
+COPY --from=shared-libs-builder /app/packages/codemirror-lang-tcl ./packages/codemirror-lang-tcl
 RUN yarn workspace @sourcecat/backend install
 RUN yarn workspace @sourcecat/backend build
 
