@@ -105,7 +105,7 @@
     "@sentry/nextjs": "^10.71.0",
     "@sentry/profiling-node": "^10.71.0",
     "@shopify/lang-jsonc": "^1.0.0",
-    "@sourcecat/codemirror-lang-tcl": "^1.0.13",
+    "@sourcecat/codemirror-lang-tcl": "workspace:*",
     "@sourcecat/db": "workspace:*",
     "@sourcecat/query-language": "workspace:*",
     "@sourcecat/schemas": "workspace:*",

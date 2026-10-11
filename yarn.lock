@@ -8885,9 +8885,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sourcecat/codemirror-lang-tcl@npm:^1.0.13":
-  version: 1.0.13
-  resolution: "@sourcecat/codemirror-lang-tcl@npm:1.0.13"
+"@sourcecat/codemirror-lang-tcl@workspace:*, @sourcecat/codemirror-lang-tcl@workspace:packages/codemirror-lang-tcl":
+  version: 0.0.0-use.local
+  resolution: "@sourcecat/codemirror-lang-tcl@workspace:packages/codemirror-lang-tcl"
   dependencies:
     "@codemirror/highlight": "npm:^0.19.0"
     "@codemirror/language": "npm:^6.0.0"
@@ -8895,9 +8895,8 @@ __metadata:
     "@lezer/highlight": "npm:^1.0.0"
     "@lezer/lr": "npm:^1.0.0"
     tslib: "npm:^2.8.1"
-  checksum: 10c0/1d251f0be95264bf281deb15aaecda9004e511c0747d6e8199d9fd024834d129c1384865e548c8280290d48bca927b3be722d03f2b908c2b3025d5dff072f847
-  languageName: node
-  linkType: hard
+  languageName: unknown
+  linkType: soft
 
 "@sourcecat/db@workspace:*, @sourcecat/db@workspace:packages/db":
   version: 0.0.0-use.local
@@ -9066,7 +9065,7 @@ __metadata:
     "@sentry/nextjs": "npm:^10.71.0"
     "@sentry/profiling-node": "npm:^10.71.0"
     "@shopify/lang-jsonc": "npm:^1.0.0"
-    "@sourcecat/codemirror-lang-tcl": "npm:^1.0.13"
+    "@sourcecat/codemirror-lang-tcl": "workspace:*"
     "@sourcecat/db": "workspace:*"
     "@sourcecat/query-language": "workspace:*"
     "@sourcecat/schemas": "workspace:*"
