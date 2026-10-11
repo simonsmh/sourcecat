@@ -123,7 +123,6 @@ export default async function Onboarding(props: OnboardingProps) {
         )
     });
 
-    const finalStepIndex = steps.length;
     // Fork: license verification removed. The trial/upsell step is deleted;
     // onboarding always ends with the completion step.
     steps.push({
