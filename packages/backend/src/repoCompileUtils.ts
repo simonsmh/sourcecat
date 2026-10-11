@@ -183,7 +183,8 @@ export const compileGitlabConfig = async (
 
         const record: RepoData = {
             external_id: project.id.toString(),
-            external_codeHostType: 'gitlab',
+            // `legacy` urlStyle targets GitLab-compatible hosts without the "/-/" URL prefix.
+            external_codeHostType: config.urlStyle === 'legacy' ? 'gitlabOld' : 'gitlab',
             external_codeHostUrl: hostUrl,
             cloneUrl: cloneUrl.toString(),
             webUrl: projectUrl,

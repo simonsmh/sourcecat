@@ -31,6 +31,15 @@
             ],
             "pattern": "^https?:\\/\\/[^\\s/$.?#].[^\\s]*$"
         },
+        "urlStyle": {
+            "type": "string",
+            "enum": [
+                "modern",
+                "legacy"
+            ],
+            "default": "modern",
+            "description": "URL style used when constructing links to the GitLab web UI. `modern` uses the standard GitLab \"/-/\" URL prefix (e.g. `/group/project/-/blob/<ref>/<path>`). `legacy` omits the \"/-/\" prefix (e.g. `/group/project/blob/<ref>/<path>`), for GitLab-compatible hosts that don't use it. Defaults to `modern`."
+        },
         "all": {
             "type": "boolean",
             "default": false,

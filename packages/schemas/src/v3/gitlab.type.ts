@@ -30,6 +30,10 @@ export interface GitlabConnectionConfig {
    */
   webUrl?: string;
   /**
+   * URL style used when constructing links to the GitLab web UI. `modern` uses the standard GitLab "/-/" URL prefix (e.g. `/group/project/-/blob/<ref>/<path>`). `legacy` omits the "/-/" prefix (e.g. `/group/project/blob/<ref>/<path>`), for GitLab-compatible hosts that don't use it. Defaults to `modern`.
+   */
+  urlStyle?: "modern" | "legacy";
+  /**
    * Sync all projects visible to the provided `token` (if any) in the GitLab instance. This option is ignored if `url` is either unset or set to https://gitlab.com .
    */
   all?: boolean;

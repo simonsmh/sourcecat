@@ -247,6 +247,17 @@ export const getCodeHostInfoForRepo = (repo: {
                 iconClassName: className,
             }
         }
+        case 'gitlabOld': {
+            const { src, className } = getCodeHostIcon('gitlab')!;
+            return {
+                type: "gitlabOld",
+                displayName: displayName ?? name,
+                codeHostName: "GitLab",
+                externalWebUrl,
+                icon: src,
+                iconClassName: className,
+            }
+        }
         case 'azuredevops': {
             const { src, className } = getCodeHostIcon('azuredevops')!;
             return {
@@ -324,6 +335,7 @@ export const getCodeHostIcon = (codeHostType: CodeHostType | ConnectionType): { 
                 className: "dark:invert",
             };
         case "gitlab":
+        case "gitlabOld":
             return {
                 src: gitlabLogo,
             };
@@ -370,6 +382,8 @@ export const getCodeHostCommitUrl = ({
         case 'github':
             return `${webUrl}/commit/${commitHash}`;
         case 'gitlab':
+            return `${webUrl}/-/commit/${commitHash}`;
+        case 'gitlabOld':
             return `${webUrl}/commit/${commitHash}`;
         case 'gitea':
             return `${webUrl}/commit/${commitHash}`;
@@ -405,6 +419,8 @@ export const getCodeHostBrowseAtBranchUrl = ({
         case 'github':
             return `${webUrl}/tree/${branchName}`;
         case 'gitlab':
+            return `${webUrl}/-/tree/${branchName}`;
+        case 'gitlabOld':
             return `${webUrl}/tree/${branchName}`;
         case 'gitea':
             return `${webUrl}/src/branch/${branchName}`;
@@ -442,6 +458,8 @@ export const getCodeHostBrowseFileAtBranchUrl = ({
         case 'github':
             return `${webUrl}/blob/${branchName}/${filePath}`;
         case 'gitlab':
+            return `${webUrl}/-/blob/${branchName}/${filePath}`;
+        case 'gitlabOld':
             return `${webUrl}/blob/${branchName}/${filePath}`;
         case 'gitea':
             return `${webUrl}/src/branch/${branchName}/${filePath}`;

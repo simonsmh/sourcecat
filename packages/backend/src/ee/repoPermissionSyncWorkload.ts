@@ -179,6 +179,7 @@ const getPermissionSyncResult = async (
         case "github":
             return getGitHubPermissionSyncResult(props);
         case "gitlab":
+        case "gitlabOld":
             return getGitLabPermissionSyncResult(props);
         case "bitbucketCloud":
             return getBitbucketCloudPermissionSyncResult(props);

@@ -45,6 +45,7 @@ enum AttachmentStatus {
 enum CodeHostType {
   github
   gitlab
+  gitlabOld               @map("gitlab-old")
   gitea
   gerrit
   bitbucketServer         @map("bitbucket-server")
