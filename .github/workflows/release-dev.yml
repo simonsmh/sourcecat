@@ -1,4 +1,4 @@
-name: Release Sourcebot (Development)
+name: Release Sourcecat (Development)
 
 permissions:
   contents: read

@@ -1,4 +1,4 @@
-name: Release Sourcebot (Cloud - Production)
+name: Release Sourcecat (Cloud - Production)
 
 permissions:
   contents: read

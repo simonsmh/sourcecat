@@ -2,7 +2,7 @@ name: Linear Release
 
 on:
     workflow_run:
-        workflows: [ "Release Sourcebot (Production)" ]
+        workflows: [ "Release Sourcecat (Production)" ]
         types:
             - completed
 

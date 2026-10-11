@@ -1,4 +1,4 @@
-name: Release Sourcebot (Cloud - Staging)
+name: Release Sourcecat (Cloud - Staging)
 
 permissions:
   contents: read
