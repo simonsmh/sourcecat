@@ -161,7 +161,7 @@ export default async function Image({ params }: ImageProps) {
                             sourcecat.dev
                         </span>
                         <img
-                            src={`${env.AUTH_URL}/sb_logo_dark_small.png`}
+                            src={`${env.AUTH_URL}/sc_logo_dark_small.png`}
                             alt="Sourcecat"
                             width={80}
                             height={80}

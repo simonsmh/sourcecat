@@ -6,7 +6,7 @@ import { LoadingButton } from '@/components/ui/loading-button';
 import { isServiceError } from '@/lib/utils';
 import { ClientIcon } from './clientIcon';
 import Image from 'next/image';
-import logo from '@/public/logo_512.png';
+import logo from '@/public/sc_logo_512.png';
 import { useEffect, useState } from 'react';
 import useCaptureEvent from '@/hooks/useCaptureEvent';
 import { useToast } from '@/components/hooks/use-toast';

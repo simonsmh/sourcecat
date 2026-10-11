@@ -9,7 +9,7 @@ import {
     Tailwind,
     Text,
 } from '@react-email/components';
-import { SOURCEBOT_LOGO_LIGHT_LARGE_URL } from './constants';
+import { SOURCECAT_LOGO_LIGHT_LARGE_URL } from './constants';
 
 interface MagicLinkEmailProps {
     token: string,
@@ -26,7 +26,7 @@ export const MagicLinkEmail = ({
                 <Container className="mx-auto max-w-[600px] p-6">
                     <Section className="mb-4">
                         <Img
-                            src={SOURCEBOT_LOGO_LIGHT_LARGE_URL}
+                            src={SOURCECAT_LOGO_LIGHT_LARGE_URL}
                             alt="Sourcebot Logo"
                             width="auto"
                             height="40"

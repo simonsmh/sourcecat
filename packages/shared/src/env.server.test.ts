@@ -55,29 +55,29 @@ describe('PERMISSION_SYNC_ENABLED', () => {
     });
 });
 
-describe('SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS', () => {
+describe('SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS', () => {
     beforeEach(() => {
         vi.resetModules();
-        delete process.env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS;
+        delete process.env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS;
     });
 
     afterEach(() => {
-        delete process.env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS;
+        delete process.env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS;
     });
 
     test('defaults to 60000 when not set', async () => {
         const { env } = await import('./env.server.js');
-        expect(env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS).toBe(60000);
+        expect(env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS).toBe(60000);
     });
 
     test('accepts positive integers', async () => {
-        process.env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS = '5000';
+        process.env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS = '5000';
         const { env } = await import('./env.server.js');
-        expect(env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS).toBe(5000);
+        expect(env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS).toBe(5000);
     });
 
     test.each(['0', '-1', '1.5', '2147483648', String(Number.MAX_SAFE_INTEGER + 1)])('rejects %s', async (timeoutMs) => {
-        process.env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS = timeoutMs;
+        process.env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS = timeoutMs;
 
         await expect(import('./env.server.js')).rejects.toThrow();
     });

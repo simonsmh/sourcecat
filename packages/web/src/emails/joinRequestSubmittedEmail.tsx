@@ -15,7 +15,7 @@ import {
     Text,
 } from '@react-email/components';
 import { EmailFooter } from './emailFooter';
-import { SOURCEBOT_LOGO_LIGHT_LARGE_URL, SOURCEBOT_ARROW_IMAGE_URL, SOURCEBOT_PLACEHOLDER_AVATAR_URL } from './constants';
+import { SOURCECAT_LOGO_LIGHT_LARGE_URL, SOURCECAT_ARROW_IMAGE_URL, SOURCECAT_PLACEHOLDER_AVATAR_URL } from './constants';
 
 interface JoinRequestSubmittedEmailProps {
     baseUrl: string;
@@ -46,7 +46,7 @@ export const JoinRequestSubmittedEmail = ({
                     <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
                         <Section className="mt-[32px]">
                             <Img
-                                src={SOURCEBOT_LOGO_LIGHT_LARGE_URL}
+                                src={SOURCECAT_LOGO_LIGHT_LARGE_URL}
                                 width="auto"
                                 height="60"
                                 alt="Sourcebot Logo"
@@ -75,7 +75,7 @@ export const JoinRequestSubmittedEmail = ({
                                 </Column>
                                 <Column align="center">
                                     <Img
-                                        src={SOURCEBOT_ARROW_IMAGE_URL}
+                                        src={SOURCECAT_ARROW_IMAGE_URL}
                                         width="12"
                                         height="9"
                                         alt="requesting to join"
@@ -84,7 +84,7 @@ export const JoinRequestSubmittedEmail = ({
                                 <Column align="left">
                                     <Img
                                         className="rounded-full"
-                                        src={orgImageUrl ? orgImageUrl : SOURCEBOT_PLACEHOLDER_AVATAR_URL}
+                                        src={orgImageUrl ? orgImageUrl : SOURCECAT_PLACEHOLDER_AVATAR_URL}
                                         width="64"
                                         height="64"
                                         alt="Organization avatar"

@@ -9,11 +9,11 @@ import type { JobLogFields, JobLogLevel } from './jobLogger.js';
 /**
  * Logger configuration with support for structured JSON logging.
  * 
- * When SOURCEBOT_STRUCTURED_LOGGING_ENABLED=true:
+ * When SOURCECAT_STRUCTURED_LOGGING_ENABLED=true:
  * - Console output will be in JSON format suitable for Datadog ingestion
  * - Logs will include structured fields: timestamp, level, message, label, stack (if error)
  * 
- * When SOURCEBOT_STRUCTURED_LOGGING_ENABLED=false (default):
+ * When SOURCECAT_STRUCTURED_LOGGING_ENABLED=false (default):
  * - Console output will be human-readable with colors
  * - Logs will be formatted as: "timestamp level: [label] message"
  */
@@ -69,10 +69,10 @@ const jobLogFormat = format((info) => {
 });
 
 const createLogger = (label: string) => {
-    const isStructuredLoggingEnabled = env.SOURCEBOT_STRUCTURED_LOGGING_ENABLED === 'true';
+    const isStructuredLoggingEnabled = env.SOURCECAT_STRUCTURED_LOGGING_ENABLED === 'true';
 
     return winston.createLogger({
-        level: env.SOURCEBOT_LOG_LEVEL,
+        level: env.SOURCECAT_LOG_LEVEL,
         format: combine(
             errors({ stack: true }),
             timestamp(),
@@ -91,9 +91,9 @@ const createLogger = (label: string) => {
                         humanReadableFormat
                     ),
             }),
-            ...(env.SOURCEBOT_STRUCTURED_LOGGING_FILE && isStructuredLoggingEnabled ? [
+            ...(env.SOURCECAT_STRUCTURED_LOGGING_FILE && isStructuredLoggingEnabled ? [
                 new winston.transports.File({
-                    filename: env.SOURCEBOT_STRUCTURED_LOGGING_FILE,
+                    filename: env.SOURCECAT_STRUCTURED_LOGGING_FILE,
                     format: combine(
                         datadogFormat(),
                         json()

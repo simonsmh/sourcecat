@@ -86,7 +86,7 @@ export type {
     StorageBackend,
 } from "./storage.js";
 export {
-    SOURCEBOT_VERSION,
+    SOURCECAT_VERSION,
 } from "./version.js";
 export {
     parseVersion,

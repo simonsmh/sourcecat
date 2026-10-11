@@ -168,10 +168,10 @@ export function selectInstallId(
     // Parse only this setting. Accept normal dotenv quoting; never evaluate or expand it.
     const lines = contents
         .split(/\r?\n/)
-        .filter((l) => /^\s*(?:export\s+)?SOURCEBOT_INSTALL_ID\s*=/.test(l));
+        .filter((l) => /^\s*(?:export\s+)?SOURCECAT_INSTALL_ID\s*=/.test(l));
     const raw = lines
         .at(-1)
-        ?.replace(/^\s*(?:export\s+)?SOURCEBOT_INSTALL_ID\s*=\s*/, '')
+        ?.replace(/^\s*(?:export\s+)?SOURCECAT_INSTALL_ID\s*=\s*/, '')
         .trim();
     const existing = raw
         ?.match(/^(?:"([0-9a-f-]+)"|'([0-9a-f-]+)'|([0-9a-f-]+))\s*(?:#.*)?$/)

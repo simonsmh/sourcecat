@@ -1,5 +1,5 @@
 import {
-    SOURCEBOT_OAUTH_SCOPES,
+    SOURCECAT_OAUTH_SCOPES,
 } from './constants';
 
 const OAUTH_SCOPE_TOKEN_REGEX = /^[\x21\x23-\x5B\x5D-\x7E]+$/;
@@ -46,7 +46,7 @@ export function resolveGrantedOAuthScopes(requestedScope: string | null | undefi
         }
     }
 
-    const supportedScopeSet = new Set<string>([...SOURCEBOT_OAUTH_SCOPES]);
+    const supportedScopeSet = new Set<string>([...SOURCECAT_OAUTH_SCOPES]);
     for (const scope of requestedScopes) {
         if (!supportedScopeSet.has(scope)) {
             return {

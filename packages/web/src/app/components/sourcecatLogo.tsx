@@ -1,7 +1,7 @@
-import logoDarkLarge from "@/public/sb_logo_dark_large.png";
-import logoLightLarge from "@/public/sb_logo_light_large.png";
-import logoDarkSmall from "@/public/sb_logo_dark_small.png";
-import logoLightSmall from "@/public/sb_logo_light_small.png";
+import logoDarkLarge from "@/public/sc_logo_dark_large.png";
+import logoLightLarge from "@/public/sc_logo_light_large.png";
+import logoDarkSmall from "@/public/sc_logo_dark_small.png";
+import logoLightSmall from "@/public/sc_logo_light_small.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 

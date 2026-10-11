@@ -12,8 +12,8 @@ export default defineConfig({
             SOURCEBOT_PUBLIC_KEY_PATH: '/tmp/test-key',
             NODE_ENV: 'test',
             CONFIG_PATH: '/tmp/test-config.json',
-            SOURCEBOT_ENCRYPTION_KEY: 'test-encryption-key-32chars-pad!',
-            SOURCEBOT_LIGHTHOUSE_URL: 'http://localhost:3003',
+            SOURCECAT_ENCRYPTION_KEY: 'test-encryption-key-32chars-pad!',
+            SOURCECAT_LIGHTHOUSE_URL: 'http://localhost:3003',
         }
     }
 });

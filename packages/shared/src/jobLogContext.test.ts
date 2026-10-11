@@ -9,8 +9,8 @@ import {
 
 vi.mock("./env.server.js", () => ({
     env: {
-        SOURCEBOT_LOG_LEVEL: "debug",
-        SOURCEBOT_STRUCTURED_LOGGING_ENABLED: "false",
+        SOURCECAT_LOG_LEVEL: "debug",
+        SOURCECAT_STRUCTURED_LOGGING_ENABLED: "false",
     },
 }));
 

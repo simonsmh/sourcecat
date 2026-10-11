@@ -20,7 +20,7 @@ export const MCP_RECONNECT_SESSION_STORAGE_KEY = 'mcpReconnectPending';
 export const ATTACHMENT_MAX_TURN_TEXT_BYTES = 256 * 1024; // 256KB per turn
 
 // Fallback client-side image size cap for early rejection before upload. The
-// authoritative cap is SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES, fetched via
+// authoritative cap is SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES, fetched via
 // `useAttachmentLimits`; this default is only used while that loads or if it
 // fails (and matches the server default).
 export const ATTACHMENT_MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB per image
