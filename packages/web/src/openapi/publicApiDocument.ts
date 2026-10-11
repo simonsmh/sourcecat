@@ -46,13 +46,13 @@ const scopedAccessTokensTag = { name: 'Scoped Access Tokens', description: 'Mint
 
 const EE_LICENSE_KEY_NOTE = dedent`
 <Note>
-This API is only available with an active Sourcebot license. [More information](/docs/activating-a-subscription).
+This API is only available with an active Sourcecat license. [More information](/docs/activating-a-subscription).
 </Note>
 `;
 
 const SCOPED_ACCESS_TOKEN_ENTITLEMENT_INFO = dedent`
 <Info>
-The scoped access token APIs require a custom entitlement. To request access, contact [team@sourcebot.dev](mailto:team@sourcebot.dev).
+The scoped access token APIs require a custom entitlement. To request access, contact [team@sourcecat.dev](mailto:team@sourcecat.dev).
 </Info>
 `;
 
@@ -89,13 +89,13 @@ const securitySchemes: Record<keyof typeof securitySchemeNames, SecuritySchemeOb
     [securitySchemeNames.bearerToken]: {
         type: 'http',
         scheme: 'bearer',
-        description: 'Bearer authentication header of the form `Bearer <token>`. The token may be a Sourcebot API key, OAuth access token, or scoped access token, subject to endpoint requirements.',
+        description: 'Bearer authentication header of the form `Bearer <token>`. The token may be a Sourcecat API key, OAuth access token, or scoped access token, subject to endpoint requirements.',
     },
     [securitySchemeNames.apiKeyHeader]: {
         type: 'apiKey',
         in: 'header',
-        name: 'X-Sourcebot-Api-Key',
-        description: 'Header of the form `X-Sourcebot-Api-Key: <token>`, where `<token>` is your API key.',
+        name: 'X-Sourcecat-Api-Key',
+        description: 'Header of the form `X-Sourcecat-Api-Key: <token>`, where `<token>` is your API key.',
     },
 };
 
@@ -142,7 +142,7 @@ export function createPublicOpenApiDocument(version: string) {
             content: dedent`
                 ## Usage
                 
-                The \`query\` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcebot.dev/docs/features/search/syntax-reference) for the full query language.
+                The \`query\` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcecat.dev/docs/features/search/syntax-reference) for the full query language.
                 `,
         },
     });
@@ -153,7 +153,7 @@ export function createPublicOpenApiDocument(version: string) {
         operationId: 'listRepositories',
         tags: [reposTag.name],
         summary: 'List repositories',
-        description: 'Returns a paginated list of repositories indexed by this Sourcebot instance.',
+        description: 'Returns a paginated list of repositories indexed by this Sourcecat instance.',
         request: {
             query: publicListReposQueryParamsSchema,
         },
@@ -205,11 +205,11 @@ export function createPublicOpenApiDocument(version: string) {
         path: '/api/version',
         operationId: 'getVersion',
         tags: [systemTag.name],
-        summary: 'Get Sourcebot version',
-        description: 'Returns the currently running Sourcebot version string.',
+        summary: 'Get Sourcecat version',
+        description: 'Returns the currently running Sourcecat version string.',
         responses: {
             200: {
-                description: 'Current Sourcebot version.',
+                description: 'Current Sourcecat version.',
                 content: jsonContent(publicVersionResponseSchema),
             },
         },
@@ -634,9 +634,9 @@ export function createPublicOpenApiDocument(version: string) {
     const document = generator.generateDocument({
         openapi: '3.0.3',
         info: {
-            title: 'Sourcebot Public API',
+            title: 'Sourcecat Public API',
             version,
-            description: 'OpenAPI description for the public Sourcebot REST endpoints used for search, repository listing, and file browsing. Authentication is instance-dependent: API keys are the standard integration mechanism, OAuth bearer tokens are EE-only, and some instances may allow anonymous access.',
+            description: 'OpenAPI description for the public Sourcecat REST endpoints used for search, repository listing, and file browsing. Authentication is instance-dependent: API keys are the standard integration mechanism, OAuth bearer tokens are EE-only, and some instances may allow anonymous access.',
         },
         tags: [searchTag, connectionsTag, reposTag, gitTag, scopedAccessTokensTag, systemTag, eeTag],
         security: [

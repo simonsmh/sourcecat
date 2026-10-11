@@ -4,7 +4,7 @@ import { search } from "@/features/search";
 import { Source, ToolDefinition } from "./types";
 import { logger } from "./logger";
 import description from "./grep.txt";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { getRepoInfoByName } from "@/actions";
 import { buildGrepSearchQuery } from "./searchQuery";
 

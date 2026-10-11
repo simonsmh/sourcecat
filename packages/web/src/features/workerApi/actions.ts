@@ -4,7 +4,7 @@ import { sew } from "@/middleware/sew";
 import { captureEvent } from "@/lib/posthog";
 import { githubRateLimited, repositoryNotFound, unexpectedError } from "@/lib/serviceError";
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import z from "zod";
 
 const WORKER_API_URL = env.WORKER_API_URL;

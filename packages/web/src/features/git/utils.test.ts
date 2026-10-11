@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         info: vi.fn(),

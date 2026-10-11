@@ -53,7 +53,7 @@ export function WorkspaceSharedSkillsManager({
         }
         didCapturePageViewRef.current = true;
         captureEvent('ask_workspace_skills_manager_viewed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'workspace_ask_agent_settings',
             sharedSkillCount: orgSkills.length,
             syncedSharedSkillCount: orgSkills.filter((skill) => skill.source !== null).length,

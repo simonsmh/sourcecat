@@ -3,7 +3,7 @@ import { ErrorCode } from "@/lib/errorCodes";
 import { notFound, queryParamsSchemaValidationError, serviceErrorResponse } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { withAuth } from "@/middleware/withAuth";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { StatusCodes } from "http-status-codes";
 import { NextRequest } from "next/server";

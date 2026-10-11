@@ -7,10 +7,10 @@ import { getReviewAgentLogDir } from "@/features/agents/review-agent/nodes/invok
 import { gitlabMrParser } from "@/features/agents/review-agent/nodes/gitlabMrParser";
 import { gitlabPushMrReviews } from "@/features/agents/review-agent/nodes/gitlabPushMrReviews";
 import { GitHubPullRequest, GitLabMergeRequestPayload } from "@/features/agents/review-agent/types";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import path from "path";
 import fs from "fs";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const rules = [
     "Do NOT provide general feedback, summaries, explanations of changes, or praises for making good additions.",

@@ -6,7 +6,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChatVisibility } from "@sourcebot/db";
+import { ChatVisibility } from "@sourcecat/db";
 import { ShareSettings } from "./shareSettings";
 import { useCallback, useState } from "react";
 import { shareChatWithUsers, unshareChatWithUser, updateChatVisibility } from "@/features/chat/actions";

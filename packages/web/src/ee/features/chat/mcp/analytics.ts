@@ -1,4 +1,4 @@
-import { McpServerClientInfoSource } from '@sourcebot/db';
+import { McpServerClientInfoSource } from '@sourcecat/db';
 import type { McpConnectorAuthMode, McpConnectorEntryPoint } from '@/lib/posthogEvents';
 import { getExternalMcpErrorLogFields } from './externalMcpError';
 

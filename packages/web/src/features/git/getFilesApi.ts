@@ -2,7 +2,7 @@ import { sew } from "@/middleware/sew";
 import { FileTreeItem } from "./types";
 import { notFound, ServiceError, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { getRepoPath } from '@sourcebot/shared';
+import { getRepoPath } from '@sourcecat/shared';
 import { simpleGit } from 'simple-git';
 import type z from 'zod';
 import { getFilesRequestSchema, getFilesResponseSchema } from './schemas';

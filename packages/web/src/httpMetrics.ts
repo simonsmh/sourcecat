@@ -1,4 +1,4 @@
-import { createLogger, env } from '@sourcebot/shared';
+import { createLogger, env } from '@sourcecat/shared';
 import { subscribe } from 'node:diagnostics_channel';
 import { readFileSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';

@@ -9,7 +9,7 @@ import { captureEvent } from "@/hooks/useCaptureEvent";
 const POPUP_SHOWN_COOKIE = "github_popup_shown";
 const POPUP_START_TIME_COOKIE = "github_popup_start_time";
 const POPUP_DELAY_S = 60;
-const SOURCEBOT_GITHUB_URL = "https://github.com/sourcebot-dev/sourcebot";
+const SOURCECAT_GITHUB_URL = "https://github.com/simonsmh/sourcecat";
 
 function getCookie(name: string): string | null {
     if (typeof document === "undefined") return null;
@@ -55,7 +55,7 @@ export const GitHubStarToast = () => {
         if (elapsed >= (POPUP_DELAY_S * 1000)) {
             toast({
                 title: "Star us on GitHub ❤️",
-                description: "If you've found Sourcebot useful, please consider starring us on GitHub. Your support means a lot!",
+                description: "If you've found Sourcecat useful, please consider starring us on GitHub. Your support means a lot!",
                 duration: 15 * 1000,
                 action: (
                     <div className="flex flex-col gap-1">
@@ -63,12 +63,12 @@ export const GitHubStarToast = () => {
                             altText="GitHub Button"
                             onClick={() => {
                                 captureEvent('wa_github_star_toast_clicked', {});
-                                window.open(SOURCEBOT_GITHUB_URL, "_blank");
+                                window.open(SOURCECAT_GITHUB_URL, "_blank");
                             }}
                         >
                             <div className="flex items-center gap-2">
                                 <GitHubLogoIcon className="w-4 h-4" />
-                                Sourcebot
+                                Sourcecat
                             </div>
                         </ToastAction>
                     </div>

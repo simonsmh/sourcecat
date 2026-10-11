@@ -25,7 +25,7 @@ try {
         const binary = join(directory, typeof manifest.bin === 'string' ? manifest.bin : manifest.bin[name]);
         const managerEnv = { npm_config_cache: join(packed.root, 'invocation-cache'), npm_config_script_shell: '/bin/sh', YARN_ENABLE_TELEMETRY: '0', YARN_GLOBAL_FOLDER: join(packed.root, 'yarn-global'), YARN_CACHE_FOLDER: join(packed.root, 'yarn-cache') };
         const result = await scenario(packed, {
-            launcher: { file: binary, args: [...prefix, name === 'yarn' ? JSON.stringify(packed.bin) : name === 'bun' ? 'setup-sourcebot' : packed.bin] },
+            launcher: { file: binary, args: [...prefix, name === 'yarn' ? JSON.stringify(packed.bin) : name === 'bun' ? 'setup-sourcecat' : packed.bin] },
             environment: managerEnv,
             assertLauncherHome(paths) {
                 // Package managers may write their own state before launching

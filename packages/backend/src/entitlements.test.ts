@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
     licenseFindUnique: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     env: mocks.env,
     _getEntitlements: mocks.getEntitlements,
     _hasEntitlement: mocks.hasEntitlement,

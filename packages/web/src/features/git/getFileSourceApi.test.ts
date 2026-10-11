@@ -7,12 +7,12 @@ const mockSimpleGit = vi.hoisted(() => vi.fn());
 vi.mock('simple-git', () => ({
     simpleGit: mockSimpleGit,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     getRepoPath: (repo: { id: number }) => ({
         path: `/mock/repos/${repo.id}`,
     }),
     env: {
-        AUTH_URL: 'https://sourcebot.example.com',
+        AUTH_URL: 'https://sourcecat.example.com',
     },
     createLogger: () => ({
         debug: vi.fn(),

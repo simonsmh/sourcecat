@@ -1,4 +1,4 @@
-# Development container for Sourcebot
+# Development container for Sourcecat
 # Based on Node.js 24 with TypeScript support
 FROM mcr.microsoft.com/devcontainers/typescript-node:24
 
@@ -54,7 +54,7 @@ RUN mkdir -p /home/node/go /home/node/.yarn/berry/cache \
     && chown -R node:node /home/node/go /home/node/.yarn
 
 # Set working directory
-WORKDIR /workspaces/sourcebot
+WORKDIR /workspaces/sourcecat
 
 # Switch to non-root user
 USER node

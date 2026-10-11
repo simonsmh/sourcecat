@@ -4,12 +4,12 @@ import {
     AccountPermissionSyncIssue,
     PermissionSyncSource,
     PrismaClient,
-} from "@sourcebot/db";
+} from "@sourcecat/db";
 import {
     ACCOUNT_PERMISSION_SYNC_QUEUE,
     createLogger,
     getIdentityProviderConfig,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import {
     createBitbucketCloudClient,
     createBitbucketServerClient,
@@ -33,7 +33,7 @@ import {
 } from "./permissionSyncError.js";
 import { ensureFreshAccountToken, TokenRefreshError } from "./tokenRefresh.js";
 import { Settings, Workload } from "../types.js";
-import { IdentityProviderConfig } from "@sourcebot/schemas/v3/index.type";
+import { IdentityProviderConfig } from "@sourcecat/schemas/v3/index.type";
 
 type AccountWithUser = Account & { user: { email: string | null } };
 
@@ -139,7 +139,7 @@ export const createAccountPermissionSyncWorkload = ({
         concurrency: settings.maxAccountPermissionSyncJobConcurrency,
         executionLock: {
             resource: ({ accountId }) =>
-                `sourcebot:lock:account:${accountId}`,
+                `sourcecat:lock:account:${accountId}`,
             durationMs: ACCOUNT_PERMISSION_SYNC_LOCK_DURATION_MS,
         },
         process: async ({

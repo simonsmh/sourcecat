@@ -20,7 +20,7 @@ const file = {
         matchRanges: [],
     },
     webUrl: '',
-    repository: 'github.com/sourcebot-dev/sourcebot',
+    repository: 'github.com/simonsmh/sourcecat',
     repositoryId: 1,
     language: 'TypeScript',
     branches: ['main'],

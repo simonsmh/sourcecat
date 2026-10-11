@@ -1,10 +1,10 @@
-import type { PrismaClient, Repo } from "@sourcebot/db";
+import type { PrismaClient, Repo } from "@sourcecat/db";
 import {
     createLogger,
     getRepoIdFromPath,
     getRepoPath,
     REPO_CLEANUP_QUEUE,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { existsSync } from "fs";
 import { readdir, rm } from "fs/promises";
 import { INDEX_CACHE_DIR, REPOS_CACHE_DIR } from "./constants.js";

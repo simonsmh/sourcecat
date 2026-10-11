@@ -4,7 +4,7 @@ import { listCommits, ListCommitsResponse } from "@/features/git";
 import { ToolDefinition } from "./types";
 import { logger } from "./logger";
 import description from "./listCommits.txt";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { getRepoInfoByName } from "@/actions";
 
 const listCommitsShape = {

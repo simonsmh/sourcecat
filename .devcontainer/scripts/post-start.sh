@@ -3,10 +3,10 @@
 set -e
 
 echo "=========================================="
-echo "Sourcebot Dev Container: Post-Start Check"
+echo "Sourcecat Dev Container: Post-Start Check"
 echo "=========================================="
 
-cd /workspaces/sourcebot
+cd /workspaces/sourcecat
 
 # 1. Wait for PostgreSQL to be ready
 echo ""

@@ -5,7 +5,7 @@ import { GitLabMergeRequestPayload } from '../types';
 
 type GitlabClient = InstanceType<typeof Gitlab>;
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         info: vi.fn(),
@@ -62,7 +62,7 @@ function makeMockGitlabClient(allDiffsResult: unknown, mrOverrides: MockMrApiRes
 }
 
 describe('gitlabMrParser', () => {
-    test('maps MR payload metadata correctly to sourcebot_pr_payload', async () => {
+    test('maps MR payload metadata correctly to sourcecat_pr_payload', async () => {
         const client = makeMockGitlabClient([]);
 
         const result = await gitlabMrParser(client, MOCK_MR_PAYLOAD, 'gitlab.com');

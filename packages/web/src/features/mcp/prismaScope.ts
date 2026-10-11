@@ -1,4 +1,4 @@
-import { Prisma, UserWithAccounts } from '@sourcebot/db';
+import { Prisma, UserWithAccounts } from '@sourcecat/db';
 
 type QueryHookParams<TArgs> = {
     args: TArgs;
@@ -37,8 +37,8 @@ type UserMcpServerUpsertArgs = UserMcpServerWhereUniqueArgs & {
 // Prisma doesn't expose a "match nothing" primitive, so this is the standard workaround.
 const anonymousUserScope: Prisma.UserMcpServerWhereInput = {
     AND: [
-        { userId: '__sourcebot_anonymous_user__' },
-        { userId: '__sourcebot_no_authenticated_user__' },
+        { userId: '__sourcecat_anonymous_user__' },
+        { userId: '__sourcecat_no_authenticated_user__' },
     ],
 };
 

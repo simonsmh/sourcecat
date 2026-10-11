@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
+import { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
 import { loadCatalog, resolveProviderId, type ModelsDevCatalog } from './modelsDevCatalog.server';
 
 // Re-exported so existing consumers/tests can keep importing the catalog type

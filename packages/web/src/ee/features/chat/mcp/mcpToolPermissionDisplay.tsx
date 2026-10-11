@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { McpServerToolPermission } from '@sourcebot/db';
+import type { McpServerToolPermission } from '@sourcecat/db';
 import { BanIcon, CircleCheckIcon, HandIcon, type LucideIcon } from 'lucide-react';
 import type { ToolSummary } from './types';
 

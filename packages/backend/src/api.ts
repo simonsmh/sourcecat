@@ -7,8 +7,8 @@ import {
 } from '@bull-board/metrics';
 import { Octokit } from '@octokit/rest';
 import * as Sentry from "@sentry/node";
-import { PrismaClient } from '@sourcebot/db';
-import { createLogger, env, JOB_PRIORITIES } from '@sourcebot/shared';
+import { PrismaClient } from '@sourcecat/db';
+import { createLogger, env, JOB_PRIORITIES } from '@sourcecat/shared';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import type { Redis } from 'ioredis';

@@ -1,10 +1,10 @@
 import { Octokit } from "@octokit/rest";
 import { RequestError } from "@octokit/request-error";
 import * as Sentry from "@sentry/node";
-import { getTokenFromConfig } from "@sourcebot/shared";
-import { createLogger } from "@sourcebot/shared";
-import { GithubConnectionConfig } from "@sourcebot/schemas/v3/github.type";
-import { env } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
+import { createLogger } from "@sourcecat/shared";
+import { GithubConnectionConfig } from "@sourcecat/schemas/v3/github.type";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "./entitlements.js";
 import micromatch from "micromatch";
 import pLimit from "p-limit";

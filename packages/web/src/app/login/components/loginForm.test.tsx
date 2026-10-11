@@ -3,7 +3,7 @@ import { afterEach, expect, test, vi } from 'vitest';
 
 vi.mock('@/hooks/useCaptureEvent', () => ({ default: () => vi.fn() }));
 vi.mock('@/features/auth/useIdentityProviders', () => ({ useIdentityProviders: () => [] }));
-vi.mock('@/app/components/sourcebotLogo', () => ({ SourcebotLogo: () => null }));
+vi.mock('@/app/components/sourcecatLogo', () => ({ SourcecatLogo: () => null }));
 vi.mock('@/app/components/authMethodSelector', () => ({ AuthMethodSelector: () => <div data-testid="sign-in-options">Sign-in options</div> }));
 vi.mock('@/lib/utils', () => ({ cn: (...classes: unknown[]) => classes.filter(Boolean).join(' ') }));
 const { LoginForm } = await import('./loginForm');

@@ -5,7 +5,7 @@ vi.mock('simple-git');
 vi.mock('fs', () => ({
     existsSync: vi.fn().mockReturnValue(true),
 }));
-vi.mock('@sourcebot/shared', async () => {
+vi.mock('@sourcecat/shared', async () => {
     const { z } = await import('zod');
     return {
         REPOS_CACHE_DIR: '/mock/cache/dir',

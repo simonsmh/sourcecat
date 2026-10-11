@@ -2,7 +2,7 @@
 title: "Authentication"
 ---
 
-To securely access and interact with Sourcebot’s API, authentication is required. Users must generate an API Key, which will be used to authenticate requests.
+To securely access and interact with Sourcecat’s API, authentication is required. Users must generate an API Key, which will be used to authenticate requests.
 
 <Note>
 If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access) is enabled, some endpoints will be accessible without a API key.
@@ -13,7 +13,7 @@ If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access)
 Navigate to **Settings → API Keys** and click **Create API Key**. Copy the value - it is only shown once.
 
 <Frame>
-  <img src="/images/mcp_api_key_settings.png" alt="API Keys page in Sourcebot Settings" />
+  <img src="/images/mcp_api_key_settings.png" alt="API Keys page in Sourcecat Settings" />
 </Frame>
 
 ## Using an API key
@@ -27,7 +27,7 @@ Authorization: Bearer <your-api-key>
 For example, to call the `/api/search` endpoint:
 
 ```bash
-curl -X POST https://your-sourcebot-instance.com/api/search \
+curl -X POST https://your-sourcecat-instance.com/api/search \
   -H "Authorization: Bearer <your-api-key>" \
   -H "Content-Type: application/json" \
   -d '{"query": "hello world", "matches": 10}'
@@ -36,13 +36,13 @@ curl -X POST https://your-sourcebot-instance.com/api/search \
 ## Using a scoped access token
 
 <Info>
-The scoped access token APIs require a custom entitlement. To request access, contact [team@sourcebot.dev](mailto:team@sourcebot.dev).
+The scoped access token APIs require a custom entitlement. To request access, contact [team@sourcecat.dev](mailto:team@sourcecat.dev).
 </Info>
 
-Scoped access tokens are short-lived bearer credentials intended for clients that should only access a specific set of repositories. Call `GET /api/repos` to find the integer `id` for each repository you want to include. Then create a token with a Sourcebot API key by calling `POST /api/ee/scoped_access_token` with those IDs:
+Scoped access tokens are short-lived bearer credentials intended for clients that should only access a specific set of repositories. Call `GET /api/repos` to find the integer `id` for each repository you want to include. Then create a token with a Sourcecat API key by calling `POST /api/ee/scoped_access_token` with those IDs:
 
 ```bash
-curl -X POST https://your-sourcebot-instance.com/api/ee/scoped_access_token \
+curl -X POST https://your-sourcecat-instance.com/api/ee/scoped_access_token \
   -H "Authorization: Bearer <your-api-key>" \
   -H "Content-Type: application/json" \
   -d '{"repoIds": [1, 2, 3]}'
@@ -60,16 +60,16 @@ The response includes the scoped access token and its ID:
 }
 ```
 
-The opaque token begins with `sbst_`. It expires exactly one hour after issuance, cannot be refreshed, and is returned only once. Use it as a Bearer token with public API endpoints or the Sourcebot MCP server:
+The opaque token begins with `sbst_`. It expires exactly one hour after issuance, cannot be refreshed, and is returned only once. Use it as a Bearer token with public API endpoints or the Sourcecat MCP server:
 
 ```bash
 Authorization: Bearer <your-scoped-access-token>
 ```
 
-Save the `id` from the create response. Use it to revoke the token with your Sourcebot API key:
+Save the `id` from the create response. Use it to revoke the token with your Sourcecat API key:
 
 ```bash
-curl -X DELETE https://your-sourcebot-instance.com/api/ee/scoped_access_token/<scoped-token-id> \
+curl -X DELETE https://your-sourcecat-instance.com/api/ee/scoped_access_token/<scoped-token-id> \
   -H "Authorization: Bearer <your-api-key>"
 ```
 

@@ -1,5 +1,5 @@
-import { PrismaClient } from "@sourcebot/db";
-import { getDBConnectionString } from "@sourcebot/shared";
+import { PrismaClient } from "@sourcecat/db";
+import { getDBConnectionString } from "@sourcecat/shared";
 
 export const prisma = new PrismaClient({
     datasources: {

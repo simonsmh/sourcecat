@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { McpServerClientInfoSource } from '@sourcebot/db';
+import { McpServerClientInfoSource } from '@sourcecat/db';
 
 const mocks = vi.hoisted(() => ({
     auth: vi.fn(),
@@ -41,9 +41,9 @@ vi.mock('@/prisma', () => ({
     prisma: mocks.unsafePrisma,
     __unsafePrisma: mocks.unsafePrisma,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {
-        AUTH_URL: 'https://sourcebot.example.com',
+        AUTH_URL: 'https://sourcecat.example.com',
     },
     createLogger: () => mocks.logger,
     encryptOAuthToken: vi.fn((text: string | null | undefined) => text ? `encrypted:${text}` : undefined),
@@ -57,13 +57,13 @@ const { GET } = await import('./route');
 const { createMcpOAuthState } = await import('@/ee/features/chat/mcp/mcpOAuthReturnTo');
 
 function createRequest(state = 'state-1') {
-    return new NextRequest(`https://sourcebot.example.com/api/ee/askmcp/callback?code=code-1&state=${encodeURIComponent(state)}`, {
+    return new NextRequest(`https://sourcecat.example.com/api/ee/askmcp/callback?code=code-1&state=${encodeURIComponent(state)}`, {
         method: 'GET',
     });
 }
 
 function createOAuthErrorRequest(state: string) {
-    return new NextRequest(`https://sourcebot.example.com/api/ee/askmcp/callback?error=access_denied&error_description=Denied&state=${encodeURIComponent(state)}`, {
+    return new NextRequest(`https://sourcecat.example.com/api/ee/askmcp/callback?error=access_denied&error_description=Denied&state=${encodeURIComponent(state)}`, {
         method: 'GET',
     });
 }

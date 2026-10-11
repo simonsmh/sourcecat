@@ -23,11 +23,11 @@ const runGit = (
 };
 
 const createTempRepo = async () => {
-    const repoPath = await mkdtemp(join(tmpdir(), "sourcebot-git-test-"));
+    const repoPath = await mkdtemp(join(tmpdir(), "sourcecat-git-test-"));
 
     runGit(repoPath, ["init", "--initial-branch=main"]);
-    runGit(repoPath, ["config", "user.name", "Sourcebot Test"]);
-    runGit(repoPath, ["config", "user.email", "sourcebot@example.com"]);
+    runGit(repoPath, ["config", "user.name", "Sourcecat Test"]);
+    runGit(repoPath, ["config", "user.email", "sourcecat@example.com"]);
     runGit(repoPath, ["config", "tag.sort", "refname"]);
     runGit(repoPath, ["config", "branch.sort", "refname"]);
 
@@ -51,7 +51,7 @@ const createAuthenticatedGitServer = async ({
         if (request.headers.authorization !== expectedAuthorization) {
             unauthenticatedRequestCount++;
             response.writeHead(401, {
-                'WWW-Authenticate': 'Basic realm="Sourcebot Git Test"',
+                'WWW-Authenticate': 'Basic realm="Sourcecat Git Test"',
             });
             response.end();
             return;
@@ -310,19 +310,19 @@ describe('authenticated Git operations', () => {
             timestamp: '2024-01-01T00:00:00Z',
         });
 
-        const projectRoot = await mkdtemp(join(tmpdir(), 'sourcebot-git-http-root-'));
+        const projectRoot = await mkdtemp(join(tmpdir(), 'sourcecat-git-http-root-'));
         repoPaths.push(projectRoot);
         const bareRepoPath = join(projectRoot, 'repo.git');
         runGit(projectRoot, ['clone', '--bare', sourcePath, bareRepoPath]);
 
-        const username = 'sourcebot-test-user';
-        const token = `sourcebot-test-token-${randomUUID()}`;
+        const username = 'sourcecat-test-user';
+        const token = `sourcecat-test-token-${randomUUID()}`;
         const gitServer = await createAuthenticatedGitServer({
             projectRoot,
             username,
             password: token,
         });
-        const clonePath = await mkdtemp(join(tmpdir(), 'sourcebot-git-auth-clone-'));
+        const clonePath = await mkdtemp(join(tmpdir(), 'sourcecat-git-auth-clone-'));
         repoPaths.push(clonePath);
         const tracePath = join(projectRoot, 'git-trace.json');
         const previousTrace = process.env.GIT_TRACE2_EVENT;

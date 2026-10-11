@@ -5,8 +5,8 @@ import type {
   OAuthClientMetadata,
   OAuthTokens,
 } from '@ai-sdk/mcp';
-import { McpServerClientInfoSource, type PrismaClient } from '@sourcebot/db';
-import { encryptOAuthToken, decryptOAuthToken, createLogger } from '@sourcebot/shared';
+import { McpServerClientInfoSource, type PrismaClient } from '@sourcecat/db';
+import { encryptOAuthToken, decryptOAuthToken, createLogger } from '@sourcecat/shared';
 import { __unsafePrisma } from '@/prisma';
 import { createMcpOAuthState } from './mcpOAuthReturnTo';
 import { normalizeMcpRequestedOAuthScopes } from './oauthScopeUtils';
@@ -152,7 +152,7 @@ export class PrismaOAuthClientProvider implements OAuthClientProvider {
 
     return {
       redirect_uris: [this.callbackUrl],
-      client_name: 'Sourcebot',
+      client_name: 'Sourcecat',
       grant_types: ['authorization_code', 'refresh_token'],
       response_types: ['code'],
       token_endpoint_auth_method: 'none',
@@ -252,7 +252,7 @@ export class PrismaOAuthClientProvider implements OAuthClientProvider {
 
   async redirectToAuthorization(url: URL): Promise<void> {
     // Force the OAuth provider to show a consent/login screen on every authorization.
-    // This prevents a stolen-session attack where an attacker signs into Sourcebot on
+    // This prevents a stolen-session attack where an attacker signs into Sourcecat on
     // a victim's machine and silently obtains the victim's provider tokens via an
     // existing browser session.
     url.searchParams.set('prompt', 'consent');

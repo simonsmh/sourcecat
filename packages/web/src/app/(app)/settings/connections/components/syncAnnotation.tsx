@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { WorkloadJob } from "@sourcebot/shared";
+import type { WorkloadJob } from "@sourcecat/shared";
 import { Check, Loader2 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";

@@ -15,8 +15,8 @@ import authentikLogo from "@/public/authentik.svg";
 import jumpcloudLogo from "@/public/jumpcloud.svg";
 import idiraLogo from "@/public/idira.svg";
 import { ServiceError } from "./serviceError";
-import { ConnectionType } from "@sourcebot/db";
-import { CodeHostType } from "@sourcebot/db";
+import { ConnectionType } from "@sourcecat/db";
+import { CodeHostType } from "@sourcecat/db";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))

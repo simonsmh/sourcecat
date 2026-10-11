@@ -1,6 +1,6 @@
 import { auth as mcpAuth } from '@ai-sdk/mcp';
 import { apiHandler } from '@/lib/apiHandler';
-import { env, createLogger } from '@sourcebot/shared';
+import { env, createLogger } from '@sourcecat/shared';
 import { hasEntitlement } from '@/lib/entitlements';
 import { OAUTH_NOT_SUPPORTED_ERROR_MESSAGE } from '@/ee/features/oauth/constants';
 import { PrismaOAuthClientProvider } from '@/ee/features/chat/mcp/prismaOAuthClientProvider';
@@ -93,7 +93,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
         });
     };
     const createEventProperties = (userServer: NonNullable<Awaited<ReturnType<typeof getUserServer>>>) => ({
-        source: 'sourcebot-web-client' as const,
+        source: 'sourcecat-web-client' as const,
         entryPoint,
         serverId: userServer.serverId,
         serverUrl: userServer.server.serverUrl,
@@ -123,7 +123,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
     if (!code || !state) {
         void captureEvent('ask_mcp_connector_connection_failed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint,
             failureReason: 'invalid_request',
         });
@@ -136,7 +136,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
     const userServer = await getUserServer();
     if (!userServer) {
         void captureEvent('ask_mcp_connector_connection_failed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint,
             failureReason: 'invalid_state',
         });

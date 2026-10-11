@@ -14,13 +14,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { createCheckoutSession } from "@/features/billing/actions";
 import { useHasLicense } from "@/features/billing/hasLicenseProvider";
 import { BillingInterval, PlanComparisonTable } from "@/features/billing/planComparisonTable";
-import type { OffersResponse } from "@sourcebot/shared/client";
+import type { OffersResponse } from "@sourcecat/shared/client";
 import { useOffers } from "@/features/billing/useOffers";
 import { useRole } from "@/features/auth/useRole";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { UpsellSource } from "@/lib/posthogEvents";
 import { cn, isServiceError } from "@/lib/utils";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { AlertCircle, ArrowUpCircle, ExternalLink, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
@@ -79,16 +79,16 @@ function UpsellLoadError({ variant, onRetry, className }: UpsellLoadErrorProps) 
     const heading = "Something went wrong";
     const body = (
         <>
-            We couldn&apos;t reach Sourcebot&apos;s deployments server.{" "}
+            We couldn&apos;t reach Sourcecat&apos;s deployments server.{" "}
             {/* Owners get an actionable hint (the most common cause on self-hosted
                 deployments is outbound access to the lighthouse host being blocked);
                 members can't act on this themselves, so route them to an admin. */}
             {isOwner ? (
                 <>
                     Check that outbound access to{" "}
-                    <CodeSnippet>deployments.sourcebot.dev</CodeSnippet>{" "}isn&apos;t blocked.{" "}
+                    <CodeSnippet>deployments.sourcecat.dev</CodeSnippet>{" "}isn&apos;t blocked.{" "}
                     <a
-                        href="https://docs.sourcebot.dev/docs/misc/service-ping"
+                        href="https://docs.sourcecat.dev/docs/misc/service-ping"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-link hover:underline"
@@ -121,7 +121,7 @@ function UpsellLoadError({ variant, onRetry, className }: UpsellLoadErrorProps) 
             <div className="flex flex-col-reverse items-center gap-2 sm:flex-row sm:justify-end sm:gap-4">
                 <Button variant="ghost" asChild>
                     <a
-                        href="https://status.sourcebot.dev"
+                        href="https://status.sourcecat.dev"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -147,7 +147,7 @@ interface UpsellPanelProps {
     className?: string;
     licenseState?: UpsellLicenseState;
     // Optional context-specific heading + subheading (e.g. "Upgrade to view Ask
-    // Sourcebot history"). Fall back to the billing-state-derived copy when omitted.
+    // Sourcecat history"). Fall back to the billing-state-derived copy when omitted.
     title?: string;
     description?: ReactNode;
     // How to render the pending state. Use 'skeleton' (default) when the panel is
@@ -275,15 +275,15 @@ function UpsellPanelContent({ offers, source, returnPath, variant, licenseState,
         // table so they understand what's gated, but route them to the owner.
         if (!isOwner) {
             return {
-                title: "Sourcebot Pro",
-                description: "Ask your organization owner to upgrade to Sourcebot Pro.",
+                title: "Sourcecat Pro",
+                description: "Ask your organization owner to upgrade to Sourcecat Pro.",
                 buttonText: "Got it",
             }
         }
         // trial, no cc
         if (offers.trial.eligible && !offers.trial.creditCardRequired) {
             return {
-                title: "Try Sourcebot Pro",
+                title: "Try Sourcecat Pro",
                 description: `Get full access free for ${offers.trial.durationDays} days. No credit card required.`,
                 buttonText: `Start ${offers.trial.durationDays}-day free trial`
             }
@@ -291,7 +291,7 @@ function UpsellPanelContent({ offers, source, returnPath, variant, licenseState,
         // trial, cc
         else if (offers.trial.eligible && offers.trial.creditCardRequired) {
             return {
-                title: "Try Sourcebot Pro",
+                title: "Try Sourcecat Pro",
                 description: `Get full access free for ${offers.trial.durationDays} days. Card required, cancel anytime.`,
                 buttonText: `Start ${offers.trial.durationDays}-day free trial`
             }
@@ -343,7 +343,7 @@ function UpsellPanelContent({ offers, source, returnPath, variant, licenseState,
             <div className="flex flex-col-reverse items-center gap-2 sm:flex-row sm:justify-end sm:gap-4">
                 <Button variant="ghost" asChild>
                     <a
-                        href="https://www.sourcebot.dev/pricing"
+                        href="https://www.sourcecat.dev/pricing"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

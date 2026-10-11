@@ -1,12 +1,12 @@
 import { ImageResponse } from 'next/og';
 import { notFound } from 'next/navigation';
 import { __unsafePrisma } from '@/prisma';
-import { ChatVisibility } from '@sourcebot/db';
-import { env } from "@sourcebot/shared";
+import { ChatVisibility } from '@sourcecat/db';
+import { env } from "@sourcecat/shared";
 import { minidenticon } from 'minidenticons';
 
 export const runtime = 'nodejs';
-export const alt = 'Sourcebot Chat';
+export const alt = 'Sourcecat Chat';
 export const size = {
     width: 1200,
     height: 630,
@@ -158,11 +158,11 @@ export default async function Image({ params }: ImageProps) {
                                 color: '#ffffff',
                             }}
                         >
-                            sourcebot.dev
+                            sourcecat.dev
                         </span>
                         <img
                             src={`${env.AUTH_URL}/sb_logo_dark_small.png`}
-                            alt="Sourcebot"
+                            alt="Sourcecat"
                             width={80}
                             height={80}
                         />

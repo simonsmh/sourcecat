@@ -35,7 +35,7 @@ import {
 } from "@/features/chat/mcpOAuthDraft";
 import { clearEditorHistory, resetEditor } from "@/features/chat/utils";
 import { useRole } from "@/features/auth/useRole";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { ConnectorsExplainerText } from "@/features/chat/components/chatBox/connectorsExplainerText";
 
 interface ConnectorsMenuProps {

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Card } from "@/components/ui/card";
-import { SourcebotLogo } from "@/app/components/sourcebotLogo";
+import { SourcecatLogo } from "@/app/components/sourcecatLogo";
 import { AuthMethodSelector } from "@/app/components/authMethodSelector";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { useIdentityProviders } from "@/features/auth/useIdentityProviders";
@@ -67,7 +67,7 @@ export const LoginForm = ({ callbackUrl, error, context, isAnonymousAccessEnable
     return (
         <div className="flex flex-col items-center justify-center w-full">
             <div className="mb-6 flex flex-col items-center">
-                <SourcebotLogo
+                <SourcecatLogo
                     className="h-12 sm:h-16 mb-3"
                 />
                 <h2 className="text-lg font-medium text-center">

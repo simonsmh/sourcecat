@@ -3,7 +3,7 @@ import type { HomeView } from "@/hooks/useHomeView";
 import { cookies } from "next/headers";
 import { ChatLandingPage } from "./chat/chatLandingPage";
 import SearchPage from "./search/page";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 
 interface Props {
     searchParams: Promise<{ query?: string }>;

@@ -89,7 +89,7 @@ jobs:
       - name: Verify internal GitHub OIDC identity
         if: inputs.environment == 'internal'
         env:
-          EXPECTED_OIDC_SUBJECT: repo:sourcebot-dev/sourcebot:environment:internal
+          EXPECTED_OIDC_SUBJECT: repo:simonsmh/sourcecat:environment:internal
         run: |
           response=$(curl --fail --silent --show-error \
             -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
@@ -129,7 +129,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.ecr.outputs.registry }}/sourcebot-${{ inputs.environment }}
+          images: ${{ steps.ecr.outputs.registry }}/sourcecat-${{ inputs.environment }}
           tags: ${{ inputs.docker_tags }}
 
       - name: Set up Docker Buildx
@@ -143,7 +143,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # SENTRY_RELEASE is the commit SHA rather than SOURCEBOT_VERSION so that
+          # SENTRY_RELEASE is the commit SHA rather than SOURCECAT_VERSION so that
           # every cloud build gets a distinct release. packages/backend/src/instrument.ts
           # reports NEXT_PUBLIC_BUILD_COMMIT_SHA as its release to match; the webapp
           # gets SENTRY_RELEASE injected into its bundle by withSentryConfig.

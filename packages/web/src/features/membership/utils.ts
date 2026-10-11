@@ -1,6 +1,6 @@
 import { hasEntitlement } from "@/lib/entitlements";
-import { createLogger, getSeatCap } from "@sourcebot/shared";
-import { OrgRole, Prisma } from "@sourcebot/db";
+import { createLogger, getSeatCap } from "@sourcecat/shared";
+import { OrgRole, Prisma } from "@sourcecat/db";
 
 const logger = createLogger("membership-utils");
 

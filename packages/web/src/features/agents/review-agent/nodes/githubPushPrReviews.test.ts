@@ -1,9 +1,9 @@
 import { expect, test, vi, describe } from 'vitest';
 import { Octokit } from 'octokit';
 import { githubPushPrReviews } from './githubPushPrReviews';
-import { sourcebot_pr_payload, sourcebot_file_diff_review } from '../types';
+import { sourcecat_pr_payload, sourcecat_file_diff_review } from '../types';
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         info: vi.fn(),
@@ -12,7 +12,7 @@ vi.mock('@sourcebot/shared', () => ({
     }),
 }));
 
-const MOCK_PAYLOAD: sourcebot_pr_payload = {
+const MOCK_PAYLOAD: sourcecat_pr_payload = {
     title: 'Test PR',
     description: 'desc',
     hostDomain: 'github.com',
@@ -23,7 +23,7 @@ const MOCK_PAYLOAD: sourcebot_pr_payload = {
     head_sha: 'sha_abc123',
 };
 
-const SINGLE_REVIEW: sourcebot_file_diff_review[] = [
+const SINGLE_REVIEW: sourcecat_file_diff_review[] = [
     {
         filename: 'src/foo.ts',
         reviews: [{ line_start: 10, line_end: 10, review: 'Missing null check' }],
@@ -74,7 +74,7 @@ describe('githubPushPrReviews', () => {
     });
 
     test('uses start_line and line for a multi-line review', async () => {
-        const multiLineReviews: sourcebot_file_diff_review[] = [
+        const multiLineReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/bar.ts',
                 reviews: [{ line_start: 5, line_end: 15, review: 'Refactor this block' }],
@@ -91,7 +91,7 @@ describe('githubPushPrReviews', () => {
     });
 
     test('posts multiple reviews across multiple files', async () => {
-        const multiFileReviews: sourcebot_file_diff_review[] = [
+        const multiFileReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/a.ts',
                 reviews: [
@@ -112,7 +112,7 @@ describe('githubPushPrReviews', () => {
     });
 
     test('continues posting remaining reviews when one fails', async () => {
-        const twoReviews: sourcebot_file_diff_review[] = [
+        const twoReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/foo.ts',
                 reviews: [

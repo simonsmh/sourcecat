@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "@uidotdev/usehooks";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MembersFilterSelect } from "./membersFilterSelect";

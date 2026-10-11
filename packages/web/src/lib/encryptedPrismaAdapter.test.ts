@@ -7,7 +7,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock('@auth/prisma-adapter', () => ({
     PrismaAdapter: () => ({}),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     encryptOAuthToken: (value: unknown) => value,
     getIdentityProviderConfig: vi.fn(),
 }));

@@ -12,7 +12,7 @@ import { Loader2, WandSparkles, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Link from "next/link";
 
-const SEARCH_ASSIST_DOCS_URL = "https://docs.sourcebot.dev/docs/features/search/ai-search-assist";
+const SEARCH_ASSIST_DOCS_URL = "https://docs.sourcecat.dev/docs/features/search/ai-search-assist";
 
 const EXAMPLES = [
     "Find console.log statements",

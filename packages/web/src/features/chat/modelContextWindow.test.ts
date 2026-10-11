@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import type { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
+import type { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
 
 vi.mock('server-only', () => ({ default: vi.fn() }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         info: vi.fn(),
         warn: vi.fn(),
@@ -21,7 +21,7 @@ const catalog: ModelsDevCatalog = {
             'claude-sonnet-4-5': { id: 'claude-sonnet-4-5', limit: { context: 200000, output: 64000 } },
         },
     },
-    // models.dev keys Gemini under 'google', whereas Sourcebot's provider id is
+    // models.dev keys Gemini under 'google', whereas Sourcecat's provider id is
     // 'google-generative-ai' — exercises PROVIDER_ID_OVERRIDES.
     google: {
         id: 'google',

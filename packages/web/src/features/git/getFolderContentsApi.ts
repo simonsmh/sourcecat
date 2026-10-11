@@ -2,7 +2,7 @@ import { sew } from "@/middleware/sew";
 import { FileTreeItem } from "./types";
 import { notFound, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { getRepoPath } from '@sourcebot/shared';
+import { getRepoPath } from '@sourcecat/shared';
 import { simpleGit } from 'simple-git';
 import z from 'zod';
 import { compareFileTreeItems, isPathValid, normalizePath } from './utils';

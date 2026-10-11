@@ -1,8 +1,8 @@
-import { OrgRole, type License } from "@sourcebot/db";
+import { OrgRole, type License } from "@sourcecat/db";
 import {
     type OfflineLicenseMetadata,
-} from "@sourcebot/shared";
-import { compareVersions, formatVersion, parseVersion } from "@sourcebot/shared/client";
+} from "@sourcecat/shared";
+import { compareVersions, formatVersion, parseVersion } from "@sourcecat/shared/client";
 import { BannerPriority, type BannerDescriptor, type BannerId } from "./types";
 import { PermissionSyncBanner } from "./permissionSyncBanner";
 import { UpgradeAvailableBanner } from "./upgradeAvailableBanner";

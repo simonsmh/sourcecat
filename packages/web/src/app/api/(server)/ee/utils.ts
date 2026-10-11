@@ -1,4 +1,4 @@
-import { Prisma } from "@sourcebot/db";
+import { Prisma } from "@sourcecat/db";
 
 export type MembershipWithUser = Prisma.UserToOrgGetPayload<{ include: { user: true } }>;
 

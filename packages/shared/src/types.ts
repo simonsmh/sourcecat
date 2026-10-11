@@ -1,4 +1,4 @@
-import { IdentityProviderConfig, Settings as SettingsSchema } from "@sourcebot/schemas/v3/index.type";
+import { IdentityProviderConfig, Settings as SettingsSchema } from "@sourcecat/schemas/v3/index.type";
 import { z } from "zod";
 
 export type ConfigSettings = Required<SettingsSchema>;

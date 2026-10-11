@@ -6,7 +6,7 @@ import { isServiceError } from "@/lib/utils";
 import { getOrgAccountRequests } from "@/features/membership/actions";
 import { ServiceErrorException } from "@/lib/serviceError";
 import { OrgRole } from "@prisma/client";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { withAuth } from "@/middleware/withAuth";
 import { NavGroup } from "../@sidebar/components/settingsSidebar/nav";
@@ -80,7 +80,7 @@ export const getSidebarNavGroups = async () =>
                     },
                     ...(hasAskEntitlement ? [
                         {
-                            title: "Ask Sourcebot",
+                            title: "Ask Sourcecat",
                             href: `/settings/accountAskAgent`,
                             hrefRegex: `/settings/accountAskAgent(/.*)?$`,
                             icon: "bot" as const,
@@ -124,7 +124,7 @@ export const getSidebarNavGroups = async () =>
                         requiredEntitlement: 'analytics'
                     },
                     {
-                        title: "Ask Sourcebot",
+                        title: "Ask Sourcecat",
                         href: `/settings/workspaceAskAgent`,
                         icon: "bot" as const,
                         requiredEntitlement: 'ask',

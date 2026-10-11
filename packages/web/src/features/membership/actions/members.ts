@@ -8,7 +8,7 @@ import { isServiceError } from "@/lib/utils";
 import { sew } from "@/middleware/sew";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 
 export const removeMemberFromOrg = async (memberId: string): Promise<{ success: boolean } | ServiceError> => sew(() =>
     withAuth(async ({ user, org, role }) =>

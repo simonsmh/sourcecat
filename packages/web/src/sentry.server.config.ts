@@ -4,7 +4,7 @@
 
 import * as Sentry from "@sentry/nextjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('sentry-server-config');
 const isTracingEnabled = process.env.SENTRY_TRACING_ENABLED === 'true';

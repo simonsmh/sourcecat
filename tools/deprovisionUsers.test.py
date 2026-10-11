@@ -38,10 +38,10 @@ class UserDeprovisioningTest(unittest.TestCase):
         self.assertEqual(MODULE.parse_duration("1.5h"), timedelta(minutes=90))
 
     def test_parse_base_url(self):
-        self.assertEqual(MODULE.parse_base_url("https://sourcebot.example.com/"), "https://sourcebot.example.com")
+        self.assertEqual(MODULE.parse_base_url("https://sourcecat.example.com/"), "https://sourcecat.example.com")
 
         with self.assertRaises(argparse.ArgumentTypeError):
-            MODULE.parse_base_url("sourcebot.example.com")
+            MODULE.parse_base_url("sourcecat.example.com")
 
     def test_find_inactive_users_uses_strict_cutoff(self):
         old = self.make_user(id="old", last_activity_at=self.now - timedelta(days=91))
@@ -86,10 +86,10 @@ class UserDeprovisioningTest(unittest.TestCase):
         client = MagicMock()
         client.list_users.return_value = [self.make_user()]
 
-        with patch.object(MODULE, "SourcebotClient", return_value=client):
+        with patch.object(MODULE, "SourcecatClient", return_value=client):
             with patch("builtins.input", return_value="no"), redirect_stdout(io.StringIO()):
                 result = MODULE.main([
-                    "--base-url", "https://sourcebot.example.com",
+                    "--base-url", "https://sourcecat.example.com",
                     "--api-key", "test-key",
                     "--inactivity-time", "90d",
                 ])
@@ -101,10 +101,10 @@ class UserDeprovisioningTest(unittest.TestCase):
         client = MagicMock()
         client.list_users.return_value = [self.make_user()]
 
-        with patch.object(MODULE, "SourcebotClient", return_value=client):
+        with patch.object(MODULE, "SourcecatClient", return_value=client):
             with patch("builtins.input", return_value="deprovision"), redirect_stdout(io.StringIO()):
                 result = MODULE.main([
-                    "--base-url", "https://sourcebot.example.com",
+                    "--base-url", "https://sourcecat.example.com",
                     "--api-key", "test-key",
                     "--inactivity-time", "90d",
                 ])

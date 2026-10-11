@@ -12,7 +12,7 @@ import { INSTALL_ID_PATTERN } from '../../dist/telemetry.js';
 test('real Docker name conflict emits a private diagnostic after setup completion', async () => {
     const packed = artifact();
     const docker = execFileSync('which', ['docker'], { encoding: 'utf8' }).trim();
-    const image = process.env.SETUP_TEST_SOURCEBOT_IMAGE ?? 'docker.sourcebot.dev/sourcebot-dev/sourcebot:latest';
+    const image = process.env.SETUP_TEST_SOURCECAT_IMAGE ?? 'ghcr.io/simonsmh/sourcecat:latest';
     const name = `setup-start-conflict-${randomUUID()}`;
     const project = `setup-start-${randomUUID()}`;
     let created = false;
@@ -22,7 +22,7 @@ test('real Docker name conflict emits a private diagnostic after setup completio
         const host = execFileSync(docker, ['context', 'inspect', '--format', '{{.Endpoints.docker.Host}}'], { encoding: 'utf8' }).trim();
         const result = await scenario(packed, {
             realDocker: docker,
-            compose: `services:\n  sourcebot:\n    image: ${image}\n    container_name: ${name}\n    pull_policy: never\n`,
+            compose: `services:\n  sourcecat:\n    image: ${image}\n    container_name: ${name}\n    pull_policy: never\n`,
             sensitiveValues: [name, project],
             assertLauncherHome(paths) {
                 // Docker Desktop creates these empty parent directories itself.
@@ -39,15 +39,15 @@ test('real Docker name conflict emits a private diagnostic after setup completio
         }, async d => {
             await minimal(d);
             await d.answer('Download docker-compose.yml?', 'y');
-            await d.answer('Start Sourcebot now?', 'y');
+            await d.answer('Start Sourcecat now?', 'y');
             await d.wait('is already in use by container');
         });
-        const failure = result.events.filter(e => e.event === 'setup_sourcebot_start_failed');
+        const failure = result.events.filter(e => e.event === 'setup_sourcecat_start_failed');
         assert.equal(failure.length, 1);
         assert.equal(failure[0].properties.failureReason, 'container_name_conflict');
         assert.equal(failure[0].properties.failurePhase, 'compose_exit');
-        assert.equal(result.events.at(-1).event, 'setup_sourcebot_start_failed');
-        assert.ok(result.events.some(e => e.event === 'setup_sourcebot_completed'));
+        assert.equal(result.events.at(-1).event, 'setup_sourcecat_start_failed');
+        assert.ok(result.events.some(e => e.event === 'setup_sourcecat_completed'));
     } finally {
         try {
             if (created) execFileSync(docker, ['rm', '-v', name], { stdio: 'pipe', timeout: 45000 });
@@ -57,9 +57,9 @@ test('real Docker name conflict emits a private diagnostic after setup completio
     }
 });
 
-test('real Sourcebot containers: packed wizard identity survives first boot, restart, upgrade and opt-out', async () => {
+test('real Sourcecat containers: packed wizard identity survives first boot, restart, upgrade and opt-out', async () => {
     const packed = artifact();
-    const image = process.env.SETUP_TEST_SOURCEBOT_IMAGE ?? 'docker.sourcebot.dev/sourcebot-dev/sourcebot:latest';
+    const image = process.env.SETUP_TEST_SOURCECAT_IMAGE ?? 'ghcr.io/simonsmh/sourcecat:latest';
     const label = `setup-wizard-e2e-${randomUUID()}`;
     const fixtures = fileURLToPath(new URL('.', import.meta.url));
     const entrypoint = resolve(fixtures, '../../../../entrypoint.sh');
@@ -76,12 +76,12 @@ test('real Sourcebot containers: packed wizard identity survives first boot, res
         const versionFile = join(packed.root, 'version.ts');
         const boot = (data, version, options = {}) => {
             mkdirSync(join(packed.root, data), { recursive: true });
-            writeFileSync(versionFile, `export const SOURCEBOT_VERSION = "${version}";\n`);
+            writeFileSync(versionFile, `export const SOURCECAT_VERSION = "${version}";\n`);
             const name = `${label}-${containerNames.length}`;
             containerNames.push(name);
             const output = execFileSync('docker', ['run', '--rm', '--name', name, '--label', label, '--network', 'none', '--add-host', 'us.i.posthog.com:127.0.0.1',
-                '--env-file', envFile, '-e', `SOURCEBOT_TELEMETRY_DISABLED=${options.disabled ? 'true' : 'false'}`, '-e', 'POSTHOG_PAPIK=phc_runtime_fixture',
-                ...(options.id !== undefined ? ['-e', `SOURCEBOT_INSTALL_ID=${options.id}`] : []),
+                '--env-file', envFile, '-e', `SOURCECAT_TELEMETRY_DISABLED=${options.disabled ? 'true' : 'false'}`, '-e', 'POSTHOG_PAPIK=phc_runtime_fixture',
+                ...(options.id !== undefined ? ['-e', `SOURCECAT_INSTALL_ID=${options.id}`] : []),
                 ...(options.omit ? ['-e', 'TEST_OMIT_INSTALL_ID=true'] : []),
                 '-v', `${join(packed.root, data)}:/data`, '-v', `${join(fixtures, 'runtimeFixture.mjs')}:/fixture/runtimeFixture.mjs:ro`,
                 '-v', `${entrypoint}:/fixture/entrypoint.sh:ro`, '-v', `${packed.cert}:/fixture/cert.pem:ro`, '-v', `${packed.key}:/fixture/key.pem:ro`,

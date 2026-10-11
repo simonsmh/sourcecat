@@ -12,8 +12,8 @@ import { WebserverServiceClient } from '@/proto/zoekt/webserver/v1/WebserverServ
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import * as Sentry from '@sentry/nextjs';
-import { PrismaClient, Repo } from "@sourcebot/db";
-import { createLogger, env } from "@sourcebot/shared";
+import { PrismaClient, Repo } from "@sourcecat/db";
+import { createLogger, env } from "@sourcecat/shared";
 import path from 'path';
 import { isBranchQuery, QueryIR, someInQueryIR } from './ir';
 import { RepositoryInfo, SearchResponse, SearchResultFile, SearchStats, SourceRange, StreamedSearchErrorResponse, StreamedSearchResponse } from "./types";
@@ -392,9 +392,9 @@ const transformZoektSearchResponse = async (response: ZoektGrpcSearchResponse, r
 
         // This can happen when a shard exists for a repository that does not exist in the database.
         // In this case, issue a error message and skip the file.
-        // @see: https://github.com/sourcebot-dev/sourcebot/issues/669
+        // @see: https://github.com/simonsmh/sourcecat/issues/669
         if (!repo) {
-            const errorMessage = `Unable to find repository "${file.repository}" in database for file "${file.file_name}". This can happen when a search shard exists for a repository that does not exist in the database. See https://github.com/sourcebot-dev/sourcebot/issues/669 for more details. Skipping file...`;
+            const errorMessage = `Unable to find repository "${file.repository}" in database for file "${file.file_name}". This can happen when a search shard exists for a repository that does not exist in the database. See https://github.com/simonsmh/sourcecat/issues/669 for more details. Skipping file...`;
 
             logger.error(errorMessage);
             Sentry.captureMessage(errorMessage);
@@ -534,7 +534,7 @@ const transformZoektSearchResponse = async (response: ZoektGrpcSearchResponse, r
 // 'gitea.com/org/repo', etc.).
 // 
 // Note: When a repository is re-indexed (every hour) this ID will be populated.
-// @see: https://github.com/sourcebot-dev/zoekt/pull/6
+// @see: https://github.com/simonsmh/zoekt/pull/6
 const getRepoIdForFile = (file: ZoektGrpcFileMatch): string | number => {
     return file.repository_id ?? file.repository;
 }

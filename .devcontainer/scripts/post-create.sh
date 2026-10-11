@@ -3,10 +3,10 @@
 set -e
 
 echo "=========================================="
-echo "Sourcebot Dev Container: Post-Create Setup"
+echo "Sourcecat Dev Container: Post-Create Setup"
 echo "=========================================="
 
-cd /workspaces/sourcebot
+cd /workspaces/sourcecat
 
 # 1. Initialize git submodules (in case initializeCommand didn't run)
 echo ""
@@ -26,11 +26,11 @@ echo ""
 echo "[4/5] Creating default config.json..."
 cat > config.json << 'EOF'
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "connections": {
         "github": {
             "type": "github",
-            "repos": ["sourcebot-dev/sourcebot"]
+            "repos": ["simonsmh/sourcecat"]
         }
     }
 }

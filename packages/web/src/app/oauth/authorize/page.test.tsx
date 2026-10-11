@@ -51,7 +51,7 @@ const params: Params = {
     client_id: 'client-1', redirect_uri: 'https://client.example/callback?foo=bar',
     code_challenge: 'original-challenge', code_challenge_method: 'S256', response_type: 'code',
     state: 'state with + & = ?', scope: '',
-    resource: ['https://sourcebot.example/api/mcp', 'https://second.example/mcp'],
+    resource: ['https://sourcecat.example/api/mcp', 'https://second.example/mcp'],
     dpop_jkt: 'original-thumbprint',
 };
 const requiredAccount = {
@@ -76,7 +76,7 @@ describe('OAuth linking screen', () => {
         expect(screen.queryByText('Link accounts')).not.toBeNull();
         expect(mocks.consentScreen).not.toHaveBeenCalled();
         const { callbackUrl } = mocks.connectAccountsCard.mock.calls[0][0];
-        const url = new URL(callbackUrl, 'https://sourcebot.example');
+        const url = new URL(callbackUrl, 'https://sourcecat.example');
         expect(url.pathname).toBe('/oauth/authorize');
         for (const [key, value] of Object.entries(params)) {
             expect(url.searchParams.getAll(key)).toEqual(Array.isArray(value) ? value : [value]);
@@ -105,9 +105,9 @@ describe('OAuth linking screen', () => {
         } catch (error) {
             redirectUrl = (error as Error).message;
         }
-        const login = new URL(redirectUrl, 'https://sourcebot.example');
+        const login = new URL(redirectUrl, 'https://sourcecat.example');
         expect(login.pathname).toBe('/login');
-        const callback = new URL(login.searchParams.get('callbackUrl')!, 'https://sourcebot.example');
+        const callback = new URL(login.searchParams.get('callbackUrl')!, 'https://sourcecat.example');
         expect(callback.searchParams.getAll('resource')).toEqual(params.resource);
         expect(callback.searchParams.get('state')).toBe(params.state);
         expect(callback.searchParams.has('scope')).toBe(false);

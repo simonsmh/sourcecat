@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { Button } from "@/components/ui/button";
 import { BannerShell } from "./bannerShell";
 import type { BannerProps } from "./types";
@@ -22,7 +22,7 @@ export function LicenseExpiredBanner({ id, dismissible, role, source }: LicenseE
     const description = (() => {
         if (source === 'offline') {
             return isOwner
-                ? <>Your license has expired and paid features are disabled. Update <code className="font-mono text-xs">SOURCEBOT_EE_LICENSE_KEY</code> to restore access. {whatsAffectedLink}</>
+                ? <>Your license has expired and paid features are disabled. Update <code className="font-mono text-xs">SOURCECAT_EE_LICENSE_KEY</code> to restore access. {whatsAffectedLink}</>
                 : <>Your license has expired and paid features are disabled. Contact your organization administrator to restore access. {whatsAffectedLink}</>;
         }
         return isOwner

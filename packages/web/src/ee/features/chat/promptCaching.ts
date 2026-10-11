@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
 import { ProviderOptions } from "@ai-sdk/provider-utils";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import { LanguageModelProvider } from "@/features/chat/types";
 
 // @note: Prompt-cache plumbing for the Ask agent — the single place that knows

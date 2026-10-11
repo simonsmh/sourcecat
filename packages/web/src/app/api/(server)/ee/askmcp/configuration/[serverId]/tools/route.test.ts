@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { McpServerToolPermission, OrgRole } from '@sourcebot/db';
+import { McpServerToolPermission, OrgRole } from '@sourcecat/db';
 
 const mocks = vi.hoisted(() => ({
     authContext: undefined as unknown,
@@ -29,7 +29,7 @@ vi.mock('@/ee/features/chat/mcp/mcpToolMetadata', () => ({
 vi.mock('@/prisma', () => ({
     __unsafePrisma: mocks.unsafePrisma,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
     env: { NODE_ENV: 'test' },
 }));
@@ -37,7 +37,7 @@ vi.mock('@sourcebot/shared', () => ({
 const { GET } = await import('./route');
 
 function createRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/configuration/server-1/tools', { method: 'GET' });
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/configuration/server-1/tools', { method: 'GET' });
 }
 
 function createPrismaMock() {

@@ -3,7 +3,7 @@ import {
     personalAgentSkillAuthScope,
     type Prisma,
     type PrismaClient,
-} from "@sourcebot/db";
+} from "@sourcecat/db";
 import {
     ASK_COMMAND_SOURCE_SHARED_SKILL,
     ASK_COMMAND_SOURCE_PERSONAL_SKILL,

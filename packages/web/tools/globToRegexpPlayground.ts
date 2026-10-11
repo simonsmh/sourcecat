@@ -2,10 +2,10 @@ import globToRegexp from 'glob-to-regexp';
 import escapeStringRegexp from 'escape-string-regexp';
 
 // -------------------------------------------------------
-// Playground for building Sourcebot/zoekt search queries
+// Playground for building Sourcecat/zoekt search queries
 // from grep-style (pattern, path, include) inputs.
 //
-// Run with: yarn workspace @sourcebot/web tsx tools/globToRegexpPlayground.ts
+// Run with: yarn workspace @sourcecat/web tsx tools/globToRegexpPlayground.ts
 // -------------------------------------------------------
 
 interface SearchInput {
@@ -16,7 +16,7 @@ interface SearchInput {
 
 function globToFileRegexp(glob: string): string {
     const re = globToRegexp(glob, { extended: true, globstar: true });
-    // Strip ^ anchor — Sourcebot file paths include the full repo-relative path,
+    // Strip ^ anchor — Sourcecat file paths include the full repo-relative path,
     // so the pattern shouldn't be anchored to the start.
     return re.source.replace(/^\^/, '');
 }

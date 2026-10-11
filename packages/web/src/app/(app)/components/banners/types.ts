@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import type { OrgRole } from "@sourcebot/db";
+import type { OrgRole } from "@sourcecat/db";
 
 export const BannerPriority = {
     LICENSE_EXPIRED:          100,

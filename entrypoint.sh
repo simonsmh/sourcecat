@@ -47,56 +47,56 @@ if [ -z "$DATABASE_URL" ] && [ -n "$DATABASE_HOST" ] && [ -n "$DATABASE_USERNAME
     fi
 fi
 
-# As of v5, Sourcebot no longer ships an embedded Postgres.
-# @see: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide
+# As of v5, Sourcecat no longer ships an embedded Postgres.
+# @see: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide
 if [ -z "$DATABASE_URL" ]; then
     echo -e "\e[31m[Error] DATABASE_URL is not set.\e[0m"
-    echo -e "\e[31mAs of v5, Sourcebot no longer ships an embedded Postgres database. You must provide a\e[0m"
-    echo -e "\e[31mPostgres instance and set DATABASE_URL (e.g. postgresql://user:password@host:5432/sourcebot).\e[0m"
+    echo -e "\e[31mAs of v5, Sourcecat no longer ships an embedded Postgres database. You must provide a\e[0m"
+    echo -e "\e[31mPostgres instance and set DATABASE_URL (e.g. postgresql://user:password@host:5432/sourcecat).\e[0m"
     echo -e "\e[31mYou can also use DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME, and\e[0m"
     echo -e "\e[31mDATABASE_ARGS to construct the connection string.\e[0m"
-    echo -e "\e[31mSee the migration guide: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide\e[0m"
+    echo -e "\e[31mSee the migration guide: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide\e[0m"
     exit 1
 fi
 
-# As of v5, Sourcebot no longer ships an embedded Redis.
-# @see: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide
+# As of v5, Sourcecat no longer ships an embedded Redis.
+# @see: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide
 if [ -z "$REDIS_URL" ]; then
     echo -e "\e[31m[Error] REDIS_URL is not set.\e[0m"
-    echo -e "\e[31mAs of v5, Sourcebot no longer ships an embedded Redis instance. You must provide a Redis\e[0m"
+    echo -e "\e[31mAs of v5, Sourcecat no longer ships an embedded Redis instance. You must provide a Redis\e[0m"
     echo -e "\e[31minstance and set REDIS_URL (e.g. redis://host:6379).\e[0m"
-    echo -e "\e[31mSee the migration guide: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide\e[0m"
+    echo -e "\e[31mSee the migration guide: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide\e[0m"
     exit 1
 fi
 
 # Extract version from version.ts
 VERSION_FILE="/app/packages/shared/src/version.ts"
 if [ -f "$VERSION_FILE" ]; then
-    SOURCEBOT_VERSION=$(grep -o '"v[^"]*"' "$VERSION_FILE" | tr -d '"')
+    SOURCECAT_VERSION=$(grep -o '"v[^"]*"' "$VERSION_FILE" | tr -d '"')
     # Validate extraction succeeded
-    if [ -z "$SOURCEBOT_VERSION" ]; then
+    if [ -z "$SOURCECAT_VERSION" ]; then
         echo -e "\e[33m[Warning] Failed to extract version from $VERSION_FILE. Setting to 'unknown'.\e[0m" >&2
-        SOURCEBOT_VERSION="unknown"
+        SOURCECAT_VERSION="unknown"
     fi
 else
-    SOURCEBOT_VERSION="unknown"
+    SOURCECAT_VERSION="unknown"
 fi
 
-echo -e "\e[34m[Info] Sourcebot version: $SOURCEBOT_VERSION\e[0m"
+echo -e "\e[34m[Info] Sourcecat version: $SOURCECAT_VERSION\e[0m"
 
-if [ -n "$SOURCEBOT_TELEMETRY_DISABLED" ]; then
-    # Validate that SOURCEBOT_TELEMETRY_DISABLED is either "true" or "false"
-    if [ "$SOURCEBOT_TELEMETRY_DISABLED" != "true" ] && [ "$SOURCEBOT_TELEMETRY_DISABLED" != "false" ]; then
-        echo -e "\e[31m[Error] SOURCEBOT_TELEMETRY_DISABLED must be either 'true' or 'false'. Got '$SOURCEBOT_TELEMETRY_DISABLED'\e[0m"
+if [ -n "$SOURCECAT_TELEMETRY_DISABLED" ]; then
+    # Validate that SOURCECAT_TELEMETRY_DISABLED is either "true" or "false"
+    if [ "$SOURCECAT_TELEMETRY_DISABLED" != "true" ] && [ "$SOURCECAT_TELEMETRY_DISABLED" != "false" ]; then
+        echo -e "\e[31m[Error] SOURCECAT_TELEMETRY_DISABLED must be either 'true' or 'false'. Got '$SOURCECAT_TELEMETRY_DISABLED'\e[0m"
         exit 1
     fi
 else
-    export SOURCEBOT_TELEMETRY_DISABLED=false
+    export SOURCECAT_TELEMETRY_DISABLED=false
 fi
 
 # Issue a info message about telemetry
-if [ "$SOURCEBOT_TELEMETRY_DISABLED" = "true" ]; then
-    echo -e "\e[34m[Info] Disabling telemetry since SOURCEBOT_TELEMETRY_DISABLED was set.\e[0m"
+if [ "$SOURCECAT_TELEMETRY_DISABLED" = "true" ]; then
+    echo -e "\e[34m[Info] Disabling telemetry since SOURCECAT_TELEMETRY_DISABLED was set.\e[0m"
 fi
 
 # Check if DATA_CACHE_DIR exists, if not create it
@@ -104,33 +104,33 @@ if [ ! -d "$DATA_CACHE_DIR" ]; then
     mkdir -p "$DATA_CACHE_DIR"
 fi
 
-# As of v5, SOURCEBOT_ENCRYPTION_KEY must be provided explicitly via an environment variable.
-# @see: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide
-if [ -z "$SOURCEBOT_ENCRYPTION_KEY" ]; then
-    echo -e "\e[31m[Error] SOURCEBOT_ENCRYPTION_KEY is not set.\e[0m"
+# As of v5, SOURCECAT_ENCRYPTION_KEY must be provided explicitly via an environment variable.
+# @see: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide
+if [ -z "$SOURCECAT_ENCRYPTION_KEY" ]; then
+    echo -e "\e[31m[Error] SOURCECAT_ENCRYPTION_KEY is not set.\e[0m"
     if [ -f "$DATA_CACHE_DIR/.secret" ]; then
-        echo -e "\e[31mA key generated by an earlier version of Sourcebot was found at $DATA_CACHE_DIR/.secret.\e[0m"
-        echo -e "\e[31mCopy its value into the SOURCEBOT_ENCRYPTION_KEY environment variable, then delete the file.\e[0m"
+        echo -e "\e[31mA key generated by an earlier version of Sourcecat was found at $DATA_CACHE_DIR/.secret.\e[0m"
+        echo -e "\e[31mCopy its value into the SOURCECAT_ENCRYPTION_KEY environment variable, then delete the file.\e[0m"
     else
-        echo -e "\e[31mGenerate one with 'openssl rand -base64 24' and set it as the SOURCEBOT_ENCRYPTION_KEY environment variable.\e[0m"
+        echo -e "\e[31mGenerate one with 'openssl rand -base64 24' and set it as the SOURCECAT_ENCRYPTION_KEY environment variable.\e[0m"
     fi
-    echo -e "\e[31mSee the migration guide: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide\e[0m"
+    echo -e "\e[31mSee the migration guide: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide\e[0m"
     exit 1
 elif [ -f "$DATA_CACHE_DIR/.secret" ]; then
     echo -e "\e[33m[Warning] $DATA_CACHE_DIR/.secret is no longer used and stores the encryption key in plain text. Delete it.\e[0m"
 fi
 
 # As of v5, AUTH_SECRET must be provided explicitly via an environment variable.
-# @see: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide
+# @see: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide
 if [ -z "$AUTH_SECRET" ]; then
     echo -e "\e[31m[Error] AUTH_SECRET is not set.\e[0m"
     if [ -f "$DATA_CACHE_DIR/.authjs-secret" ]; then
-        echo -e "\e[31mA secret generated by an earlier version of Sourcebot was found at $DATA_CACHE_DIR/.authjs-secret.\e[0m"
+        echo -e "\e[31mA secret generated by an earlier version of Sourcecat was found at $DATA_CACHE_DIR/.authjs-secret.\e[0m"
         echo -e "\e[31mCopy its value into the AUTH_SECRET environment variable, then delete the file.\e[0m"
     else
         echo -e "\e[31mGenerate one with 'openssl rand -base64 33' and set it as the AUTH_SECRET environment variable.\e[0m"
     fi
-    echo -e "\e[31mSee the migration guide: https://docs.sourcebot.dev/docs/upgrade/v4-to-v5-guide\e[0m"
+    echo -e "\e[31mSee the migration guide: https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide\e[0m"
     exit 1
 elif [ -f "$DATA_CACHE_DIR/.authjs-secret" ]; then
     echo -e "\e[33m[Warning] $DATA_CACHE_DIR/.authjs-secret is no longer used and stores the secret in plain text. Delete it.\e[0m"
@@ -146,39 +146,39 @@ fi
 FIRST_RUN_FILE="$DATA_CACHE_DIR/.installedv3"
 
 if [ ! -f "$FIRST_RUN_FILE" ]; then
-    if [ -z "$SOURCEBOT_INSTALL_ID" ]; then
-        SOURCEBOT_INSTALL_ID=$(uuidgen)
+    if [ -z "$SOURCECAT_INSTALL_ID" ]; then
+        SOURCECAT_INSTALL_ID=$(uuidgen)
     fi
-    export SOURCEBOT_INSTALL_ID
+    export SOURCECAT_INSTALL_ID
     
     # If this is our first run, send a `install` event to PostHog
     # (if telemetry is enabled)
-    if [ "$SOURCEBOT_TELEMETRY_DISABLED" = "false" ]; then
+    if [ "$SOURCECAT_TELEMETRY_DISABLED" = "false" ]; then
         INSTALL_EVENT_PAYLOAD=$(jq -n \
             --arg api_key "$POSTHOG_PAPIK" \
-            --arg distinct_id "$SOURCEBOT_INSTALL_ID" \
-            --arg sourcebot_version "$SOURCEBOT_VERSION" \
-            '{api_key: $api_key, event: "install", distinct_id: $distinct_id, properties: {sourcebot_version: $sourcebot_version}}')
+            --arg distinct_id "$SOURCECAT_INSTALL_ID" \
+            --arg sourcecat_version "$SOURCECAT_VERSION" \
+            '{api_key: $api_key, event: "install", distinct_id: $distinct_id, properties: {sourcecat_version: $sourcecat_version}}')
 
         if ! ( curl -L --proto-redir '=https' --output /dev/null --silent --fail --header "Content-Type: application/json" -d "$INSTALL_EVENT_PAYLOAD" https://us.i.posthog.com/capture/ ) then
             echo -e "\e[33m[Warning] Failed to send install event.\e[0m"
         fi
     fi
 else
-    SOURCEBOT_INSTALL_ID=$(jq -r '.install_id' "$FIRST_RUN_FILE")
-    export SOURCEBOT_INSTALL_ID
+    SOURCECAT_INSTALL_ID=$(jq -r '.install_id' "$FIRST_RUN_FILE")
+    export SOURCECAT_INSTALL_ID
     PREVIOUS_VERSION=$(jq -r '.version' "$FIRST_RUN_FILE")
 
     # If the version has changed, we assume an upgrade has occurred.
-    if [ "$PREVIOUS_VERSION" != "$SOURCEBOT_VERSION" ]; then
-        echo -e "\e[34m[Info] Upgraded from version $PREVIOUS_VERSION to $SOURCEBOT_VERSION\e[0m"
+    if [ "$PREVIOUS_VERSION" != "$SOURCECAT_VERSION" ]; then
+        echo -e "\e[34m[Info] Upgraded from version $PREVIOUS_VERSION to $SOURCECAT_VERSION\e[0m"
 
-        if [ "$SOURCEBOT_TELEMETRY_DISABLED" = "false" ]; then
+        if [ "$SOURCECAT_TELEMETRY_DISABLED" = "false" ]; then
             UPGRADE_EVENT_PAYLOAD=$(jq -n \
                 --arg api_key "$POSTHOG_PAPIK" \
-                --arg distinct_id "$SOURCEBOT_INSTALL_ID" \
+                --arg distinct_id "$SOURCECAT_INSTALL_ID" \
                 --arg from_version "$PREVIOUS_VERSION" \
-                --arg to_version "$SOURCEBOT_VERSION" \
+                --arg to_version "$SOURCECAT_VERSION" \
                 '{api_key: $api_key, event: "upgrade", distinct_id: $distinct_id, properties: {from_version: $from_version, to_version: $to_version}}')
 
             if ! ( curl -L --proto-redir '=https' --output /dev/null --silent --fail --header "Content-Type: application/json" -d "$UPGRADE_EVENT_PAYLOAD" https://us.i.posthog.com/capture/ ) then
@@ -189,16 +189,16 @@ else
 fi
 
 jq -n \
-    --arg version "$SOURCEBOT_VERSION" \
-    --arg install_id "$SOURCEBOT_INSTALL_ID" \
+    --arg version "$SOURCECAT_VERSION" \
+    --arg install_id "$SOURCECAT_INSTALL_ID" \
     '{version: $version, install_id: $install_id}' > "$FIRST_RUN_FILE"
 
 # Run a Database migration
 echo -e "\e[34m[Info] Running database migration...\e[0m"
-DATABASE_URL="$DATABASE_URL" yarn workspace @sourcebot/db prisma:migrate:prod
+DATABASE_URL="$DATABASE_URL" yarn workspace @sourcecat/db prisma:migrate:prod
 
 # Create the log directory if it doesn't exist
-mkdir -p /var/log/sourcebot
+mkdir -p /var/log/sourcecat
 
 # Run supervisord
 exec supervisord -c /etc/supervisor/conf.d/supervisord.conf

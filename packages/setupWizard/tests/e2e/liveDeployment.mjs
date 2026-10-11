@@ -10,7 +10,7 @@ import { artifact, scenario } from './harness.mjs';
 
 const packed = artifact();
 const docker = execFileSync('which', ['docker'], { encoding: 'utf8' }).trim();
-const image = 'docker.sourcebot.dev/sourcebot-dev/sourcebot:v5.1.13';
+const image = 'ghcr.io/simonsmh/sourcecat:v5.1.13';
 const reports = [];
 const providers = ['anthropic', 'openai', 'openai-compatible', 'amazon-bedrock', 'google-generative-ai', 'google-vertex', 'google-vertex-anthropic', 'azure', 'deepseek', 'mistral', 'openrouter', 'xai'];
 const output = process.env.SETUP_TEST_LIVE_OUTPUT;
@@ -66,7 +66,7 @@ try {
     execFileSync(process.execPath, [join(tools, 'node_modules/playwright/cli.js'), 'install', 'chromium'], { timeout: 180000, stdio: 'ignore' });
     const { chromium } = await import(pathToFileURL(join(tools, 'node_modules/playwright/index.mjs')).href);
     browser = await chromium.launch({ headless: true });
-    const upstream = await fetch('https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/docker-compose.yml');
+    const upstream = await fetch('https://raw.githubusercontent.com/simonsmh/sourcecat/main/docker-compose.yml');
     assert.ok(upstream.ok);
     const composeSource = await upstream.text();
     const cases = (process.env.SETUP_TEST_LIVE_CASES ?? 'github_repo').split(',');
@@ -87,14 +87,14 @@ try {
         }
         const compose = parse(composeSource);
         // Isolation only: leave the generated config, secrets and identity intact.
-        compose.services.sourcebot.image = image;
-        compose.services.sourcebot.pull_policy = 'never';
-        compose.services.sourcebot.container_name = `${project}-sourcebot`;
-        compose.services.sourcebot.ports = [`127.0.0.1:${port}:3000`];
-        compose.services.sourcebot.environment.push('SOURCEBOT_TELEMETRY_DISABLED=true');
+        compose.services.sourcecat.image = image;
+        compose.services.sourcecat.pull_policy = 'never';
+        compose.services.sourcecat.container_name = `${project}-sourcecat`;
+        compose.services.sourcecat.ports = [`127.0.0.1:${port}:3000`];
+        compose.services.sourcecat.environment.push('SOURCECAT_TELEMETRY_DISABLED=true');
         for (const [service, config] of Object.entries(compose.services)) {
             config.restart = 'no';
-            if (service !== 'sourcebot') {
+            if (service !== 'sourcecat') {
                 config.ports = [];
             }
         }
@@ -125,7 +125,7 @@ try {
                             execFileSync('git', ['clone', '--depth=1', 'https://github.com/octocat/Hello-World.git', join(target, 'hello')], { stdio: 'ignore', timeout: 45000 });
                         } else {
                             for (const [index, relative] of (name === 'local_nested' ? ['one', 'nested/two'] : ['one', 'two']).entries()) {
-                                // Sourcebot deduplicates clones sharing the same
+                                // Sourcecat deduplicates clones sharing the same
                                 // origin; use two genuinely different repositories.
                                 const remote = index === 0 ? 'Hello-World' : 'git-consortium';
                                 execFileSync('git', ['clone', '--depth=1', `https://github.com/octocat/${remote}.git`, join(target, relative)], { stdio: 'ignore', timeout: 45000 });
@@ -134,8 +134,8 @@ try {
                     }
                 },
                 async verifyDeployment({ setup, files, events }) {
-                    const props = event => events.find(item => item.event === `setup_sourcebot_${event}`)?.properties;
-                    assert.equal(props('completed').sourcebotStartOutcome, name === 'auto_start' ? 'spawned' : 'declined');
+                    const props = event => events.find(item => item.event === `setup_sourcecat_${event}`)?.properties;
+                    assert.equal(props('completed').sourcecatStartOutcome, name === 'auto_start' ? 'spawned' : 'declined');
                     const source = props('configured_code_source');
                     assert.equal(source.codeHost, name.startsWith('local_') ? 'local_git' : name === 'remote_git' ? 'remote_git' : name === 'gitlab_project' ? 'gitlab' : name === 'gitea_repo' ? 'gitea' : name === 'gerrit_project' ? 'gerrit' : 'github');
                     assert.equal(source.credentialMode, 'none');
@@ -148,7 +148,7 @@ try {
                     assert.equal(props('ai_setup_completed').aiConfigured, aiEnabled);
                     const aiCount = allAi ? providers.length : aiEnabled ? 1 : 0;
                     assert.equal(props('ai_setup_completed').aiConfigurationCount, aiCount);
-                    assert.deepEqual(events.filter(event => event.event !== 'setup_sourcebot_failed').map(event => event.event.replace('setup_sourcebot_', '')), [
+                    assert.deepEqual(events.filter(event => event.event !== 'setup_sourcecat_failed').map(event => event.event.replace('setup_sourcecat_', '')), [
                         'started', 'chose_setup_directory', 'configured_code_source', 'configured_code_sources',
                         ...Array(aiCount).fill('configured_ai_provider'), 'ai_setup_completed', 'configured_hosted_url',
                         'generated_configs', 'resolved_compose_file', 'validated_docker_state', 'completed',
@@ -165,12 +165,12 @@ try {
                                 break;
                             }
                         } catch { /* Startup is asynchronous. */ }
-                        assert.ok(Date.now() - began < 120000, 'Sourcebot did not become HTTP-ready within two minutes');
+                        assert.ok(Date.now() - began < 120000, 'Sourcecat did not become HTTP-ready within two minutes');
                         await pause(1000);
                     }
                     report.httpReady = true;
                     report.stage = 'identity';
-                    const persisted = JSON.parse(run(['exec', `${project}-sourcebot`, 'cat', '/data/.sourcebot/.installedv3']));
+                    const persisted = JSON.parse(run(['exec', `${project}-sourcecat`, 'cat', '/data/.sourcecat/.installedv3']));
                     assert.equal(persisted.install_id, events[0].distinct_id);
                     report.installIdPreserved = true;
                     context = await browser.newContext();
@@ -182,7 +182,7 @@ try {
                     await page.getByLabel('Password', { exact: true }).fill(`Test-${randomUUID()}!`);
                     await page.getByRole('button', { name: 'Sign up with credentials' }).click();
                     await page.getByRole('link', { name: /Continue/ }).click({ timeout: 30000 });
-                    await page.getByRole('button', { name: /Skip for now|Continue to Sourcebot/ }).click({ timeout: 30000 });
+                    await page.getByRole('button', { name: /Skip for now|Continue to Sourcecat/ }).click({ timeout: 30000 });
                     await page.waitForURL(current => !current.pathname.startsWith('/onboard'));
                     report.onboarding = 'passed';
                     report.stage = 'indexing';
@@ -218,18 +218,18 @@ try {
                         assert.equal(config.models[0].provider, 'anthropic');
                         const expectedEnv = dotenv(files['.env']);
                         assert.ok(expectedEnv.ANTHROPIC_API_KEY === aiKey, 'Generated AI credential differs from the supplied credential');
-                        const actual = run(['exec', `${project}-sourcebot`, 'node', '-e', 'process.stdout.write(process.env.ANTHROPIC_API_KEY || "")']);
+                        const actual = run(['exec', `${project}-sourcecat`, 'node', '-e', 'process.stdout.write(process.env.ANTHROPIC_API_KEY || "")']);
                         assert.ok(actual === aiKey, 'Generated AI credential did not reach the container');
                         report.ai = { configured: true, environmentVerified: true, askRequest: 'not_requested' };
                     }
                     if (allAi) {
                         const config = JSON.parse(files['config.json']);
                         assert.deepEqual(config.models.map(model => model.provider), providers);
-                        assert.deepEqual(events.filter(event => event.event === 'setup_sourcebot_configured_ai_provider').map(event => event.properties.provider), providers);
+                        assert.deepEqual(events.filter(event => event.event === 'setup_sourcecat_configured_ai_provider').map(event => event.properties.provider), providers);
                         const expectedEnv = dotenv(files['.env']);
-                        const mountedConfig = JSON.parse(run(['exec', `${project}-sourcebot`, 'cat', '/data/config.json']));
+                        const mountedConfig = JSON.parse(run(['exec', `${project}-sourcecat`, 'cat', '/data/config.json']));
                         assert.deepEqual(mountedConfig, config);
-                        const actualEnv = JSON.parse(run(['exec', `${project}-sourcebot`, 'node', '-e', 'process.stdout.write(JSON.stringify(process.env))']));
+                        const actualEnv = JSON.parse(run(['exec', `${project}-sourcecat`, 'node', '-e', 'process.stdout.write(JSON.stringify(process.env))']));
                         for (const key of Object.keys(expectedEnv)) {
                             assert.ok(actualEnv[key] === expectedEnv[key], `Generated environment mismatch for ${key}`);
                         }
@@ -241,7 +241,7 @@ try {
                         }
                         report.ai = { providersConfigured: providers.length, environmentVerified: true, credentials: 'synthetic_not_validated', askRequest: 'not_requested' };
                     }
-                    run([...command, 'restart', 'sourcebot']);
+                    run([...command, 'restart', 'sourcecat']);
                     const restartBegan = Date.now();
                     while (true) {
                         try {
@@ -252,7 +252,7 @@ try {
                         assert.ok(Date.now() - restartBegan < 120000, 'Restart did not become HTTP-ready');
                         await pause(1000);
                     }
-                    const afterRestart = JSON.parse(run(['exec', `${project}-sourcebot`, 'cat', '/data/.sourcebot/.installedv3']));
+                    const afterRestart = JSON.parse(run(['exec', `${project}-sourcecat`, 'cat', '/data/.sourcecat/.installedv3']));
                     assert.equal(afterRestart.install_id, persisted.install_id);
                     const restartedSearch = await page.request.post(`${url}/api/search`, { data: { query: searchQuery, matches: 10 } });
                     assert.equal(restartedSearch.status(), 200);
@@ -353,9 +353,9 @@ try {
                     await d.answer('Display name');
                     await d.answer('Add another model?', 'n');
                 }
-                await d.answer('What URL will Sourcebot be hosted at?', url);
+                await d.answer('What URL will Sourcecat be hosted at?', url);
                 await d.answer('Download docker-compose.yml?', 'y');
-                await d.answer('Start Sourcebot now?', name === 'auto_start' ? 'y' : 'n');
+                await d.answer('Start Sourcecat now?', name === 'auto_start' ? 'y' : 'n');
                 if (name === 'auto_start') {
                     const began = Date.now();
                     while (true) {
@@ -370,8 +370,8 @@ try {
                     report.cliStartedDeployment = true;
                     d.write('\x03');
                     await d.finish(130);
-                    assert.equal(d.events.filter(event => event.event === 'setup_sourcebot_completed').length, 1);
-                    assert.equal(d.events.some(event => event.event === 'setup_sourcebot_cancelled'), false);
+                    assert.equal(d.events.filter(event => event.event === 'setup_sourcecat_completed').length, 1);
+                    assert.equal(d.events.some(event => event.event === 'setup_sourcecat_cancelled'), false);
                 }
             });
         } catch (error) {

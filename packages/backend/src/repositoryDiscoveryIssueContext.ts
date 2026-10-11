@@ -1,7 +1,7 @@
 import {
     repositoryDiscoveryIssueSchema,
     type RepositoryDiscoveryIssue,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { AsyncLocalStorage } from "node:async_hooks";
 
 interface RepositoryDiscoveryIssueContext {

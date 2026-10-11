@@ -30,7 +30,7 @@ const mocks = vi.hoisted(() => ({
     processGitLabMergeRequest: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     env: mocks.env,
     createLogger: () => mocks.logger,
 }));
@@ -85,7 +85,7 @@ const importRoute = async () => {
 };
 
 const createGitHubRequest = (body: unknown, headers: Record<string, string> = {}) => (
-    new NextRequest("https://sourcebot.example.com/api/webhook", {
+    new NextRequest("https://sourcecat.example.com/api/webhook", {
         method: "POST",
         headers: {
             "content-type": "application/json",
@@ -111,7 +111,7 @@ describe("POST /api/webhook", () => {
             action: "opened",
             installation: { id: 123 },
             repository: {
-                url: "https://api.github.com/repos/sourcebot-dev/sourcebot",
+                url: "https://api.github.com/repos/simonsmh/sourcecat",
             },
             pull_request: { number: 1 },
         }));
@@ -127,7 +127,7 @@ describe("POST /api/webhook", () => {
             action: "opened",
             installation: { id: 123 },
             repository: {
-                url: "https://ghe.example.com/api/v3/repos/sourcebot-dev/sourcebot",
+                url: "https://ghe.example.com/api/v3/repos/simonsmh/sourcecat",
             },
             pull_request: { number: 1 },
         };
@@ -156,7 +156,7 @@ describe("POST /api/webhook", () => {
             action: "opened",
             installation: { id: 123 },
             repository: {
-                url: "https://ghe.example.com/api/v3/projects/sourcebot-dev/sourcebot",
+                url: "https://ghe.example.com/api/v3/projects/simonsmh/sourcecat",
             },
             pull_request: { number: 1 },
         };
@@ -182,7 +182,7 @@ describe("POST /api/webhook", () => {
             action: "opened",
             installation: { id: 123 },
             repository: {
-                url: "https://api.github.com/repos/sourcebot-dev/sourcebot",
+                url: "https://api.github.com/repos/simonsmh/sourcecat",
             },
             pull_request: { number: 1 },
         };

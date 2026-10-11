@@ -17,9 +17,9 @@ update_submodule:
 	git submodule update
 
 clean:
-	@if docker ps 2>/dev/null | grep -q sourcebot-redis; then \
+	@if docker ps 2>/dev/null | grep -q sourcecat-redis; then \
 		echo "Flushing Redis in Docker container..."; \
-		docker exec sourcebot-redis redis-cli FLUSHALL; \
+		docker exec sourcecat-redis redis-cli FLUSHALL; \
 	else \
 		echo "Flushing local Redis..."; \
 		redis-cli FLUSHALL; \
@@ -39,13 +39,13 @@ clean:
 		packages/schemas/dist \
 		packages/shared/node_modules \
 		packages/shared/dist \
-		.sourcebot
+		.sourcecat
 
 soft-reset:
-	rm -rf .sourcebot
-	@if docker ps 2>/dev/null | grep -q sourcebot-redis; then \
+	rm -rf .sourcecat
+	@if docker ps 2>/dev/null | grep -q sourcecat-redis; then \
 		echo "Flushing Redis in Docker container..."; \
-		docker exec sourcebot-redis redis-cli FLUSHALL; \
+		docker exec sourcecat-redis redis-cli FLUSHALL; \
 	else \
 		echo "Flushing local Redis..."; \
 		redis-cli FLUSHALL; \

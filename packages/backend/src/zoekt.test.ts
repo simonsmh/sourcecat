@@ -1,4 +1,4 @@
-import type { Repo } from "@sourcebot/db";
+import type { Repo } from "@sourcecat/db";
 import { execFile } from "child_process";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import type { Settings } from "./types.js";
@@ -10,7 +10,7 @@ vi.mock("child_process", () => ({
     }),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: vi.fn(() => ({
         debug: vi.fn(),
         warn: vi.fn(),

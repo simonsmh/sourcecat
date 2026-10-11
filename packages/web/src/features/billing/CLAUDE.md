@@ -2,7 +2,7 @@
 
 ## Keeping types in sync with the lighthouse service
 
-The Zod schemas in `packages/shared/src/lighthouseTypes.ts` mirror the request/response schemas defined in the lighthouse service (`sourcebot-dev/lighthouse`, under `lambda/routes/`). They MUST stay in lockstep.
+The Zod schemas in `packages/shared/src/lighthouseTypes.ts` mirror the request/response schemas defined in the lighthouse service (`simonsmh/lighthouse`, under `lambda/routes/`). They MUST stay in lockstep.
 
 Whenever you change a schema in `packages/shared/src/lighthouseTypes.ts`, you MUST also update the corresponding schema in:
 

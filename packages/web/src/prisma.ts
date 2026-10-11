@@ -1,6 +1,6 @@
 import 'server-only';
-import { env, getDBConnectionString } from "@sourcebot/shared";
-import { Prisma, PrismaClient, UserWithAccounts } from "@sourcebot/db";
+import { env, getDBConnectionString } from "@sourcecat/shared";
+import { Prisma, PrismaClient, UserWithAccounts } from "@sourcecat/db";
 import { getMcpPrismaQueryExtension } from "@/features/mcp/prismaScope";
 
 // @see: https://authjs.dev/getting-started/adapters/prisma

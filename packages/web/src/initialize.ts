@@ -1,10 +1,10 @@
 import { __unsafePrisma } from "@/prisma";
-import { createLogger, env } from "@sourcebot/shared";
+import { createLogger, env } from "@sourcecat/shared";
 import { SINGLE_TENANT_ORG_ID } from './lib/constants';
 import { warmModelCapabilitiesCatalog } from '@/features/chat/utils.server';
 
 // Fork: license verification removed. The Lighthouse sync, service ping cron
-// job, and changelog polling job (all of which contact official Sourcebot
+// job, and changelog polling job (all of which contact official Sourcecat
 // servers) are intentionally not started.
 
 const logger = createLogger('web-initialize');

@@ -1,10 +1,10 @@
-import { Account, PrismaClient } from '@sourcebot/db';
+import { Account, PrismaClient } from '@sourcecat/db';
 import {
     BitbucketCloudIdentityProviderConfig,
     BitbucketServerIdentityProviderConfig,
     GitHubIdentityProviderConfig,
     GitLabIdentityProviderConfig,
-} from '@sourcebot/schemas/v3/index.type';
+} from '@sourcecat/schemas/v3/index.type';
 import {
     createLogger,
     decryptOAuthToken,
@@ -13,7 +13,7 @@ import {
     getIdentityProviderConfig,
     getTokenFromConfig,
     IdentityProviderType,
-} from '@sourcebot/shared';
+} from '@sourcecat/shared';
 import { z } from 'zod';
 
 const logger = createLogger('backend-ee-token-refresh');

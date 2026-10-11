@@ -15,8 +15,8 @@ import { getAuthenticatedUser, withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
 import { __unsafePrisma } from "@/prisma";
 import { render } from "@react-email/components";
-import { OrgRole } from "@sourcebot/db";
-import { env, getSMTPConnectionURL, isMemberApprovalRequired } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env, getSMTPConnectionURL, isMemberApprovalRequired } from "@sourcecat/shared";
 import { StatusCodes } from "http-status-codes";
 import { createTransport } from "nodemailer";
 import { logger } from "../logger";
@@ -168,9 +168,9 @@ export const createInvites = async (emails: string[]): Promise<{ success: boolea
                     const result = await transport.sendMail({
                         to: email,
                         from: env.EMAIL_FROM_ADDRESS,
-                        subject: `Join ${invite.org.name} on Sourcebot`,
+                        subject: `Join ${invite.org.name} on Sourcecat`,
                         html,
-                        text: `Join ${invite.org.name} on Sourcebot by clicking here: ${inviteLink}`,
+                        text: `Join ${invite.org.name} on Sourcecat by clicking here: ${inviteLink}`,
                     });
 
                     const failed = result.rejected.concat(result.pending ?? []).filter(Boolean);

@@ -1,36 +1,36 @@
 ---
-title: Sourcebot MCP server
-sidebarTitle: Sourcebot MCP
+title: Sourcecat MCP server
+sidebarTitle: Sourcecat MCP
 ---
 
 import LicenseKeyRequired from '/snippets/license-key-required.mdx'
 
-The Sourcebot MCP Server connects AI tools to your [Sourcebot deployment](/docs/deployment/docker-compose). This gives your agents the ability to search, read files, resolve references & definitions, and more across all of your code hosted on Sourcebot.
+The Sourcecat MCP Server connects AI tools to your [Sourcecat deployment](/docs/deployment/docker-compose). This gives your agents the ability to search, read files, resolve references & definitions, and more across all of your code hosted on Sourcecat.
 
-<LicenseKeyRequired feature="The Sourcebot MCP server" />
+<LicenseKeyRequired feature="The Sourcecat MCP server" />
 
 ## Use cases
 
 - **Context for local agents:** Plug the MCP into coding agents like Cursor, Claude Code, or Copilot to give them context across your entire codebase, not just the open workspace.
-- **Building autonomous AI agents:** Use Sourcebot as a code context layer for multi-agent systems that review PRs, auto-fix bugs, and answer questions across the company.
+- **Building autonomous AI agents:** Use Sourcecat as a code context layer for multi-agent systems that review PRs, auto-fix bugs, and answer questions across the company.
 
 ## Getting Started
 
-Sourcebot MCP uses a [Streamable HTTP](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http) transport hosted at the `/api/mcp` route. Two authorization mechanisms are supported:
+Sourcecat MCP uses a [Streamable HTTP](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#streamable-http) transport hosted at the `/api/mcp` route. Two authorization mechanisms are supported:
 
 - **OAuth (preferred)**: MCP clients that support OAuth 2.0 will automatically handle the authorization flow and issue a short lived access token. No API key or manual token management required. Only available with a paid [subscription](/docs/activating-a-subscription).
-- **API key**: Any MCP client can authorize using a Sourcebot API key passed as a `Authorization: Bearer <key>` header. Create one in **Settings → API Keys**.
+- **API key**: Any MCP client can authorize using a Sourcecat API key passed as a `Authorization: Bearer <key>` header. Create one in **Settings → API Keys**.
 
 You can read more about the options in the [authorization](#authorization) section.
 
 <Tip>
-    **Fastest setup:** Open **Settings → MCP** in your Sourcebot deployment to copy the Server URL and use one-click install cards for supported clients.
+    **Fastest setup:** Open **Settings → MCP** in your Sourcecat deployment to copy the Server URL and use one-click install cards for supported clients.
 </Tip>
 
 <Note>
     Note the following about these examples:
-    - The examples add the MCP server and connect it to Sourcebot's public deployment at [app.sourcebot.dev](https://app.sourcebot.dev). Replace the URL with your own Sourcebot deployment as needed.
-    - If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access) is enabled on your Sourcebot instance, no OAuth token or API key is required. You can connect directly to the MCP endpoint without any authorization.
+    - The examples add the MCP server and connect it to Sourcecat's public deployment at [app.sourcecat.dev](https://app.sourcecat.dev). Replace the URL with your own Sourcecat deployment as needed.
+    - If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access) is enabled on your Sourcecat instance, no OAuth token or API key is required. You can connect directly to the MCP endpoint without any authorization.
 </Note>
 
 <AccordionGroup>
@@ -44,18 +44,18 @@ You can read more about the options in the [authorization](#authorization) secti
                 <LicenseKeyRequired feature="OAuth" />
 
                 ```sh
-                claude mcp add --transport http sourcebot https://app.sourcebot.dev/api/mcp
+                claude mcp add --transport http sourcecat https://app.sourcecat.dev/api/mcp
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. Claude Code will automatically handle the OAuth 2.0 authorization flow the first time you connect.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. Claude Code will automatically handle the OAuth 2.0 authorization flow the first time you connect.
             </Tab>
             <Tab title="API Key">
                 ```sh
-                claude mcp add --transport http sourcebot https://app.sourcebot.dev/api/mcp \
+                claude mcp add --transport http sourcecat https://app.sourcecat.dev/api/mcp \
                   --header "Authorization: Bearer <key>"
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
             </Tab>
         </Tabs>
     </Accordion>
@@ -74,23 +74,23 @@ You can read more about the options in the [authorization](#authorization) secti
                 ```json
                 {
                     "mcpServers": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "http",
-                            "url": "https://app.sourcebot.dev/api/mcp"
+                            "url": "https://app.sourcecat.dev/api/mcp"
                         }
                     }
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. Cursor will automatically handle the OAuth 2.0 authorization flow the first time you connect.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. Cursor will automatically handle the OAuth 2.0 authorization flow the first time you connect.
             </Tab>
             <Tab title="API Key">
                 ```json
                 {
                     "mcpServers": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "http",
-                            "url": "https://app.sourcebot.dev/api/mcp",
+                            "url": "https://app.sourcecat.dev/api/mcp",
                             "headers": {
                                 "Authorization": "Bearer <key>"
                             }
@@ -99,7 +99,7 @@ You can read more about the options in the [authorization](#authorization) secti
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
             </Tab>
         </Tabs>
     </Accordion>
@@ -116,23 +116,23 @@ You can read more about the options in the [authorization](#authorization) secti
                 ```json
                 {
                     "servers": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "http",
-                            "url": "https://app.sourcebot.dev/api/mcp"
+                            "url": "https://app.sourcecat.dev/api/mcp"
                         }
                     }
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. VS Code will automatically handle the OAuth 2.0 authorization flow the first time you connect.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. VS Code will automatically handle the OAuth 2.0 authorization flow the first time you connect.
             </Tab>
             <Tab title="API Key">
                 ```json
                 {
                     "servers": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "http",
-                            "url": "https://app.sourcebot.dev/api/mcp",
+                            "url": "https://app.sourcecat.dev/api/mcp",
                             "headers": {
                                 "Authorization": "Bearer <key>"
                             }
@@ -141,7 +141,7 @@ You can read more about the options in the [authorization](#authorization) secti
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
             </Tab>
         </Tabs>
     </Accordion>
@@ -156,26 +156,26 @@ You can read more about the options in the [authorization](#authorization) secti
                 Run the following command:
 
                 ```sh
-                codex mcp add sourcebot --url https://app.sourcebot.dev/api/mcp
+                codex mcp add sourcecat --url https://app.sourcecat.dev/api/mcp
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. Codex will automatically detect OAuth support and prompt you to authorize in your browser when you first connect.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. Codex will automatically detect OAuth support and prompt you to authorize in your browser when you first connect.
 
                 <Tip>
-                    Open **Settings → MCP** in your Sourcebot deployment and click **Copy command** on the Codex card for a ready-to-run command with the correct Server URL.
+                    Open **Settings → MCP** in your Sourcecat deployment and click **Copy command** on the Codex card for a ready-to-run command with the correct Server URL.
                 </Tip>
             </Tab>
             <Tab title="API Key">
                 Run the following command:
 
                 ```sh
-                codex mcp add sourcebot --url https://app.sourcebot.dev/api/mcp --bearer-token-env-var SOURCEBOT_API_KEY
+                codex mcp add sourcecat --url https://app.sourcecat.dev/api/mcp --bearer-token-env-var SOURCECAT_API_KEY
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, then set your API key as an environment variable:
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, then set your API key as an environment variable:
 
                 ```sh
-                export SOURCEBOT_API_KEY=<key>
+                export SOURCECAT_API_KEY=<key>
                 ```
 
                 Generate an API key in **Settings → API Keys**.
@@ -196,18 +196,18 @@ You can read more about the options in the [authorization](#authorization) secti
                 {
                     "$schema": "https://opencode.ai/config.json",
                     "mcp": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "remote",
-                            "url": "https://app.sourcebot.dev/api/mcp"
+                            "url": "https://app.sourcecat.dev/api/mcp"
                         }
                     }
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. OpenCode will automatically handle the OAuth 2.0 authorization flow the first time you connect. You can also manually trigger it with:
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. OpenCode will automatically handle the OAuth 2.0 authorization flow the first time you connect. You can also manually trigger it with:
 
                 ```sh
-                opencode mcp auth sourcebot
+                opencode mcp auth sourcecat
                 ```
             </Tab>
             <Tab title="API Key">
@@ -215,9 +215,9 @@ You can read more about the options in the [authorization](#authorization) secti
                 {
                     "$schema": "https://opencode.ai/config.json",
                     "mcp": {
-                        "sourcebot": {
+                        "sourcecat": {
                             "type": "remote",
-                            "url": "https://app.sourcebot.dev/api/mcp",
+                            "url": "https://app.sourcecat.dev/api/mcp",
                             "oauth": false,
                             "headers": {
                                 "Authorization": "Bearer <key>"
@@ -227,7 +227,7 @@ You can read more about the options in the [authorization](#authorization) secti
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
             </Tab>
         </Tabs>
     </Accordion>
@@ -246,21 +246,21 @@ You can read more about the options in the [authorization](#authorization) secti
                 ```json
                 {
                     "mcpServers": {
-                        "sourcebot": {
-                            "serverUrl": "https://app.sourcebot.dev/api/mcp"
+                        "sourcecat": {
+                            "serverUrl": "https://app.sourcecat.dev/api/mcp"
                         }
                     }
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted. Windsurf will automatically handle the OAuth 2.0 authorization flow the first time you connect.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted. Windsurf will automatically handle the OAuth 2.0 authorization flow the first time you connect.
             </Tab>
             <Tab title="API Key">
                 ```json
                 {
                     "mcpServers": {
-                        "sourcebot": {
-                            "serverUrl": "https://app.sourcebot.dev/api/mcp",
+                        "sourcecat": {
+                            "serverUrl": "https://app.sourcecat.dev/api/mcp",
                             "headers": {
                                 "Authorization": "Bearer <key>"
                             }
@@ -269,7 +269,7 @@ You can read more about the options in the [authorization](#authorization) secti
                 }
                 ```
 
-                Replace `https://app.sourcebot.dev` with wherever your Sourcebot instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
+                Replace `https://app.sourcecat.dev` with wherever your Sourcecat instance is hosted, and `<key>` with an API key generated in **Settings → API Keys**.
             </Tab>
         </Tabs>
     </Accordion>
@@ -277,20 +277,20 @@ You can read more about the options in the [authorization](#authorization) secti
 
 ## Authorization
 
-The Sourcebot MCP server supports two authorization methods: OAuth and API keys. If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access) is enabled on your instance, no authorization is required.
+The Sourcecat MCP server supports two authorization methods: OAuth and API keys. If [anonymous access](/docs/configuration/auth/access-settings#anonymous-access) is enabled on your instance, no authorization is required.
 
-Regardless of which method you use, all MCP requests are scoped to the associated Sourcebot user and inherit the [user's role and permissions](/docs/configuration/auth/roles-and-permissions). When [permission syncing](/docs/features/permission-syncing) is configured, this includes repository permissions - the MCP server will only surface results from repositories the user has access to.
+Regardless of which method you use, all MCP requests are scoped to the associated Sourcecat user and inherit the [user's role and permissions](/docs/configuration/auth/roles-and-permissions). When [permission syncing](/docs/features/permission-syncing) is configured, this includes repository permissions - the MCP server will only surface results from repositories the user has access to.
 
 ### OAuth 2.0
 
 <LicenseKeyRequired feature="OAuth" />
 
-Sourcebot implements an OAuth 2.0 authorization server with support for dynamic client registration (RFC 7591). This means MCP clients can register themselves automatically without any manual setup. Just point your client at the MCP endpoint and it will handle the full authorization flow, prompting you to log in and approve access in your browser the first time you connect. No API key or manual token management is required.
+Sourcecat implements an OAuth 2.0 authorization server with support for dynamic client registration (RFC 7591). This means MCP clients can register themselves automatically without any manual setup. Just point your client at the MCP endpoint and it will handle the full authorization flow, prompting you to log in and approve access in your browser the first time you connect. No API key or manual token management is required.
 
-Once authorized, Sourcebot issues a short-lived access token (valid for 1 hour) and a refresh token (valid for 90 days). The MCP client handles token refresh automatically, so you stay connected without needing to re-authorize.
+Once authorized, Sourcecat issues a short-lived access token (valid for 1 hour) and a refresh token (valid for 90 days). The MCP client handles token refresh automatically, so you stay connected without needing to re-authorize.
 
 <Frame>
-    <img src="/images/mcp_oauth_authorize.png" alt="OAuth authorization prompt showing Cursor requesting access to a Sourcebot account" />
+    <img src="/images/mcp_oauth_authorize.png" alt="OAuth authorization prompt showing Cursor requesting access to a Sourcecat account" />
 </Frame>
 
 ### API Key (Bearer token)
@@ -300,7 +300,7 @@ API keys provide a simpler alternative to OAuth that works with any MCP client. 
 Pass the key as an `Authorization: Bearer <key>` header when connecting to the MCP server.
 
 <Frame>
-    <img src="/images/mcp_api_key_settings.png" alt="API Keys page in Sourcebot Settings" />
+    <img src="/images/mcp_api_key_settings.png" alt="API Keys page in Sourcecat Settings" />
 </Frame>
 
 ## Available Tools
@@ -321,7 +321,7 @@ Parameters:
 
 ### `list_repos`
 
-Lists repositories indexed by Sourcebot with optional filtering and pagination.
+Lists repositories indexed by Sourcecat with optional filtering and pagination.
 
 Parameters:
 | Name | Required | Description |
@@ -378,7 +378,7 @@ Parameters:
 
 ### `list_branches`
 
-You can list a repository's branches, sorted by latest commit date (newest first). Results come from Sourcebot's local snapshot, not live from the code host. You see branches created or deleted on the code host only after Sourcebot next syncs the repository.
+You can list a repository's branches, sorted by latest commit date (newest first). Results come from Sourcecat's local snapshot, not live from the code host. You see branches created or deleted on the code host only after Sourcecat next syncs the repository.
 
 For each branch, you get its name, head commit SHA, latest commit time, `isDefault` (whether it is the repository's default branch), and `isIndexed` (whether code search can search that branch).
 
@@ -436,7 +436,7 @@ Parameters:
 
 ### `list_language_models`
 
-Lists the available language models configured on the Sourcebot instance. Use this to discover which models can be specified when calling `ask_codebase`.
+Lists the available language models configured on the Sourcecat instance. Use this to discover which models can be specified when calling `ask_codebase`.
 
 Parameters:
 
@@ -444,7 +444,7 @@ This tool takes no parameters.
 
 ### `ask_codebase`
 
-Ask a natural language question about the codebase. This tool uses an AI agent to autonomously search code, read files, and find symbol references/definitions to answer your question. Returns a detailed answer in markdown format with code references, plus a link to view the full research session in the Sourcebot web UI.
+Ask a natural language question about the codebase. This tool uses an AI agent to autonomously search code, read files, and find symbol references/definitions to answer your question. Returns a detailed answer in markdown format with code references, plus a link to view the full research session in the Sourcecat web UI.
 
 Parameters:
 | Name | Required | Description |
@@ -456,9 +456,9 @@ Parameters:
 
 ### `create_skill`
 
-You can create an agent skill: a reusable set of instructions you invoke in Ask Sourcebot as a `/<slug>` slash command, or that the agent loads automatically when your request matches its description. The skill is personal to you and enabled immediately. The result includes a link to the skill in **Settings → Skills**.
+You can create an agent skill: a reusable set of instructions you invoke in Ask Sourcecat as a `/<slug>` slash command, or that the agent loads automatically when your request matches its description. The skill is personal to you and enabled immediately. The result includes a link to the skill in **Settings → Skills**.
 
-You need an authenticated user (API key or OAuth) and the Ask Sourcebot feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
+You need an authenticated user (API key or OAuth) and the Ask Sourcecat feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
 
 Parameters:
 | Name | Required | Description |
@@ -472,7 +472,7 @@ Parameters:
 
 You can edit an existing skill in place. Fields you omit keep their current values. You can edit your personal skills, and shared skills only if you created them and they are enabled. Skills synced from a repository file are rejected; edit those in **Settings → Skills**. This tool never enables or disables a skill, and never moves it between the personal and shared catalogs.
 
-You need an authenticated user (API key or OAuth) and the Ask Sourcebot feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
+You need an authenticated user (API key or OAuth) and the Ask Sourcecat feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
 
 Parameters:
 | Name | Required | Description |
@@ -488,7 +488,7 @@ Parameters:
 
 You can list the skills visible to you: your personal skills plus your organization's shared catalog. Each row includes `slug` and `scope` (the pair `update_skill` needs), `enabled`, `isSynced` (linked to a repository file), `canEdit` (whether `update_skill` can edit it), and, on shared rows, `adopted`. Skill instructions are never included.
 
-You need an authenticated user (API key or OAuth) and the Ask Sourcebot feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
+You need an authenticated user (API key or OAuth) and the Ask Sourcecat feature. Anonymous sessions and repository-scoped access tokens cannot use this tool.
 
 Parameters:
 | Name | Required | Description |

@@ -1,13 +1,13 @@
 import { BlobAttachment, InputModality, SBChatMessage, SBChatMessageMetadata, StepTokenUsageEntry, ToolTokenUsageEntry } from "@/features/chat/types";
 import { isMediaTypeAccepted, mediaTypeToModality } from "@/features/chat/attachments/modality";
-import { getStorageBackend } from "@sourcebot/shared";
+import { getStorageBackend } from "@sourcecat/shared";
 import { estimateModelToolOutputTokens } from "@/ee/features/chat/tokenEstimation";
 import { getFileSource } from '@/features/git';
 import { isServiceError } from "@/lib/utils";
 import { LanguageModelV3 as AISDKLanguageModelV3 } from "@ai-sdk/provider";
 import { ProviderOptions } from "@ai-sdk/provider-utils";
-import type { PrismaClient } from "@sourcebot/db";
-import { createLogger, env } from "@sourcebot/shared";
+import type { PrismaClient } from "@sourcecat/db";
+import { createLogger, env } from "@sourcecat/shared";
 import {
     convertToModelMessages,
     createUIMessageStream, JSONValue, LanguageModel, ModelMessage, StopCondition, streamText, StreamTextResult,
@@ -257,12 +257,12 @@ export const createMessageStream = async ({
     orgId,
     acceptedModalities = [],
 }: CreateMessageStreamResponseProps) => {
-    // Defense-in-depth: Ask Sourcebot is a paid feature. Every caller is
+    // Defense-in-depth: Ask Sourcecat is a paid feature. Every caller is
     // expected to gate on the `ask` entitlement before reaching here (see
     // checkAskEntitlement); this assertion backstops that contract so a future
     // ungated caller cannot execute the agent on a non-entitled deployment.
     if (!(await hasEntitlement('ask'))) {
-        throw new Error('Ask Sourcebot is not available in the current plan.');
+        throw new Error('Ask Sourcecat is not available in the current plan.');
     }
 
     const latestMessage = messages[messages.length - 1];
@@ -482,7 +482,7 @@ export const createMessageStream = async ({
             // Observability only (default off): warn when a continuation step
             // reports zero cache reads while the provider supports breakpoints —
             // a likely byte-stability regression in the cached prefix.
-            if (env.SOURCEBOT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED === 'true') {
+            if (env.SOURCECAT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED === 'true') {
                 steps.forEach((step, stepIndex) => {
                     detectUnexpectedCacheMiss({
                         chatId,
@@ -585,7 +585,7 @@ const createAgentStream = async ({
                 path: source.path,
                 repo: source.repo,
                 ref: source.revision,
-            }, { source: 'sourcebot-ask-agent' });
+            }, { source: 'sourcecat-ask-agent' });
 
             if (isServiceError(fileSource)) {
                 logger.error("Error fetching file source:", fileSource);
@@ -619,7 +619,7 @@ const createAgentStream = async ({
             mcpToolSetsObj = await getMcpTools(mcpClients, {
                 chatId,
                 traceId,
-                source: 'sourcebot-ask-agent',
+                source: 'sourcecat-ask-agent',
             }, {
                 onAuthFailure: (failure) => {
                     if (!mcpAuthFailureState.failure) {
@@ -654,7 +654,7 @@ const createAgentStream = async ({
     const mcpRegistry = buildMcpToolRegistry(mcpToolSetsObj.tools);
     const hasMcpTools = mcpRegistry.length > 0;
 
-    const staticTtl = env.SOURCEBOT_CHAT_PROMPT_CACHE_STATIC_TTL;
+    const staticTtl = env.SOURCECAT_CHAT_PROMPT_CACHE_STATIC_TTL;
 
     const toolRequestActivation = createToolRequestActivationTool(mcpRegistry);
 
@@ -682,7 +682,7 @@ const createAgentStream = async ({
             prisma,
             userId,
             orgId,
-            analyticsContext: { chatId, traceId, source: 'sourcebot-ask-agent' },
+            analyticsContext: { chatId, traceId, source: 'sourcecat-ask-agent' },
         })
         : undefined;
 
@@ -693,7 +693,7 @@ const createAgentStream = async ({
         skillRegistry,
     });
 
-    const allBuiltinTools = createTools({ source: 'sourcebot-ask-agent', selectedRepos: sortedRepos });
+    const allBuiltinTools = createTools({ source: 'sourcecat-ask-agent', selectedRepos: sortedRepos });
 
     // The skill management tools require an interactive, authenticated
     // requester: same gate as load_skill. This also excludes programmatic runs
@@ -763,7 +763,7 @@ const createAgentStream = async ({
     // undefined and the messages untouched.
     const tailMarker = promptCacheStrategy.cacheControl();
 
-    if (env.SOURCEBOT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED === 'true') {
+    if (env.SOURCECAT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED === 'true') {
         detectPromptCacheBreak({
             chatId,
             staticPrompt,
@@ -843,9 +843,9 @@ const createAgentStream = async ({
                     ],
                 };
             } : undefined,
-            temperature: temperature ?? env.SOURCEBOT_CHAT_MODEL_TEMPERATURE,
+            temperature: temperature ?? env.SOURCECAT_CHAT_MODEL_TEMPERATURE,
             stopWhen: [
-                stepCountIsGTE(env.SOURCEBOT_CHAT_MAX_STEP_COUNT),
+                stepCountIsGTE(env.SOURCECAT_CHAT_MAX_STEP_COUNT),
             ],
             toolChoice: "auto",
             experimental_repairToolCall: async ({ toolCall, tools, error }) => {
@@ -880,7 +880,7 @@ const createAgentStream = async ({
                 });
             },
             experimental_telemetry: {
-                isEnabled: env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
+                isEnabled: env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
             },
             onError: (error) => {
                 logger.error(error);
@@ -924,7 +924,7 @@ const createPrompt = ({
     // per-conversation data — repos, files, and MCP tools live in the dynamic
     // block below so their volatility never busts the shared static cache.
     const staticPrompt = dedent`
-    You are a powerful agentic AI code assistant built into Sourcebot, the world's best code-intelligence platform. Your job is to help developers understand and navigate their large codebases.
+    You are a powerful agentic AI code assistant built into Sourcecat, the world's best code-intelligence platform. Your job is to help developers understand and navigate their large codebases.
 
     <workflow>
     Your workflow has two distinct phases:
@@ -988,7 +988,7 @@ const createPrompt = ({
     **Example answer structure:**
     \`\`\`markdown
     ${ANSWER_TAG}
-    Authentication in Sourcebot is built on NextAuth.js with a session-based approach using JWT tokens and Prisma as the database adapter ${fileReferenceToString({ repo: 'github.com/sourcebot-dev/sourcebot', path: 'auth.ts', range: { startLine: 135, endLine: 140 } })}. The system supports multiple authentication providers and implements organization-based authorization with role-defined permissions.
+    Authentication in Sourcecat is built on NextAuth.js with a session-based approach using JWT tokens and Prisma as the database adapter ${fileReferenceToString({ repo: 'github.com/simonsmh/sourcecat', path: 'auth.ts', range: { startLine: 135, endLine: 140 } })}. The system supports multiple authentication providers and implements organization-based authorization with role-defined permissions.
     \`\`\`
     </answer_instructions>
     `;

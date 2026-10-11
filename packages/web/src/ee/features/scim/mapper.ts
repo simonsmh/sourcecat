@@ -1,5 +1,5 @@
-import { Prisma } from "@sourcebot/db";
-import { env } from "@sourcebot/shared";
+import { Prisma } from "@sourcecat/db";
+import { env } from "@sourcecat/shared";
 import {
     SCIM_CONTENT_TYPE,
     SCIM_ERROR_SCHEMA,
@@ -14,7 +14,7 @@ const scimUserLocation = (userId: string): string =>
     `${env.AUTH_URL.replace(/\/$/, '')}/scim/v2/Users/${userId}`;
 
 /**
- * Maps a Sourcebot membership + user into a SCIM 2.0 User resource. The SCIM
+ * Maps a Sourcecat membership + user into a SCIM 2.0 User resource. The SCIM
  * `id` is the stable `User.id`; `userName` and the primary email are the
  * user's email; `active` reflects whether the membership is unsuspended.
  */

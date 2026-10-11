@@ -9,9 +9,9 @@ import {
 
 vi.mock('server-only', () => ({ default: vi.fn() }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {
-        AUTH_URL: 'https://sourcebot.test',
+        AUTH_URL: 'https://sourcecat.test',
     },
 }));
 
@@ -43,7 +43,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/mcp',
+            htu: 'https://sourcecat.test/api/mcp',
             accessToken,
         });
 
@@ -67,7 +67,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/ee/oauth/token',
+            htu: 'https://sourcecat.test/api/ee/oauth/token',
         });
 
         const result = await verifyDpopProof({
@@ -87,7 +87,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/mcp',
+            htu: 'https://sourcecat.test/api/mcp',
             accessToken: 'sboa_other-token',
         });
 
@@ -111,7 +111,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/ee/oauth/token',
+            htu: 'https://sourcecat.test/api/ee/oauth/token',
             jti: 'replayed-proof',
         });
 
@@ -128,7 +128,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/mcp',
+            htu: 'https://sourcecat.test/api/mcp',
             accessToken: 'sboa_actual-token',
             jti: 'ath-mismatch-not-recorded',
         });
@@ -162,7 +162,7 @@ describe('verifyDpopProof', () => {
         const proof = await signDpopProof({
             ...keyPair,
             htm: 'POST',
-            htu: 'https://sourcebot.test/api/ee/oauth/token',
+            htu: 'https://sourcecat.test/api/ee/oauth/token',
             iat: Math.floor(Date.now() / 1000) + 60,
             jti: 'future-iat-replay',
         });

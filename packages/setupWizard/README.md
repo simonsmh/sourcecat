@@ -1,19 +1,19 @@
-# setup-sourcebot
+# setup-sourcecat
 
-Interactive CLI wizard for setting up a self-hosted [Sourcebot](https://sourcebot.dev) instance.
+Interactive CLI wizard for setting up a self-hosted [Sourcecat](https://sourcecat.dev) instance.
 
 ## Usage
 
 Run from an empty directory:
 
 ```bash
-npx setup-sourcebot
+npx setup-sourcecat
 ```
 
 The wizard walks you through:
 
 - **Code hosts** — GitHub, GitLab, Bitbucket (Cloud or Data Center), Azure DevOps (Cloud or Server), Gitea, Gerrit, a local folder of cloned repos, or any other git URL.
-- **AI providers** (optional) — Anthropic, OpenAI, Google Gemini, Google Vertex, DeepSeek, Mistral, xAI, OpenRouter, OpenAI-compatible endpoints, Amazon Bedrock, or Azure OpenAI. Powers [Ask](https://docs.sourcebot.dev/docs/features/ask/ask-sourcebot).
+- **AI providers** (optional) — Anthropic, OpenAI, Google Gemini, Google Vertex, DeepSeek, Mistral, xAI, OpenRouter, OpenAI-compatible endpoints, Amazon Bedrock, or Azure OpenAI. Powers [Ask](https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat).
 
 ## Requirements
 
@@ -25,11 +25,11 @@ The wizard walks you through:
 From the repository root, under Node 24:
 
 ```bash
-yarn workspace @sourcebot/schemas build
-yarn workspace setup-sourcebot build
-yarn workspace setup-sourcebot test
-yarn workspace setup-sourcebot test:e2e
-yarn workspace setup-sourcebot test:node-compatibility
+yarn workspace @sourcecat/schemas build
+yarn workspace setup-sourcecat build
+yarn workspace setup-sourcecat test
+yarn workspace setup-sourcecat test:e2e
+yarn workspace setup-sourcecat test:node-compatibility
 ```
 
 The E2E tests compile and pack the package, install it outside the repository,
@@ -43,9 +43,9 @@ and package-manager checks run only in the Node 24 Linux job.
 Release verification also runs `test:node-compatibility` against the exact publish
 tarball; that command checks the older runtimes sequentially, including early
 rejection on Node 18, 20.19, and 22.21. Node 24 is not the end-user minimum.
-The runtime suite uses `docker.sourcebot.dev/sourcebot-dev/sourcebot:latest`
-(override only the test image with `SETUP_TEST_SOURCEBOT_IMAGE`).
+The runtime suite uses `ghcr.io/simonsmh/sourcecat:latest`
+(override only the test image with `SETUP_TEST_SOURCECAT_IMAGE`).
 
 ## Docs
 
-Full deployment guide: [docs.sourcebot.dev/docs/deployment/docker-compose](https://docs.sourcebot.dev/docs/deployment/docker-compose)
+Full deployment guide: [docs.sourcecat.dev/docs/deployment/docker-compose](https://docs.sourcecat.dev/docs/deployment/docker-compose)

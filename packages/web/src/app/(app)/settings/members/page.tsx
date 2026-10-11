@@ -1,5 +1,5 @@
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { getOrgMembers, getOrgInvites, getOrgAccountRequests } from "@/features/membership/actions";
 import { isServiceError } from "@/lib/utils";
 import { ServiceErrorException } from "@/lib/serviceError";

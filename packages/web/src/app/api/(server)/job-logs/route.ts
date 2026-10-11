@@ -8,12 +8,12 @@ import {
 import { isServiceError } from "@/lib/utils";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import {
     QUEUE_SPECS,
     type QueueName,
     type QueueSpec,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { z } from "zod";
 
 const queueSchema = z.custom<QueueName>(

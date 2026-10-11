@@ -6,7 +6,7 @@ import { withAuth } from "@/middleware/withAuth";
 import {
     ACCOUNT_PERMISSION_SYNC_QUEUE,
     type WorkloadJobStatus,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { sew } from "@/middleware/sew";
 
 export interface AccountSyncStatusResponse {

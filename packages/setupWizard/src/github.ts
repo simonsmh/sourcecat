@@ -4,7 +4,7 @@ import { input, password } from './prompts.js';
 import { checkbox } from './prompts.js';
 import { searchSelect } from './prompts.js';
 import { Separator } from 'inquirer-select-pro';
-import type { GithubConnectionConfig } from '@sourcebot/schemas/v3/github.type';
+import type { GithubConnectionConfig } from '@sourcecat/schemas/v3/github.type';
 import type { CollectResult, EnvVars } from './utils.js';
 import { createSearchSelectContext, INPUT_THEME, note, toEnvKey } from './utils.js';
 
@@ -38,7 +38,7 @@ async function searchGitHub(
     }
 
     const headers: Record<string, string> = {
-        'User-Agent': 'setup-sourcebot',
+        'User-Agent': 'setup-sourcecat',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
     const url = type === 'repo'

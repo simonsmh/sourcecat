@@ -41,7 +41,7 @@ type AskSkillInvokedInput =
         failureReason?: string;
     });
 
-const DEFAULT_SKILL_ANALYTICS_SOURCE: AskSkillInvokedSource = 'sourcebot-ask-agent';
+const DEFAULT_SKILL_ANALYTICS_SOURCE: AskSkillInvokedSource = 'sourcecat-ask-agent';
 
 export const hashSkillId = (skillId: string): string =>
     createHash('sha256').update(skillId).digest('hex');

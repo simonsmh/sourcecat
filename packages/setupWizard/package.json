@@ -1,11 +1,11 @@
 {
-    "name": "setup-sourcebot",
+    "name": "setup-sourcecat",
     "version": "0.1.7",
-    "description": "CLI wizard for creating a Sourcebot configuration.",
+    "description": "CLI wizard for creating a Sourcecat configuration.",
     "type": "module",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/sourcebot-dev/sourcebot.git",
+        "url": "git+https://github.com/simonsmh/sourcecat.git",
         "directory": "packages/setupWizard"
     },
     "bin": "./bin.cjs",
@@ -32,7 +32,7 @@
         "reo-census": "^1.2.10"
     },
     "devDependencies": {
-        "@sourcebot/schemas": "workspace:^",
+        "@sourcecat/schemas": "workspace:^",
         "@types/node": "^20.19.43",
         "node-pty": "^1.1.0",
         "tsx": "^4.21.0",

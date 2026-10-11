@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { PrismaClient } from '@sourcebot/db';
+import type { PrismaClient } from '@sourcecat/db';
 import { parseQuerySyntaxIntoIR } from './parser';
 import { ServiceErrorException } from '@/lib/serviceError';
 import { ErrorCode } from '@/lib/errorCodes';

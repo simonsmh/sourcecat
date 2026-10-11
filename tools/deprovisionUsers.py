@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Interactively deprovision inactive users from a Sourcebot organization."""
+"""Interactively deprovision inactive users from a Sourcecat organization."""
 
 from __future__ import annotations
 
@@ -49,11 +49,11 @@ class User:
         )
 
 
-class SourcebotApiError(RuntimeError):
+class SourcecatApiError(RuntimeError):
     pass
 
 
-class SourcebotClient:
+class SourcecatClient:
     def __init__(self, base_url: str, api_key: str, timeout: float = 30.0) -> None:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
@@ -62,7 +62,7 @@ class SourcebotClient:
     def list_users(self) -> list[User]:
         payload = self._request("GET", USERS_PATH)
         if not isinstance(payload, list):
-            raise SourcebotApiError("The users endpoint returned an unexpected response.")
+            raise SourcecatApiError("The users endpoint returned an unexpected response.")
         return [User.from_json(value) for value in payload]
 
     def deprovision_user(self, user_id: str) -> None:
@@ -76,7 +76,7 @@ class SourcebotClient:
             headers={
                 "Accept": "application/json",
                 "Authorization": f"Bearer {self.api_key}",
-                "User-Agent": "sourcebot-user-deprovisioning/1.0",
+                "User-Agent": "sourcecat-user-deprovisioning/1.0",
             },
         )
         try:
@@ -85,29 +85,29 @@ class SourcebotClient:
         except urllib.error.HTTPError as error:
             body = error.read().decode("utf-8", errors="replace")
             message = extract_error_message(body) or error.reason
-            raise SourcebotApiError(f"Sourcebot returned HTTP {error.code}: {message}") from error
+            raise SourcecatApiError(f"Sourcecat returned HTTP {error.code}: {message}") from error
         except urllib.error.URLError as error:
-            raise SourcebotApiError(f"Could not connect to Sourcebot: {error.reason}") from error
+            raise SourcecatApiError(f"Could not connect to Sourcecat: {error.reason}") from error
 
         if not body:
             return None
         try:
             return json.loads(body)
         except json.JSONDecodeError as error:
-            raise SourcebotApiError("Sourcebot returned invalid JSON.") from error
+            raise SourcecatApiError("Sourcecat returned invalid JSON.") from error
 
 
 def require_string(value: dict[str, Any], field: str) -> str:
     result = value.get(field)
     if not isinstance(result, str):
-        raise SourcebotApiError(f"User response is missing string field {field!r}.")
+        raise SourcecatApiError(f"User response is missing string field {field!r}.")
     return result
 
 
 def optional_string(value: dict[str, Any], field: str) -> str | None:
     result = value.get(field)
     if result is not None and not isinstance(result, str):
-        raise SourcebotApiError(f"User response has invalid field {field!r}.")
+        raise SourcecatApiError(f"User response has invalid field {field!r}.")
     return result
 
 
@@ -116,7 +116,7 @@ def parse_optional_datetime(value: dict[str, Any], field: str) -> datetime | Non
     if raw_value is None:
         return None
     if not isinstance(raw_value, str):
-        raise SourcebotApiError(f"User response has invalid field {field!r}.")
+        raise SourcecatApiError(f"User response has invalid field {field!r}.")
     return parse_datetime(raw_value)
 
 
@@ -124,9 +124,9 @@ def parse_datetime(value: str) -> datetime:
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as error:
-        raise SourcebotApiError(f"Sourcebot returned an invalid timestamp: {value!r}.") from error
+        raise SourcecatApiError(f"Sourcecat returned an invalid timestamp: {value!r}.") from error
     if parsed.tzinfo is None:
-        raise SourcebotApiError(f"Sourcebot returned a timestamp without a timezone: {value!r}.")
+        raise SourcecatApiError(f"Sourcecat returned a timestamp without a timezone: {value!r}.")
     return parsed.astimezone(timezone.utc)
 
 
@@ -217,18 +217,18 @@ def extract_error_message(body: str) -> str | None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Preview and deprovision inactive Sourcebot organization users."
+        description="Preview and deprovision inactive Sourcecat organization users."
     )
     parser.add_argument(
         "--base-url",
         required=True,
         type=parse_base_url,
-        help="Sourcebot base URL, such as https://sourcebot.example.com",
+        help="Sourcecat base URL, such as https://sourcecat.example.com",
     )
     parser.add_argument(
         "--api-key",
-        default=os.environ.get("SOURCEBOT_API_KEY"),
-        help="Sourcebot owner API key (defaults to SOURCEBOT_API_KEY)",
+        default=os.environ.get("SOURCECAT_API_KEY"),
+        help="Sourcecat owner API key (defaults to SOURCECAT_API_KEY)",
     )
     parser.add_argument(
         "--inactivity-time",
@@ -245,15 +245,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if not args.api_key:
-        parser.error("--api-key is required when SOURCEBOT_API_KEY is not set")
+        parser.error("--api-key is required when SOURCECAT_API_KEY is not set")
     if args.timeout <= 0:
         parser.error("--timeout must be greater than zero")
 
     now = datetime.now(timezone.utc)
-    client = SourcebotClient(args.base_url, args.api_key, args.timeout)
+    client = SourcecatClient(args.base_url, args.api_key, args.timeout)
     try:
         inactive_users = find_inactive_users(client.list_users(), now - args.inactivity_time)
-    except SourcebotApiError as error:
+    except SourcecatApiError as error:
         print(f"Error: {error}", file=sys.stderr)
         return 1
 
@@ -277,7 +277,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         try:
             client.deprovision_user(user.id)
             print(f"Deprovisioned {user.email}")
-        except SourcebotApiError as error:
+        except SourcecatApiError as error:
             failures.append((user, error))
             print(f"Failed to deprovision {user.email}: {error}", file=sys.stderr)
 

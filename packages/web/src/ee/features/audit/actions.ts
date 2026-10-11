@@ -6,14 +6,14 @@ import { ErrorCode } from "@/lib/errorCodes";
 import { ServiceError } from "@/lib/serviceError";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import { StatusCodes } from "http-status-codes";
 import { AuditEvent } from "./types";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 
 const logger = createLogger('audit-utils');
 
-export const createAuditAction = async (event: Omit<AuditEvent, 'sourcebotVersion' | 'orgId' | 'actor' | 'target'>) => sew(async () =>
+export const createAuditAction = async (event: Omit<AuditEvent, 'sourcecatVersion' | 'orgId' | 'actor' | 'target'>) => sew(async () =>
     withAuth(async ({ user, org }) => {
         await createAudit({
             ...event,

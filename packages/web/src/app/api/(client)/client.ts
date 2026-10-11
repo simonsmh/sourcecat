@@ -36,10 +36,10 @@ import type {
     SearchChatShareableMembersQueryParams,
     SearchChatShareableMembersResponse,
 } from "../(server)/ee/chat/[chatId]/searchMembers/route";
-import type { JobLogs, QueueName } from "@sourcebot/shared";
+import type { JobLogs, QueueName } from "@sourcecat/shared";
 import type { RepositorySyncCounts } from "@/features/repos/repositorySyncCounts.server";
 import type { ConnectionSyncCounts } from "@/features/connections/connectionSyncCounts.server";
-import type { OffersResponse } from "@sourcebot/shared/client";
+import type { OffersResponse } from "@sourcecat/shared/client";
 import { ConnectMcpResponse } from "../(server)/ee/askmcp/connect/types";
 import type { GetMcpServersResponse } from "../(server)/ee/askmcp/servers/route";
 import type { GetMcpConfigurationResponse, GetMcpServerToolPermissionsResponse, GetMcpToolsResponse } from "@/ee/features/chat/mcp/types";
@@ -50,7 +50,7 @@ export const search = async (body: SearchRequest): Promise<SearchResponse | Serv
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -71,7 +71,7 @@ export const getFileSource = async (queryParams: FileSourceRequest): Promise<Fil
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         }
     }).then(response => response.json());
 
@@ -88,7 +88,7 @@ export const listRepos = async (queryParams: ListReposQueryParams): Promise<List
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -100,7 +100,7 @@ export const getVersion = async (): Promise<GetVersionResponse> => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
     return result as GetVersionResponse;
@@ -111,7 +111,7 @@ export const listChangelogEntries = async (): Promise<ListChangelogEntriesRespon
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
     return result as ListChangelogEntriesResponse | ServiceError;
@@ -121,7 +121,7 @@ export const findSearchBasedSymbolReferences = async (body: FindRelatedSymbolsRe
     const result = await fetch("/api/find_references", {
         method: "POST",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -132,7 +132,7 @@ export const findSearchBasedSymbolDefinitions = async (body: FindRelatedSymbolsR
     const result = await fetch("/api/find_definitions", {
         method: "POST",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -143,7 +143,7 @@ export const getTree = async (body: GetTreeRequest): Promise<GetTreeResponse | S
     const result = await fetch("/api/tree", {
         method: "POST",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -161,7 +161,7 @@ export const listCommits = async (queryParams: ListCommitsQueryParams): Promise<
     const response = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     });
 
@@ -183,7 +183,7 @@ export const getCommit = async (queryParams: { repo: string; ref: string }): Pro
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -201,7 +201,7 @@ export const getDiff = async (queryParams: { repo: string; base: string; head: s
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -217,7 +217,7 @@ export const getFolderContents = async (queryParams: GetFolderContentsRequest): 
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -235,7 +235,7 @@ export const getFileBlame = async (queryParams: FileBlameRequest): Promise<FileB
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -246,7 +246,7 @@ export const getFiles = async (body: GetFilesRequest): Promise<GetFilesResponse 
     const result = await fetch("/api/files", {
         method: "POST",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -257,7 +257,7 @@ export const getPermissionSyncStatus = async (): Promise<PermissionSyncStatusRes
     const result = await fetch("/api/ee/permissionSyncStatus", {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
     return result as PermissionSyncStatusResponse | ServiceError;
@@ -267,7 +267,7 @@ export const getRepositorySyncCounts = async (): Promise<RepositorySyncCounts | 
     const result = await fetch("/api/repository-sync-counts", {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -278,7 +278,7 @@ export const getConnectionSyncCounts = async (): Promise<ConnectionSyncCounts | 
     const result = await fetch("/api/connection-sync-counts", {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -289,7 +289,7 @@ export const getAccountSyncStatus = async (jobId: string): Promise<AccountSyncSt
     const url = new URL("/api/ee/accountPermissionSyncJobStatus", window.location.origin);
     url.searchParams.set("jobId", jobId);
     const result = await fetch(url, {
-        headers: { "X-Sourcebot-Client-Source": "sourcebot-web-client" },
+        headers: { "X-Sourcecat-Client-Source": "sourcecat-web-client" },
     }).then(r => r.json());
     return result as AccountSyncStatusResponse | ServiceError;
 }
@@ -306,7 +306,7 @@ export const searchChatShareableMembers = async (
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         signal,
     }).then(response => response.json());
@@ -325,7 +325,7 @@ export const listChats = async (queryParams: ListChatsQueryParams): Promise<List
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -338,7 +338,7 @@ export const getOffers = async (): Promise<OffersResponse | ServiceError> => {
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -350,7 +350,7 @@ export const connectMcpToAsk = async (body: { serverId: string; returnTo?: strin
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
         body: JSON.stringify(body),
     }).then(response => response.json());
@@ -367,7 +367,7 @@ export const getMcpServersWithStatus = async (): Promise<GetMcpServersResponse |
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
     }).then(response => response.json());
 
@@ -378,7 +378,7 @@ export const getMcpConfiguration = async (): Promise<GetMcpConfigurationResponse
     const result = await fetch('/api/ee/askmcp/configuration', {
         method: 'GET',
         headers: {
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
     }).then(response => response.json());
 
@@ -389,7 +389,7 @@ export const getMcpServerTools = async (): Promise<GetMcpToolsResponse | Service
     const result = await fetch('/api/ee/askmcp/tools', {
         method: 'GET',
         headers: {
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
     }).then(response => response.json());
 
@@ -403,7 +403,7 @@ export const getSkillSourceStatus = async (skillId: string): Promise<SkillSource
     const result = await fetch(url, {
         method: "GET",
         headers: {
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
     }).then(response => response.json());
 
@@ -414,7 +414,7 @@ export const getMcpServerToolPermissions = async (serverId: string): Promise<Get
     const result = await fetch(`/api/ee/askmcp/configuration/${encodeURIComponent(serverId)}/tools`, {
         method: 'GET',
         headers: {
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
     }).then(response => response.json());
 
@@ -430,7 +430,7 @@ export const getJobLogs = async (
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-Sourcebot-Client-Source": "sourcebot-web-client",
+            "X-Sourcecat-Client-Source": "sourcecat-web-client",
         },
         body: JSON.stringify({ queue, jobId }),
         signal,

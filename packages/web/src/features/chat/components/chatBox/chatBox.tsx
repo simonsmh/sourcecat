@@ -63,7 +63,7 @@ interface ChatBoxProps {
     isLoginWallEnabled: boolean;
     isAuthenticated: boolean;
     // Authoritative per-image byte cap from the server
-    // (SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES), threaded down for early
+    // (SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES), threaded down for early
     // client-side rejection. Defaults to the constant when not provided.
     maxImageBytes?: number;
 }
@@ -522,7 +522,7 @@ const ChatBoxComponent = ({
                 break;
             case 'command':
                 captureEvent('ask_skill_command_selected', {
-                    source: 'sourcebot-web-client',
+                    source: 'sourcecat-web-client',
                     entryPoint: 'chat_box',
                     scope: suggestion.sourceId === ASK_COMMAND_SOURCE_SHARED_SKILL ? 'shared' : 'personal',
                     isSynced: suggestion.isSynced === true,

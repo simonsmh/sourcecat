@@ -1,4 +1,4 @@
-import { PrismaClient } from "@sourcebot/db";
+import { PrismaClient } from "@sourcecat/db";
 import { ArgumentParser } from "argparse";
 import { migrateDuplicateConnections } from "./scripts/migrate-duplicate-connections";
 import { injectAuditData } from "./scripts/inject-audit-data";

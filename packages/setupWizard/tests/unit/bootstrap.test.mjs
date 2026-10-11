@@ -20,7 +20,7 @@ test('bootstrap admits dependency-compatible versions and rejects unsupported ga
             const result = spawnSync(process.execPath, ['-e', `Object.defineProperty(process.versions, 'node', { value: ${JSON.stringify(version)} }); require(${JSON.stringify(bin)});`], { cwd: root, encoding: 'utf8', env: { HOME: root, PATH: '' }, timeout: 10000 });
             assert.equal(result.status, 1, version);
             assert.equal(result.stdout, '', version);
-            assert.match(result.stderr, supported ? /Unable to start setup-sourcebot/ : /requires Node.js 20\.20\+/, version);
+            assert.match(result.stderr, supported ? /Unable to start setup-sourcecat/ : /requires Node.js 20\.20\+/, version);
         }
         assert.deepEqual(readdirSync(root), ['bin.cjs']);
     } finally {

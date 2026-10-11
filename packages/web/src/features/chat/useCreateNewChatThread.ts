@@ -44,7 +44,7 @@ export const useCreateNewChatThread = () => {
         const inputMessage = createUIMessage(text, mentions.map((mention) => mention.data), selectedSearchScopes, disabledMcpServerIds, attachments);
 
         setIsLoading(true);
-        const response = await createChat({ source: 'sourcebot-web-client' });
+        const response = await createChat({ source: 'sourcecat-web-client' });
         if (isServiceError(response)) {
             toast({
                 description: `❌ Failed to create chat. Reason: ${response.message}`

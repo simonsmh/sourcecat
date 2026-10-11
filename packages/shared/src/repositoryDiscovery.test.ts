@@ -23,7 +23,7 @@ describe("repositoryDiscoveryIssueSchema", () => {
                 effect: "DISCOVERY_INCOMPLETE",
                 subject: {
                     kind: "configuration",
-                    value: "GitHub App installation for sourcebot on github.com",
+                    value: "GitHub App installation for sourcecat on github.com",
                 },
                 message:
                     "No matching GitHub App installation was found. Discovery used legacy credentials and may be incomplete.",
@@ -33,7 +33,7 @@ describe("repositoryDiscoveryIssueSchema", () => {
             effect: "DISCOVERY_INCOMPLETE",
             subject: {
                 kind: "configuration",
-                value: "GitHub App installation for sourcebot on github.com",
+                value: "GitHub App installation for sourcecat on github.com",
             },
             message:
                 "No matching GitHub App installation was found. Discovery used legacy credentials and may be incomplete.",

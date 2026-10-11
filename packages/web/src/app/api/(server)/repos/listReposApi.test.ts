@@ -16,8 +16,8 @@ vi.mock('@/ee/features/audit/audit', () => ({
     createAudit: vi.fn(),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
-    env: { AUTH_URL: 'https://sourcebot.example.com' },
+vi.mock('@sourcecat/shared', () => ({
+    env: { AUTH_URL: 'https://sourcecat.example.com' },
 }));
 
 vi.mock('next/headers', () => ({
@@ -54,13 +54,13 @@ describe('listRepos connection filtering', () => {
             perPage: 20,
             sort: 'name',
             direction: 'asc',
-            query: 'sourcebot',
+            query: 'sourcecat',
             connectionId: 42,
         });
 
         const where = {
             orgId: 7,
-            name: { contains: 'sourcebot', mode: 'insensitive' },
+            name: { contains: 'sourcecat', mode: 'insensitive' },
             connections: {
                 some: { connectionId: 42 },
             },

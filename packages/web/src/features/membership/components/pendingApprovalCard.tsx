@@ -1,5 +1,5 @@
 import { LogoutEscapeHatch } from "@/app/components/logoutEscapeHatch"
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 
 export const PendingApprovalCard = async () => {
     return (
@@ -8,7 +8,7 @@ export const PendingApprovalCard = async () => {
             
             <div className="w-full max-w-md">
                 <div className="text-center space-y-8">
-                    <SourcebotLogo
+                    <SourcecatLogo
                         className="h-10 mx-auto"
                         size="large"
                     />

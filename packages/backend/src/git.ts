@@ -1,4 +1,4 @@
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import { existsSync } from 'node:fs';
 import { mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';

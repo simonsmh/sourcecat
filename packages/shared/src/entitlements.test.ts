@@ -1,11 +1,11 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import type { License } from '@sourcebot/db';
+import type { License } from '@sourcecat/db';
 
 const mocks = vi.hoisted(() => ({
     env: {
-        SOURCEBOT_PUBLIC_KEY_PATH: '/tmp/test-key',
-        SOURCEBOT_EE_LICENSE_KEY: undefined as string | undefined,
-        SOURCEBOT_INSTALL_ID: 'test-install',
+        SOURCECAT_PUBLIC_KEY_PATH: '/tmp/test-key',
+        SOURCECAT_EE_LICENSE_KEY: undefined as string | undefined,
+        SOURCECAT_INSTALL_ID: 'test-install',
     } as Record<string, string | undefined>,
     verifySignature: vi.fn(() => true),
 }));
@@ -90,7 +90,7 @@ describe('getEntitlements', () => {
     });
 
     test('does not consult the offline license key', () => {
-        mocks.env.SOURCEBOT_EE_LICENSE_KEY = 'sourcebot_ee_not-valid-base64-or-json';
+        mocks.env.SOURCECAT_EE_LICENSE_KEY = 'sourcecat_ee_not-valid-base64-or-json';
         const entitlements = getEntitlements(null);
         expect(entitlements.length).toBeGreaterThan(0);
     });
@@ -123,14 +123,14 @@ describe('isValidLicenseActive', () => {
 describe('getSeatCap', () => {
     test('always returns undefined (no seat cap)', () => {
         expect(getSeatCap()).toBeUndefined();
-        mocks.env.SOURCEBOT_EE_LICENSE_KEY = 'sourcebot_ee_not-valid-base64-or-json';
+        mocks.env.SOURCECAT_EE_LICENSE_KEY = 'sourcecat_ee_not-valid-base64-or-json';
         expect(getSeatCap()).toBeUndefined();
     });
 });
 
 describe('getOfflineLicenseMetadata', () => {
     test('returns null when no license key is configured', () => {
-        mocks.env.SOURCEBOT_EE_LICENSE_KEY = undefined;
+        mocks.env.SOURCECAT_EE_LICENSE_KEY = undefined;
         expect(getOfflineLicenseMetadata()).toBeNull();
     });
 });

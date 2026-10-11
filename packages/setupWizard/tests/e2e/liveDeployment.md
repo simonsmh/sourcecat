@@ -2,11 +2,11 @@
 
 Run `liveDeployment.mjs` with Node 24 on macOS or Linux with Docker available.
 It builds and installs the actual npm tarball in a disposable directory, drives
-the interactive CLI through a PTY, starts the real Sourcebot/Postgres/Redis stack,
+the interactive CLI through a PTY, starts the real Sourcecat/Postgres/Redis stack,
 onboards a synthetic owner through Chromium, verifies indexing and authenticated
 search, then verifies health, search, and install-ID continuity after restart.
 
-Pull `docker.sourcebot.dev/sourcebot-dev/sourcebot:v5.1.13`, `postgres:16`, and
+Pull `ghcr.io/simonsmh/sourcecat:v5.1.13`, `postgres:16`, and
 `redis:8` first. The default scenario is `github_repo`. For the public/configuration
 matrix, set:
 
@@ -36,7 +36,7 @@ Public fixtures are bounded: one explicit repository/project per host, the
 small `chalk` organization, and the `octocat` user. Organization/user tests obtain
 the expected repository count before starting and require all repositories to
 be discovered and indexed. Multi-local tests clone two distinct origins because
-Sourcebot deduplicates multiple local clones of the same origin.
+Sourcecat deduplicates multiple local clones of the same origin.
 
 Each scenario records success/failure and removes its containers, volumes,
 network, generated secrets, and temporary files in cleanup. Only redacted reports

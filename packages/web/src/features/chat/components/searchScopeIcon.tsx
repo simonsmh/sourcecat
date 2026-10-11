@@ -1,5 +1,5 @@
 import { cn, getCodeHostIcon } from "@/lib/utils";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { LibraryBigIcon } from "lucide-react";
 import Image from "next/image";
 import { SearchScope } from "../types";

@@ -1,6 +1,6 @@
-import { sourcebot_pr_payload, sourcebot_file_diff_review } from "@/features/agents/review-agent/types";
+import { sourcecat_pr_payload, sourcecat_file_diff_review } from "@/features/agents/review-agent/types";
 import { Gitlab } from "@gitbeaker/rest";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 // Derive the position type from the Gitlab client to avoid importing from @gitbeaker/core.
 type DiscussionNotePosition = NonNullable<
@@ -41,7 +41,7 @@ function extractContextLineNumbers(snippet: string): number[] {
  * context lines. Context lines appear at the same index in oldSnippet and
  * newSnippet, so zipping them gives the mapping.
  */
-function buildContextLineMap(prPayload: sourcebot_pr_payload): Map<string, Map<number, number>> {
+function buildContextLineMap(prPayload: sourcecat_pr_payload): Map<string, Map<number, number>> {
     const fileMap = new Map<string, Map<number, number>>();
     for (const fileDiff of prPayload.file_diffs) {
         const lineMap = new Map<number, number>();
@@ -60,8 +60,8 @@ function buildContextLineMap(prPayload: sourcebot_pr_payload): Map<string, Map<n
 export const gitlabPushMrReviews = async (
     gitlabClient: InstanceType<typeof Gitlab>,
     projectId: number,
-    prPayload: sourcebot_pr_payload,
-    fileDiffReviews: sourcebot_file_diff_review[],
+    prPayload: sourcecat_pr_payload,
+    fileDiffReviews: sourcecat_file_diff_review[],
 ): Promise<void> => {
     logger.info("Executing gitlab_push_mr_reviews");
 

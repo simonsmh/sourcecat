@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 
 export const repositoryQuerySchema = z.object({
     codeHostType: z.nativeEnum(CodeHostType),

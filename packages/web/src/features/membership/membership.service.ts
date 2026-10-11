@@ -7,7 +7,7 @@ import { activeMembershipWhere, orgHasAvailability, pendingMembershipWhere } fro
 import { notFound, type ServiceError } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { __unsafePrisma as prisma } from "@/prisma";
-import { OrgRole, Prisma, type UserToOrg } from "@sourcebot/db";
+import { OrgRole, Prisma, type UserToOrg } from "@sourcecat/db";
 import { lastOwnerDemoteError, lastOwnerError, memberSuspendedError, seatLimitReached } from "./errors";
 
 export interface EnsureActiveMemberOptions {

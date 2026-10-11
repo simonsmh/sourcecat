@@ -16,7 +16,7 @@ import { PostHogProvider } from "./posthogProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SessionProvider } from "next-auth/react";
-import { env, SOURCEBOT_VERSION } from "@sourcebot/shared";
+import { env, SOURCECAT_VERSION } from "@sourcecat/shared";
 import { PlanProvider } from "@/features/entitlements/planProvider";
 import { getEntitlements } from "@/lib/entitlements";
 import { IdentityProvidersProvider } from "@/features/auth/identityProvidersProvider";
@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     // Using the title.template will allow child pages to set the title
     // while keeping a consistent suffix.
     title: {
-        default: "Sourcebot",
-        template: "%s | Sourcebot",
+        default: "Sourcecat",
+        template: "%s | Sourcecat",
     },
     description:
-        "Sourcebot is a self-hosted code understanding tool. Ask questions about your codebase and get rich Markdown answers with inline citations.",
+        "Sourcecat is a self-hosted code understanding tool. Ask questions about your codebase and get rich Markdown answers with inline citations.",
     manifest: "/manifest.json",
 };
 
@@ -76,19 +76,19 @@ export default async function RootLayout({
                 <Toaster />
                 <SessionProvider>
                     <SentryUserProvider
-                        isPiiEnabled={env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED === 'true'}
+                        isPiiEnabled={env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED === 'true'}
                     />
                     <PlanProvider entitlements={entitlements}>
                         <IdentityProvidersProvider providers={identityProviders}>
                             <PostHogProvider
                                 // Fork: telemetry removed.
                                 isDisabled={true}
-                                isPiiEnabled={env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED === 'true'}
+                                isPiiEnabled={env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED === 'true'}
                                 // @note: the posthog api key doesn't need to be kept secret,
                                 // so we are safe to send it to the client.
                                 posthogApiKey={env.POSTHOG_PAPIK}
-                                sourcebotVersion={SOURCEBOT_VERSION}
-                                sourcebotInstallId={env.SOURCEBOT_INSTALL_ID}
+                                sourcecatVersion={SOURCECAT_VERSION}
+                                sourcecatInstallId={env.SOURCECAT_INSTALL_ID}
                             >
                                 <ThemeProvider
                                     attribute="class"

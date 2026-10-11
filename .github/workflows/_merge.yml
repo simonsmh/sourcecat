@@ -15,7 +15,7 @@ on:
         type: string
 
 env:
-  REGISTRY_IMAGE: ghcr.io/simonsmh/sourcebot
+  REGISTRY_IMAGE: ghcr.io/simonsmh/sourcecat
 
 jobs:
   merge:

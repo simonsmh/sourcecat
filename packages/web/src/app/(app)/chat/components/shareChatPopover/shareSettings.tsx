@@ -13,7 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/userAvatar";
-import { ChatVisibility } from "@sourcebot/db";
+import { ChatVisibility } from "@sourcecat/db";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info, Link2Icon, Loader2, Lock, X } from "lucide-react";
 import Link from "next/link";
@@ -174,7 +174,7 @@ export const ShareSettings = ({
                     {!isChatSharingEnabledInCurrentPlan && (
                         <p className="text-xs text-muted-foreground mt-2.5">
                             <Info className="h-3 w-3 inline-block mr-1.5 align-middle" />
-                            <span className="align-middle">Sharing with specific users is not available on your current <Link href={'https://sourcebot.dev/pricing'} target="_blank" rel="noopener noreferrer" className="underline">plan</Link>.</span>
+                            <span className="align-middle">Sharing with specific users is not available on your current <Link href={'https://sourcecat.dev/pricing'} target="_blank" rel="noopener noreferrer" className="underline">plan</Link>.</span>
                         </p>
                     )}
 
@@ -223,7 +223,7 @@ export const ShareSettings = ({
             <Separator className="-mx-4 w-auto my-4" />
             <div className="flex justify-between items-center">
                 <Link
-                    href="https://docs.sourcebot.dev/docs/features/ask/chat-sharing"
+                    href="https://docs.sourcecat.dev/docs/features/ask/chat-sharing"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"

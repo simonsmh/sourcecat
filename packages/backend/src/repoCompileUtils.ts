@@ -1,4 +1,4 @@
-import { GithubConnectionConfig } from '@sourcebot/schemas/v3/github.type';
+import { GithubConnectionConfig } from '@sourcecat/schemas/v3/github.type';
 import { getGitHubReposFromConfig, OctokitRepository } from "./github.js";
 import { getGitLabReposFromConfig } from "./gitlab.js";
 import { getGiteaReposFromConfig } from "./gitea.js";
@@ -7,11 +7,11 @@ import { BitbucketRepository, getBitbucketReposFromConfig, isBitbucketServerPubl
 import { getAzureDevOpsReposFromConfig } from "./azuredevops.js";
 import { SchemaRestRepository as BitbucketServerRepository } from "@coderabbitai/bitbucket/server/openapi";
 import { SchemaRepository as BitbucketCloudRepository } from "@coderabbitai/bitbucket/cloud/openapi";
-import { CodeHostType, Prisma } from '@sourcebot/db';
+import { CodeHostType, Prisma } from '@sourcecat/db';
 import { WithRequired } from "./types.js"
 import { marshalBool } from "./utils.js";
-import { createLogger } from '@sourcebot/shared';
-import { BitbucketConnectionConfig, GerritConnectionConfig, GiteaConnectionConfig, GitlabConnectionConfig, GenericGitHostConnectionConfig, AzureDevOpsConnectionConfig } from '@sourcebot/schemas/v3/connection.type';
+import { createLogger } from '@sourcecat/shared';
+import { BitbucketConnectionConfig, GerritConnectionConfig, GiteaConnectionConfig, GitlabConnectionConfig, GenericGitHostConnectionConfig, AzureDevOpsConnectionConfig } from '@sourcecat/schemas/v3/connection.type';
 import { ProjectVisibility } from "azure-devops-node-api/interfaces/CoreInterfaces.js";
 import path from 'path';
 import fs from 'fs/promises';
@@ -19,7 +19,7 @@ import { glob } from 'glob';
 import { getLocalDefaultBranch, getOriginUrl, isPathAValidGitRepoRoot, isUrlAValidGitRepo } from './git.js';
 import assert from 'assert';
 import GitUrlParse from 'git-url-parse';
-import { RepoMetadata } from '@sourcebot/shared';
+import { RepoMetadata } from '@sourcecat/shared';
 import { SINGLE_TENANT_ORG_ID } from './constants.js';
 import pLimit from 'p-limit';
 import { reportRepositoryDiscoveryIssue } from './repositoryDiscoveryIssueContext.js';
@@ -645,7 +645,7 @@ export const compileGenericGitHostConfig_file = async (
         const defaultBranch = await getLocalDefaultBranch({ path: repoPath });
 
         // @note: matches the naming here:
-        // https://github.com/sourcebot-dev/zoekt/blob/main/gitindex/index.go#L293
+        // https://github.com/simonsmh/zoekt/blob/main/gitindex/index.go#L293
         // Go's url.URL.Host includes the port if present (even default ports like 443),
         // but JS URL parsers normalize and strip default ports. We need to extract
         // the host:port directly from the raw URL to match zoekt's behavior.
@@ -725,7 +725,7 @@ export const compileGenericGitHostConfig_url = async (
     }
 
     // @note: matches the naming here:
-    // https://github.com/sourcebot-dev/zoekt/blob/main/gitindex/index.go#L293
+    // https://github.com/simonsmh/zoekt/blob/main/gitindex/index.go#L293
     // Decode URL-encoded characters (e.g., %20 -> space) to ensure consistent repo names
     let decodedPathname: string;
     try {

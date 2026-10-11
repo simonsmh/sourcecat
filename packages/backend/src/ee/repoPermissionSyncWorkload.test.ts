@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -25,8 +25,8 @@ vi.mock("@sentry/node", () => ({
     captureException: mocks.captureException,
 }));
 
-vi.mock("@sourcebot/shared", async (importOriginal) => ({
-    ...(await importOriginal<typeof import("@sourcebot/shared")>()),
+vi.mock("@sourcecat/shared", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@sourcecat/shared")>()),
     REPO_PERMISSION_SYNC_QUEUE: {
         name: "repo-permission-sync",
         jobOptions: {
@@ -74,8 +74,8 @@ import { createRepoPermissionSyncWorkload } from "./repoPermissionSyncWorkload.j
 
 const repo = {
     id: 42,
-    name: "github.com/sourcebot-dev/sourcebot",
-    displayName: "sourcebot-dev/sourcebot",
+    name: "github.com/simonsmh/sourcecat",
+    displayName: "simonsmh/sourcecat",
     external_codeHostType: "github",
     external_codeHostUrl: "https://github.com",
     external_id: "123",
@@ -176,7 +176,7 @@ describe("repoPermissionSyncWorkload", () => {
 
         expect(workload.executionLock).toBeDefined();
         expect(workload.executionLock?.resource({ repoId: 42 })).toBe(
-            "sourcebot:lock:repo-permission-sync:42",
+            "sourcecat:lock:repo-permission-sync:42",
         );
         expect(workload.executionLock?.durationMs).toBe(60_000);
     });
@@ -286,8 +286,8 @@ describe("repoPermissionSyncWorkload", () => {
             metadata: {
                 codeHostMetadata: {
                     bitbucketCloud: {
-                        workspace: "sourcebot",
-                        repoSlug: "sourcebot",
+                        workspace: "sourcecat",
+                        repoSlug: "sourcecat",
                     },
                 },
             },
@@ -351,7 +351,7 @@ describe("repoPermissionSyncWorkload", () => {
 
     test("updates the repo sync timestamp when the completed job is still latest", async () => {
         await createWorkload().onCompleted?.(lifecycleContext, {
-            repoName: "sourcebot-dev/sourcebot",
+            repoName: "simonsmh/sourcecat",
         });
 
         expect(repoUpdateMany).toHaveBeenCalledWith({
@@ -371,7 +371,7 @@ describe("repoPermissionSyncWorkload", () => {
 
         await expect(
             createWorkload().onCompleted?.(lifecycleContext, {
-                repoName: "sourcebot-dev/sourcebot",
+                repoName: "simonsmh/sourcecat",
             }),
         ).resolves.toBeUndefined();
     });

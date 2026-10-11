@@ -38,10 +38,10 @@ COPY ./packages/schemas ./packages/schemas
 COPY ./packages/shared ./packages/shared
 COPY ./packages/queryLanguage ./packages/queryLanguage
 
-RUN yarn workspace @sourcebot/db install
-RUN yarn workspace @sourcebot/schemas install
-RUN yarn workspace @sourcebot/shared install
-RUN yarn workspace @sourcebot/query-language install
+RUN yarn workspace @sourcecat/db install
+RUN yarn workspace @sourcecat/schemas install
+RUN yarn workspace @sourcecat/shared install
+RUN yarn workspace @sourcecat/query-language install
 # ------------------------------------
 
 # ------ Build Web ------
@@ -76,12 +76,12 @@ COPY --from=shared-libs-builder /app/packages/shared ./packages/shared
 COPY --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
 
 # Fixes arm64 timeouts
-RUN yarn workspace @sourcebot/web install
+RUN yarn workspace @sourcecat/web install
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN \
-    yarn workspace @sourcebot/web build
+    yarn workspace @sourcecat/web build
 ENV SKIP_ENV_VALIDATION=0
 # ------------------------------
 
@@ -109,8 +109,8 @@ COPY --from=shared-libs-builder /app/packages/db ./packages/db
 COPY --from=shared-libs-builder /app/packages/schemas ./packages/schemas
 COPY --from=shared-libs-builder /app/packages/shared ./packages/shared
 COPY --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
-RUN yarn workspace @sourcebot/backend install
-RUN yarn workspace @sourcebot/backend build
+RUN yarn workspace @sourcecat/backend install
+RUN yarn workspace @sourcecat/backend build
 
 RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN \
     if [ -n "$SENTRY_AUTH_TOKEN" ] && [ -n "$SENTRY_ORG" ] && [ -n "$SENTRY_BACKEND_PROJECT" ] && [ -n "$SENTRY_RELEASE" ]; then \
@@ -140,8 +140,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV DATA_DIR=/data
-ENV DATA_CACHE_DIR=$DATA_DIR/.sourcebot
-ENV SOURCEBOT_PUBLIC_KEY_PATH=/app/public.pem
+ENV DATA_CACHE_DIR=$DATA_DIR/.sourcecat
+ENV SOURCECAT_PUBLIC_KEY_PATH=/app/public.pem
 # PAPIK = Project API Key
 # Note that this key does not need to be kept secret, so it's not
 # necessary to use Docker build secrets here.
@@ -150,10 +150,10 @@ ENV SOURCEBOT_PUBLIC_KEY_PATH=/app/public.pem
 ENV POSTHOG_PAPIK=phc_lLPuFFi5LH6c94eFJcqvYVFwiJffVcV6HD8U4a1OnRW
 
 # Valid values are: debug, info, warn, error
-ENV SOURCEBOT_LOG_LEVEL=info
+ENV SOURCECAT_LOG_LEVEL=info
 
-# Sourcebot collects anonymous usage data using [PostHog](https://posthog.com/). Uncomment this line to disable.
-# ENV SOURCEBOT_TELEMETRY_DISABLED=1
+# Sourcecat collects anonymous usage data using [PostHog](https://posthog.com/). Uncomment this line to disable.
+# ENV SOURCECAT_TELEMETRY_DISABLED=1
 
 # Configure dependencies
 RUN apk add --no-cache git ca-certificates bind-tools tini jansson wget supervisor uuidgen curl perl jq openssl util-linux unzip && \
@@ -173,13 +173,13 @@ ARG UID=1500
 ARG GID=1500
 
 # Always create the non-root user to support runtime user switching
-# The container can be run as root (default) or as sourcebot user using docker run --user
-RUN addgroup -g $GID sourcebot && \
-    adduser -D -u $UID -h /app -S sourcebot && \
-    chown -R sourcebot /app && \
-    adduser sourcebot node && \
-    mkdir /var/log/sourcebot && \
-    chown sourcebot /var/log/sourcebot
+# The container can be run as root (default) or as sourcecat user using docker run --user
+RUN addgroup -g $GID sourcecat && \
+    adduser -D -u $UID -h /app -S sourcecat && \
+    chown -R sourcecat /app && \
+    adduser sourcecat node && \
+    mkdir /var/log/sourcecat && \
+    chown sourcecat /var/log/sourcecat
 
 COPY package.json yarn.lock* .yarnrc.yml public.pem ./
 COPY .yarn ./.yarn
@@ -202,36 +202,36 @@ COPY --from=zoekt-builder \
 /cmd/zoekt-index \
 /usr/local/bin/
 
-RUN chown -R sourcebot:sourcebot /app
+RUN chown -R sourcecat:sourcecat /app
 
 # Copy zoekt proto files (needed for gRPC client at runtime)
-COPY --chown=sourcebot:sourcebot vendor/zoekt/grpc/protos /app/vendor/zoekt/grpc/protos
+COPY --chown=sourcecat:sourcecat vendor/zoekt/grpc/protos /app/vendor/zoekt/grpc/protos
 
 # Copy OpenAPI docs
-COPY --chown=sourcebot:sourcebot docs/api-reference/sourcebot-public.openapi.json /app/docs/api-reference/sourcebot-public.openapi.json
+COPY --chown=sourcecat:sourcecat docs/api-reference/sourcecat-public.openapi.json /app/docs/api-reference/sourcecat-public.openapi.json
 
 # Copy all of the things
-COPY --chown=sourcebot:sourcebot --from=web-builder /app/packages/web/public ./packages/web/public
-COPY --chown=sourcebot:sourcebot --from=web-builder /app/packages/web/.next/standalone ./
-COPY --chown=sourcebot:sourcebot --from=web-builder /app/packages/web/.next/static ./packages/web/.next/static
+COPY --chown=sourcecat:sourcecat --from=web-builder /app/packages/web/public ./packages/web/public
+COPY --chown=sourcecat:sourcecat --from=web-builder /app/packages/web/.next/standalone ./
+COPY --chown=sourcecat:sourcecat --from=web-builder /app/packages/web/.next/static ./packages/web/.next/static
 
-COPY --chown=sourcebot:sourcebot --from=backend-builder /app/node_modules ./node_modules
-COPY --chown=sourcebot:sourcebot --from=backend-builder /app/packages/backend ./packages/backend
+COPY --chown=sourcecat:sourcecat --from=backend-builder /app/node_modules ./node_modules
+COPY --chown=sourcecat:sourcecat --from=backend-builder /app/packages/backend ./packages/backend
 
-COPY --chown=sourcebot:sourcebot --from=shared-libs-builder /app/packages/db ./packages/db
-COPY --chown=sourcebot:sourcebot --from=shared-libs-builder /app/packages/schemas ./packages/schemas
-COPY --chown=sourcebot:sourcebot --from=shared-libs-builder /app/packages/shared ./packages/shared
-COPY --chown=sourcebot:sourcebot --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
+COPY --chown=sourcecat:sourcecat --from=shared-libs-builder /app/packages/db ./packages/db
+COPY --chown=sourcecat:sourcecat --from=shared-libs-builder /app/packages/schemas ./packages/schemas
+COPY --chown=sourcecat:sourcecat --from=shared-libs-builder /app/packages/shared ./packages/shared
+COPY --chown=sourcecat:sourcecat --from=shared-libs-builder /app/packages/queryLanguage ./packages/queryLanguage
 
 # Fixes git "dubious ownership" issues when the volume is mounted with different permissions to the container.
 RUN git config --system safe.directory "*"
 
-# Make app directory accessible to both root and sourcebot user
-RUN chown -R sourcebot /app \
+# Make app directory accessible to both root and sourcecat user
+RUN chown -R sourcecat /app \
 	&& chgrp -R 0  /app \
 	&& chmod -R g=u /app
-# Make data directory accessible to both root and sourcebot user
-RUN chown -R sourcebot /data
+# Make data directory accessible to both root and sourcecat user
+RUN chown -R sourcecat /data
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY prefix-output.sh ./prefix-output.sh
@@ -241,7 +241,7 @@ RUN chmod +x ./entrypoint.sh
 
 # Note: for back-compat cases, we do _not_ set the USER directive here.
 # Instead, the user can be overridden at runtime with --user flag.
-# USER sourcebot
+# USER sourcecat
 
 EXPOSE 3000
 ENV PORT=3000

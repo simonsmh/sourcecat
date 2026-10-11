@@ -19,7 +19,7 @@ import { notAuthenticated, notFound, requestBodySchemaValidationError, ServiceEr
 import { isServiceError } from "@/lib/utils";
 import { withOptionalAuth } from "@/middleware/withAuth";
 import * as Sentry from "@sentry/nextjs";
-import { createLogger, env } from "@sourcebot/shared";
+import { createLogger, env } from "@sourcecat/shared";
 import {
     createUIMessageStreamResponse
 } from "ai";
@@ -157,7 +157,7 @@ export const POST = apiHandler(async (req: NextRequest) => {
             if (droppedAttachmentCount > 0) {
                 await captureEvent('chat_attachment_degraded', {
                     chatId: id,
-                    source: req.headers.get('X-Sourcebot-Client-Source') ?? 'unknown',
+                    source: req.headers.get('X-Sourcecat-Client-Source') ?? 'unknown',
                     droppedImageCount: droppedAttachmentCount,
                     modelProvider: languageModelConfig.provider,
                     model: languageModelConfig.model,
@@ -173,7 +173,7 @@ export const POST = apiHandler(async (req: NextRequest) => {
             // it never perturbs other providers' requests.
             const promptCacheStrategy = getPromptCacheStrategy(
                 languageModelConfig.provider,
-                env.SOURCEBOT_CHAT_PROMPT_CACHING_ENABLED === 'true',
+                env.SOURCECAT_CHAT_PROMPT_CACHING_ENABLED === 'true',
             );
 
             const expandedRepos = (await Promise.all(selectedSearchScopes.map(async (scope) => {
@@ -188,8 +188,8 @@ export const POST = apiHandler(async (req: NextRequest) => {
                 return [];
             }))).flat();
 
-            const source = req.headers.get('X-Sourcebot-Client-Source') ?? undefined;
-            const askMcpSource = source === 'sourcebot-web-client' ? source : undefined;
+            const source = req.headers.get('X-Sourcecat-Client-Source') ?? undefined;
+            const askMcpSource = source === 'sourcecat-web-client' ? source : undefined;
             const [askMcpAvailability, askSkillAvailability] = await Promise.all([
                 getAskMcpAvailabilityAnalytics({
                     prisma,

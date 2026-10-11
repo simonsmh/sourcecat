@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Footer } from "@/app/components/footer";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { __unsafePrisma } from "@/prisma";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { isAnonymousAccessEnabled } from "@/lib/entitlements";
 
 interface LoginProps {

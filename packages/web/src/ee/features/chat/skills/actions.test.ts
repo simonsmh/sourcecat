@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { CodeHostType, OrgRole, Prisma, sharedAgentSkillVisibleToUserWhere } from "@sourcebot/db";
+import { CodeHostType, OrgRole, Prisma, sharedAgentSkillVisibleToUserWhere } from "@sourcecat/db";
 import { ErrorCode } from "@/lib/errorCodes";
 import { StatusCodes } from "http-status-codes";
 
@@ -20,7 +20,7 @@ vi.mock("@/lib/posthog", () => ({
     captureEvent: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
     env: { NODE_ENV: "test" },
 }));
@@ -642,7 +642,7 @@ describe("listSharedAgentSkillCatalog", () => {
         sourceFilePath: sourceRepoName ? "docs/skill.md" : null,
         sourceRevision: sourceRepoName ? "main" : null,
         adoptions: [],
-        createdBy: { email: "member@sourcebot.dev" },
+        createdBy: { email: "member@sourcecat.dev" },
     });
 
     test("drops synced skills whose source repo the user can't access, keeping plain and accessible ones", async () => {
@@ -1384,7 +1384,7 @@ describe("getAgentSkillSyncPreview", () => {
         path: "docs/skill.md",
         repo: "github.com/acme/widgets",
         repoCodeHostType: CodeHostType.github,
-        webUrl: "https://sourcebot.example.com/browse",
+        webUrl: "https://sourcecat.example.com/browse",
         blobSha,
     });
 
@@ -1624,7 +1624,7 @@ describe("updatePersonalAgentSkillFromSource", () => {
             path: "docs/skill.md",
             repo: "github.com/acme/widgets",
             repoCodeHostType: CodeHostType.github,
-            webUrl: "https://sourcebot.example.com/browse",
+            webUrl: "https://sourcecat.example.com/browse",
             blobSha: "new-sha",
         });
         prisma.agentSkill.update.mockResolvedValue({
@@ -1682,7 +1682,7 @@ describe("updatePersonalAgentSkillFromSource", () => {
             path: "docs/skill.md",
             repo: "github.com/acme/widgets",
             repoCodeHostType: CodeHostType.github,
-            webUrl: "https://sourcebot.example.com/browse",
+            webUrl: "https://sourcecat.example.com/browse",
             blobSha: "new-sha",
         });
         prisma.agentSkill.update.mockResolvedValue({
@@ -1774,7 +1774,7 @@ describe("updateSharedAgentSkillFromSource", () => {
             path: "docs/skill.md",
             repo: "github.com/acme/widgets",
             repoCodeHostType: CodeHostType.github,
-            webUrl: "https://sourcebot.example.com/browse",
+            webUrl: "https://sourcecat.example.com/browse",
             blobSha: "new-sha",
         });
         prisma.agentSkill.update.mockResolvedValue({
@@ -1793,7 +1793,7 @@ describe("updateSharedAgentSkillFromSource", () => {
             createdAt: new Date("2026-06-18T00:00:00.000Z"),
             updatedAt: new Date("2026-06-25T00:00:00.000Z"),
             adoptions: [{ id: "adoption-1", removedAt: null }],
-            createdBy: { email: "author@sourcebot.dev" },
+            createdBy: { email: "author@sourcecat.dev" },
         });
 
         const result = await updateSharedAgentSkillFromSource("shared-skill");
@@ -1891,7 +1891,7 @@ describe("updateSharedAgentSkillFromSource", () => {
                 sourceFilePath: "docs/skill.md",
                 sourceRevision: "main",
                 adoptions: [{ id: "adoption-1", removedAt: null }],
-                createdBy: { email: "member@sourcebot.dev" },
+                createdBy: { email: "member@sourcecat.dev" },
             });
         prisma.agentSkill.create.mockResolvedValue({ id: "shared-skill" });
 

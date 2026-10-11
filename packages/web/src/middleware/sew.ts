@@ -1,5 +1,5 @@
 import { ServiceError, ServiceErrorException, unexpectedError } from "@/lib/serviceError";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import * as Sentry from "@sentry/nextjs";
 
 const logger = createLogger('sew');

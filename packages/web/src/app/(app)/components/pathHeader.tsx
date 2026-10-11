@@ -15,7 +15,7 @@ import {
 import { VscodeFileIcon } from "@/app/components/vscodeFileIcon";
 import { CopyIconButton } from "./copyIconButton";
 import Link from "next/link";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 
 interface FileHeaderProps {
     path: string;

@@ -1,5 +1,5 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { McpServerClientInfoSource } from '@sourcebot/db';
+import { McpServerClientInfoSource } from '@sourcecat/db';
 
 const mocks = vi.hoisted(() => ({
     logger: {
@@ -17,7 +17,7 @@ vi.mock('@/prisma', () => ({
         userMcpServer: {},
     },
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     encryptOAuthToken: vi.fn((text: string | null | undefined) => text ? `encrypted:${text}` : undefined),
     decryptOAuthToken: vi.fn((text: string | null | undefined) => text?.startsWith('encrypted:') ? text.slice('encrypted:'.length) : text),
     createLogger: () => mocks.logger,
@@ -52,7 +52,7 @@ function createProvider(
         serverId: 'server-1',
         orgId: 1,
         userId: 'user-1',
-        callbackUrl: 'https://sourcebot.example.com/api/ee/askmcp/callback',
+        callbackUrl: 'https://sourcecat.example.com/api/ee/askmcp/callback',
         allowClientRegistration: options.allowClientRegistration ?? false,
         requestedOAuthScopes: options.requestedOAuthScopes,
         forceAuthorization: options.forceAuthorization,

@@ -10,8 +10,8 @@ import {
     PERMISSION_SYNC_SUPPORTED_IDENTITY_PROVIDERS,
     type WorkloadJob,
     type WorkloadJobStatus,
-} from "@sourcebot/shared";
-import type { AccountPermissionSyncIssue } from "@sourcebot/db";
+} from "@sourcecat/shared";
+import type { AccountPermissionSyncIssue } from "@sourcecat/db";
 import { StatusCodes } from "http-status-codes";
 import { ErrorCode } from "@/lib/errorCodes";
 import { sew } from "@/middleware/sew";

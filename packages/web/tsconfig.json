@@ -28,10 +28,10 @@
       "@/public/*": [
         "./public/*"
       ],
-      "@sourcebot/schemas/v3/*": [
+      "@sourcecat/schemas/v3/*": [
         "../schemas/src/v3/*"
       ],
-      "@sourcebot/schemas/v2/*": [
+      "@sourcecat/schemas/v2/*": [
         "../schemas/src/v2/*"
       ]
     },

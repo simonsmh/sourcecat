@@ -6,7 +6,7 @@ import {
     createLogger,
     Entitlement,
     env,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { __unsafePrisma } from "@/prisma";
 import { SINGLE_TENANT_ORG_ID } from "./constants";
 import { cache } from 'react';

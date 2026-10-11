@@ -7,14 +7,14 @@ import { withAuth } from '@/middleware/withAuth';
 import { withMinimumOrgRole } from '@/middleware/withMinimumOrgRole';
 import { __unsafePrisma } from '@/prisma';
 import { isServiceError } from '@/lib/utils';
-import { McpServerClientInfoSource, McpServerToolPermission, OrgRole, type PrismaClient } from '@sourcebot/db';
+import { McpServerClientInfoSource, McpServerToolPermission, OrgRole, type PrismaClient } from '@sourcecat/db';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 import { sanitizeMcpServerName } from '@/features/chat/mcp/utils';
 import { hasEntitlement } from '@/lib/entitlements';
 import { oauthNotSupported } from './errors';
 import { checkMcpServerDcrSupport } from './dcrDiscovery';
-import { encryptOAuthToken, env } from '@sourcebot/shared';
+import { encryptOAuthToken, env } from '@sourcecat/shared';
 import { captureEvent } from '@/lib/posthog';
 import { getMcpAuthMode } from './analytics';
 import type { McpConnectorEntryPoint } from '@/lib/posthogEvents';
@@ -25,7 +25,7 @@ import {
 import { buildMcpOAuthScopeEntries, OAUTH_SCOPE_TOKEN_REGEX } from './oauthScopeUtils';
 import type { McpServerOAuthScopeEntry, UpdateMcpServerToolPermissionsResponse } from './types';
 
-const MCP_DCR_DISCOVERY_TIMEOUT_MS = Math.min(env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS, 10000);
+const MCP_DCR_DISCOVERY_TIMEOUT_MS = Math.min(env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS, 10000);
 const oauthScopeTokenSchema = z.string()
     .trim()
     .min(1)
@@ -289,7 +289,7 @@ export const createStaticOAuthMcpServer = async (
                 });
 
                 void captureEvent('ask_mcp_connector_added', {
-                    source: 'sourcebot-web-client',
+                    source: 'sourcecat-web-client',
                     entryPoint: 'workspace_settings',
                     serverId: mcpServer.id,
                     serverUrl: mcpServer.serverUrl,
@@ -431,7 +431,7 @@ export const createMcpServer = async (
                 });
 
                 void captureEvent('ask_mcp_connector_added', {
-                    source: 'sourcebot-web-client',
+                    source: 'sourcecat-web-client',
                     entryPoint: 'workspace_settings',
                     serverId: mcpServer.id,
                     serverUrl: mcpServer.serverUrl,
@@ -477,7 +477,7 @@ export const deleteMcpServer = async (serverId: string) => sew(() =>
             });
 
             void captureEvent('ask_mcp_connector_removed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint: 'workspace_settings',
                 serverId: server.id,
                 serverUrl: server.serverUrl,
@@ -525,7 +525,7 @@ export const disconnectMcpServer = async (serverId: string, entryPoint: McpConne
         }
 
         void captureEvent('ask_mcp_connector_disconnected', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint,
             serverId: server.id,
             serverUrl: server.serverUrl,

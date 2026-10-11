@@ -7,7 +7,7 @@ import {
 } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { REPO_INDEX_QUEUE } from "@sourcebot/shared";
+import { REPO_INDEX_QUEUE } from "@sourcecat/shared";
 import { z } from "zod";
 
 const requestSchema = z.object({

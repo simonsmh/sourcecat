@@ -1,5 +1,5 @@
 import { beforeEach, expect, test, describe, vi } from 'vitest';
-import type { BitbucketConnectionConfig } from '@sourcebot/schemas/v3/bitbucket.type';
+import type { BitbucketConnectionConfig } from '@sourcecat/schemas/v3/bitbucket.type';
 import type { SchemaRepository as CloudRepository } from '@coderabbitai/bitbucket/cloud/openapi';
 import type { SchemaRestRepository as ServerRepository } from '@coderabbitai/bitbucket/server/openapi';
 

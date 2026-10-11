@@ -23,7 +23,7 @@ vi.mock('@/ee/features/chat/mcp/mcpToolMetadata', () => ({
 const { GET } = await import('./route');
 
 function createRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/tools', { method: 'GET' });
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/tools', { method: 'GET' });
 }
 
 beforeEach(() => {

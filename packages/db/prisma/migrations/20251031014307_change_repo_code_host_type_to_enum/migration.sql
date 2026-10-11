@@ -4,14 +4,14 @@
 
   This is occording to what we would expect to be in the database written as of commit 4899c9fbc755851af2ddcce99f4a4200f2faa4f6.
   See:
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L57
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L135
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L208
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L291
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L407
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L510
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L574
-    - https://github.com/sourcebot-dev/sourcebot/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L642
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L57
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L135
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L208
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L291
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L407
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L510
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L574
+    - https://github.com/simonsmh/sourcecat/blob/4899c9fbc755851af2ddcce99f4a4200f2faa4f6/packages/backend/src/repoCompileUtils.ts#L642
 */
 -- CreateEnum
 CREATE TYPE "CodeHostType" AS ENUM ('github', 'gitlab', 'gitea', 'gerrit', 'bitbucket-server', 'bitbucket-cloud', 'generic-git-host', 'azuredevops');

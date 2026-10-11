@@ -1,4 +1,4 @@
-import { CodeHostType } from '@sourcebot/db';
+import { CodeHostType } from '@sourcecat/db';
 import z from 'zod';
 import { fileTreeItemSchema, fileTreeNodeSchema } from './types';
 
@@ -152,5 +152,5 @@ export const branchSchema = z.object({
     commit: z.string().describe('The commit SHA at the branch head.'),
     committedAt: z.string().describe('The committer date of the latest commit on the branch, in ISO 8601 format.'),
     isDefault: z.boolean().describe('Whether this is the repository\'s default branch.'),
-    isIndexed: z.boolean().describe('Whether this branch is included in Sourcebot\'s current indexed revisions, i.e. whether code search can search it.'),
+    isIndexed: z.boolean().describe('Whether this branch is included in Sourcecat\'s current indexed revisions, i.e. whether code search can search it.'),
 });

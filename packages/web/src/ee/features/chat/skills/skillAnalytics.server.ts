@@ -8,7 +8,7 @@ import {
     personalAgentSkillAuthScope,
     sharedAgentSkillVisibleToUserWhere,
     type PrismaClient,
-} from "@sourcebot/db";
+} from "@sourcecat/db";
 import { filterSkillsBySourceRepoAccess } from "./sourceRepoAccess";
 
 export type AskSkillAvailabilityAnalytics = {

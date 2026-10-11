@@ -1,6 +1,6 @@
 import { hasEntitlement } from "@/lib/entitlements";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { getMcpOAuthCallbackUrl } from "@/ee/features/chat/mcp/utils.server";
 import { WorkspaceAskAgentPage } from "./workspaceAskAgentPage";
 import { WorkspaceAskAgentEntitlementMessage } from "./workspaceAskAgentEntitlementMessage";

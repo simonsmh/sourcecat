@@ -6,7 +6,7 @@ import { getAnonymousId, getOrCreateAnonymousId } from "@/lib/anonymousId";
 import { captureEvent } from "@/lib/posthog";
 import { notFound } from "@/lib/serviceError";
 import { withAuth, withOptionalAuth } from "@/middleware/withAuth";
-import { ChatVisibility, Prisma } from "@sourcebot/db";
+import { ChatVisibility, Prisma } from "@sourcecat/db";
 import { SBChatMessage } from "./types";
 import { activeMembershipWhere } from "../membership/utils";
 import { checkAskEntitlement, deleteOrphanedAttachments, isChatSharedWithUser, isOwnerOfChat, resolveChatAccess } from "./utils.server";

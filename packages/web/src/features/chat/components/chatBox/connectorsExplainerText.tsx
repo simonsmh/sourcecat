@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export const CONNECTORS_DOCS_URL = "https://docs.sourcebot.dev/docs/features/ask/connectors";
+export const CONNECTORS_DOCS_URL = "https://docs.sourcecat.dev/docs/features/ask/connectors";
 
 interface ConnectorsExplainerTextProps {
     /** Rendered inline before the shared description sentence. */

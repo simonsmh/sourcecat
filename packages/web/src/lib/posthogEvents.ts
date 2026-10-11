@@ -13,12 +13,12 @@ export type UpsellSource =
     'scim_settings' |
     'chat_connectors';
 
-export type SourcebotWebClientSource = 'sourcebot-web-client';
-export type AskMcpAnalyticsSource = SourcebotWebClientSource | 'sourcebot-ask-agent';
+export type SourcecatWebClientSource = 'sourcecat-web-client';
+export type AskMcpAnalyticsSource = SourcecatWebClientSource | 'sourcecat-ask-agent';
 export type McpConnectorEntryPoint = 'chat' | 'account_settings' | 'workspace_settings' | 'unknown';
 export type McpConnectorAuthMode = 'dynamic' | 'static';
 export type AskSkillScope = 'personal' | 'shared';
-export type AskSkillAnalyticsSource = SourcebotWebClientSource | 'sourcebot-ask-agent' | 'sourcebot-mcp-server';
+export type AskSkillAnalyticsSource = SourcecatWebClientSource | 'sourcecat-ask-agent' | 'sourcecat-mcp-server';
 export type AskSkillEntryPoint =
     'skills_settings' |
     'account_ask_agent_settings' |
@@ -232,7 +232,7 @@ export type PosthogEventMap = {
     },
     ask_mcp_turn_completed: {
         chatId: string,
-        source?: SourcebotWebClientSource,
+        source?: SourcecatWebClientSource,
         traceId?: string,
         askMcpUsed: boolean,
         askMcpToolCallCount: number,
@@ -273,7 +273,7 @@ export type PosthogEventMap = {
     ask_skill_turn_completed: {
         chatId: string,
         traceId?: string,
-        source?: SourcebotWebClientSource,
+        source?: SourcecatWebClientSource,
         availableSkillCount: number,
         manualInvocationCount: number,
         autoInvocationCount: number,
@@ -303,7 +303,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_deleted: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         scope: AskSkillScope,
         isSynced: boolean,
@@ -313,7 +313,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_shared: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         isSynced: boolean,
         skillIdHash?: string,
@@ -323,7 +323,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_made_personal: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         isSynced: boolean,
         wasAutoEnrolled: boolean,
@@ -333,7 +333,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_adoption_changed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         action: 'adopted' | 'removed',
         isSynced: boolean,
@@ -343,7 +343,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_auto_enrollment_changed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         enabled: boolean,
         isSynced: boolean,
@@ -352,7 +352,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_command_selected: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: 'chat_box',
         scope: AskSkillScope,
         isSynced: boolean,
@@ -360,7 +360,7 @@ export type PosthogEventMap = {
         visibleSuggestionCount: number,
     },
     ask_skill_import_completed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         method: Exclude<AskSkillCreationMethod, 'manual'>,
         isSynced: boolean,
@@ -370,7 +370,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skill_source_refresh_completed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: AskSkillEntryPoint,
         scope: AskSkillScope,
         skillIdHash?: string,
@@ -378,7 +378,7 @@ export type PosthogEventMap = {
         failureReason?: string,
     },
     ask_skills_page_viewed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: 'skills_settings',
         personalSkillCount: number,
         sharedSkillCount: number,
@@ -389,7 +389,7 @@ export type PosthogEventMap = {
         permissionSyncEnabled: boolean,
     },
     ask_workspace_skills_manager_viewed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: 'workspace_ask_agent_settings',
         sharedSkillCount: number,
         syncedSharedSkillCount: number,
@@ -397,28 +397,28 @@ export type PosthogEventMap = {
         autoEnrolledSkillCount: number,
     },
     ask_mcp_connector_added: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: 'workspace_settings',
         serverId: string,
         serverUrl: string,
         authMode: McpConnectorAuthMode,
     },
     ask_mcp_connector_removed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: 'workspace_settings',
         serverId: string,
         serverUrl: string,
         authMode: McpConnectorAuthMode,
     },
     ask_mcp_connector_connection_started: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: McpConnectorEntryPoint,
         serverId: string,
         serverUrl: string,
         authMode: McpConnectorAuthMode,
     },
     ask_mcp_connector_connection_completed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: McpConnectorEntryPoint,
         serverId: string,
         serverUrl: string,
@@ -426,7 +426,7 @@ export type PosthogEventMap = {
         alreadyAuthorized: boolean,
     },
     ask_mcp_connector_connection_failed: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: McpConnectorEntryPoint,
         serverId?: string,
         serverUrl?: string,
@@ -434,7 +434,7 @@ export type PosthogEventMap = {
         failureReason: string,
     },
     ask_mcp_connector_disconnected: {
-        source: SourcebotWebClientSource,
+        source: SourcecatWebClientSource,
         entryPoint: McpConnectorEntryPoint,
         serverId: string,
         serverUrl: string,

@@ -5,9 +5,9 @@ import { SBChatMessage, SBChatMessagePart } from './types';
 import type { Descendant } from 'slate';
 
 // Mock the env module
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {
-        SOURCEBOT_CHAT_FILE_MAX_CHARACTERS: 4000,
+        SOURCECAT_CHAT_FILE_MAX_CHARACTERS: 4000,
     }
 }));
 
@@ -103,29 +103,29 @@ const inputAvailablePart = {
 
 test('fileReferenceToString formats file references correctly', () => {
     expect(fileReferenceToString({
-        repo: 'github.com/sourcebot-dev/sourcebot',
+        repo: 'github.com/simonsmh/sourcecat',
         path: 'auth.ts'
-    })).toBe('@file:{github.com/sourcebot-dev/sourcebot::auth.ts}');
+    })).toBe('@file:{github.com/simonsmh/sourcecat::auth.ts}');
 
     expect(fileReferenceToString({
-        repo: 'github.com/sourcebot-dev/sourcebot',
+        repo: 'github.com/simonsmh/sourcecat',
         path: 'auth.ts',
         range: {
             startLine: 45,
             endLine: 60,
         }
-    })).toBe('@file:{github.com/sourcebot-dev/sourcebot::auth.ts:45-60}');
+    })).toBe('@file:{github.com/simonsmh/sourcecat::auth.ts:45-60}');
 });
 
 test('fileReferenceToString matches FILE_REFERENCE_REGEX', () => {
     expect(FILE_REFERENCE_REGEX.test(fileReferenceToString({
-        repo: 'github.com/sourcebot-dev/sourcebot',
+        repo: 'github.com/simonsmh/sourcecat',
         path: 'auth.ts'
     }))).toBe(true);
 
     FILE_REFERENCE_REGEX.lastIndex = 0;
     expect(FILE_REFERENCE_REGEX.test(fileReferenceToString({
-        repo: 'github.com/sourcebot-dev/sourcebot',
+        repo: 'github.com/simonsmh/sourcecat',
         path: 'auth.ts',
         range: {
             startLine: 45,
@@ -635,7 +635,7 @@ describe('getUserMessageText', () => {
                     data: {
                         type: 'file',
                         path: 'auth.ts',
-                        repo: 'github.com/sourcebot-dev/sourcebot',
+                        repo: 'github.com/simonsmh/sourcecat',
                         name: 'auth.ts',
                         revision: 'main',
                     },
@@ -659,7 +659,7 @@ describe('getUserMessageText', () => {
                     data: {
                         type: 'file',
                         path: 'auth.ts',
-                        repo: 'github.com/sourcebot-dev/sourcebot',
+                        repo: 'github.com/simonsmh/sourcecat',
                         name: 'auth.ts',
                         revision: 'main',
                     },
@@ -681,55 +681,55 @@ describe('getUserMessageText', () => {
 });
 
 test('repairReferences fixes missing colon after @file', () => {
-    const input = 'See the function in @file{github.com/sourcebot-dev/sourcebot::auth.ts} for details.';
-    const expected = 'See the function in @file:{github.com/sourcebot-dev/sourcebot::auth.ts} for details.';
+    const input = 'See the function in @file{github.com/simonsmh/sourcecat::auth.ts} for details.';
+    const expected = 'See the function in @file:{github.com/simonsmh/sourcecat::auth.ts} for details.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences fixes missing colon with range', () => {
-    const input = 'Check @file{github.com/sourcebot-dev/sourcebot::config.ts:15-20} for the configuration.';
-    const expected = 'Check @file:{github.com/sourcebot-dev/sourcebot::config.ts:15-20} for the configuration.';
+    const input = 'Check @file{github.com/simonsmh/sourcecat::config.ts:15-20} for the configuration.';
+    const expected = 'Check @file:{github.com/simonsmh/sourcecat::config.ts:15-20} for the configuration.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences fixes missing braces around filename', () => {
-    const input = 'The logic is in @file:github.com/sourcebot-dev/sourcebot::utils.js and handles validation.';
-    const expected = 'The logic is in @file:{github.com/sourcebot-dev/sourcebot::utils.js} and handles validation.';
+    const input = 'The logic is in @file:github.com/simonsmh/sourcecat::utils.js and handles validation.';
+    const expected = 'The logic is in @file:{github.com/simonsmh/sourcecat::utils.js} and handles validation.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences fixes missing braces with path', () => {
-    const input = 'Look at @file:github.com/sourcebot-dev/sourcebot::src/components/Button.tsx for the component.';
-    const expected = 'Look at @file:{github.com/sourcebot-dev/sourcebot::src/components/Button.tsx} for the component.';
+    const input = 'Look at @file:github.com/simonsmh/sourcecat::src/components/Button.tsx for the component.';
+    const expected = 'Look at @file:{github.com/simonsmh/sourcecat::src/components/Button.tsx} for the component.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences removes multiple ranges keeping only first', () => {
-    const input = 'See @file:{github.com/sourcebot-dev/sourcebot::service.ts:10-15,20-25,30-35} for implementation.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::service.ts:10-15} for implementation.';
+    const input = 'See @file:{github.com/simonsmh/sourcecat::service.ts:10-15,20-25,30-35} for implementation.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::service.ts:10-15} for implementation.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences fixes malformed triple number ranges', () => {
-    const input = 'Check @file:{github.com/sourcebot-dev/sourcebot::handler.ts:5-10-15} for the logic.';
-    const expected = 'Check @file:{github.com/sourcebot-dev/sourcebot::handler.ts:5-10} for the logic.';
+    const input = 'Check @file:{github.com/simonsmh/sourcecat::handler.ts:5-10-15} for the logic.';
+    const expected = 'Check @file:{github.com/simonsmh/sourcecat::handler.ts:5-10} for the logic.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles multiple citations in same text', () => {
-    const input = 'See @file{github.com/sourcebot-dev/sourcebot::auth.ts} and @file:github.com/sourcebot-dev/sourcebot::config.js for setup details.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::auth.ts} and @file:{github.com/sourcebot-dev/sourcebot::config.js} for setup details.';
+    const input = 'See @file{github.com/simonsmh/sourcecat::auth.ts} and @file:github.com/simonsmh/sourcecat::config.js for setup details.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::auth.ts} and @file:{github.com/simonsmh/sourcecat::config.js} for setup details.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences leaves correctly formatted citations unchanged', () => {
-    const input = 'The function @file:{github.com/sourcebot-dev/sourcebot::utils.ts:42-50} handles validation correctly.';
+    const input = 'The function @file:{github.com/simonsmh/sourcecat::utils.ts:42-50} handles validation correctly.';
     expect(repairReferences(input)).toBe(input);
 });
 
 test('repairReferences handles edge cases with spaces and punctuation', () => {
-    const input = 'Functions like @file:github.com/sourcebot-dev/sourcebot::helper.ts, @file{github.com/sourcebot-dev/sourcebot::main.js}, and @file:{github.com/sourcebot-dev/sourcebot::app.ts:1-5,10-15} work.';
-    const expected = 'Functions like @file:{github.com/sourcebot-dev/sourcebot::helper.ts}, @file:{github.com/sourcebot-dev/sourcebot::main.js}, and @file:{github.com/sourcebot-dev/sourcebot::app.ts:1-5} work.';
+    const input = 'Functions like @file:github.com/simonsmh/sourcecat::helper.ts, @file{github.com/simonsmh/sourcecat::main.js}, and @file:{github.com/simonsmh/sourcecat::app.ts:1-5,10-15} work.';
+    const expected = 'Functions like @file:{github.com/simonsmh/sourcecat::helper.ts}, @file:{github.com/simonsmh/sourcecat::main.js}, and @file:{github.com/simonsmh/sourcecat::app.ts:1-5} work.';
     expect(repairReferences(input)).toBe(expected);
 });
 
@@ -743,49 +743,49 @@ test('repairReferences returns text without citations unchanged', () => {
 });
 
 test('repairReferences handles complex file paths correctly', () => {
-    const input = 'Check @file:github.com/sourcebot-dev/sourcebot::src/components/ui/Button/index.tsx for implementation.';
-    const expected = 'Check @file:{github.com/sourcebot-dev/sourcebot::src/components/ui/Button/index.tsx} for implementation.';
+    const input = 'Check @file:github.com/simonsmh/sourcecat::src/components/ui/Button/index.tsx for implementation.';
+    const expected = 'Check @file:{github.com/simonsmh/sourcecat::src/components/ui/Button/index.tsx} for implementation.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles files with numbers and special characters', () => {
-    const input = 'See @file{github.com/sourcebot-dev/sourcebot::utils-v2.0.1.ts} and @file:github.com/sourcebot-dev/sourcebot::config_2024.json for setup.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::utils-v2.0.1.ts} and @file:{github.com/sourcebot-dev/sourcebot::config_2024.json} for setup.';
+    const input = 'See @file{github.com/simonsmh/sourcecat::utils-v2.0.1.ts} and @file:github.com/simonsmh/sourcecat::config_2024.json for setup.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::utils-v2.0.1.ts} and @file:{github.com/simonsmh/sourcecat::config_2024.json} for setup.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles citation at end of sentence', () => {
-    const input = 'The implementation is in @file:github.com/sourcebot-dev/sourcebot::helper.ts.';
-    const expected = 'The implementation is in @file:{github.com/sourcebot-dev/sourcebot::helper.ts}.';
+    const input = 'The implementation is in @file:github.com/simonsmh/sourcecat::helper.ts.';
+    const expected = 'The implementation is in @file:{github.com/simonsmh/sourcecat::helper.ts}.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences preserves already correct citations with ranges', () => {
-    const input = 'The function @file:{github.com/sourcebot-dev/sourcebot::utils.ts:10-20} and variable @file:{github.com/sourcebot-dev/sourcebot::config.js:5} work correctly.';
+    const input = 'The function @file:{github.com/simonsmh/sourcecat::utils.ts:10-20} and variable @file:{github.com/simonsmh/sourcecat::config.js:5} work correctly.';
     expect(repairReferences(input)).toBe(input);
 });
 
 test('repairReferences handles extra closing parenthesis', () => {
-    const input = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts:5-6)} for details.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts:5-6} for details.';
+    const input = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts:5-6)} for details.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts:5-6} for details.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles extra colon at end of range', () => {
-    const input = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts:5-6:} for details.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts:5-6} for details.';
+    const input = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts:5-6:} for details.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts:5-6} for details.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles inline code blocks around file references', () => {
-    const input = 'See `@file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}` for details.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts} for details.';
+    const input = 'See `@file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}` for details.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts} for details.';
     expect(repairReferences(input)).toBe(expected);
 });
 
 test('repairReferences handles malformed inline code blocks', () => {
-    const input = 'See `@file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts`} for details.';
-    const expected = 'See @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts} for details.';
+    const input = 'See `@file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts`} for details.';
+    const expected = 'See @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts} for details.';
     expect(repairReferences(input)).toBe(expected);
 });
 

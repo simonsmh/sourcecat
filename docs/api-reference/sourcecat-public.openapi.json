@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Sourcebot Public API",
+    "title": "Sourcecat Public API",
     "version": "v5.1.16",
-    "description": "OpenAPI description for the public Sourcebot REST endpoints used for search, repository listing, and file browsing. Authentication is instance-dependent: API keys are the standard integration mechanism, OAuth bearer tokens are EE-only, and some instances may allow anonymous access."
+    "description": "OpenAPI description for the public Sourcecat REST endpoints used for search, repository listing, and file browsing. Authentication is instance-dependent: API keys are the standard integration mechanism, OAuth bearer tokens are EE-only, and some instances may allow anonymous access."
   },
   "tags": [
     {
@@ -427,7 +427,7 @@
           "errorCode",
           "message"
         ],
-        "description": "Structured error response returned by Sourcebot public API endpoints."
+        "description": "Structured error response returned by Sourcecat public API endpoints."
       },
       "PublicSearchRequest": {
         "type": "object",
@@ -1283,7 +1283,7 @@
           "targetType": {
             "type": "string"
           },
-          "sourcebotVersion": {
+          "sourcecatVersion": {
             "type": "string"
           },
           "metadata": {
@@ -1305,7 +1305,7 @@
           "actorType",
           "targetId",
           "targetType",
-          "sourcebotVersion",
+          "sourcecatVersion",
           "metadata",
           "orgId"
         ]
@@ -1349,13 +1349,13 @@
       "bearerToken": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Bearer authentication header of the form `Bearer <token>`. The token may be a Sourcebot API key, OAuth access token, or scoped access token, subject to endpoint requirements."
+        "description": "Bearer authentication header of the form `Bearer <token>`. The token may be a Sourcecat API key, OAuth access token, or scoped access token, subject to endpoint requirements."
       },
       "apiKeyHeader": {
         "type": "apiKey",
         "in": "header",
-        "name": "X-Sourcebot-Api-Key",
-        "description": "Header of the form `X-Sourcebot-Api-Key: <token>`, where `<token>` is your API key."
+        "name": "X-Sourcecat-Api-Key",
+        "description": "Header of the form `X-Sourcecat-Api-Key: <token>`, where `<token>` is your API key."
       }
     }
   },
@@ -1369,7 +1369,7 @@
         "summary": "Search code",
         "description": "Executes a blocking code search and returns all matching file chunks.",
         "x-mint": {
-          "content": "## Usage\n\nThe `query` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcebot.dev/docs/features/search/syntax-reference) for the full query language."
+          "content": "## Usage\n\nThe `query` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcecat.dev/docs/features/search/syntax-reference) for the full query language."
         },
         "requestBody": {
           "required": true,
@@ -1422,7 +1422,7 @@
           "Repositories"
         ],
         "summary": "List repositories",
-        "description": "Returns a paginated list of repositories indexed by this Sourcebot instance.",
+        "description": "Returns a paginated list of repositories indexed by this Sourcecat instance.",
         "parameters": [
           {
             "schema": {
@@ -1592,11 +1592,11 @@
         "tags": [
           "System"
         ],
-        "summary": "Get Sourcebot version",
-        "description": "Returns the currently running Sourcebot version string.",
+        "summary": "Get Sourcecat version",
+        "description": "Returns the currently running Sourcecat version string.",
         "responses": {
           "200": {
-            "description": "Current Sourcebot version.",
+            "description": "Current Sourcecat version.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2433,7 +2433,7 @@
           }
         ],
         "x-mint": {
-          "content": "<Info>\nThe scoped access token APIs require a custom entitlement. To request access, contact [team@sourcebot.dev](mailto:team@sourcebot.dev).\n</Info>"
+          "content": "<Info>\nThe scoped access token APIs require a custom entitlement. To request access, contact [team@sourcecat.dev](mailto:team@sourcecat.dev).\n</Info>"
         },
         "requestBody": {
           "required": true,
@@ -2516,7 +2516,7 @@
           }
         ],
         "x-mint": {
-          "content": "<Info>\nThe scoped access token APIs require a custom entitlement. To request access, contact [team@sourcebot.dev](mailto:team@sourcebot.dev).\n</Info>"
+          "content": "<Info>\nThe scoped access token APIs require a custom entitlement. To request access, contact [team@sourcecat.dev](mailto:team@sourcecat.dev).\n</Info>"
         },
         "parameters": [
           {
@@ -2586,7 +2586,7 @@
         "summary": "Get a user",
         "description": "Fetches details for a single organization member by `userId`. Only organization owners can access this endpoint.",
         "x-mint": {
-          "content": "<Note>\nThis API is only available with an active Sourcebot license. [More information](/docs/activating-a-subscription).\n</Note>"
+          "content": "<Note>\nThis API is only available with an active Sourcecat license. [More information](/docs/activating-a-subscription).\n</Note>"
         },
         "parameters": [
           {
@@ -2661,7 +2661,7 @@
         "summary": "Remove a user from the organization",
         "description": "Removes a user from the organization, revoking their access and their sessions. Only organization owners can access this endpoint.",
         "x-mint": {
-          "content": "<Note>\nThis API is only available with an active Sourcebot license. [More information](/docs/activating-a-subscription).\n</Note>"
+          "content": "<Note>\nThis API is only available with an active Sourcecat license. [More information](/docs/activating-a-subscription).\n</Note>"
         },
         "parameters": [
           {
@@ -2738,7 +2738,7 @@
         "summary": "List users",
         "description": "Returns all members of the organization. Only organization owners can access this endpoint.",
         "x-mint": {
-          "content": "<Note>\nThis API is only available with an active Sourcebot license. [More information](/docs/activating-a-subscription).\n</Note>"
+          "content": "<Note>\nThis API is only available with an active Sourcecat license. [More information](/docs/activating-a-subscription).\n</Note>"
         },
         "responses": {
           "200": {
@@ -2783,7 +2783,7 @@
         "summary": "List audit records",
         "description": "Returns a paginated list of audit log entries. Only organization owners can access this endpoint.",
         "x-mint": {
-          "content": "<Note>\nThis API is only available with an active Sourcebot license. [More information](/docs/activating-a-subscription).\n</Note>"
+          "content": "<Note>\nThis API is only available with an active Sourcecat license. [More information](/docs/activating-a-subscription).\n</Note>"
         },
         "parameters": [
           {

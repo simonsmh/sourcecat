@@ -4,14 +4,14 @@ import type { OAuthTokens } from '@ai-sdk/mcp';
 
 // --- Mocks ---
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         info: vi.fn(),
         warn: vi.fn(),
         error: vi.fn(),
         debug: vi.fn(),
     }),
-    env: { AUTH_URL: 'https://sourcebot.example.com' },
+    env: { AUTH_URL: 'https://sourcecat.example.com' },
     decryptOAuthToken: vi.fn((s: string) => s),
 }));
 

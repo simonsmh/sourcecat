@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -22,8 +22,8 @@ vi.mock("@sentry/node", () => ({
     captureException: mocks.captureException,
 }));
 
-vi.mock("@sourcebot/shared", async (importOriginal) => ({
-    ...(await importOriginal<typeof import("@sourcebot/shared")>()),
+vi.mock("@sourcecat/shared", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@sourcecat/shared")>()),
     ACCOUNT_PERMISSION_SYNC_QUEUE: {
         name: "account-permission-sync",
         jobOptions: {
@@ -277,10 +277,10 @@ describe("accountPermissionSyncWorkload", () => {
         expect(workload.executionLock).toBeDefined();
         expect(
             workload.executionLock?.resource({ accountId: "account_1" }),
-        ).toBe("sourcebot:lock:account:account_1");
+        ).toBe("sourcecat:lock:account:account_1");
         expect(
             workload.executionLock?.resource({ accountId: "account_2" }),
-        ).toBe("sourcebot:lock:account:account_2");
+        ).toBe("sourcecat:lock:account:account_2");
         expect(workload.executionLock?.durationMs).toBe(60_000);
     });
 

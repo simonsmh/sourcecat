@@ -39,7 +39,7 @@ type WorkloadQueue<TName extends QueueName> = Queue<
     string
 >;
 
-const LATEST_JOB_KEY_PREFIX = "sourcebot:latest-job";
+const LATEST_JOB_KEY_PREFIX = "sourcecat:latest-job";
 
 // QueueSpec is distributive so queue names, data, and result schemas stay
 // correlated when TName is a union. Re-establish the shared generic here

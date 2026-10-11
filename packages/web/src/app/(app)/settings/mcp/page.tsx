@@ -3,7 +3,7 @@ import { getConnectedOauthClients } from "@/ee/features/oauth/actions";
 import { ServiceErrorException } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { hasEntitlement } from "@/lib/entitlements";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { McpPage } from "./mcpPage";
 import { McpEntitlementMessage } from "./mcpEntitlementMessage";
 

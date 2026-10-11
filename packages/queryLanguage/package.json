@@ -1,5 +1,5 @@
 {
-    "name": "@sourcebot/query-language",
+    "name": "@sourcecat/query-language",
     "private": true,
     "main": "dist/index.js",
     "scripts": {

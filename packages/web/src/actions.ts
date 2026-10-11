@@ -4,11 +4,11 @@ import { createAudit } from "@/ee/features/audit/audit";
 import { ErrorCode } from "@/lib/errorCodes";
 import { notFound, ServiceError } from "@/lib/serviceError";
 import { sew } from "@/middleware/sew";
-import { OrgRole, Prisma } from "@sourcebot/db";
-import { GiteaConnectionConfig } from "@sourcebot/schemas/v3/gitea.type";
-import { GithubConnectionConfig } from "@sourcebot/schemas/v3/github.type";
-import { GitlabConnectionConfig } from "@sourcebot/schemas/v3/gitlab.type";
-import { createLogger, env, generateApiKey, getTokenFromConfig } from "@sourcebot/shared";
+import { OrgRole, Prisma } from "@sourcecat/db";
+import { GiteaConnectionConfig } from "@sourcecat/schemas/v3/gitea.type";
+import { GithubConnectionConfig } from "@sourcecat/schemas/v3/github.type";
+import { GitlabConnectionConfig } from "@sourcecat/schemas/v3/gitlab.type";
+import { createLogger, env, generateApiKey, getTokenFromConfig } from "@sourcecat/shared";
 import { StatusCodes } from "http-status-codes";
 import { cookies } from "next/headers";
 import { getBrowsePath } from "./app/(app)/browse/hooks/utils";
@@ -224,7 +224,7 @@ export const getRepoInfoByName = async (repoName: string) => sew(() =>
     withOptionalAuth(async ({ org, prisma }) => {
         // @note: repo names are represented by their remote url
         // on the code host. E.g.,:
-        // - github.com/sourcebot-dev/sourcebot
+        // - github.com/simonsmh/sourcecat
         // - gitlab.com/gitlab-org/gitlab
         // - gerrit.wikimedia.org/r/mediawiki/extensions/OnionsPorFavor
         // etc.
@@ -240,18 +240,18 @@ export const getRepoInfoByName = async (repoName: string) => sew(() =>
         //         "connection-1": {
         //             "type": "github",
         //             "repos": [
-        //                 "sourcebot-dev/sourcebot"
+        //                 "simonsmh/sourcecat"
         //             ]
         //         },
         //         "connection-2": {
         //             "type": "git",
-        //             "url": "file:///tmp/repos/sourcebot"
+        //             "url": "file:///tmp/repos/sourcecat"
         //         }
         //     }
         // }
         // ```
         //
-        // In this scenario, both repos will be named "github.com/sourcebot-dev/sourcebot".
+        // In this scenario, both repos will be named "github.com/simonsmh/sourcecat".
         // We will leave this as an edge case for now since it's unlikely to happen in practice.
         //
         // @v4-todo: we could add a unique constraint on repo name + orgId to help de-duplicate

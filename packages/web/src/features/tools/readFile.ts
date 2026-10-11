@@ -4,7 +4,7 @@ import { getFileSource } from "@/features/git";
 import { ToolDefinition } from "./types";
 import { logger } from "./logger";
 import description from "./readFile.txt";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { getRepoInfoByName } from "@/actions";
 
 // NOTE: if you change these values, update readFile.txt to match.

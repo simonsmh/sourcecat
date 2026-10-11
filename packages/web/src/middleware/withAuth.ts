@@ -1,6 +1,6 @@
 import { __unsafePrisma, userScopedPrismaClientExtension } from "@/prisma";
-import { hashSecret, OAUTH_ACCESS_TOKEN_PREFIX, API_KEY_PREFIX, LEGACY_API_KEY_PREFIX, SCOPED_ACCESS_TOKEN_PREFIX, env } from "@sourcebot/shared";
-import { ApiKey, Org, OrgRole, PrismaClient, UserToOrg, UserWithAccounts } from "@sourcebot/db";
+import { hashSecret, OAUTH_ACCESS_TOKEN_PREFIX, API_KEY_PREFIX, LEGACY_API_KEY_PREFIX, SCOPED_ACCESS_TOKEN_PREFIX, env } from "@sourcecat/shared";
+import { ApiKey, Org, OrgRole, PrismaClient, UserToOrg, UserWithAccounts } from "@sourcecat/db";
 import { headers } from "next/headers";
 import { auth } from "../auth";
 import { insufficientOAuthScope, notAuthenticated, notFound, ServiceError } from "../lib/serviceError";
@@ -104,7 +104,7 @@ export const getAuthContext = async (options: AuthOptions = {}): Promise<Optiona
 
     setSentryUser(
         user ?? null,
-        env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
+        env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
     );
 
     const org = await __unsafePrisma.org.findUnique({
@@ -373,7 +373,7 @@ export const getAuthenticatedUser = async (): Promise<AuthResult | undefined> =>
             };
         }
 
-        // API key Bearer token (sourcebot-<hex>)
+        // API key Bearer token (sourcecat-<hex>)
         const apiKey = await getVerifiedApiObject(bearerToken);
         if (apiKey) {
             const user = await __unsafePrisma.user.findUnique({
@@ -391,7 +391,7 @@ export const getAuthenticatedUser = async (): Promise<AuthResult | undefined> =>
     }
 
     // If not, check if we have a valid API key.
-    const apiKeyString = requestHeaders.get("X-Sourcebot-Api-Key") ?? undefined;
+    const apiKeyString = requestHeaders.get("X-Sourcecat-Api-Key") ?? undefined;
     if (apiKeyString) {
         const apiKey = await getVerifiedApiObject(apiKeyString);
         if (!apiKey) {
@@ -448,7 +448,7 @@ function parseAuthorizationHeader(authorizationHeader: string | undefined): { sc
 
 /**
  * Returns an API key object if the API key string is valid, otherwise returns undefined.
- * Supports both the current prefix (sbk_) and the legacy prefix (sourcebot-).
+ * Supports both the current prefix (sbk_) and the legacy prefix (sourcecat-).
  */
 export const getVerifiedApiObject = async (apiKeyString: string): Promise<ApiKey | undefined> => {
     let secret: string;

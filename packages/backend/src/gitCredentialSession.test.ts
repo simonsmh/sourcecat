@@ -82,7 +82,7 @@ afterEach(async () => {
 describe('withGitCredentialSession', () => {
     test('stores a credential in an isolated memory cache and removes the session afterward', async () => {
         const cloneUrl = 'https://example.com/org/repo.git';
-        const token = `sourcebot-test-token-${randomUUID()}`;
+        const token = `sourcecat-test-token-${randomUUID()}`;
         let sessionDirectory: string | undefined;
 
         const result = await withGitCredentialSession({
@@ -120,8 +120,8 @@ describe('withGitCredentialSession', () => {
     test('uses independent caches for concurrent operations', async () => {
         const cloneUrl = 'https://example.com/org/repo.git';
         const tokens = [
-            `sourcebot-test-token-${randomUUID()}`,
-            `sourcebot-test-token-${randomUUID()}`,
+            `sourcecat-test-token-${randomUUID()}`,
+            `sourcecat-test-token-${randomUUID()}`,
         ];
         const socketPaths: string[] = [];
         let releaseOperations!: () => void;
@@ -165,7 +165,7 @@ describe('withGitCredentialSession', () => {
             cloneUrl: 'https://example.com/org/repo.git',
             credentials: {
                 username: 'test-user',
-                password: `sourcebot-test-token-${randomUUID()}`,
+                password: `sourcecat-test-token-${randomUUID()}`,
             },
             operation: async (environment) => {
                 sessionDirectory = dirname(getSocketPath(environment));
@@ -178,7 +178,7 @@ describe('withGitCredentialSession', () => {
     });
 
     test('does not place the credential in Git command arguments', async () => {
-        const wrapperDirectory = await mkdtemp(join(tmpdir(), 'sourcebot-git-wrapper-'));
+        const wrapperDirectory = await mkdtemp(join(tmpdir(), 'sourcecat-git-wrapper-'));
         temporaryPaths.push(wrapperDirectory);
         const wrapperPath = join(wrapperDirectory, 'git');
         const argvLogPath = join(wrapperDirectory, 'argv.log');
@@ -188,21 +188,21 @@ describe('withGitCredentialSession', () => {
         await writeFile(wrapperPath, [
             '#!/bin/sh',
             'for argument in "$@"; do',
-            '    printf "%s\\n" "$argument" >> "$SOURCEBOT_TEST_GIT_ARGV_LOG"',
+            '    printf "%s\\n" "$argument" >> "$SOURCECAT_TEST_GIT_ARGV_LOG"',
             'done',
-            'exec "$SOURCEBOT_TEST_REAL_GIT" "$@"',
+            'exec "$SOURCECAT_TEST_REAL_GIT" "$@"',
             '',
         ].join('\n'));
         await chmod(wrapperPath, 0o700);
 
         const previousPath = process.env.PATH;
-        const previousRealGit = process.env.SOURCEBOT_TEST_REAL_GIT;
-        const previousArgvLog = process.env.SOURCEBOT_TEST_GIT_ARGV_LOG;
+        const previousRealGit = process.env.SOURCECAT_TEST_REAL_GIT;
+        const previousArgvLog = process.env.SOURCECAT_TEST_GIT_ARGV_LOG;
         process.env.PATH = `${wrapperDirectory}:${previousPath ?? ''}`;
-        process.env.SOURCEBOT_TEST_REAL_GIT = resolvedGit;
-        process.env.SOURCEBOT_TEST_GIT_ARGV_LOG = argvLogPath;
+        process.env.SOURCECAT_TEST_REAL_GIT = resolvedGit;
+        process.env.SOURCECAT_TEST_GIT_ARGV_LOG = argvLogPath;
 
-        const token = `sourcebot-test-token-${randomUUID()}`;
+        const token = `sourcecat-test-token-${randomUUID()}`;
         try {
             await withGitCredentialSession({
                 cloneUrl: 'https://example.com/org/repo.git',
@@ -224,14 +224,14 @@ describe('withGitCredentialSession', () => {
                 process.env.PATH = previousPath;
             }
             if (previousRealGit === undefined) {
-                delete process.env.SOURCEBOT_TEST_REAL_GIT;
+                delete process.env.SOURCECAT_TEST_REAL_GIT;
             } else {
-                process.env.SOURCEBOT_TEST_REAL_GIT = previousRealGit;
+                process.env.SOURCECAT_TEST_REAL_GIT = previousRealGit;
             }
             if (previousArgvLog === undefined) {
-                delete process.env.SOURCEBOT_TEST_GIT_ARGV_LOG;
+                delete process.env.SOURCECAT_TEST_GIT_ARGV_LOG;
             } else {
-                process.env.SOURCEBOT_TEST_GIT_ARGV_LOG = previousArgvLog;
+                process.env.SOURCECAT_TEST_GIT_ARGV_LOG = previousArgvLog;
             }
         }
 
@@ -242,7 +242,7 @@ describe('withGitCredentialSession', () => {
     });
 
     test('reports credential command stderr without exposing the password', async () => {
-        const wrapperDirectory = await mkdtemp(join(tmpdir(), 'sourcebot-git-wrapper-'));
+        const wrapperDirectory = await mkdtemp(join(tmpdir(), 'sourcecat-git-wrapper-'));
         temporaryPaths.push(wrapperDirectory);
         const wrapperPath = join(wrapperDirectory, 'git');
         await writeFile(wrapperPath, [
@@ -256,7 +256,7 @@ describe('withGitCredentialSession', () => {
 
         const previousPath = process.env.PATH;
         process.env.PATH = `${wrapperDirectory}:${previousPath ?? ''}`;
-        const token = `sourcebot-test-token-${randomUUID()}`;
+        const token = `sourcecat-test-token-${randomUUID()}`;
         let error: unknown;
         try {
             await withGitCredentialSession({
@@ -285,7 +285,7 @@ describe('withGitCredentialSession', () => {
 
     test('supports a clone URL with an embedded username', async () => {
         const cloneUrl = 'https://test-user@example.com/org/repo.git';
-        const token = `sourcebot-test-token-${randomUUID()}`;
+        const token = `sourcecat-test-token-${randomUUID()}`;
 
         const credential = await withGitCredentialSession({
             cloneUrl,

@@ -276,14 +276,14 @@ export const eventSchemas = {
     },
     completed: {
         completionMode: choice(
-            'sourcebot_start_spawned',
-            'sourcebot_start_failed',
+            'sourcecat_start_spawned',
+            'sourcecat_start_failed',
             'existing_deployment_left_running',
             'manual_start_required',
         ),
-        sourcebotStartOffered: boolean,
-        sourcebotStartRequested: boolean,
-        sourcebotStartOutcome: choice(
+        sourcecatStartOffered: boolean,
+        sourcecatStartRequested: boolean,
+        sourcecatStartOutcome: choice(
             'spawned',
             'declined',
             'not_offered',

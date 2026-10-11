@@ -3,7 +3,7 @@ import type { OAuthTokens } from '@ai-sdk/mcp';
 
 const decryptOAuthToken = vi.hoisted(() => vi.fn());
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     decryptOAuthToken,
 }));
 

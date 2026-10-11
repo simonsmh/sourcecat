@@ -4,7 +4,7 @@ import { __unsafePrisma } from '@/prisma';
 import {
     McpServerToolPermission,
     type PrismaClient,
-} from '@sourcebot/db';
+} from '@sourcecat/db';
 
 export const DEFAULT_MCP_SERVER_TOOL_PERMISSION = McpServerToolPermission.NEEDS_APPROVAL;
 

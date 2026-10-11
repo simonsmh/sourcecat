@@ -1,9 +1,9 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import {
     AUDIT_LOG_PRUNE_QUEUE,
     createLogger,
     JOB_PRIORITIES,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import type { Workload } from "../types.js";
 
 const BATCH_SIZE = 10_000;

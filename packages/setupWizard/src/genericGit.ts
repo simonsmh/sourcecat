@@ -1,11 +1,11 @@
 import { sourceSummary } from './telemetrySummary.js';
 import { input } from './prompts.js';
-import type { GenericGitHostConnectionConfig } from '@sourcebot/schemas/v3/genericGitHost.type';
+import type { GenericGitHostConnectionConfig } from '@sourcecat/schemas/v3/genericGitHost.type';
 import type { CollectResult } from './utils.js';
 
 export async function collectGenericGitConfig(): Promise<CollectResult> {
     const url = await input({
-        message: 'Git clone URL (e.g. https://github.com/sourcebot-dev/sourcebot)',
+        message: 'Git clone URL (e.g. https://github.com/simonsmh/sourcecat)',
         validate: (v) => {
             if (!v?.trim()) {
                 return 'URL is required';

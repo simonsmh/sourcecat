@@ -1,15 +1,15 @@
 'use server';
 
 import { getProviders } from "@/auth";
-import { SOURCEBOT_SUPPORT_EMAIL } from "@/lib/constants";
+import { SOURCECAT_SUPPORT_EMAIL } from "@/lib/constants";
 import { isAnonymousAccessAvailable } from "@/lib/entitlements";
 import { ErrorCode } from "@/lib/errorCodes";
 import { requestBodySchemaValidationError, ServiceError } from "@/lib/serviceError";
 import { sew } from "@/middleware/sew";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
-import { env } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env } from "@sourcecat/shared";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
 import { LOGIN_MESSAGE_MAX_LENGTH } from "@/features/auth/constants";
@@ -147,7 +147,7 @@ export const setAnonymousAccessStatus = async (enabled: boolean): Promise<Servic
                 return {
                     statusCode: StatusCodes.FORBIDDEN,
                     errorCode: ErrorCode.INSUFFICIENT_PERMISSIONS,
-                    message: `Anonymous access is not supported in your current plan. For support, contact ${SOURCEBOT_SUPPORT_EMAIL}.`,
+                    message: `Anonymous access is not supported in your current plan. For support, contact ${SOURCECAT_SUPPORT_EMAIL}.`,
                 } satisfies ServiceError;
             }
 

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // @note: keep these schemas in sync with lighthouse/lambda/routes/*.ts.
-export const ONLINE_LICENSE_ASSERTION_AUDIENCE = 'sourcebot-online-license';
+export const ONLINE_LICENSE_ASSERTION_AUDIENCE = 'sourcecat-online-license';
 
 export const yearlyTermStatusSchema = z.object({
     termStartedAt: z.string().datetime(),

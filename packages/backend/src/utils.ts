@@ -1,9 +1,9 @@
 import { Logger } from "winston";
 import { RepoAuthCredentials, RepoWithConnections } from "./types.js";
 import path from 'path';
-import { env, getTokenFromConfig, JobLogSink } from "@sourcebot/shared";
+import { env, getTokenFromConfig, JobLogSink } from "@sourcecat/shared";
 import * as Sentry from "@sentry/node";
-import { GithubConnectionConfig, GitlabConnectionConfig, GiteaConnectionConfig, BitbucketConnectionConfig, AzureDevOpsConnectionConfig } from '@sourcebot/schemas/v3/connection.type';
+import { GithubConnectionConfig, GitlabConnectionConfig, GiteaConnectionConfig, BitbucketConnectionConfig, AzureDevOpsConnectionConfig } from '@sourcecat/schemas/v3/connection.type';
 import { GithubAppManager } from "./ee/githubAppManager.js";
 import { hasEntitlement } from "./entitlements.js";
 import { StatusCodes } from "http-status-codes";

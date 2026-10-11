@@ -6,8 +6,8 @@ import { detectLanguageFromFilename } from '@/lib/languageDetection';
 import { ServiceError, notFound, fileNotFound, invalidGitRef, unresolvedGitRef, unexpectedError } from '@/lib/serviceError';
 import { getCodeHostBrowseFileAtBranchUrl } from '@/lib/utils';
 import { withOptionalAuth } from '@/middleware/withAuth';
-import { env, getRepoPath } from '@sourcebot/shared';
-import { Org, PrismaClient } from '@sourcebot/db';
+import { env, getRepoPath } from '@sourcecat/shared';
+import { Org, PrismaClient } from '@sourcecat/db';
 import { headers } from 'next/headers';
 import { simpleGit } from 'simple-git';
 import type z from 'zod';
@@ -197,7 +197,7 @@ export const getBlobContentForRepo = async (
 
 export const getFileSource = async ({ path: filePath, repo: repoName, ref }: FileSourceRequest, { source }: { source?: string } = {}): Promise<FileSourceResponse | ServiceError> => sew(() => withOptionalAuth(async ({ org, prisma, user }) => {
     if (user) {
-        const resolvedSource = source ?? (await headers()).get('X-Sourcebot-Client-Source') ?? undefined;
+        const resolvedSource = source ?? (await headers()).get('X-Sourcecat-Client-Source') ?? undefined;
         await createAudit({
             action: 'user.fetched_file_source',
             actor: { id: user.id, type: 'user' },

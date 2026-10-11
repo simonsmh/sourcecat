@@ -92,7 +92,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };
@@ -102,7 +102,7 @@ describe('WorkspaceAskAgentPage', () => {
             isAskAgentAvailable: false,
         });
 
-        await screen.findByText('Ask Sourcebot connectors are unavailable');
+        await screen.findByText('Ask Sourcecat connectors are unavailable');
 
         expect(screen.queryByText('Review')).toBeNull();
         expect(screen.queryByText('Available to everyone in your workspace.')).toBeNull();
@@ -118,7 +118,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };
@@ -148,7 +148,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };
@@ -161,7 +161,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };
@@ -204,7 +204,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };
@@ -217,7 +217,7 @@ describe('WorkspaceAskAgentPage', () => {
             enabled: true,
             autoEnrolled: false,
             source: null,
-            createdByEmail: 'creator@sourcebot.dev',
+            createdByEmail: 'creator@sourcecat.dev',
             createdAt: '2026-06-18T00:00:00.000Z',
             updatedAt: '2026-06-18T00:00:00.000Z',
         };

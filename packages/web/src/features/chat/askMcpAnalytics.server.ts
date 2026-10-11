@@ -1,6 +1,6 @@
 import { getStoredMcpConnectionStatus } from "@/ee/features/chat/mcp/connectionStatus";
 import { hasEntitlement } from "@/lib/entitlements";
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import type { DynamicToolUIPart } from "ai";
 import type { SBChatMessage, SBChatMessagePart } from "./types";
 import { getTurnProgressState } from "./utils";

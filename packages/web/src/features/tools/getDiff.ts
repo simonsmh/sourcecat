@@ -5,7 +5,7 @@ import description from './getDiff.txt';
 import { formatDiffAsGitDiff } from './utils';
 import { logger } from './logger';
 import { Source, ToolDefinition } from './types';
-import { CodeHostType } from '@sourcebot/db';
+import { CodeHostType } from '@sourcecat/db';
 import { getRepoInfoByName } from '@/actions';
 
 export type GetDiffRepoInfo = {

@@ -1,15 +1,15 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import {
     ACCOUNT_PERMISSION_SYNC_SCHEDULER_ID_PREFIX,
     getAccountPermissionSyncSchedulerId,
     JOB_PRIORITIES,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import type {
     DataOf,
     JobEnqueueOptions,
     QueueName,
     Schedule,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import {
     ACCOUNT_PERMISSION_SYNC_WHERE,
     REPO_PERMISSION_SYNC_WHERE,

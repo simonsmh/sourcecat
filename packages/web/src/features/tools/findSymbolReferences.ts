@@ -5,7 +5,7 @@ import { Source, ToolDefinition } from "./types";
 import { logger } from "./logger";
 import description from "./findSymbolReferences.txt";
 import { getRepoInfoByName } from "@/actions";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 
 const MAX_LINE_LENGTH = 2000;
 const MAX_LINE_SUFFIX = `... (line truncated to ${MAX_LINE_LENGTH} chars)`;

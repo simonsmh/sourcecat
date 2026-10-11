@@ -1,7 +1,7 @@
 {
     "$schema": "https://mintlify.com/docs.json",
     "theme": "aspen",
-    "name": "Sourcebot",
+    "name": "Sourcecat",
     "colors": {
         "primary": "#851EE7",
         "light": "#FFFFFF",
@@ -16,17 +16,17 @@
             "anchors": [
                 {
                     "anchor": "Changelog",
-                    "href": "https://sourcebot.dev/changelog",
+                    "href": "https://sourcecat.dev/changelog",
                     "icon": "list-check"
                 },
                 {
                     "anchor": "Roadmap",
-                    "href": "https://github.com/sourcebot-dev/sourcebot/issues/459",
+                    "href": "https://github.com/simonsmh/sourcecat/issues/459",
                     "icon": "map"
                 },
                 {
                     "anchor": "Support",
-                    "href": "https://github.com/sourcebot-dev/sourcebot/issues/new?template=get_help.md",
+                    "href": "https://github.com/simonsmh/sourcecat/issues/new?template=get_help.md",
                     "icon": "life-ring"
                 }
             ]
@@ -40,8 +40,8 @@
                         "pages": [
                             "docs/overview",
                             {
-                                "group": "Deploy Sourcebot",
-                                "root": "docs/deployment/deploy-sourcebot",
+                                "group": "Deploy Sourcecat",
+                                "root": "docs/deployment/deploy-sourcecat",
                                 "pages": [
                                     "docs/deployment/docker-compose",
                                     "docs/deployment/k8s"
@@ -63,8 +63,8 @@
                                 ]
                             },
                             {
-                                "group": "Ask Sourcebot",
-                                "root": "docs/features/ask/ask-sourcebot",
+                                "group": "Ask Sourcecat",
+                                "root": "docs/features/ask/ask-sourcecat",
                                 "pages": [
                                     "docs/features/ask/skills",
                                     "docs/features/ask/connectors",
@@ -164,7 +164,7 @@
             {
                 "tab": "API Reference",
                 "icon": "code",
-                "openapi": "api-reference/sourcebot-public.openapi.json",
+                "openapi": "api-reference/sourcecat-public.openapi.json",
                 "groups": [
                     {
                         "group": "Overview",
@@ -247,15 +247,15 @@
         "primary": {
             "type": "button",
             "label": "Book a Call",
-            "href": "https://calendly.com/michael-sourcebot/sourcebot-introduction?utm_source=docs"
+            "href": "https://calendly.com/michael-sourcecat/sourcecat-introduction?utm_source=docs"
         }
     },
     "footer": {
         "socials": {
-            "github": "https://github.com/sourcebot-dev/sourcebot",
-            "twitter": "https://x.com/sourcebot_dev",
+            "github": "https://github.com/simonsmh/sourcecat",
+            "twitter": "https://x.com/sourcecat_dev",
             "discord": "https://discord.gg/HDScTs3ptP",
-            "linkedin": "https://www.linkedin.com/company/sourcebot"
+            "linkedin": "https://www.linkedin.com/company/sourcecat"
         }
     },
     "integrations": {
@@ -270,7 +270,7 @@
     "redirects": [
         {
             "source": "/docs/deployment/overview",
-            "destination": "/docs/deployment/deploy-sourcebot"
+            "destination": "/docs/deployment/deploy-sourcecat"
         },
         {
             "source": "/docs/features/search/overview",
@@ -278,7 +278,7 @@
         },
         {
             "source": "/docs/features/ask/overview",
-            "destination": "/docs/features/ask/ask-sourcebot"
+            "destination": "/docs/features/ask/ask-sourcecat"
         },
         {
             "source": "/docs/features/agents/overview",

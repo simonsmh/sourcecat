@@ -1,7 +1,7 @@
 import { sourceSummary } from './telemetrySummary.js';
 import { confirm, input, password, select } from './prompts.js';
 import { checkbox } from './prompts.js';
-import type { AzureDevOpsConnectionConfig } from '@sourcebot/schemas/v3/azuredevops.type';
+import type { AzureDevOpsConnectionConfig } from '@sourcecat/schemas/v3/azuredevops.type';
 import type { CollectResult, EnvVars } from './utils.js';
 import { multiInput, note, toEnvKey } from './utils.js';
 
@@ -52,7 +52,7 @@ export async function collectAzureDevOpsConfig(connectionName: string): Promise<
             deploymentType === 'cloud'
                 ? '  https://dev.azure.com/<your-org>/_usersSettings/tokens'
                 : '  <your-server-url>/_usersSettings/tokens',
-            'Grant `Code (Read)` scope so Sourcebot can find and clone your repos.',
+            'Grant `Code (Read)` scope so Sourcecat can find and clone your repos.',
         ].join('\n'),
         'Azure DevOps Personal Access Token',
     );

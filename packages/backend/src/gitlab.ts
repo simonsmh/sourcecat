@@ -1,9 +1,9 @@
 import { Gitlab, ProjectSchema } from "@gitbeaker/rest";
 import * as Sentry from "@sentry/node";
-import { getTokenFromConfig } from "@sourcebot/shared";
-import { createLogger } from "@sourcebot/shared";
-import { GitlabConnectionConfig } from "@sourcebot/schemas/v3/gitlab.type";
-import { env } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
+import { createLogger } from "@sourcecat/shared";
+import { GitlabConnectionConfig } from "@sourcecat/schemas/v3/gitlab.type";
+import { env } from "@sourcecat/shared";
 import micromatch from "micromatch";
 import { processPromiseResults, throwIfAnyFailed } from "./connectionUtils.js";
 import { reportRepositoryDiscoveryIssue } from "./repositoryDiscoveryIssueContext.js";

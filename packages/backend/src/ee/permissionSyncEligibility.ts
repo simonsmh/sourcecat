@@ -1,8 +1,8 @@
-import type { Prisma } from "@sourcebot/db";
+import type { Prisma } from "@sourcecat/db";
 import {
     PERMISSION_SYNC_SUPPORTED_CODE_HOST_TYPES,
     PERMISSION_SYNC_SUPPORTED_IDENTITY_PROVIDERS,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 
 export const ACCOUNT_PERMISSION_SYNC_WHERE = {
     providerType: {

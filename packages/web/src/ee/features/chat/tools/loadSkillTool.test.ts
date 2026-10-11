@@ -6,10 +6,10 @@ vi.mock("@/lib/posthog", () => ({
     captureEvent: (...args: unknown[]) => captureEvent(...args),
 }));
 
-// loadSkillTool imports `createLogger` from @sourcebot/shared, whose real module
+// loadSkillTool imports `createLogger` from @sourcecat/shared, whose real module
 // reads server-side env vars at import time and trips the t3-env client guard
 // under vitest's jsdom environment. Stub it so the module under test can load.
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
     env: { NODE_ENV: "test" },
 }));

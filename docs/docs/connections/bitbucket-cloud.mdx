@@ -10,7 +10,7 @@ import BitbucketSchema from '/snippets/schemas/v3/bitbucket.schema.mdx'
 Looking for docs on Bitbucket Data Center? See [this doc](/docs/connections/bitbucket-data-center).
 </Note>
 
-If you're not familiar with Sourcebot [connections](/docs/connections/indexing-your-code), please read that overview first.
+If you're not familiar with Sourcecat [connections](/docs/connections/indexing-your-code), please read that overview first.
 
 ## Examples
 
@@ -110,13 +110,13 @@ In order to index private repositories, you'll need to provide authentication cr
       }
       ```
 
-      6. Pass this environment variable each time you run Sourcebot:
+      6. Pass this environment variable each time you run Sourcecat:
 
       ```bash
       docker run \
           -e BITBUCKET_TOKEN=<API_TOKEN> \
           /* additional args */ \
-          docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+          ghcr.io/simonsmh/sourcecat:latest
       ```
     </Tab>
     <Tab title="Access Token">
@@ -141,13 +141,13 @@ In order to index private repositories, you'll need to provide authentication cr
       }
       ```
 
-      2. Pass this environment variable each time you run Sourcebot:
+      2. Pass this environment variable each time you run Sourcecat:
 
       ```bash
       docker run \
           -e BITBUCKET_TOKEN=<ACCESS_TOKEN> \
           /* additional args */ \
-          docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+          ghcr.io/simonsmh/sourcecat:latest
       ```
     </Tab>
     <Tab title="App Password">
@@ -178,13 +178,13 @@ In order to index private repositories, you'll need to provide authentication cr
       }
       ```
 
-      2. Pass this environment variable each time you run Sourcebot:
+      2. Pass this environment variable each time you run Sourcecat:
 
       ```bash
       docker run \
           -e BITBUCKET_TOKEN=<APP_PASSWORD> \
           /* additional args */ \
-          docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+          ghcr.io/simonsmh/sourcecat:latest
       ```
     </Tab>
 </Tabs>
@@ -193,7 +193,7 @@ In order to index private repositories, you'll need to provide authentication cr
 ## Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/bitbucket.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/bitbucket.json)
+[schemas/v3/bitbucket.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/bitbucket.json)
 
 <BitbucketSchema />
 

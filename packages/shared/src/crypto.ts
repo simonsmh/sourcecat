@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import fs from 'fs';
 import { z } from 'zod';
 import { env } from './env.server.js';
-import { Token } from '@sourcebot/schemas/v3/shared.type';
+import { Token } from '@sourcecat/schemas/v3/shared.type';
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
 import { API_KEY_PREFIX, OAUTH_ACCESS_TOKEN_PREFIX, OAUTH_REFRESH_TOKEN_PREFIX, SCIM_TOKEN_PREFIX, SCOPED_ACCESS_TOKEN_PREFIX } from './constants.js';
 
@@ -16,7 +16,7 @@ const generateIV = (): Buffer => {
 };
 
 export function encrypt(text: string): { iv: string; encryptedData: string } {
-    const encryptionKey = Buffer.from(env.SOURCEBOT_ENCRYPTION_KEY, 'ascii');
+    const encryptionKey = Buffer.from(env.SOURCECAT_ENCRYPTION_KEY, 'ascii');
 
     const iv = generateIV();
     const cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);
@@ -28,7 +28,7 @@ export function encrypt(text: string): { iv: string; encryptedData: string } {
 }
 
 export function decrypt(iv: string, encryptedText: string): string {
-    const encryptionKey = Buffer.from(env.SOURCEBOT_ENCRYPTION_KEY, 'ascii');
+    const encryptionKey = Buffer.from(env.SOURCECAT_ENCRYPTION_KEY, 'ascii');
 
     const ivBuffer = Buffer.from(iv, 'hex');
     const encryptedBuffer = Buffer.from(encryptedText, 'hex');
@@ -43,7 +43,7 @@ export function decrypt(iv: string, encryptedText: string): string {
 
 
 export function hashSecret(text: string): string {
-    return crypto.createHmac('sha256', env.SOURCEBOT_ENCRYPTION_KEY).update(text).digest('hex');
+    return crypto.createHmac('sha256', env.SOURCECAT_ENCRYPTION_KEY).update(text).digest('hex');
 }
 
 export function generateApiKey(): { key: string; hash: string } {

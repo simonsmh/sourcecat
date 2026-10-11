@@ -1,6 +1,6 @@
 # `/search`
 
-Code search interface for Sourcebot.
+Code search interface for Sourcecat.
 
 ## Overview
 
@@ -9,7 +9,7 @@ The search feature parses user queries into an intermediate representation (IR),
 ## Architecture
 
 **Query Flow:**
-1. User query string → Lezer parser (via `@sourcebot/query-language`)
+1. User query string → Lezer parser (via `@sourcecat/query-language`)
 2. Lezer syntax tree → Query IR (Zoekt gRPC `Q` proto)
 3. Query IR → Zoekt backend → Search results
 
@@ -17,7 +17,7 @@ The search feature parses user queries into an intermediate representation (IR),
 
 - **`index.ts`** - Public API exports for the search feature, including search functions and type definitions.
 
-- **`parser.ts`** - Parses query strings into the query IR using the Lezer parser from `@sourcebot/query-language`.
+- **`parser.ts`** - Parses query strings into the query IR using the Lezer parser from `@sourcecat/query-language`.
 
 - **`ir.ts`** - Defines the `QueryIR` type (internally the Zoekt gRPC `Q` proto) and provides utilities for traversing and querying the IR tree structure.
 

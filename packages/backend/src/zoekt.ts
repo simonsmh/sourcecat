@@ -1,5 +1,5 @@
-import { Repo } from "@sourcebot/db";
-import { createLogger, env, getRepoPath } from "@sourcebot/shared";
+import { Repo } from "@sourcecat/db";
+import { createLogger, env, getRepoPath } from "@sourcecat/shared";
 import { execFile } from "child_process";
 import { readdir, rm } from "fs/promises";
 import { INDEX_CACHE_DIR } from "./constants.js";

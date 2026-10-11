@@ -56,14 +56,14 @@ const syncedSkill = makeSkill({
     slug: 'review',
     name: 'Code Review',
     source: { repoName: 'github.com/acme/backend', filePath: 'docs/review.md', revision: 'main' },
-    createdByEmail: 'jack@sourcebot.dev',
+    createdByEmail: 'jack@sourcecat.dev',
 });
 
 const manualSkill = makeSkill({
     id: 'manual',
     slug: 'greet',
     name: 'Greeter',
-    createdByEmail: 'sam@sourcebot.dev',
+    createdByEmail: 'sam@sourcecat.dev',
 });
 
 const skillNamesInOrder = () =>
@@ -80,8 +80,8 @@ describe('WorkspaceSharedSkillsManager', () => {
         expect(syncedRow).not.toBeNull();
         expect(within(syncedRow!).getByText('Synced')).toBeTruthy();
         expect(screen.queryByText('github.com/acme/backend')).toBeNull();
-        expect(screen.getByText('jack@sourcebot.dev')).toBeTruthy();
-        expect(screen.getByText('sam@sourcebot.dev')).toBeTruthy();
+        expect(screen.getByText('jack@sourcecat.dev')).toBeTruthy();
+        expect(screen.getByText('sam@sourcecat.dev')).toBeTruthy();
         expect(screen.getByText('2 of 2 shared skills')).toBeTruthy();
     });
 

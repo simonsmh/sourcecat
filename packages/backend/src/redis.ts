@@ -1,3 +1,3 @@
-import { createRedisClient } from "@sourcebot/shared";
+import { createRedisClient } from "@sourcecat/shared";
 
 export const redis = createRedisClient();

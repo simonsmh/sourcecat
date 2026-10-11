@@ -9,8 +9,8 @@ import { resolveModelCapabilities } from "@/features/chat/modelCapabilities.serv
 import { ErrorCode } from "@/lib/errorCodes";
 import { notAuthenticated, ServiceError, ServiceErrorException } from "@/lib/serviceError";
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { ChatVisibility, Prisma } from "@sourcebot/db";
-import { createLogger, env } from "@sourcebot/shared";
+import { ChatVisibility, Prisma } from "@sourcecat/db";
+import { createLogger, env } from "@sourcecat/shared";
 import { randomUUID } from "crypto";
 import { StatusCodes } from "http-status-codes";
 import { InferUIMessageChunk, UIDataTypes, UIMessage, UITools } from "ai";
@@ -53,7 +53,7 @@ export const askCodebase = (params: AskCodebaseParams): Promise<AskCodebaseResul
                 return notAuthenticated();
             }
 
-            // Ask Sourcebot is a paid feature. askCodebase() is the single choke point
+            // Ask Sourcecat is a paid feature. askCodebase() is the single choke point
             // for the programmatic ask path (the MCP `ask_codebase` tool and the
             // /api/chat/blocking route both wrap it), so gating here covers both without
             // double-gating at the tool-registration layer.
@@ -69,7 +69,7 @@ export const askCodebase = (params: AskCodebaseParams): Promise<AskCodebaseResul
                 return {
                     statusCode: StatusCodes.BAD_REQUEST,
                     errorCode: ErrorCode.INVALID_REQUEST_BODY,
-                    message: "No language models are configured. Please configure at least one language model. See: https://docs.sourcebot.dev/docs/configuration/language-model-providers",
+                    message: "No language models are configured. Please configure at least one language model. See: https://docs.sourcecat.dev/docs/configuration/language-model-providers",
                 } satisfies ServiceError;
             }
 
@@ -96,7 +96,7 @@ export const askCodebase = (params: AskCodebaseParams): Promise<AskCodebaseResul
             // No-op for non-Anthropic providers / when caching is disabled.
             const promptCacheStrategy = getPromptCacheStrategy(
                 languageModelConfig.provider,
-                env.SOURCEBOT_CHAT_PROMPT_CACHING_ENABLED === 'true',
+                env.SOURCECAT_CHAT_PROMPT_CACHING_ENABLED === 'true',
             );
 
             const chatVisibility = (requestedVisibility && user)

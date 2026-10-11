@@ -5,6 +5,6 @@ export const HOME_VIEW_COOKIE_NAME = 'sb.home-view';
 export const SINGLE_TENANT_ORG_ID = 1;
 export const SINGLE_TENANT_ORG_NAME = 'default';
 
-export { SOURCEBOT_SUPPORT_EMAIL } from "@sourcebot/shared/client";
+export { SOURCECAT_SUPPORT_EMAIL } from "@sourcecat/shared/client";
 
-export const OFFERINGS_DOCS_LINK = "https://sourcebot.dev/pricing"
+export const OFFERINGS_DOCS_LINK = "https://sourcecat.dev/pricing"

@@ -1,15 +1,15 @@
 import { getBullMQClient } from "@/lib/bullmqClient";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole, type Prisma } from "@sourcebot/db";
+import { OrgRole, type Prisma } from "@sourcecat/db";
 import {
     CONNECTION_QUEUE,
     type WorkloadJob,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import Link from "next/link";
 import { z } from "zod";
 import { ConnectionsTable } from "./components/connectionsTable";
 
-const DOCS_URL = "https://docs.sourcebot.dev/docs/connections/indexing-your-code";
+const DOCS_URL = "https://docs.sourcecat.dev/docs/connections/indexing-your-code";
 const DEFAULT_PAGE_SIZE = 20;
 const pageSchema = z.coerce.number().int().positive();
 const sortBySchema = z.enum(["name", "syncedAt"]);

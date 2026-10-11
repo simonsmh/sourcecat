@@ -3,7 +3,7 @@ import { hasEntitlement } from '@/lib/entitlements';
 import type { ServiceError } from '@/lib/serviceError';
 import { sew } from '@/middleware/sew';
 import { withAuth } from '@/middleware/withAuth';
-import { generateScopedAccessToken } from '@sourcebot/shared';
+import { generateScopedAccessToken } from '@sourcecat/shared';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 

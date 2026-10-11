@@ -17,7 +17,7 @@ export const auditMetadataSchema = z.object({
     api_key: z.string().optional(),
     scim_token: z.string().optional(),
     emails: z.string().optional(), // comma separated list of emails
-    source: z.string().optional(), // request source (e.g., 'mcp') from X-Sourcebot-Client-Source header
+    source: z.string().optional(), // request source (e.g., 'mcp') from X-Sourcecat-Client-Source header
 })
 export type AuditMetadata = z.infer<typeof auditMetadataSchema>;
 
@@ -25,7 +25,7 @@ export const auditEventSchema = z.object({
     action: z.string(),
     actor: auditActorSchema,
     target: auditTargetSchema,
-    sourcebotVersion: z.string(),
+    sourcecatVersion: z.string(),
     orgId: z.number(),
     metadata: auditMetadataSchema.optional()
 })

@@ -1,5 +1,5 @@
 import path from "path";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import fs from "fs";
 
 export const REVIEW_AGENT_LOG_DIR = env.DATA_CACHE_DIR + "/review-agent";

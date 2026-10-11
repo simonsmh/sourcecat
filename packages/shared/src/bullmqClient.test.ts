@@ -240,7 +240,7 @@ describe("BullMQClient", () => {
             ).resolves.toBe("job-1");
 
             expect(mocks.multiSet).toHaveBeenCalledWith(
-                "sourcebot:latest-job:connection-sync:connection:42",
+                "sourcecat:latest-job:connection-sync:connection:42",
                 "job-2",
                 "EX",
                 604_800,

@@ -1,6 +1,6 @@
 import { createMCPClient, type MCPClient } from '@ai-sdk/mcp';
-import { createLogger, env } from '@sourcebot/shared';
-import type { PrismaClient } from '@sourcebot/db';
+import { createLogger, env } from '@sourcecat/shared';
+import type { PrismaClient } from '@sourcecat/db';
 import { getConnectedMcpClients, type McpToolSet } from './mcpClientFactory';
 import { getExternalMcpErrorLogFields } from './externalMcpError';
 import {
@@ -8,7 +8,7 @@ import {
     getMcpServerToolPermission,
     getMcpServerToolPermissionsByServerId,
 } from './mcpToolPermissions';
-import { McpServerToolPermission } from '@sourcebot/db';
+import { McpServerToolPermission } from '@sourcecat/db';
 import type {
     GetMcpToolsResponse,
     ServerToolsEntry,
@@ -19,7 +19,7 @@ import type {
 const logger = createLogger('mcp-tool-metadata');
 
 const MCP_TOOL_METADATA_FETCH_CONCURRENCY = 4;
-const MCP_TOOL_METADATA_TIMEOUT_MS = Math.min(env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS, 10000);
+const MCP_TOOL_METADATA_TIMEOUT_MS = Math.min(env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS, 10000);
 const MCP_TOOL_METADATA_MAX_TOOLS = 200;
 const MCP_TOOL_METADATA_MAX_NAME_LENGTH = 128;
 const MCP_TOOL_METADATA_MAX_TITLE_LENGTH = 160;

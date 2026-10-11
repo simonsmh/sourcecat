@@ -7,7 +7,7 @@ import { withMinimumOrgRole } from '@/middleware/withMinimumOrgRole';
 import { __unsafePrisma } from '@/prisma';
 import { getMcpFaviconUrl } from '@/features/chat/mcp/utils';
 import type { GetMcpConfigurationResponse, McpServerToolUsageSummary } from '@/ee/features/chat/mcp/types';
-import { OrgRole } from '@sourcebot/db';
+import { OrgRole } from '@sourcecat/db';
 import type { NextRequest } from 'next/server';
 
 export const GET = apiHandler(async (_request: NextRequest) => {

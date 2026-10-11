@@ -1,5 +1,5 @@
 import type { AskSkillScope } from "@/lib/posthogEvents";
-import { personalAgentSkillAuthScope, sharedAgentSkillAuthScope, type PrismaClient } from "@sourcebot/db";
+import { personalAgentSkillAuthScope, sharedAgentSkillAuthScope, type PrismaClient } from "@sourcecat/db";
 import { agentSkillOrderBy } from "./types";
 import { filterSkillsBySourceRepoAccess } from "./sourceRepoAccess";
 

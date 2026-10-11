@@ -2,11 +2,11 @@
 const schema = {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "SourcebotConfig",
+  "title": "SourcecatConfig",
   "definitions": {
     "Settings": {
       "type": "object",
-      "description": "Defines the global settings for Sourcebot.",
+      "description": "Defines the global settings for Sourcecat.",
       "properties": {
         "maxFileSize": {
           "type": "number",
@@ -115,13 +115,13 @@ const schema = {
       "properties": {
         "include": {
           "type": "array",
-          "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+          "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
           "items": {
             "type": "string"
           },
           "examples": [
             [
-              "github.com/sourcebot-dev/**",
+              "github.com/simonsmh/**",
               "gerrit.example.org/sub/path/**"
             ]
           ]
@@ -135,13 +135,13 @@ const schema = {
         },
         "exclude": {
           "type": "array",
-          "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+          "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
           "items": {
             "type": "string"
           },
           "examples": [
             [
-              "github.com/sourcebot-dev/sourcebot",
+              "github.com/simonsmh/sourcecat",
               "gerrit.example.org/sub/path/**"
             ]
           ]
@@ -193,7 +193,7 @@ const schema = {
     },
     "settings": {
       "type": "object",
-      "description": "Defines the global settings for Sourcebot.",
+      "description": "Defines the global settings for Sourcecat.",
       "properties": {
         "maxFileSize": {
           "type": "number",
@@ -296,7 +296,7 @@ const schema = {
     },
     "contexts": {
       "type": "object",
-      "description": "[Sourcebot EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://docs.sourcebot.dev/docs/features/search/search-contexts",
+      "description": "[Sourcecat EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://docs.sourcecat.dev/docs/features/search/search-contexts",
       "patternProperties": {
         "^[a-zA-Z0-9_-]+$": {
           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -306,13 +306,13 @@ const schema = {
           "properties": {
             "include": {
               "type": "array",
-              "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+              "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
               "items": {
                 "type": "string"
               },
               "examples": [
                 [
-                  "github.com/sourcebot-dev/**",
+                  "github.com/simonsmh/**",
                   "gerrit.example.org/sub/path/**"
                 ]
               ]
@@ -326,13 +326,13 @@ const schema = {
             },
             "exclude": {
               "type": "array",
-              "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+              "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
               "items": {
                 "type": "string"
               },
               "examples": [
                 [
-                  "github.com/sourcebot-dev/sourcebot",
+                  "github.com/simonsmh/sourcecat",
                   "gerrit.example.org/sub/path/**"
                 ]
               ]
@@ -494,7 +494,7 @@ const schema = {
     },
     "connections": {
       "type": "object",
-      "description": "Defines a collection of connections from varying code hosts that Sourcebot should sync with. This is only available in single-tenancy mode.",
+      "description": "Defines a collection of connections from varying code hosts that Sourcecat should sync with. This is only available in single-tenancy mode.",
       "patternProperties": {
         "^[a-zA-Z0-9_-]+$": {
           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -578,7 +578,7 @@ const schema = {
                       "my-org-name"
                     ],
                     [
-                      "sourcebot-dev",
+                      "simonsmh",
                       "commaai"
                     ]
                   ],
@@ -709,12 +709,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -929,12 +929,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1093,12 +1093,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1209,12 +1209,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1388,12 +1388,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1605,12 +1605,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1635,7 +1635,7 @@ const schema = {
                   "description": "The URL to the git repository. This can either be a remote URL (prefixed with `http://` or `https://`) or a absolute path to a directory on the local machine (prefixed with `file://`). If a local directory is specified, it must point to the root of a git repository. Local directories are treated as read-only modified. Local directories support glob patterns.",
                   "pattern": "^(https?:\\/\\/[^\\s/$.?#].[^\\s]*|file:\\/\\/\\/[^\\s]+)$",
                   "examples": [
-                    "https://github.com/sourcebot-dev/sourcebot",
+                    "https://github.com/simonsmh/sourcecat",
                     "file:///path/to/repo",
                     "file:///repos/*"
                   ]
@@ -1683,12 +1683,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcebot.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
                 }
               },
               "required": [
@@ -1704,7 +1704,7 @@ const schema = {
     },
     "models": {
       "type": "array",
-      "description": "Defines a collection of language models that are available to Sourcebot.",
+      "description": "Defines a collection of language models that are available to Sourcecat.",
       "items": {
         "type": "object",
         "title": "LanguageModel",
@@ -4844,7 +4844,7 @@ const schema = {
     },
     "apps": {
       "type": "array",
-      "description": "Defines a collection of apps that are available to Sourcebot.",
+      "description": "Defines a collection of apps that are available to Sourcecat.",
       "items": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "title": "AppConfig",
@@ -4975,7 +4975,7 @@ const schema = {
       }
     },
     "identityProviders": {
-      "description": "Defines a collection of identity providers that are available to Sourcebot.",
+      "description": "Defines a collection of identity providers that are available to Sourcecat.",
       "oneOf": [
         {
           "type": "object",

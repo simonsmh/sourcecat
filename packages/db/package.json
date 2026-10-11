@@ -1,5 +1,5 @@
 {
-    "name": "@sourcebot/db",
+    "name": "@sourcecat/db",
     "version": "0.1.0",
     "main": "dist/index.js",
     "private": true,

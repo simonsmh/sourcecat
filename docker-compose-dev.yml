@@ -4,7 +4,7 @@ version: '3.8'
 services:
   redis:
     image: redis:7-alpine
-    container_name: sourcebot-redis
+    container_name: sourcecat-redis
     ports:
       - "6379:6379"
     volumes:
@@ -13,7 +13,7 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: sourcebot-postgres
+    container_name: sourcecat-postgres
     ports:
       - "5432:5432"
     environment:

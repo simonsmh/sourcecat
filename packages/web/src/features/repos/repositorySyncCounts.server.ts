@@ -3,8 +3,8 @@ import "server-only";
 import { getBullMQClient } from "@/lib/bullmqClient";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
-import { REPO_INDEX_QUEUE } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { REPO_INDEX_QUEUE } from "@sourcecat/shared";
 import { cache } from "react";
 
 export interface RepositorySyncCounts {

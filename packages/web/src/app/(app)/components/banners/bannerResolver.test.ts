@@ -1,14 +1,14 @@
 import { describe, expect, test, vi } from 'vitest';
-import { OrgRole, type License } from '@sourcebot/db';
-import type { OfflineLicenseMetadata } from '@sourcebot/shared';
+import { OrgRole, type License } from '@sourcecat/db';
+import type { OfflineLicenseMetadata } from '@sourcecat/shared';
 
 // Stub the rendered banner components — these tests assert on descriptor
 // metadata only (id, priority, etc), so avoiding their React/Next.js import
 // chains keeps the suite focused on resolver logic.
-// Stub @sourcebot/shared: importing its real index initializes env-backed
+// Stub @sourcecat/shared: importing its real index initializes env-backed
 // server code that can't run in the test environment. The resolver only
 // needs the threshold constant; type imports are erased at runtime.
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     STALE_ONLINE_LICENSE_THRESHOLD_MS: 7 * 24 * 60 * 60 * 1000,
     STALE_ONLINE_LICENSE_WARNING_THRESHOLD_MS: 48 * 60 * 60 * 1000,
 }));

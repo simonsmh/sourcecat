@@ -3,7 +3,7 @@ import { MCP_OAUTH_DRAFT_SESSION_STORAGE_KEY } from "@/features/chat/constants";
 import { isFileMentionData, type CustomText, type MentionElement, type ParagraphElement, type SearchScope } from "@/features/chat/types";
 import { isCommandMentionData } from "@/features/chat/commands/types";
 
-const MCP_OAUTH_DRAFT_BASE_URL = 'https://sourcebot.invalid';
+const MCP_OAUTH_DRAFT_BASE_URL = 'https://sourcecat.invalid';
 const MCP_OAUTH_DRAFT_MAX_AGE_MS = 30 * 60 * 1000;
 const MCP_OAUTH_STATUS_PARAMS = ['status', 'server', 'message'];
 

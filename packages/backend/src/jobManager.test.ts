@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import type { ConnectionSyncResult } from "@sourcebot/shared";
+import type { ConnectionSyncResult } from "@sourcecat/shared";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { z, type ZodType } from "zod";
 import { ProcessContext, Workload } from "./types.js";
@@ -43,7 +43,7 @@ const mocks = vi.hoisted(() => {
 
 // The module under test creates a logger at import time; stub it so importing pure helpers
 // has no side effects (mirrors repoIndexManager.test.ts).
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: vi.fn(() => mocks.logger),
     createBullMQJobLogSink: mocks.createBullMQJobLogSink,
     runWithJobLogContext: mocks.runWithJobLogContext,
@@ -383,7 +383,7 @@ describe("BullMQJobManager lifecycle", () => {
         const workload = createWorkload({
             executionLock: {
                 resource: ({ connectionId }) =>
-                    `sourcebot:lock:connection:${connectionId}`,
+                    `sourcecat:lock:connection:${connectionId}`,
                 durationMs: 60_000,
             },
             onStarted: vi.fn(async () => {
@@ -410,7 +410,7 @@ describe("BullMQJobManager lifecycle", () => {
             "lock-released",
         ]);
         expect(mocks.executionLockUsing).toHaveBeenCalledWith(
-            "sourcebot:lock:connection:42",
+            "sourcecat:lock:connection:42",
             60_000,
             expect.any(AbortSignal),
             expect.any(Function),
@@ -418,14 +418,14 @@ describe("BullMQJobManager lifecycle", () => {
         expect(mocks.logger.debug).toHaveBeenCalledWith(
             "Acquired workload execution lock",
             {
-                resource: "sourcebot:lock:connection:42",
+                resource: "sourcecat:lock:connection:42",
                 lockWaitMs: expect.any(Number),
             },
         );
         expect(mocks.logger.debug).toHaveBeenCalledWith(
             "Finished work protected by execution lock",
             {
-                resource: "sourcebot:lock:connection:42",
+                resource: "sourcecat:lock:connection:42",
                 lockHeldMs: expect.any(Number),
             },
         );

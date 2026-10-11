@@ -1,4 +1,4 @@
-import type { WorkloadJob } from "@sourcebot/shared";
+import type { WorkloadJob } from "@sourcecat/shared";
 
 export type ConnectionSyncStatus = {
     connectionId: number;

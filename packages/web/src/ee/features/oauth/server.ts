@@ -9,7 +9,7 @@ import {
     hashSecret,
     OAUTH_ACCESS_TOKEN_PREFIX,
     OAUTH_REFRESH_TOKEN_PREFIX,
-} from '@sourcebot/shared';
+} from '@sourcecat/shared';
 import crypto from 'crypto';
 
 // Generates a random authorization code, hashes it, and stores it alongside the

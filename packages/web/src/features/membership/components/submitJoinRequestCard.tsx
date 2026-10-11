@@ -1,7 +1,7 @@
 'use client';
 
 import { LogoutEscapeHatch } from "@/app/components/logoutEscapeHatch"
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 import { useToast } from "@/components/hooks/use-toast"
 import { LoadingButton } from "@/components/ui/loading-button";
 import { createAccountRequest } from "@/features/membership/actions"
@@ -59,7 +59,7 @@ export const SubmitJoinRequestCard = () => {
 
             <div className="w-full max-w-md">
                 <div className="text-center space-y-8">
-                    <SourcebotLogo
+                    <SourcecatLogo
                         className="h-10 mx-auto"
                         size="large"
                     />

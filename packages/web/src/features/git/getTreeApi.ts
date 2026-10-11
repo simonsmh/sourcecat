@@ -2,7 +2,7 @@ import { sew } from "@/middleware/sew";
 import { createAudit } from '@/ee/features/audit/audit';
 import { invalidGitRef, notFound, ServiceError, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { getRepoPath } from '@sourcebot/shared';
+import { getRepoPath } from '@sourcecat/shared';
 import { headers } from 'next/headers';
 import { simpleGit } from 'simple-git';
 import type z from 'zod';
@@ -22,7 +22,7 @@ export type GetTreeResponse = z.infer<typeof getTreeResponseSchema>;
 export const getTree = async ({ repoName, revisionName, paths }: GetTreeRequest, { source }: { source?: string } = {}): Promise<GetTreeResponse | ServiceError> => sew(() =>
     withOptionalAuth(async ({ org, prisma, user }) => {
         if (user) {
-            const resolvedSource = source ?? (await headers()).get('X-Sourcebot-Client-Source') ?? undefined;
+            const resolvedSource = source ?? (await headers()).get('X-Sourcecat-Client-Source') ?? undefined;
             await createAudit({
                 action: 'user.fetched_file_tree',
                 actor: { id: user.id, type: 'user' },

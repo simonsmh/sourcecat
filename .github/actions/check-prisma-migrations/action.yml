@@ -43,7 +43,7 @@ runs:
         docker run -d --name prisma-check-pg \
           -e POSTGRES_USER=postgres \
           -e POSTGRES_PASSWORD=postgres \
-          -e POSTGRES_DB=sourcebot \
+          -e POSTGRES_DB=sourcecat \
           -p 5432:5432 postgres:16
         for i in $(seq 1 30); do
           if docker exec prisma-check-pg pg_isready -U postgres -q; then
@@ -73,7 +73,7 @@ runs:
       shell: bash
       working-directory: packages/db
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sourcebot
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sourcecat
       run: yarn prisma migrate deploy
 
     - name: Check for schema drift
@@ -81,7 +81,7 @@ runs:
       shell: bash
       working-directory: packages/db
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sourcebot
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/sourcecat
       run: |
         yarn prisma migrate diff \
           --from-url "$DATABASE_URL" \

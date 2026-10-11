@@ -1,5 +1,5 @@
-import { indexSchema } from "@sourcebot/schemas/v3/index.schema";
-import { IdentityProviderConfig, SourcebotConfig } from "@sourcebot/schemas/v3/index.type";
+import { indexSchema } from "@sourcecat/schemas/v3/index.schema";
+import { IdentityProviderConfig, SourcecatConfig } from "@sourcecat/schemas/v3/index.type";
 import { createEnv } from "@t3-oss/env-core";
 import { Ajv } from "ajv";
 import { readFile } from 'fs/promises';
@@ -20,7 +20,7 @@ const ajv = new Ajv({
     validateFormats: false,
 });
 
-export const resolveEnvironmentVariableOverridesFromConfig = async (config: SourcebotConfig): Promise<Record<string, string>> => {
+export const resolveEnvironmentVariableOverridesFromConfig = async (config: SourcecatConfig): Promise<Record<string, string>> => {
     if (!config.environmentOverrides) {
         return {};
     }
@@ -57,7 +57,7 @@ export const isRemotePath = (path: string) => {
 }
 
 
-export const loadConfig = async (configPath?: string): Promise<SourcebotConfig> => {
+export const loadConfig = async (configPath?: string): Promise<SourcecatConfig> => {
     if (!configPath) {
         throw new Error('CONFIG_PATH is required but not provided');
     }
@@ -105,7 +105,7 @@ export const loadConfig = async (configPath?: string): Promise<SourcebotConfig> 
         }
     })();
 
-    const config = JSON.parse(stripJsonComments(configContent)) as SourcebotConfig;
+    const config = JSON.parse(stripJsonComments(configContent)) as SourcecatConfig;
     const isValidConfig = ajv.validate(indexSchema, config);
     if (!isValidConfig) {
         throw new Error(`Config file '${configPath}' is invalid: ${ajv.errorsText(ajv.errors)}`);
@@ -229,7 +229,7 @@ const options = {
 
         // Fork: license verification removed. The public key is no longer
         // needed, so this is optional.
-        SOURCEBOT_PUBLIC_KEY_PATH: z.string().optional(),
+        SOURCECAT_PUBLIC_KEY_PATH: z.string().optional(),
 
         // Email
         // Either SMTP_CONNECTION_URL or SMTP_HOST must be set to enable transactional emails.
@@ -267,12 +267,12 @@ const options = {
 
         // Changelog feed
         CHANGELOG_ENABLED: booleanSchema.default('true'),
-        CHANGELOG_FEED_URL: z.string().url().default('https://static.sourcebot.dev/changelog/index.json'),
+        CHANGELOG_FEED_URL: z.string().url().default('https://static.sourcecat.dev/changelog/index.json'),
 
         // EE License
-        SOURCEBOT_EE_LICENSE_KEY: z.string().optional(),
-        SOURCEBOT_EE_AUDIT_LOGGING_ENABLED: booleanSchema.default('true'),
-        SOURCEBOT_EE_AUDIT_RETENTION_DAYS: numberSchema.default(180),
+        SOURCECAT_EE_LICENSE_KEY: z.string().optional(),
+        SOURCECAT_EE_AUDIT_LOGGING_ENABLED: booleanSchema.default('true'),
+        SOURCECAT_EE_AUDIT_RETENTION_DAYS: numberSchema.default(180),
 
         // GitHub app for review agent
         GITHUB_REVIEW_AGENT_APP_ID: z.string().optional(),
@@ -316,18 +316,18 @@ const options = {
         AWS_SESSION_TOKEN: z.string().optional(),
         AWS_REGION: z.string().optional(),
 
-        SOURCEBOT_CHAT_MAX_STEP_COUNT: numberSchema.default(100),
-        SOURCEBOT_CHAT_PROMPT_CACHING_ENABLED: booleanSchema.default('true'),
-        SOURCEBOT_LLM_USER_EMAIL_HEADER_ENABLED: booleanSchema.default('false'),
+        SOURCECAT_CHAT_MAX_STEP_COUNT: numberSchema.default(100),
+        SOURCECAT_CHAT_PROMPT_CACHING_ENABLED: booleanSchema.default('true'),
+        SOURCECAT_LLM_USER_EMAIL_HEADER_ENABLED: booleanSchema.default('false'),
         /** TTL for the static block. The moving tail marker always uses the 5m default. */
-        SOURCEBOT_CHAT_PROMPT_CACHE_STATIC_TTL: z.enum(['5m', '1h']).default('5m'),
+        SOURCECAT_CHAT_PROMPT_CACHE_STATIC_TTL: z.enum(['5m', '1h']).default('5m'),
         /**
          * Observability: when enabled, logs a warning on unexpected prompt-cache
          * breaks (static-prefix signature changes, or zero cache reads on a
          * continuation step). Does not affect request behavior.
          */
-        SOURCEBOT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED: booleanSchema.default('false'),
-        SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS: numberSchema.int().positive().max(maxTimerDelayMs).default(60000),
+        SOURCECAT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED: booleanSchema.default('false'),
+        SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS: numberSchema.int().positive().max(maxTimerDelayMs).default(60000),
 
         /**
          * Maximum size (in bytes) of a single image attachment uploaded to the
@@ -335,7 +335,7 @@ const options = {
          * inline-text cap (which lives as a web-package constant).
          * @default 10 MiB
          */
-        SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES: numberSchema.int().positive().default(10 * 1024 * 1024),
+        SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES: numberSchema.int().positive().default(10 * 1024 * 1024),
 
         /**
          * How long (in hours) an uploaded-but-unlinked (PENDING) attachment
@@ -344,7 +344,7 @@ const options = {
          * disable the orphan sweep entirely.
          * @default 24 hours
          */
-        SOURCEBOT_CHAT_ATTACHMENT_ORPHAN_TTL_HOURS: numberSchema.int().nonnegative().default(24),
+        SOURCECAT_CHAT_ATTACHMENT_ORPHAN_TTL_HOURS: numberSchema.int().nonnegative().default(24),
 
         DEBUG_WRITE_CHAT_MESSAGES_TO_FILE: booleanSchema.default('false'),
         DEBUG_ENABLE_REACT_SCAN: booleanSchema.default('false'),
@@ -372,11 +372,11 @@ const options = {
         // The key is read as ASCII (1 char = 1 byte), so AES-256's 32-byte key
         // requirement means this must be exactly 32 characters. Generate one with
         // `openssl rand -base64 24` (24 random bytes => a 32-character base64 string).
-        SOURCEBOT_ENCRYPTION_KEY: z.string().length(32, {
-            message: "SOURCEBOT_ENCRYPTION_KEY must be exactly 32 characters (a 256-bit AES key). Generate one with `openssl rand -base64 24`.\nWARNING: Updating this value will invalidate any existing API keys.",
+        SOURCECAT_ENCRYPTION_KEY: z.string().length(32, {
+            message: "SOURCECAT_ENCRYPTION_KEY must be exactly 32 characters (a 256-bit AES key). Generate one with `openssl rand -base64 24`.\nWARNING: Updating this value will invalidate any existing API keys.",
         }),
-        SOURCEBOT_INSTALL_ID: z.string().default("unknown"),
-        SOURCEBOT_LIGHTHOUSE_URL: z.string().url().default("https://deployments.sourcebot.dev"),
+        SOURCECAT_INSTALL_ID: z.string().default("unknown"),
+        SOURCECAT_LIGHTHOUSE_URL: z.string().url().default("https://deployments.sourcecat.dev"),
 
         FALLBACK_GITHUB_CLOUD_TOKEN: z.string().optional(),
         FALLBACK_GITLAB_CLOUD_TOKEN: z.string().optional(),
@@ -403,9 +403,9 @@ const options = {
 
         GITLAB_CLIENT_QUERY_TIMEOUT_SECONDS: numberSchema.default(60 * 10),
 
-        SOURCEBOT_LOG_LEVEL: z.enum(["info", "debug", "warn", "error"]).default("info"),
-        SOURCEBOT_STRUCTURED_LOGGING_ENABLED: booleanSchema.default("false"),
-        SOURCEBOT_STRUCTURED_LOGGING_FILE: z.string().optional(),
+        SOURCECAT_LOG_LEVEL: z.enum(["info", "debug", "warn", "error"]).default("info"),
+        SOURCECAT_STRUCTURED_LOGGING_ENABLED: booleanSchema.default("false"),
+        SOURCECAT_STRUCTURED_LOGGING_FILE: z.string().optional(),
 
         // Configure the default maximum number of search results to return by default.
         DEFAULT_MAX_MATCH_COUNT: numberSchema.default(10_000),
@@ -427,16 +427,16 @@ const options = {
         /**
          * Configure whether to send telemetry events.
          * By default, all events are anonymized and do not contain PII data,
-         * unless SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED is set to true.
+         * unless SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED is set to true.
          */
-        SOURCEBOT_TELEMETRY_DISABLED: booleanSchema.default('false'),
+        SOURCECAT_TELEMETRY_DISABLED: booleanSchema.default('false'),
 
         /**
          * Configure whether to collect PII data in telemetry events.
-         * If SOURCEBOT_TELEMETRY_DISABLED is true, this setting is
+         * If SOURCECAT_TELEMETRY_DISABLED is true, this setting is
          * ignored.
          */
-        SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED: booleanSchema.default('false'),
+        SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED: booleanSchema.default('false'),
 
         //////////// Deprecated ////////////
         /**
@@ -484,7 +484,7 @@ const options = {
         /**
          * @deprecated Use per-model `temperature` in the language model config instead.
          */
-        SOURCEBOT_CHAT_MODEL_TEMPERATURE: numberSchema.optional(),
+        SOURCECAT_CHAT_MODEL_TEMPERATURE: numberSchema.optional(),
 
         /**
          * @deprecated Use `DISABLE_API_KEY_CREATION_FOR_NON_OWNER_USERS` instead.

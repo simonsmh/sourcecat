@@ -260,12 +260,12 @@ describe('isGitHubRateLimitError', () => {
         response: {
             headers,
             status,
-            url: 'https://api.github.com/repos/sourcebot-dev/sourcebot',
+            url: 'https://api.github.com/repos/simonsmh/sourcecat',
             data: {},
         },
         request: {
             method: 'GET',
-            url: 'https://api.github.com/repos/sourcebot-dev/sourcebot',
+            url: 'https://api.github.com/repos/simonsmh/sourcecat',
             headers: {},
         },
     });

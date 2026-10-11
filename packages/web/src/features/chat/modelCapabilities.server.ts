@@ -1,12 +1,12 @@
 import 'server-only';
 
-import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
+import { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
 import { DocumentType, InputModality } from './types';
 import { loadCatalog, resolveProviderId, type ModelsDevCatalog } from './modelsDevCatalog.server';
 
 // models.dev folds every accepted input — perceptual channels (text, image,
 // audio, video) AND container formats (pdf) — into a single `modalities.input`
-// list. Sourcebot keeps those two concepts apart: `inputModalities` are the
+// list. Sourcecat keeps those two concepts apart: `inputModalities` are the
 // raw channels a model encodes, while `supportedDocumentTypes` are rich
 // compound formats providers decompose server-side. We partition the catalog's
 // input list into those two buckets here.

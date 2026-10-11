@@ -3,7 +3,7 @@ Dockerfile
 npm-debug.log
 README.md
 .git
-.sourcebot
+.sourcecat
 packages/web/.next
 !packages/web/.next/static
 !packages/web/.next/standalone

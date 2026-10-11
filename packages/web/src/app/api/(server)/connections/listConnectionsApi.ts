@@ -1,6 +1,6 @@
 import { sew } from '@/middleware/sew';
 import { withOptionalAuth } from '@/middleware/withAuth';
-import { ConnectionType } from '@sourcebot/db';
+import { ConnectionType } from '@sourcecat/db';
 import { z } from 'zod';
 
 export const connectionQuerySchema = z.object({

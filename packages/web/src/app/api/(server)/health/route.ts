@@ -1,7 +1,7 @@
 'use server';
 
 import { apiHandler } from "@/lib/apiHandler";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('health-check');
 

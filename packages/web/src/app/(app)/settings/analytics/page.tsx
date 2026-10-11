@@ -1,7 +1,7 @@
 import { AnalyticsContent } from "@/ee/features/analytics/analyticsContent";
 import { AnalyticsEntitlementMessage } from "./analyticsEntitlementMessage";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { hasEntitlement } from "@/lib/entitlements";
 
 export default authenticatedPage(async () => {

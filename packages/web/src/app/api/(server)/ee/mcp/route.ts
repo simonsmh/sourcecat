@@ -10,9 +10,9 @@ import { StatusCodes } from 'http-status-codes';
 import { NextRequest } from 'next/server';
 import { sew } from "@/middleware/sew";
 import { apiHandler } from '@/lib/apiHandler';
-import { env } from '@sourcebot/shared';
+import { env } from '@sourcecat/shared';
 import { hasEntitlement } from '@/lib/entitlements';
-import { SOURCEBOT_OAUTH_SCOPES } from '@/ee/features/oauth/constants';
+import { SOURCECAT_OAUTH_SCOPES } from '@/ee/features/oauth/constants';
 import { isMcpActivityMessage } from '@/ee/features/mcp/activity';
 
 // On 401, tell MCP clients where to find the OAuth protected resource metadata (RFC 9728)
@@ -35,10 +35,10 @@ async function mcpErrorResponse(error: ServiceError): Promise<Response> {
 function mcpOAuthChallenge(scheme: 'Bearer' | 'DPoP', error: ServiceError): string {
     const issuer = env.AUTH_URL.replace(/\/$/, '');
     const params = [
-        'realm="Sourcebot"',
+        'realm="Sourcecat"',
         `resource_metadata_uri="${issuer}/.well-known/oauth-protected-resource/api/mcp"`,
     ];
-    const scope = SOURCEBOT_OAUTH_SCOPES.join(' ');
+    const scope = SOURCECAT_OAUTH_SCOPES.join(' ');
     if (scope) {
         params.push(`scope="${scope}"`);
     }
@@ -184,7 +184,7 @@ export const DELETE = apiHandler(async (request: NextRequest) => {
     return result;
 });
 
-// Sourcebot does not send server-initiated messages, so the GET SSE stream is not
+// Sourcecat does not send server-initiated messages, so the GET SSE stream is not
 // supported. Per the MCP Streamable HTTP spec, servers that do not offer a GET SSE
 // stream MUST return 405 Method Not Allowed.
 // @see: https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#listening-for-messages-from-the-server

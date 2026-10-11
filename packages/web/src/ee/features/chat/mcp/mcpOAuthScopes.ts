@@ -3,7 +3,7 @@ import 'server-only';
 import { ErrorCode } from '@/lib/errorCodes';
 import type { ServiceError } from '@/lib/serviceError';
 import { __unsafePrisma } from '@/prisma';
-import { McpServerClientInfoSource, type PrismaClient } from '@sourcebot/db';
+import { McpServerClientInfoSource, type PrismaClient } from '@sourcecat/db';
 import { StatusCodes } from 'http-status-codes';
 import { getEnabledMcpOAuthScopeNames, normalizeMcpOAuthScopeEntries } from './oauthScopeUtils';
 import type { McpServerOAuthScopeEntry } from './types';

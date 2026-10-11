@@ -21,7 +21,7 @@ import { cn, isServiceError } from "@/lib/utils";
 import type {
     RepositoryDiscoveryIssue,
     WorkloadJob,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import {
     ChevronDown,
     CircleX,
@@ -193,7 +193,7 @@ export const SyncIssuePopover = ({
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 {reasons
-                                    ? "Sourcebot could not honor the full configured discovery scope. Some repositories may be missing."
+                                    ? "Sourcecat could not honor the full configured discovery scope. Some repositories may be missing."
                                     : isWarning
                                         ? "Previously discovered repositories remain available, but they may be stale."
                                     : "This connection failed to sync. Its repositories are unavailable."}

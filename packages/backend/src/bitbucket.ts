@@ -1,8 +1,8 @@
 import { createBitbucketCloudClient as createBitbucketCloudClientBase } from "@coderabbitai/bitbucket/cloud";
 import { createBitbucketServerClient as createBitbucketServerClientBase } from "@coderabbitai/bitbucket/server";
-import { BitbucketConnectionConfig } from "@sourcebot/schemas/v3/bitbucket.type";
+import { BitbucketConnectionConfig } from "@sourcecat/schemas/v3/bitbucket.type";
 import type { ClientOptions, ClientPathsWithMethod, Middleware } from "openapi-fetch";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import { measure, fetchWithRetry } from "./utils.js";
 import * as Sentry from "@sentry/node";
 import micromatch from "micromatch";
@@ -12,7 +12,7 @@ import {
 } from "@coderabbitai/bitbucket/cloud/openapi";
 import { SchemaRestRepository as ServerRepository } from "@coderabbitai/bitbucket/server/openapi";
 import { processPromiseResults, throwIfAnyFailed } from "./connectionUtils.js";
-import { getTokenFromConfig } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
 import { reportRepositoryDiscoveryIssue } from "./repositoryDiscoveryIssueContext.js";
 
 const logger = createLogger('bitbucket');

@@ -1,12 +1,12 @@
-import { AzureDevOpsConnectionConfig } from "@sourcebot/schemas/v3/azuredevops.type";
-import { createLogger } from "@sourcebot/shared";
+import { AzureDevOpsConnectionConfig } from "@sourcecat/schemas/v3/azuredevops.type";
+import { createLogger } from "@sourcecat/shared";
 import { measure, fetchWithRetry } from "./utils.js";
 import micromatch from "micromatch";
 import { processPromiseResults, throwIfAnyFailed } from "./connectionUtils.js";
 import * as Sentry from "@sentry/node";
 import * as azdev from "azure-devops-node-api";
 import { GitRepository } from "azure-devops-node-api/interfaces/GitInterfaces.js";
-import { getTokenFromConfig } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
 import { reportRepositoryDiscoveryIssue } from "./repositoryDiscoveryIssueContext.js";
 
 const logger = createLogger('azuredevops');

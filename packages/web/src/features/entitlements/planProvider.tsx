@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext } from "react";
-import { Entitlement } from "@sourcebot/shared";
+import { Entitlement } from "@sourcecat/shared";
 
 export const PlanContext = createContext<{ entitlements: Entitlement[] }>({ entitlements: [] });
 

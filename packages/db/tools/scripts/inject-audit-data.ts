@@ -86,7 +86,7 @@ export const injectAuditData: Script = {
                             actorType: 'user',
                             targetId: `search_${Math.floor(Math.random() * 1000)}`,
                             targetType: 'search',
-                            sourcebotVersion: '1.0.0',
+                            sourcecatVersion: '1.0.0',
                             orgId
                         }
                     });
@@ -115,7 +115,7 @@ export const injectAuditData: Script = {
                         actorType: 'user',
                         targetId: `symbol_${Math.floor(Math.random() * 1000)}`,
                         targetType: 'symbol',
-                        sourcebotVersion: '1.0.0',
+                        sourcecatVersion: '1.0.0',
                         orgId
                         }
                     });
@@ -146,7 +146,7 @@ export const injectAuditData: Script = {
                             actorType: 'user',
                             targetId: orgId.toString(),
                             targetType: 'org',
-                            sourcebotVersion: '1.0.0',
+                            sourcecatVersion: '1.0.0',
                             orgId
                         }
                     });

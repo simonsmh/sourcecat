@@ -1,5 +1,5 @@
-import { PrismaClient } from "@sourcebot/db";
-import { createLogger, getRepoPath, RepoMetadata, repoMetadataSchema, REPO_INDEX_QUEUE } from "@sourcebot/shared";
+import { PrismaClient } from "@sourcecat/db";
+import { createLogger, getRepoPath, RepoMetadata, repoMetadataSchema, REPO_INDEX_QUEUE } from "@sourcecat/shared";
 import { existsSync } from 'fs';
 import { rm } from 'fs/promises';
 import micromatch from 'micromatch';
@@ -190,7 +190,7 @@ const indexRepository = async (
         // `remote.origin.url` entry. For the upgrade scenario, we want
         // to unset this key since it is no longer needed, hence this line.
         // This will no-op if the key is already unset.
-        // @see: https://github.com/sourcebot-dev/sourcebot/pull/483
+        // @see: https://github.com/simonsmh/sourcecat/pull/483
         await unsetGitConfig({
             path: repoPath,
             keys: ["remote.origin.url"],

@@ -4,8 +4,8 @@ import NextAuth, { DefaultSession, Session, User as AuthJsUser } from "next-auth
 import Credentials from "next-auth/providers/credentials"
 import EmailProvider from "next-auth/providers/nodemailer";
 import { __unsafePrisma } from "@/prisma";
-import { createLogger, doesIdpSupportPermissionSyncing, env, getSMTPConnectionURL } from "@sourcebot/shared";
-import { User } from '@sourcebot/db';
+import { createLogger, doesIdpSupportPermissionSyncing, env, getSMTPConnectionURL } from "@sourcecat/shared";
+import { User } from '@sourcecat/db';
 import 'next-auth/jwt';
 import type { Provider } from "next-auth/providers";
 import { verifyCredentialsRequestSchema } from './lib/schemas';
@@ -20,7 +20,7 @@ import { SINGLE_TENANT_ORG_ID } from './lib/constants';
 import { EncryptedPrismaAdapter, encryptAccountData } from '@/lib/encryptedPrismaAdapter';
 import { getAnonymousId } from '@/lib/anonymousId';
 import { captureEvent } from '@/lib/posthog';
-import { isEmailCodeLoginEnabled, isCredentialsLoginEnabled } from '@sourcebot/shared'
+import { isEmailCodeLoginEnabled, isCredentialsLoginEnabled } from '@sourcecat/shared'
 import { onCreateUser } from './features/membership/onCreateUser';
 import { setSentryUser } from './lib/sentryUser';
 import { scheduleAndTriggerAccountPermissionSync } from './ee/features/permissionSync/accountPermissionSyncQueue.server';
@@ -94,9 +94,9 @@ export const getProviders = async () => {
                     const result = await transport.sendMail({
                         to: identifier,
                         from: provider.from,
-                        subject: 'Log in to Sourcebot',
+                        subject: 'Log in to Sourcecat',
                         html,
-                        text: `Log in to Sourcebot using this code: ${token}`
+                        text: `Log in to Sourcecat using this code: ${token}`
                     });
 
                     const failed = result.rejected.concat(result.pending ?? []).filter(Boolean);
@@ -327,10 +327,10 @@ const nextAuthResult = NextAuth(async () => ({
             // falls through to `createUser({ ...profile })`, silently spawning a
             // new orphan User row from the OAuth profile. That's correct behavior
             // for `purpose: "sso"` providers (an unauthenticated user logging in
-            // via SSO should become a new Sourcebot user). It's wrong for
+            // via SSO should become a new Sourcecat user). It's wrong for
             // `purpose: "account_linking"` providers: by definition, those should
             // only ever attach an upstream identity to an *existing* signed-in
-            // user, never mint a new Sourcebot user.
+            // user, never mint a new Sourcecat user.
             //
             // Returning `false` here short-circuits the callback action with an
             // `AccessDenied` before handleLoginOrRegister can run, redirecting
@@ -384,7 +384,7 @@ const nextAuthResult = NextAuth(async () => ({
                 // the cross-check below, plus any accounts that still need
                 // the issuerUrl lazy migration.
                 //
-                // @see https://github.com/sourcebot-dev/sourcebot/pull/993
+                // @see https://github.com/simonsmh/sourcecat/pull/993
                 const dbUser = await __unsafePrisma.user.findUnique({
                     where: {
                         id: token.userId as string,
@@ -479,7 +479,7 @@ export const auth = cache(async (): Promise<Session | null> => {
     const session = await nextAuthResult.auth();
     setSentryUser(
         session?.user ?? null,
-        env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
+        env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED === 'true',
     );
     return session;
 });

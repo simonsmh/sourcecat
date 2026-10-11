@@ -1,7 +1,7 @@
 import { sourceSummary, deployment } from './telemetrySummary.js';
 import { input, password } from './prompts.js';
 import { checkbox } from './prompts.js';
-import type { GiteaConnectionConfig } from '@sourcebot/schemas/v3/gitea.type';
+import type { GiteaConnectionConfig } from '@sourcecat/schemas/v3/gitea.type';
 import type { CollectResult, EnvVars } from './utils.js';
 import { INPUT_THEME, multiInput, toEnvKey } from './utils.js';
 

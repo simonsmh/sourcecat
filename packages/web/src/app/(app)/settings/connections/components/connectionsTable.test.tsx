@@ -1,5 +1,5 @@
-import type { ConnectionType } from "@sourcebot/db";
-import type { JobLogs } from "@sourcebot/shared";
+import type { ConnectionType } from "@sourcecat/db";
+import type { JobLogs } from "@sourcecat/shared";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {

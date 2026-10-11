@@ -1,8 +1,8 @@
 import { sew } from "@/middleware/sew";
 import { createAudit } from "@/ee/features/audit/audit";
 import { withOptionalAuth, type AuthPrincipal } from "@/middleware/withAuth";
-import { PrismaClient } from "@sourcebot/db";
-import { env } from "@sourcebot/shared";
+import { PrismaClient } from "@sourcecat/db";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { headers } from "next/headers";
 import { QueryIR } from './ir';
@@ -31,7 +31,7 @@ type SearchRequest = QueryStringSearchRequest | QueryIRSearchRequest;
 export const search = (request: SearchRequest) => sew(() =>
     withOptionalAuth(async ({ prisma, user, org, principal }) => {
         if (user) {
-            const source = request.source ?? (await headers()).get('X-Sourcebot-Client-Source') ?? undefined;
+            const source = request.source ?? (await headers()).get('X-Sourcecat-Client-Source') ?? undefined;
             await createAudit({
                 action: 'user.performed_code_search',
                 actor: { id: user.id, type: 'user' },
@@ -62,7 +62,7 @@ export const search = (request: SearchRequest) => sew(() =>
 export const streamSearch = (request: SearchRequest) => sew(() =>
     withOptionalAuth(async ({ prisma, user, org, principal }) => {
         if (user) {
-            const source = request.source ?? (await headers()).get('X-Sourcebot-Client-Source') ?? undefined;
+            const source = request.source ?? (await headers()).get('X-Sourcecat-Client-Source') ?? undefined;
             await createAudit({
                 action: 'user.performed_code_search',
                 actor: { id: user.id, type: 'user' },

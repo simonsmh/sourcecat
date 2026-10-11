@@ -12,7 +12,7 @@ import { NotificationDot } from "../../../components/notificationDot";
 import { useMemo } from "react";
 import Link from "next/link";
 import { useEntitlements } from "@/features/entitlements/useEntitlements";
-import { Entitlement } from "@sourcebot/shared";
+import { Entitlement } from "@sourcecat/shared";
 import { UpgradeBadge } from "../upgradeBadge";
 
 interface NavItem {

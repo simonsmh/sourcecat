@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { __unsafePrisma } from "@/prisma";
 import { createInviteLink } from "@/lib/utils";
-import { env, isMemberApprovalRequired } from "@sourcebot/shared";
+import { env, isMemberApprovalRequired } from "@sourcecat/shared";
 import { MemberApprovalRequiredSettingsCard } from "@/app/(app)/settings/security/components/memberApprovalRequiredSettingsCard";
 import { InviteLinkEnabledSettingsCard } from "@/app/(app)/settings/security/components/inviteLinkEnabledSettingsCard";
-import { Org } from "@sourcebot/db";
+import { Org } from "@sourcecat/db";
 
 interface AccessSettingsStepProps {
     nextStep: number;

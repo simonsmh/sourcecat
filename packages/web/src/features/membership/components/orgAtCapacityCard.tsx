@@ -1,7 +1,7 @@
 "use client";
 
 import { LogoutEscapeHatch } from "@/app/components/logoutEscapeHatch";
-import { SourcebotLogo } from "@/app/components/sourcebotLogo";
+import { SourcecatLogo } from "@/app/components/sourcecatLogo";
 import { Button } from "@/components/ui/button";
 import { UsersRound } from "lucide-react";
 
@@ -16,7 +16,7 @@ export const OrgAtCapacityCard = ({ onRetry }: OrgAtCapacityCardProps) => {
 
             <div className="w-full max-w-md">
                 <div className="text-center space-y-8">
-                    <SourcebotLogo
+                    <SourcecatLogo
                         className="h-10 mx-auto"
                         size="large"
                     />

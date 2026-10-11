@@ -1,4 +1,4 @@
-import { SourcebotLogo } from "@/app/components/sourcebotLogo";
+import { SourcecatLogo } from "@/app/components/sourcecatLogo";
 import { UserAvatar } from "@/components/userAvatar";
 import { auth } from "@/auth";
 import { Card } from "@/components/ui/card";
@@ -9,7 +9,7 @@ export const InviteNotFoundCard = async () => {
 
     return (
         <Card className="flex flex-col items-center justify-center max-w-md text-center p-12">
-            <SourcebotLogo
+            <SourcecatLogo
                 className="h-16 w-auto mx-auto mb-2"
                 size="large"
             />

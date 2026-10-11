@@ -4,7 +4,7 @@ import { notFound, serviceErrorResponse } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { withOptionalAuth } from "@/middleware/withAuth";
 import { checkAskEntitlement, resolveChatAccess } from "@/features/chat/utils.server";
-import { getStorageBackend } from "@sourcebot/shared";
+import { getStorageBackend } from "@sourcecat/shared";
 import { NextRequest } from "next/server";
 import { Readable } from "stream";
 

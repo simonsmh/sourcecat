@@ -33,7 +33,7 @@ vi.mock('@/middleware/withMinimumOrgRole', () => ({
         callback: () => unknown,
     ) => callback(),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     JOB_PRIORITIES: { INTERACTIVE: 1 },
     REPO_INDEX_QUEUE: repoIndexQueue,
 }));

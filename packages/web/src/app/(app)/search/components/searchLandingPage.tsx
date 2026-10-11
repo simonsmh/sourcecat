@@ -1,4 +1,4 @@
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 import { Separator } from "@/components/ui/separator"
 import { SyntaxReferenceGuideHint } from "../../components/syntaxReferenceGuideHint"
 import Link from "next/link"
@@ -32,7 +32,7 @@ export const SearchLandingPage = async ({
         <div className="flex flex-col items-center overflow-hidden">
             <div className="flex flex-col justify-center items-center mt-8 mb-8 md:mt-16 w-full px-5">
                 <div className="max-h-44 w-auto">
-                    <SourcebotLogo
+                    <SourcecatLogo
                         className="h-18 md:h-40 w-auto"
                     />
                 </div>

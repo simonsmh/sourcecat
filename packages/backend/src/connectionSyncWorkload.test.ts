@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import type { RepoData } from "./repoCompileUtils.js";
 import type { JobManager, ProcessContext } from "./types.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
@@ -33,7 +33,7 @@ vi.mock("./entitlements.js", () => ({
     isPermissionSyncEnabled: mocks.isPermissionSyncEnabled,
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     CONNECTION_QUEUE: {
         name: "connection-sync",
         deduplication: ({ connectionId }: { connectionId: number }) => ({
@@ -169,10 +169,10 @@ describe("connectionWorkload", () => {
         expect(connectionWorkload.executionLock).toBeDefined();
         expect(
             connectionWorkload.executionLock?.resource({ connectionId: 42 }),
-        ).toBe("sourcebot:lock:connection:42");
+        ).toBe("sourcecat:lock:connection:42");
         expect(
             connectionWorkload.executionLock?.resource({ connectionId: 43 }),
-        ).toBe("sourcebot:lock:connection:43");
+        ).toBe("sourcecat:lock:connection:43");
         expect(connectionWorkload.executionLock?.durationMs).toBe(60_000);
     });
 
@@ -254,7 +254,7 @@ describe("connectionWorkload", () => {
         mocks.compileGithubConfig.mockResolvedValue([discoveredRepo]);
         mocks.repoUpsert.mockResolvedValue({
             id: 4,
-            name: "github.com/sourcebot/repo-4",
+            name: "github.com/sourcecat/repo-4",
             indexedAt: null,
         });
         const trigger = vi.fn();
@@ -305,7 +305,7 @@ describe("connectionWorkload", () => {
             effect: "TARGET_SKIPPED" as const,
             subject: {
                 kind: "repository" as const,
-                value: "sourcebot-dev/legacy",
+                value: "simonsmh/legacy",
             },
             message: "Repository was not found or is inaccessible.",
         };
@@ -339,7 +339,7 @@ describe("connectionWorkload", () => {
             effect: "DISCOVERY_INCOMPLETE" as const,
             subject: {
                 kind: "organization" as const,
-                value: "sourcebot-dev",
+                value: "simonsmh",
             },
             message: "Repository enumeration did not complete.",
         };
@@ -363,14 +363,14 @@ describe("connectionWorkload", () => {
             .mockResolvedValueOnce([
                 {
                     id: 2,
-                    name: "github.com/sourcebot/repo-2",
+                    name: "github.com/sourcecat/repo-2",
                     indexedAt,
                 },
             ])
             .mockResolvedValueOnce([]);
         mocks.repoUpsert.mockResolvedValue({
             id: 1,
-            name: "github.com/sourcebot/repo-1",
+            name: "github.com/sourcecat/repo-1",
             indexedAt,
         });
         const trigger = vi.fn();
@@ -395,7 +395,7 @@ describe("connectionWorkload", () => {
                 repositories: [
                     {
                         id: 2,
-                        name: "github.com/sourcebot/repo-2",
+                        name: "github.com/sourcecat/repo-2",
                     },
                 ],
             },
@@ -429,7 +429,7 @@ describe("connectionWorkload", () => {
         ]);
         mocks.repoUpsert.mockResolvedValue({
             id: 4,
-            name: "github.com/sourcebot/repo-4",
+            name: "github.com/sourcecat/repo-4",
             indexedAt: null,
         });
         mocks.upsertJobScheduler.mockRejectedValueOnce(
@@ -464,7 +464,7 @@ describe("connectionWorkload repo sync helpers", () => {
         const existingRepo = {
             external_id: "repo-1",
             external_codeHostUrl: "https://github.com",
-            displayName: "sourcebot/repo-1",
+            displayName: "sourcecat/repo-1",
             connections: {
                 create: {
                     connectionId: 42,
@@ -474,7 +474,7 @@ describe("connectionWorkload repo sync helpers", () => {
         const newRepo = {
             external_id: "repo-4",
             external_codeHostUrl: "https://github.com",
-            displayName: "sourcebot/repo-4",
+            displayName: "sourcecat/repo-4",
             connections: {
                 create: {
                     connectionId: 42,
@@ -484,17 +484,17 @@ describe("connectionWorkload repo sync helpers", () => {
         mocks.repoFindMany
             .mockResolvedValueOnce([{ id: 1 }, { id: 2 }, { id: 3 }])
             .mockResolvedValueOnce([
-                { id: 2, name: "github.com/sourcebot/repo-2" },
+                { id: 2, name: "github.com/sourcecat/repo-2" },
             ]);
         mocks.repoUpsert
             .mockResolvedValueOnce({
                 id: 1,
-                name: "github.com/sourcebot/repo-1",
+                name: "github.com/sourcecat/repo-1",
                 indexedAt,
             })
             .mockResolvedValueOnce({
                 id: 4,
-                name: "github.com/sourcebot/repo-4",
+                name: "github.com/sourcecat/repo-4",
                 indexedAt: null,
             });
 
@@ -546,20 +546,20 @@ describe("connectionWorkload repo sync helpers", () => {
             currentRepos: [
                 {
                     id: 1,
-                    name: "github.com/sourcebot/repo-1",
+                    name: "github.com/sourcecat/repo-1",
                     indexedAt,
                 },
                 {
                     id: 4,
-                    name: "github.com/sourcebot/repo-4",
+                    name: "github.com/sourcecat/repo-4",
                     indexedAt: null,
                 },
             ],
             unindexedRepos: [
-                { id: 4, name: "github.com/sourcebot/repo-4" },
+                { id: 4, name: "github.com/sourcecat/repo-4" },
             ],
             orphanedRepos: [
-                { id: 2, name: "github.com/sourcebot/repo-2" },
+                { id: 2, name: "github.com/sourcecat/repo-2" },
             ],
             affectedRepoIds: [1, 4, 2, 3],
         });

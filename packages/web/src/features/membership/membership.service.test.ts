@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { activatePendingMembership, ensureActiveMember, removeMember, setMemberRole, setMembershipSuspended } from './membership.service';
 import { prisma, MOCK_USER_WITH_ACCOUNTS } from '@/__mocks__/prisma';
-import { OrgRole, type UserToOrg } from '@sourcebot/db';
+import { OrgRole, type UserToOrg } from '@sourcecat/db';
 import { ErrorCode } from '@/lib/errorCodes';
 import { isServiceError } from '@/lib/utils';
 import type { ServiceError } from '@/lib/serviceError';

@@ -1,5 +1,5 @@
 import type { OAuthTokens } from '@ai-sdk/mcp';
-import { decryptOAuthToken } from '@sourcebot/shared';
+import { decryptOAuthToken } from '@sourcecat/shared';
 
 export type StoredMcpConnectionStatus =
     | { state: 'connected'; tokens: OAuthTokens }

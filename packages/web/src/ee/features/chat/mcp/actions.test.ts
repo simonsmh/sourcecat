@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { McpServerClientInfoSource, McpServerToolPermission, OrgRole } from '@sourcebot/db';
+import { McpServerClientInfoSource, McpServerToolPermission, OrgRole } from '@sourcecat/db';
 import { ErrorCode } from '@/lib/errorCodes';
 
 const mocks = vi.hoisted(() => ({
@@ -7,9 +7,9 @@ const mocks = vi.hoisted(() => ({
     hasEntitlement: vi.fn(),
     encryptOAuthToken: vi.fn((text: string | null | undefined) => text ? `encrypted:${text}` : undefined),
     env: {
-        AUTH_URL: 'https://sourcebot.example.com',
+        AUTH_URL: 'https://sourcecat.example.com',
         NODE_ENV: 'production',
-        SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
+        SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
     },
     logger: {
         error: vi.fn(),
@@ -46,7 +46,7 @@ vi.mock('@/lib/entitlements', () => ({
 vi.mock('@/prisma', () => ({
     __unsafePrisma: mocks.unsafePrisma,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => mocks.logger,
     encryptOAuthToken: mocks.encryptOAuthToken,
     env: mocks.env,
@@ -110,9 +110,9 @@ beforeEach(() => {
     mocks.unsafePrisma.$transaction.mockImplementation((callback: (tx: unknown) => unknown) => callback(mocks.unsafePrisma));
     mocks.hasEntitlement.mockResolvedValue(true);
     mocks.encryptOAuthToken.mockImplementation((text: string | null | undefined) => text ? `encrypted:${text}` : undefined);
-    mocks.env.AUTH_URL = 'https://sourcebot.example.com';
+    mocks.env.AUTH_URL = 'https://sourcecat.example.com';
     mocks.env.NODE_ENV = 'production';
-    mocks.env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS = 5000;
+    mocks.env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS = 5000;
     mocks.captureEvent.mockResolvedValue(undefined);
 });
 
@@ -139,7 +139,7 @@ describe('createMcpServer', () => {
             },
         });
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_added', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'workspace_settings',
             serverId: 'server-1',
             serverUrl: 'https://mcp.linear.app/mcp',
@@ -237,7 +237,7 @@ describe('createStaticOAuthMcpServer', () => {
             serverUrl: 'https://mcp.slack.com/mcp',
         });
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_added', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'workspace_settings',
             serverId: 'server-1',
             serverUrl: 'https://mcp.slack.com/mcp',
@@ -284,7 +284,7 @@ describe('createStaticOAuthMcpServer', () => {
 
     test('rejects static OAuth credentials when production AUTH_URL is not HTTPS', async () => {
         const prisma = setAuthContext(OrgRole.OWNER);
-        mocks.env.AUTH_URL = 'http://sourcebot.example.com';
+        mocks.env.AUTH_URL = 'http://sourcecat.example.com';
 
         const result = await createStaticOAuthMcpServer(createStaticOAuthRequest());
 
@@ -766,7 +766,7 @@ describe('deleteMcpServer', () => {
             },
         });
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_removed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'workspace_settings',
             serverId: 'server-1',
             serverUrl: 'https://mcp.linear.app/mcp',
@@ -865,7 +865,7 @@ describe('disconnectMcpServer', () => {
         expect(mocks.unsafePrisma.mcpServer.findFirst).not.toHaveBeenCalled();
         expect(mocks.unsafePrisma.userMcpServer.deleteMany).not.toHaveBeenCalled();
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_disconnected', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'account_settings',
             serverId: 'server-1',
             serverUrl: 'https://mcp.linear.app/mcp',

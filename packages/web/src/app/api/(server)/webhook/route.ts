@@ -5,12 +5,12 @@ import { App, Octokit } from "octokit";
 import type { EmitterWebhookEventName } from "@octokit/webhooks";
 import type { WebhookEventDefinition } from "@octokit/webhooks/types";
 import { Gitlab } from "@gitbeaker/rest";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { processGitHubPullRequest, processGitLabMergeRequest } from "@/features/agents/review-agent/app";
 import { throttling, type ThrottlingOptions } from "@octokit/plugin-throttling";
 import fs from "fs";
 import { GitHubPullRequest, GitLabMergeRequestPayload, gitLabMergeRequestPayloadSchema, gitLabNotePayloadSchema } from "@/features/agents/review-agent/types";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('webhook');
 

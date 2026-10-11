@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createLogger } from '@sourcebot/shared';
+import { createLogger } from '@sourcecat/shared';
 
 const logger = createLogger('models-dev-catalog');
 
@@ -23,8 +23,8 @@ const NEGATIVE_CACHE_MS = 60 * 1000;
 // continues warming the cache in the background.
 const COLD_START_BLOCK_BUDGET_MS = 2500;
 
-// Sourcebot provider id -> models.dev top-level catalog key. Only providers
-// whose Sourcebot id differs from the models.dev id need an entry; everything
+// Sourcecat provider id -> models.dev top-level catalog key. Only providers
+// whose Sourcecat id differs from the models.dev id need an entry; everything
 // else (anthropic, openai, azure, amazon-bedrock, mistral, deepseek, xai,
 // openrouter, google-vertex, google-vertex-anthropic) matches 1:1.
 const PROVIDER_ID_OVERRIDES: Record<string, string> = {

@@ -16,11 +16,11 @@ import { isServiceError } from "@/lib/utils";
 import { sew } from "@/middleware/sew";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole, Prisma, sharedAgentSkillAuthScope, sharedAgentSkillScope, sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope, personalAgentSkillScope, type AgentSkill, type Org, type PrismaClient } from "@sourcebot/db";
+import { OrgRole, Prisma, sharedAgentSkillAuthScope, sharedAgentSkillScope, sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope, personalAgentSkillScope, type AgentSkill, type Org, type PrismaClient } from "@sourcecat/db";
 import { StatusCodes } from "http-status-codes";
 import { refresh, revalidatePath } from "next/cache";
 import { z } from "zod";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import {
     agentSkillInputSchema,
     agentSkillOrderBy,
@@ -81,7 +81,7 @@ type SkillAnalyticsContext = {
     creationMethod?: AskSkillCreationMethod;
 };
 
-const SKILL_ANALYTICS_SOURCE = 'sourcebot-web-client' as const;
+const SKILL_ANALYTICS_SOURCE = 'sourcecat-web-client' as const;
 
 const getSkillAnalyticsEntryPoint = (analytics?: SkillAnalyticsContext): AskSkillEntryPoint =>
     normalizeSkillAnalyticsEntryPoint(analytics?.entryPoint);

@@ -1,4 +1,4 @@
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { z } from "zod";
 import { serviceErrorSchema } from "@/lib/serviceError";
 

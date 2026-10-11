@@ -3,13 +3,13 @@ import { skillInstructionsToSlateValue, slateValueToSkillInstructions } from "./
 
 describe("skill instructions Slate serialization", () => {
     test("round-trips file references without adding spaces around punctuation", () => {
-        const instructions = "Review @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.";
+        const instructions = "Review @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.";
 
         expect(slateValueToSkillInstructions(skillInstructionsToSlateValue(instructions))).toBe(instructions);
     });
 
     test("preserves trailing blank lines", () => {
-        const instructions = "Review this file:\n@file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}\n";
+        const instructions = "Review this file:\n@file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}\n";
 
         expect(slateValueToSkillInstructions(skillInstructionsToSlateValue(instructions))).toBe(instructions);
     });

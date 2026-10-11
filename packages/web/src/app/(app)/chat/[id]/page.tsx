@@ -11,11 +11,11 @@ import { ChatName } from '../components/chatName';
 import { ShareChatPopover } from '../components/shareChatPopover';
 import { auth } from '@/auth';
 import { __unsafePrisma } from '@/prisma';
-import { ChatVisibility } from '@sourcebot/db';
+import { ChatVisibility } from '@sourcecat/db';
 import { Metadata } from 'next';
 import { SBChatMessage } from '@/features/chat/types';
 import { getUserMessageText } from '@/features/chat/utils';
-import { env } from '@sourcebot/shared';
+import { env } from '@sourcecat/shared';
 import { hasEntitlement } from '@/lib/entitlements';
 import { ChatEntitlementMessage } from '@/features/chat/components/chatEntitlementMessage';
 import { captureEvent } from '@/lib/posthog';
@@ -38,14 +38,14 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
     if (!chat) {
         return {
-            title: 'Chat | Sourcebot',
+            title: 'Chat | Sourcecat',
         };
     }
 
     // Only show detailed metadata for public chats
     if (chat.visibility !== ChatVisibility.PUBLIC) {
         return {
-            title: 'Private Chat | Sourcebot',
+            title: 'Private Chat | Sourcecat',
             description: 'Login to view',
         };
     }
@@ -54,7 +54,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     const messages = chat.messages as unknown as SBChatMessage[];
     const firstUserMessage = messages.find(m => m.role === 'user');
 
-    let description = 'A chat on Sourcebot';
+    let description = 'A chat on Sourcecat';
     if (firstUserMessage) {
         const text = getUserMessageText(firstUserMessage);
         if (text) {
@@ -65,7 +65,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     }
 
     return {
-        title: `${chatName} | Sourcebot`,
+        title: `${chatName} | Sourcecat`,
         description,
         openGraph: {
             title: chatName,
@@ -92,7 +92,7 @@ export default async function Page(props: PageProps) {
             <ChatEntitlementMessage
                 source="chat"
                 returnPath={`/chat/${params.id}`}
-                title="Upgrade to view this Ask Sourcebot chat"
+                title="Upgrade to view this Ask Sourcecat chat"
                 description="Pick up this conversation right where you left off."
             />
         );
@@ -184,7 +184,7 @@ export default async function Page(props: PageProps) {
                 isOwner={isOwner}
                 isAuthenticated={!!session}
                 isLoginWallEnabled={env.EXPERIMENT_ASK_GH_ENABLED === 'true'}
-                maxImageBytes={env.SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES}
+                maxImageBytes={env.SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES}
                 chatName={name ?? undefined}
             />
         </div>

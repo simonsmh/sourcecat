@@ -1,4 +1,4 @@
-import type { AgentSkill, AgentSkillVisibility, Prisma } from "@sourcebot/db";
+import type { AgentSkill, AgentSkillVisibility, Prisma } from "@sourcecat/db";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 

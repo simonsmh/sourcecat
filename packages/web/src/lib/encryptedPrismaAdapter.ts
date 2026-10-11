@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { Adapter, AdapterAccount, AdapterUser } from "next-auth/adapters";
-import { PrismaClient } from "@sourcebot/db";
-import { encryptOAuthToken, getIdentityProviderConfig } from "@sourcebot/shared";
+import { PrismaClient } from "@sourcecat/db";
+import { encryptOAuthToken, getIdentityProviderConfig } from "@sourcecat/shared";
 import { removeAccountPermissionSyncScheduler } from "@/ee/features/permissionSync/accountPermissionSyncQueue.server";
 
 /**

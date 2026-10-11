@@ -1,6 +1,6 @@
 import { AlertCircle, CloudOff } from "lucide-react";
 import { formatDistance } from "date-fns";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { Button } from "@/components/ui/button";
 import { BannerShell } from "./bannerShell";
 import { RefreshLicenseButton } from "./refreshLicenseButton";
@@ -13,7 +13,7 @@ interface ServicePingFailedBannerProps extends BannerProps {
     lastSyncAt: string | null;
 }
 
-const SERVICE_PING_DOCS_LINK = "https://docs.sourcebot.dev/docs/misc/service-ping";
+const SERVICE_PING_DOCS_LINK = "https://docs.sourcecat.dev/docs/misc/service-ping";
 
 export function ServicePingFailedBanner({
     id,
@@ -43,7 +43,7 @@ export function ServicePingFailedBanner({
                 title="Can't verify license"
                 description={
                     relative
-                        ? `Last successful sync with the Sourcebot license server was ${relative}. Paid features will be disabled if this persists.`
+                        ? `Last successful sync with the Sourcecat license server was ${relative}. Paid features will be disabled if this persists.`
                         : "Paid features will be disabled if this persists."
                 }
                 action={
@@ -62,12 +62,12 @@ export function ServicePingFailedBanner({
 
     const description = (() => {
         if (!isOwner) {
-            return <>Sourcebot can&apos;t verify this license right now. Paid features have been disabled. Contact your organization administrator to restore access. {whatsAffectedLink}</>;
+            return <>Sourcecat can&apos;t verify this license right now. Paid features have been disabled. Contact your organization administrator to restore access. {whatsAffectedLink}</>;
         }
         if (relative) {
-            return <>Last successful sync with the Sourcebot license server was {relative}. Paid features have been disabled. {whatsAffectedLink}</>;
+            return <>Last successful sync with the Sourcecat license server was {relative}. Paid features have been disabled. {whatsAffectedLink}</>;
         }
-        return <>Sourcebot has not been able to verify this license and paid features are disabled. {whatsAffectedLink}</>;
+        return <>Sourcecat has not been able to verify this license and paid features are disabled. {whatsAffectedLink}</>;
     })();
 
     return (

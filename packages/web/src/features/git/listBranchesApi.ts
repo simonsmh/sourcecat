@@ -1,7 +1,7 @@
 import { sew } from "@/middleware/sew";
 import { notFound, ServiceError, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from '@/middleware/withAuth';
-import { getRepoPath, repoMetadataSchema } from '@sourcebot/shared';
+import { getRepoPath, repoMetadataSchema } from '@sourcecat/shared';
 import { z } from 'zod';
 import { simpleGit } from 'simple-git';
 import { branchSchema } from './schemas';
@@ -95,7 +95,7 @@ export const listBranches = async ({
             if (errorMessage.includes('not a git repository') || errorMessage.includes('ENOENT')) {
                 return unexpectedError(
                     `Local clone for repository ${repoName} is unavailable at ${repoPath}. ` +
-                    `The repository may not have been fetched by Sourcebot yet.`
+                    `The repository may not have been fetched by Sourcecat yet.`
                 );
             }
 

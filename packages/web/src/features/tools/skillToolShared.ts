@@ -1,4 +1,4 @@
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { ErrorCode } from "@/lib/errorCodes";
 import type { AskSkillAnalyticsSource } from "@/lib/posthogEvents";
 import type { ServiceError } from "@/lib/serviceError";
@@ -8,9 +8,9 @@ import { StatusCodes } from "http-status-codes";
 // list_skills).
 
 export const toSkillAnalyticsSource = (source: string | undefined): AskSkillAnalyticsSource =>
-    source === 'sourcebot-mcp-server' || source === 'sourcebot-web-client'
+    source === 'sourcecat-mcp-server' || source === 'sourcecat-web-client'
         ? source
-        : 'sourcebot-ask-agent';
+        : 'sourcecat-ask-agent';
 
 // Repository-scoped access tokens grant access to selected repositories only;
 // account-level skill management is outside their documented authorization

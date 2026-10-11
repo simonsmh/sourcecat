@@ -1,5 +1,5 @@
 {
-    "name": "@sourcebot/shared",
+    "name": "@sourcecat/shared",
     "version": "0.1.0",
     "type": "module",
     "private": true,
@@ -15,8 +15,8 @@
         "@logtail/node": "^0.5.2",
         "@logtail/winston": "^0.5.2",
         "@sentry/node": "^10.71.0",
-        "@sourcebot/db": "workspace:*",
-        "@sourcebot/schemas": "workspace:*",
+        "@sourcecat/db": "workspace:*",
+        "@sourcecat/schemas": "workspace:*",
         "@t3-oss/env-core": "^0.13.10",
         "ajv": "^8.17.1",
         "bullmq": "^5.81.3",

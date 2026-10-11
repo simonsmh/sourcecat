@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2, MoreVertical } from "lucide-react";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {

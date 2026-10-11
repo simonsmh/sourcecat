@@ -1,8 +1,8 @@
 import type { Script } from "../scriptRunner";
-import type { PrismaClient, Prisma } from "@sourcebot/db";
+import type { PrismaClient, Prisma } from "@sourcecat/db";
 import { confirmAction } from "../utils";
 
-// User profile: defines how a user interacts with Sourcebot
+// User profile: defines how a user interacts with Sourcecat
 interface UserProfile {
     id: string
     // Whether this user uses the web UI, and how active they are (0 = never, 1 = heavy)
@@ -161,7 +161,7 @@ export const injectAuditDataV2: Script = {
                         actorType: 'user',
                         targetId: `${targetType}_${Math.floor(Math.random() * 1000)}`,
                         targetType,
-                        sourcebotVersion: '1.0.0',
+                        sourcecatVersion: '1.0.0',
                         orgId,
                         ...(metadata ? { metadata } : {}),
                     }
@@ -180,10 +180,10 @@ export const injectAuditDataV2: Script = {
                 const activityChance = isWeekend ? user.weekendActivity : user.weekdayActivity;
                 if (Math.random() >= activityChance) continue;
 
-                // --- Web UI activity (source='sourcebot-web-client') ---
+                // --- Web UI activity (source='sourcecat-web-client') ---
                 if (user.webWeight > 0) {
-                    const webMeta: Prisma.InputJsonValue = { source: 'sourcebot-web-client' };
-                    const codenavMeta: Prisma.InputJsonValue = { source: 'sourcebot-web-client' };
+                    const webMeta: Prisma.InputJsonValue = { source: 'sourcecat-web-client' };
+                    const codenavMeta: Prisma.InputJsonValue = { source: 'sourcecat-web-client' };
 
                     // Code searches (2-5 base)
                     await createAudits(user.id, 'user.performed_code_search',
@@ -283,7 +283,7 @@ export const injectAuditDataV2: Script = {
         for (const audit of allAudits) {
             const meta = audit.metadata as Record<string, unknown> | null;
             const source = meta?.source as string | undefined;
-            if (source && typeof source === 'string' && source.startsWith('sourcebot-')) {
+            if (source && typeof source === 'string' && source.startsWith('sourcecat-')) {
                 webCount++;
             } else if (source === 'mcp') {
                 mcpCount++;
@@ -292,7 +292,7 @@ export const injectAuditDataV2: Script = {
             }
         }
         console.log('\nSource breakdown:');
-        console.log(`  Web UI (source=sourcebot-*): ${webCount}`);
+        console.log(`  Web UI (source=sourcecat-*): ${webCount}`);
         console.log(`  MCP (source=mcp): ${mcpCount}`);
         console.log(`  API (source=other/null): ${apiCount}`);
     },

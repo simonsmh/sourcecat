@@ -1,8 +1,8 @@
 import type { User as AuthJsUser } from "next-auth";
 import { __unsafePrisma } from "@/prisma";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
-import { isMemberApprovalRequired } from "@sourcebot/shared";
+import { isMemberApprovalRequired } from "@sourcecat/shared";
 import { createAudit } from "@/ee/features/audit/audit";
 import { isScimEnabled } from "@/features/scim/utils";
 import { getDefaultMemberRole } from "@/features/membership/utils";

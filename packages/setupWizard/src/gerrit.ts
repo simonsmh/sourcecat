@@ -1,6 +1,6 @@
 import { sourceSummary } from './telemetrySummary.js';
 import { confirm, input } from './prompts.js';
-import type { GerritConnectionConfig } from '@sourcebot/schemas/v3/gerrit.type';
+import type { GerritConnectionConfig } from '@sourcecat/schemas/v3/gerrit.type';
 import type { CollectResult } from './utils.js';
 import { multiInput } from './utils.js';
 

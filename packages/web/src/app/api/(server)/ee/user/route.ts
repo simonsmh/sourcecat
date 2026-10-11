@@ -11,8 +11,8 @@ import { serviceErrorResponse, missingQueryParam, notFound } from "@/lib/service
 import { isServiceError } from "@/lib/utils";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
-import { createLogger } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { createLogger } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { StatusCodes } from "http-status-codes";
 import { NextRequest } from "next/server";

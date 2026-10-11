@@ -6,9 +6,9 @@ icon: mug-tea
 
 import GiteaSchema from '/snippets/schemas/v3/gitea.schema.mdx'
 
-Sourcebot can sync code from Gitea Cloud, and self-hosted.
+Sourcecat can sync code from Gitea Cloud, and self-hosted.
 
-If you're not familiar with Sourcebot [connections](/docs/connections/indexing-your-code), please read that overview first.
+If you're not familiar with Sourcecat [connections](/docs/connections/indexing-your-code), please read that overview first.
 
 ## Examples
 
@@ -18,7 +18,7 @@ If you're not familiar with Sourcebot [connections](/docs/connections/indexing-y
         {
             "type": "gitea",
             "repos": [
-                "sourcebot-dev/sourcebot",
+                "simonsmh/sourcecat",
                 "getsentry/sentry",
                 "torvalds/linux"
             ]
@@ -30,7 +30,7 @@ If you're not familiar with Sourcebot [connections](/docs/connections/indexing-y
         {
             "type": "gitea",
             "orgs": [
-                "sourcebot-dev",
+                "simonsmh",
                 "getsentry",
                 "vercel"
             ]
@@ -102,12 +102,12 @@ Next, provide the access token via an environment variable [token](/docs/configu
         }
         ```
 
-        2. Pass this environment variable each time you run Sourcebot:
+        2. Pass this environment variable each time you run Sourcecat:
         ```bash
         docker run \
             -e GITEA_TOKEN=<PAT> \
             /* additional args */ \
-            docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+            ghcr.io/simonsmh/sourcecat:latest
         ```
     </Tab>
 </Tabs>
@@ -130,7 +130,7 @@ To connect to a custom Gitea deployment, provide the `url` property to your conf
 ## Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/gitea.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/gitea.json)
+[schemas/v3/gitea.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/gitea.json)
 
 <GiteaSchema />
 

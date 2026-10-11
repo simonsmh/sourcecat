@@ -1,9 +1,9 @@
 [coast]
-name = "sourcebot"
+name = "sourcecat"
 compose = "./docker-compose-dev.yml"
 primary_port = "web"
 private_paths = ["packages/web/.next"]
-worktree_dir = [".worktrees", ".claude/worktrees", "~/.cursor/worktrees/sourcebot", "~/conductor/workspaces/sourcebot"]
+worktree_dir = [".worktrees", ".claude/worktrees", "~/.cursor/worktrees/sourcecat", "~/conductor/workspaces/sourcecat"]
 
 [coast.setup]
 packages = ["nodejs", "npm", "go", "make", "git", "bash", "ca-certificates", "ctags"]
@@ -15,7 +15,7 @@ run = [
 # Zoekt code search server (Go binary built by `make`)
 [services.zoekt]
 install = "cd /workspace && (test -f bin/zoekt-webserver || make zoekt)"
-command = "cd /workspace && ./bin/zoekt-webserver -index .sourcebot/index -rpc"
+command = "cd /workspace && ./bin/zoekt-webserver -index .sourcecat/index -rpc"
 port = 6070
 restart = "on-failure"
 cache = ["bin"]
@@ -39,13 +39,13 @@ cache = ["node_modules"]
 [shared_services.postgres]
 image = "postgres:16-alpine"
 ports = [5432]
-volumes = ["sourcebot_postgres_data:/var/lib/postgresql/data"]
+volumes = ["sourcecat_postgres_data:/var/lib/postgresql/data"]
 env = { POSTGRES_DB = "postgres", POSTGRES_USER = "postgres", POSTGRES_PASSWORD = "postgres" }
 
 [shared_services.redis]
 image = "redis:7-alpine"
 ports = [6379]
-volumes = ["sourcebot_redis_data:/data"]
+volumes = ["sourcecat_redis_data:/data"]
 
 # Override DATABASE_URL to reach shared postgres from bare services
 [secrets.database_url]

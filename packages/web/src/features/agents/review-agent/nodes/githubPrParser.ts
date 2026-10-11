@@ -1,12 +1,12 @@
-import { sourcebot_pr_payload, sourcebot_file_diff, sourcebot_diff } from "@/features/agents/review-agent/types";
+import { sourcecat_pr_payload, sourcecat_file_diff, sourcecat_diff } from "@/features/agents/review-agent/types";
 import parse from "parse-diff";
 import { Octokit } from "octokit";
 import { GitHubPullRequest } from "@/features/agents/review-agent/types";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('github-pr-parser');
 
-export const githubPrParser = async (octokit: Octokit, pullRequest: GitHubPullRequest): Promise<sourcebot_pr_payload> => {
+export const githubPrParser = async (octokit: Octokit, pullRequest: GitHubPullRequest): Promise<sourcecat_pr_payload> => {
     logger.debug("Executing github_pr_parser");
 
     let parsedDiff: parse.File[] = [];  
@@ -29,13 +29,13 @@ export const githubPrParser = async (octokit: Octokit, pullRequest: GitHubPullRe
     throw error;
 }
 
-    const sourcebotFileDiffs: (sourcebot_file_diff | null)[] = parsedDiff.map((file) => {
+    const sourcecatFileDiffs: (sourcecat_file_diff | null)[] = parsedDiff.map((file) => {
         if (!file.from || !file.to) {
             logger.debug(`Skipping file due to missing from (${file.from}) or to (${file.to})`)
             return null;
         }
 
-        const diffs: sourcebot_diff[] = file.chunks.map((chunk) => {
+        const diffs: sourcecat_diff[] = file.chunks.map((chunk) => {
             let oldSnippet = `@@ -${chunk.oldStart},${chunk.oldLines} +${chunk.newStart},${chunk.newLines} @@\n`;
             let newSnippet = `@@ -${chunk.oldStart},${chunk.oldLines} +${chunk.newStart},${chunk.newLines} @@\n`;
 
@@ -62,7 +62,7 @@ export const githubPrParser = async (octokit: Octokit, pullRequest: GitHubPullRe
             diffs: diffs,
         }
     });
-    const filteredSourcebotFileDiffs: sourcebot_file_diff[] = sourcebotFileDiffs.filter((file) => file !== null) as sourcebot_file_diff[];
+    const filteredSourcecatFileDiffs: sourcecat_file_diff[] = sourcecatFileDiffs.filter((file) => file !== null) as sourcecat_file_diff[];
 
     logger.debug("Completed github_pr_parser");
     return {
@@ -71,7 +71,7 @@ export const githubPrParser = async (octokit: Octokit, pullRequest: GitHubPullRe
         hostDomain: "github.com",
         owner: pullRequest.base.repo.owner.login,
         repo: pullRequest.base.repo.name,
-        file_diffs: filteredSourcebotFileDiffs,
+        file_diffs: filteredSourcecatFileDiffs,
         number: pullRequest.number,
         head_sha: pullRequest.head.sha
     }

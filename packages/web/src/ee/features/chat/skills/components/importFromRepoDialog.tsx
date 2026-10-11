@@ -122,7 +122,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                 // Without the blob OID we can't track the file for syncing; don't
                 // create a half-linked skill. Leave the dialog open to retry.
                 captureEvent('ask_skill_import_completed', {
-                    source: 'sourcebot-web-client',
+                    source: 'sourcecat-web-client',
                     entryPoint: 'skills_settings',
                     method: 'repository',
                     isSynced: true,
@@ -134,7 +134,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
             }
             const parsed = parseAgentSkillMarkdown(result.source, name);
             captureEvent('ask_skill_import_completed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint: 'skills_settings',
                 method: 'repository',
                 isSynced: true,
@@ -154,7 +154,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
             resetAndClose();
         } catch {
             captureEvent('ask_skill_import_completed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint: 'skills_settings',
                 method: 'repository',
                 isSynced: true,

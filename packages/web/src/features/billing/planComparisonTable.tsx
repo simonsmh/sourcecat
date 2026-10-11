@@ -11,7 +11,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { cn, formatCurrency } from "@/lib/utils";
-import type { OffersResponse } from "@sourcebot/shared/client";
+import type { OffersResponse } from "@sourcecat/shared/client";
 
 interface FeatureLinkProps {
     text: string;
@@ -109,42 +109,42 @@ export function PlanComparisonTable({
             </TableHeader>
             <TableBody>
                 <TableRow>
-                    <FeatureLink text="Code search" href="https://docs.sourcebot.dev/docs/features/search/code-search" />
+                    <FeatureLink text="Code search" href="https://docs.sourcecat.dev/docs/features/search/code-search" />
                     <SupportIcon supported />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Code browsing" href="https://www.sourcebot.dev/changelog/file-explorer" />
+                    <FeatureLink text="Code browsing" href="https://www.sourcecat.dev/changelog/file-explorer" />
                     <SupportIcon supported />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Ask Sourcebot" href="https://docs.sourcebot.dev/docs/features/ask/ask-sourcebot" />
+                    <FeatureLink text="Ask Sourcecat" href="https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="MCP server" href="https://docs.sourcebot.dev/docs/features/mcp-server" />
+                    <FeatureLink text="MCP server" href="https://docs.sourcecat.dev/docs/features/mcp-server" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Code navigation" href="https://docs.sourcebot.dev/docs/features/code-navigation" />
+                    <FeatureLink text="Code navigation" href="https://docs.sourcecat.dev/docs/features/code-navigation" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="SSO & OAuth" href="https://docs.sourcebot.dev/docs/configuration/idp" />
+                    <FeatureLink text="SSO & OAuth" href="https://docs.sourcecat.dev/docs/configuration/idp" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Permission syncing" href="https://docs.sourcebot.dev/docs/features/permission-syncing" />
+                    <FeatureLink text="Permission syncing" href="https://docs.sourcecat.dev/docs/features/permission-syncing" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Audit logs" href="https://docs.sourcebot.dev/docs/configuration/audit-logs" />
+                    <FeatureLink text="Audit logs" href="https://docs.sourcecat.dev/docs/configuration/audit-logs" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>

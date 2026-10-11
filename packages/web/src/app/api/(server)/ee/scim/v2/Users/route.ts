@@ -11,8 +11,8 @@ import {
 import { withScimAuth } from '@/ee/features/scim/withScimAuth';
 import { ErrorCode } from '@/lib/errorCodes';
 import { isServiceError } from '@/lib/utils';
-import { OrgRole } from '@sourcebot/db';
-import { env } from '@sourcebot/shared';
+import { OrgRole } from '@sourcecat/db';
+import { env } from '@sourcecat/shared';
 import { NextRequest } from 'next/server';
 
 // eslint-disable-next-line authz/require-auth-wrapper -- SCIM bearer auth via withScimAuth

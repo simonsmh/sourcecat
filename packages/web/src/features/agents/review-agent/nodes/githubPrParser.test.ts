@@ -3,7 +3,7 @@ import { Octokit } from 'octokit';
 import { githubPrParser } from './githubPrParser';
 import { GitHubPullRequest } from '../types';
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         info: vi.fn(),

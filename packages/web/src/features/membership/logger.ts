@@ -1,3 +1,3 @@
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 export const logger = createLogger('membership');

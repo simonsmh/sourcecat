@@ -7,7 +7,7 @@ vi.mock('simple-git');
 vi.mock('fs', () => ({
     existsSync: vi.fn().mockReturnValue(true),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     REPOS_CACHE_DIR: '/mock/cache/dir',
     getRepoPath: (repo: { id: number }) => ({
         path: `/mock/cache/dir/${repo.id}`,

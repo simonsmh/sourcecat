@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { createRepoCleanupWorkload } from "./repoCleanupWorkload.js";
 import { createRepoIndexWorkload } from "./repoIndexWorkload.js";
@@ -10,8 +10,8 @@ const lifecycleLogger = vi.hoisted(() => ({
     error: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", async (importOriginal) => ({
-    ...(await importOriginal<typeof import("@sourcebot/shared")>()),
+vi.mock("@sourcecat/shared", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@sourcecat/shared")>()),
     createLogger: vi.fn(() => lifecycleLogger),
 }));
 
@@ -63,9 +63,9 @@ describe("repoIndexWorkload", () => {
         expect(workload.executionLock).toBe(cleanupWorkload.executionLock);
         expect(
             workload.executionLock?.resource({ repoId: 42 }),
-        ).toBe("sourcebot:lock:repo:42");
+        ).toBe("sourcecat:lock:repo:42");
         expect(cleanupWorkload.executionLock?.resource({ repoId: 42 })).toBe(
-            "sourcebot:lock:repo:42",
+            "sourcecat:lock:repo:42",
         );
         expect(workload.executionLock?.durationMs).toBe(60_000);
         expect(workload.queueSpec.name).toBe("repo-index");

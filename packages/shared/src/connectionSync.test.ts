@@ -14,10 +14,10 @@ describe("connectionSyncResultSchema", () => {
             effect: "TARGET_SKIPPED",
             subject: {
                 kind: "repository",
-                value: "sourcebot-dev/missing-repo",
+                value: "simonsmh/missing-repo",
             },
             message:
-                "Repository sourcebot-dev/missing-repo was not found or is inaccessible.",
+                "Repository simonsmh/missing-repo was not found or is inaccessible.",
         };
 
         expect(

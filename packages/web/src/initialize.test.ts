@@ -14,7 +14,7 @@ vi.mock('@/prisma', () => ({
     __unsafePrisma: {},
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => mocks.logger,
     env: {},
 }));

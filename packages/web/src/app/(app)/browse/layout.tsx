@@ -1,7 +1,7 @@
 import { LayoutClient } from "./layoutClient";
 import { getConfiguredLanguageModelsInfo } from "@/features/chat/utils.server";
 import { auth } from "@/auth";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 
 interface LayoutProps {
     children: React.ReactNode;

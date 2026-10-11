@@ -1,4 +1,4 @@
-import { createLogger, env } from '@sourcebot/shared';
+import { createLogger, env } from '@sourcecat/shared';
 import { createServer, Server } from 'node:http';
 import { registry } from './promClient';
 

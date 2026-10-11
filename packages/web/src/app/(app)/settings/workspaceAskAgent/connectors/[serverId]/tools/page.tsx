@@ -1,5 +1,5 @@
 import { authenticatedPage } from '@/middleware/authenticatedPage';
-import { OrgRole } from '@sourcebot/db';
+import { OrgRole } from '@sourcecat/db';
 import { notFound } from 'next/navigation';
 import { McpToolPermissionsPage } from './mcpToolPermissionsPage';
 

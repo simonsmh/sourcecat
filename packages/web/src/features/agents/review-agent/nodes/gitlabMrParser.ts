@@ -1,8 +1,8 @@
-import { sourcebot_pr_payload, sourcebot_file_diff, sourcebot_diff } from "@/features/agents/review-agent/types";
+import { sourcecat_pr_payload, sourcecat_file_diff, sourcecat_diff } from "@/features/agents/review-agent/types";
 import { GitLabMergeRequestPayload } from "@/features/agents/review-agent/types";
 import parse from "parse-diff";
 import { Gitlab } from "@gitbeaker/rest";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('gitlab-mr-parser');
 
@@ -10,7 +10,7 @@ export const gitlabMrParser = async (
     gitlabClient: InstanceType<typeof Gitlab>,
     mrPayload: GitLabMergeRequestPayload,
     hostDomain: string,
-): Promise<sourcebot_pr_payload> => {
+): Promise<sourcecat_pr_payload> => {
     logger.debug("Executing gitlab_mr_parser");
 
     const projectId = mrPayload.project.id;
@@ -34,7 +34,7 @@ export const gitlabMrParser = async (
     const namespace = pathParts.slice(0, -1).join('/');
     const repoName = pathParts[pathParts.length - 1];
 
-    const sourcebotFileDiffs: (sourcebot_file_diff | null)[] = fileDiffs.map((fileDiff) => {
+    const sourcecatFileDiffs: (sourcecat_file_diff | null)[] = fileDiffs.map((fileDiff) => {
         const fromPath = fileDiff.old_path as string;
         const toPath = fileDiff.new_path as string;
 
@@ -56,7 +56,7 @@ export const gitlabMrParser = async (
         }
 
         const parsedFile = parsed[0];
-        const diffs: sourcebot_diff[] = parsedFile.chunks.map((chunk) => {
+        const diffs: sourcecat_diff[] = parsedFile.chunks.map((chunk) => {
             let oldSnippet = `@@ -${chunk.oldStart},${chunk.oldLines} +${chunk.newStart},${chunk.newLines} @@\n`;
             let newSnippet = `@@ -${chunk.oldStart},${chunk.oldLines} +${chunk.newStart},${chunk.newLines} @@\n`;
 
@@ -84,8 +84,8 @@ export const gitlabMrParser = async (
         };
     });
 
-    const filteredSourcebotFileDiffs: sourcebot_file_diff[] = sourcebotFileDiffs.filter(
-        (file): file is sourcebot_file_diff => file !== null,
+    const filteredSourcecatFileDiffs: sourcecat_file_diff[] = sourcecatFileDiffs.filter(
+        (file): file is sourcecat_file_diff => file !== null,
     );
 
     logger.debug("Completed gitlab_mr_parser");
@@ -95,7 +95,7 @@ export const gitlabMrParser = async (
         hostDomain,
         owner: namespace,
         repo: repoName,
-        file_diffs: filteredSourcebotFileDiffs,
+        file_diffs: filteredSourcecatFileDiffs,
         number: mrIid,
         head_sha: mr.sha ?? mrPayload.object_attributes.last_commit.id,
         diff_refs: mr.diff_refs != null

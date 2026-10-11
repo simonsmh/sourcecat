@@ -137,7 +137,7 @@ export function SkillsPage({
         }
         didCapturePageViewRef.current = true;
         captureEvent('ask_skills_page_viewed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'skills_settings',
             personalSkillCount: personalSkills.length,
             sharedSkillCount: sharedSkills.length,
@@ -331,7 +331,7 @@ export function SkillsPage({
 
         if (!/\.(md|markdown)$/i.test(file.name)) {
             captureEvent('ask_skill_import_completed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint: 'skills_settings',
                 method: 'local_markdown',
                 isSynced: false,
@@ -347,7 +347,7 @@ export function SkillsPage({
             text = await file.text();
         } catch {
             captureEvent('ask_skill_import_completed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint: 'skills_settings',
                 method: 'local_markdown',
                 isSynced: false,
@@ -360,7 +360,7 @@ export function SkillsPage({
 
         const parsed = parseAgentSkillMarkdown(text, file.name);
         captureEvent('ask_skill_import_completed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'skills_settings',
             method: 'local_markdown',
             isSynced: false,

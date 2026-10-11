@@ -1,8 +1,8 @@
 import micromatch from "micromatch";
-import { createLogger } from "@sourcebot/shared";
-import { repoMetadataSchema, SOURCEBOT_SUPPORT_EMAIL } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
+import { repoMetadataSchema, SOURCECAT_SUPPORT_EMAIL } from "@sourcecat/shared";
 import { hasEntitlement } from "../entitlements.js";
-import { SearchContext } from "@sourcebot/schemas/v3/index.type";
+import { SearchContext } from "@sourcecat/schemas/v3/index.type";
 import { prisma } from "../prisma.js";
 
 const logger = createLogger('sync-search-contexts');
@@ -17,7 +17,7 @@ export const syncSearchContexts = async (params: SyncSearchContextsParams) => {
 
     if (!await hasEntitlement("search-contexts")) {
         if (contexts) {
-            logger.warn(`Skipping search context sync. Reason: "Search contexts are not supported in your current plan. For support, contact ${SOURCEBOT_SUPPORT_EMAIL}."`);
+            logger.warn(`Skipping search context sync. Reason: "Search contexts are not supported in your current plan. For support, contact ${SOURCECAT_SUPPORT_EMAIL}."`);
         }
         return false;
     }

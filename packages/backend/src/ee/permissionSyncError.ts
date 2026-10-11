@@ -1,4 +1,4 @@
-import type { IdentityProviderType } from '@sourcebot/shared';
+import type { IdentityProviderType } from '@sourcecat/shared';
 import { getErrorHeader, getErrorStatus } from '../errors.js';
 
 export type PermissionSyncUpstreamErrorKind =

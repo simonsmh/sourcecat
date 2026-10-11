@@ -1,10 +1,10 @@
 import * as Sentry from "@sentry/node";
-import { PermissionSyncSource, PrismaClient } from "@sourcebot/db";
+import { PermissionSyncSource, PrismaClient } from "@sourcecat/db";
 import {
     createLogger,
     REPO_PERMISSION_SYNC_QUEUE,
     repoMetadataSchema,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { hasEntitlement } from "../entitlements.js";
 import {
     createOctokitFromToken,
@@ -28,7 +28,7 @@ import {
     Workload,
 } from "../types.js";
 import { getAuthCredentialsForRepo } from "../utils.js";
-import { BitbucketConnectionConfig } from "@sourcebot/schemas/v3/index.type";
+import { BitbucketConnectionConfig } from "@sourcecat/schemas/v3/index.type";
 
 interface RepoPermissionSyncWorkloadDependencies {
     db: PrismaClient;
@@ -46,7 +46,7 @@ export const createRepoPermissionSyncWorkload = ({
     concurrency: settings.maxRepoPermissionSyncJobConcurrency,
     executionLock: {
         resource: ({ repoId }) =>
-            `sourcebot:lock:repo-permission-sync:${repoId}`,
+            `sourcecat:lock:repo-permission-sync:${repoId}`,
         durationMs: REPO_PERMISSION_SYNC_LOCK_DURATION_MS,
     },
     process: async ({ data: { repoId }, signal }) => {
@@ -305,7 +305,7 @@ const getBitbucketCloudPermissionSyncResult = async ({
     // via project-level membership, or via a group in a project are NOT captured here.
     // These users will still gain access through account-driven permission syncing,
     // but there may be a delay of up to `userDrivenPermissionSyncIntervalMs` before
-    // they see the repository in Sourcebot.
+    // they see the repository in Sourcecat.
     // @see: https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/#api-repositories-workspace-repo-slug-permissions-config-users-get
     const users = await getExplicitUserPermissionsForCloudRepo(
         client,

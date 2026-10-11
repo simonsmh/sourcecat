@@ -20,8 +20,8 @@ const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const commandEnv = { ...process.env, PATH: `${dirname(process.execPath)}${delimiter}${process.env.PATH}`, PACKAGE_TRACKER_ANALYTICS: 'false' };
 export const down = '\x1b[B';
 export const canary = 'canary-sensitive';
-export const defaultCompose = 'services:\n  sourcebot:\n    image: sourcebot-test\nvolumes:\n  cache:\n';
-const commonKeys = ['platform', 'arch', 'nodeMajorVersion', 'packageManager', 'isCI', 'schemaVersion', 'source', 'setupSourcebotVersion', 'setupSessionId', 'install_id', 'elapsedMs', '$geoip_disable', '$ignore_sent_at', '$groups', '$lib', '$lib_version'];
+export const defaultCompose = 'services:\n  sourcecat:\n    image: sourcecat-test\nvolumes:\n  cache:\n';
+const commonKeys = ['platform', 'arch', 'nodeMajorVersion', 'packageManager', 'isCI', 'schemaVersion', 'source', 'setupSourcecatVersion', 'setupSessionId', 'install_id', 'elapsedMs', '$geoip_disable', '$ignore_sent_at', '$groups', '$lib', '$lib_version'];
 const approvedSchema = JSON.parse(readFileSync(new URL('../approvedSchema.json', import.meta.url), 'utf8'));
 
 export function contract(events, requireTerminal = true) {
@@ -31,7 +31,7 @@ export function contract(events, requireTerminal = true) {
     let elapsed = -1;
     let timestamp = -Infinity;
     for (const event of events) {
-        const name = event.event.replace(/^setup_sourcebot_/, '');
+        const name = event.event.replace(/^setup_sourcecat_/, '');
         assert.ok(approvedSchema[name], `Unexpected event ${name}`);
         assert.deepEqual(Object.keys(event).sort(), ['distinct_id', 'event', 'properties', 'timestamp', 'uuid'].sort());
         assert.deepEqual(Object.keys(event.properties).sort(), [...commonKeys, ...Object.keys(approvedSchema[name])].sort());
@@ -45,7 +45,7 @@ export function contract(events, requireTerminal = true) {
         assert.equal(event.properties.$geoip_disable, true);
         assert.equal(event.properties.$ignore_sent_at, true);
         assert.equal(event.properties.nodeMajorVersion, Number(process.versions.node.split('.')[0]));
-        assert.equal(event.properties.source, 'setup-sourcebot-cli');
+        assert.equal(event.properties.source, 'setup-sourcecat-cli');
         assert.equal(event.properties.schemaVersion, 1);
         assert.ok(event.properties.elapsedMs >= elapsed);
         elapsed = event.properties.elapsedMs;
@@ -55,7 +55,7 @@ export function contract(events, requireTerminal = true) {
         assert.match(event.uuid, /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
     }
     assert.equal(JSON.stringify(events).includes(canary), false, 'Sensitive canary reached telemetry');
-    const terminal = events.filter(e => ['setup_sourcebot_completed', 'setup_sourcebot_cancelled'].includes(e.event) || (e.event === 'setup_sourcebot_failed' && !e.properties.recoverable));
+    const terminal = events.filter(e => ['setup_sourcecat_completed', 'setup_sourcecat_cancelled'].includes(e.event) || (e.event === 'setup_sourcecat_failed' && !e.properties.recoverable));
     if (requireTerminal) {
         assert.equal(terminal.length, 1);
     }
@@ -71,7 +71,7 @@ export function artifact() {
             chmodSync(helper, 0o755);
         }
     }
-    const root = mkdtempSync(join(tmpdir(), 'sourcebot-e2e-'));
+    const root = mkdtempSync(join(tmpdir(), 'sourcecat-e2e-'));
     // Windows cannot exec .cmd shims directly. Invoke the bundled JS entry points
     // without a shell so temporary paths containing spaces remain literal.
     const packageCommand = (name, args, options) => {
@@ -83,9 +83,9 @@ export function artifact() {
         return execFileSync(process.execPath, [script, ...args], options);
     };
     try {
-        const tarball = process.env.SETUP_TEST_TARBALL || join(root, 'setup-sourcebot.tgz');
+        const tarball = process.env.SETUP_TEST_TARBALL || join(root, 'setup-sourcecat.tgz');
         if (!process.env.SETUP_TEST_TARBALL) {
-            packageCommand('yarn', ['workspace', '@sourcebot/schemas', 'build'], { cwd: packageRoot, env: commandEnv });
+            packageCommand('yarn', ['workspace', '@sourcecat/schemas', 'build'], { cwd: packageRoot, env: commandEnv });
             packageCommand('yarn', ['build'], { cwd: packageRoot, env: commandEnv });
             packageCommand('yarn', ['pack', '--out', tarball], { cwd: packageRoot, env: commandEnv });
         }
@@ -94,7 +94,7 @@ export function artifact() {
         mkdirSync(installation);
         writeFileSync(join(installation, 'package.json'), '{"name":"isolated-setup-test","private":true,"allowScripts":{"reo-census":true}}');
         packageCommand('npm', ['install', '--no-audit', '--no-fund', '--cache', join(root, 'npm-cache'), tarball], { cwd: installation, env: commandEnv, timeout: 120000 });
-        const installed = join(installation, 'node_modules/setup-sourcebot');
+        const installed = join(installation, 'node_modules/setup-sourcecat');
         assert.deepEqual(readdirSync(installed).sort(), ['README.md', 'bin.cjs', 'dist', 'package.json'].sort());
         const cert = join(root, 'cert.pem');
         const key = join(root, 'key.pem');
@@ -102,7 +102,7 @@ export function artifact() {
             ? [join(process.env.ProgramFiles ?? 'C:\\Program Files', 'Git', 'usr', 'bin', 'openssl.exe'), join(process.env.ProgramFiles ?? 'C:\\Program Files', 'Git', 'mingw64', 'bin', 'openssl.exe')].find(existsSync) ?? 'openssl'
             : 'openssl';
         execFileSync(openssl, ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-days', '1', '-keyout', key, '-out', cert, '-subj', '/CN=setup-fixture', '-addext', 'subjectAltName=DNS:us.i.posthog.com,DNS:raw.githubusercontent.com,DNS:models.dev,DNS:api.github.com,DNS:gitlab.com,DNS:*.example.invalid'], { stdio: 'ignore' });
-        return { root, installed, cert, key, digest, tarball, bin: join(installation, 'node_modules/.bin/setup-sourcebot'), cleanup() { rmSync(root, { recursive: true, force: true }); assert.equal(existsSync(root), false); } };
+        return { root, installed, cert, key, digest, tarball, bin: join(installation, 'node_modules/.bin/setup-sourcecat'), cleanup() { rmSync(root, { recursive: true, force: true }); assert.equal(existsSync(root), false); } };
     } catch (error) {
         rmSync(root, { recursive: true, force: true });
         throw error;
@@ -115,7 +115,7 @@ export async function scenario(artifact, options, drive) {
     const requests = [];
     const forwarding = [];
     const cwd = join(root, 'work');
-    const setup = join(cwd, options.setupName ?? 'sourcebot');
+    const setup = join(cwd, options.setupName ?? 'sourcecat');
     const fakeBin = join(root, 'bin');
     const home = join(root, 'home');
     for (const dir of [cwd, fakeBin, home]) {
@@ -224,7 +224,7 @@ export async function scenario(artifact, options, drive) {
         NODE_EXTRA_CA_CERTS: artifact.cert, TEST_CAPTURE_PORT: String(server.address().port),
         TEST_DOCKER_STATE: join(root, 'docker-state.json'), TEST_DOCKER_LOG: join(root, 'docker.log'),
         TEST_DOCKER_PIDS: join(root, 'docker-pids'),
-        PACKAGE_TRACKER_ANALYTICS: 'false', SOURCEBOT_TELEMETRY_DISABLED: 'true',
+        PACKAGE_TRACKER_ANALYTICS: 'false', SOURCECAT_TELEMETRY_DISABLED: 'true',
         ...options.environment,
     };
     try {
@@ -342,6 +342,6 @@ export async function minimal(driver, { existing = false, ai = false, pauseBefor
     await driver.answer('Add another code host?', 'n');
     await driver.answer('Would you like to configure AI features?', ai ? 'y' : 'n');
     if (!ai && !pauseBeforeHosted) {
-        await driver.answer('What URL will Sourcebot be hosted at?');
+        await driver.answer('What URL will Sourcecat be hosted at?');
     }
 }

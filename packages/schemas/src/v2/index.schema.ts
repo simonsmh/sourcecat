@@ -2,8 +2,8 @@
 const schema = {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "Sourcebot configuration schema",
-  "description": "A Sourcebot configuration file outlines which repositories Sourcebot should sync and index.",
+  "title": "Sourcecat configuration schema",
+  "description": "A Sourcecat configuration file outlines which repositories Sourcecat should sync and index.",
   "definitions": {
     "Token": {
       "anyOf": [
@@ -135,7 +135,7 @@ const schema = {
               "my-org-name"
             ],
             [
-              "sourcebot-dev",
+              "simonsmh",
               "commaai"
             ]
           ],
@@ -834,7 +834,7 @@ const schema = {
                   "my-org-name"
                 ],
                 [
-                  "sourcebot-dev",
+                  "simonsmh",
                   "commaai"
                 ]
               ],
@@ -1543,7 +1543,7 @@ const schema = {
     },
     "repos": {
       "type": "array",
-      "description": "Defines a collection of repositories from varying code hosts that Sourcebot should sync with.",
+      "description": "Defines a collection of repositories from varying code hosts that Sourcecat should sync with.",
       "items": {
         "anyOf": [
           {
@@ -1615,7 +1615,7 @@ const schema = {
                     "my-org-name"
                   ],
                   [
-                    "sourcebot-dev",
+                    "simonsmh",
                     "commaai"
                   ]
                 ],

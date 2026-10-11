@@ -4,7 +4,7 @@ import { input, password } from './prompts.js';
 import { checkbox } from './prompts.js';
 import { searchSelect } from './prompts.js';
 import { Separator } from 'inquirer-select-pro';
-import type { GitlabConnectionConfig } from '@sourcebot/schemas/v3/gitlab.type';
+import type { GitlabConnectionConfig } from '@sourcecat/schemas/v3/gitlab.type';
 import type { CollectResult, EnvVars } from './utils.js';
 import { createSearchSelectContext, INPUT_THEME, note, toEnvKey } from './utils.js';
 
@@ -35,7 +35,7 @@ async function searchGitLab(
     }
 
     const headers: Record<string, string> = {
-        'User-Agent': 'setup-sourcebot',
+        'User-Agent': 'setup-sourcecat',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 

@@ -1,4 +1,4 @@
-import type { WorkloadJob } from "@sourcebot/shared";
+import type { WorkloadJob } from "@sourcecat/shared";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const mocks = vi.hoisted(() => {

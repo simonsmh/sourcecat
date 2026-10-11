@@ -7,13 +7,13 @@ const schema = {
   "properties": {
     "include": {
       "type": "array",
-      "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+      "description": "List of repositories to include in the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
       "items": {
         "type": "string"
       },
       "examples": [
         [
-          "github.com/sourcebot-dev/**",
+          "github.com/simonsmh/**",
           "gerrit.example.org/sub/path/**"
         ]
       ]
@@ -27,13 +27,13 @@ const schema = {
     },
     "exclude": {
       "type": "array",
-      "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/sourcebot-dev/sourcebot'). Glob patterns are supported.",
+      "description": "List of repositories to exclude from the search context. Expected to be formatted as a URL without any leading http(s):// prefix (e.g., 'github.com/simonsmh/sourcecat'). Glob patterns are supported.",
       "items": {
         "type": "string"
       },
       "examples": [
         [
-          "github.com/sourcebot-dev/sourcebot",
+          "github.com/simonsmh/sourcecat",
           "gerrit.example.org/sub/path/**"
         ]
       ]

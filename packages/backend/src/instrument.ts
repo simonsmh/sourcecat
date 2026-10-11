@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
-import { createLogger, SOURCEBOT_VERSION } from "@sourcebot/shared";
-import { env } from "@sourcebot/shared/client";
+import { createLogger, SOURCECAT_VERSION } from "@sourcecat/shared";
+import { env } from "@sourcecat/shared/client";
 
 const logger = createLogger('instrument');
 
@@ -10,7 +10,7 @@ if (!!env.NEXT_PUBLIC_SENTRY_BACKEND_DSN && !!env.NEXT_PUBLIC_SENTRY_ENVIRONMENT
         // Must match the release our source maps are uploaded under, which the
         // Dockerfile sets from SENTRY_RELEASE (the build's commit SHA). Falls back
         // to the version for builds that don't pass a commit SHA.
-        release: env.NEXT_PUBLIC_BUILD_COMMIT_SHA ?? SOURCEBOT_VERSION,
+        release: env.NEXT_PUBLIC_BUILD_COMMIT_SHA ?? SOURCECAT_VERSION,
         environment: env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
         tracesSampleRate: env.NEXT_PUBLIC_SENTRY_ENVIRONMENT === 'development' ? 1.0 : 0.1,
     });

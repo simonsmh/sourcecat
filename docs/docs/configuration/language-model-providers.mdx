@@ -9,20 +9,20 @@ import LanguageModelSchema from '/snippets/schemas/v3/languageModel.schema.mdx'
 Looking to self-host your own model? Check out the [OpenAI Compatible](#openai-compatible) provider.
 </Note>
 
-To use [Ask Sourcebot](/docs/features/ask) you must define at least one Language Model Provider. These providers are defined within the [config file](/docs/configuration/config-file) you
-provide Sourcebot.
+To use [Ask Sourcecat](/docs/features/ask) you must define at least one Language Model Provider. These providers are defined within the [config file](/docs/configuration/config-file) you
+provide Sourcecat.
 
 
 ```json wrap icon="code" Example config with language model provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         // 1. Google Vertex config for Gemini 2.5 Pro
         {
             "provider": "google-vertex",
             "model": "gemini-2.5-pro",
             "displayName": "Gemini 2.5 Pro",
-            "project": "sourcebot",
+            "project": "sourcecat",
             "credentials": {
                 "env": "GOOGLE_APPLICATION_CREDENTIALS"
             }
@@ -42,12 +42,12 @@ provide Sourcebot.
 
 # Supported Providers
 
-Sourcebot uses the [Vercel AI SDK](https://ai-sdk.dev/docs/introduction), so it can integrate with any provider the SDK supports. If you don't see your provider below please submit
-a [feature request](https://github.com/sourcebot-dev/sourcebot/issues/new?template=feature_request.md).
+Sourcecat uses the [Vercel AI SDK](https://ai-sdk.dev/docs/introduction), so it can integrate with any provider the SDK supports. If you don't see your provider below please submit
+a [feature request](https://github.com/simonsmh/sourcecat/issues/new?template=feature_request.md).
 
-For a detailed description of all the providers, please refer to the [schema](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/languageModel.json).
+For a detailed description of all the providers, please refer to the [schema](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/languageModel.json).
 
-<Note>Any parameter defined using `env` will read the value from the corresponding environment variable you provide Sourcebot</Note>
+<Note>Any parameter defined using `env` will read the value from the corresponding environment variable you provide Sourcecat</Note>
 
 ### Amazon Bedrock
 
@@ -55,7 +55,7 @@ For a detailed description of all the providers, please refer to the [schema](ht
 
 ```json wrap icon="code" Example config with Amazon Bedrock provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "amazon-bedrock",
@@ -83,7 +83,7 @@ For a detailed description of all the providers, please refer to the [schema](ht
 
 ```json wrap icon="code" Example config with Anthropic provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "anthropic",
@@ -113,7 +113,7 @@ The `reasoningSummary` field controls whether the model returns its reasoning pr
 
 ```json wrap icon="code" Example config with Azure AI provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "azure",
@@ -138,7 +138,7 @@ The `reasoningSummary` field controls whether the model returns its reasoning pr
 
 ```json wrap icon="code" Example config with Deepseek provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "deepseek",
@@ -163,7 +163,7 @@ The `thinkingBudget` field sets the number of thinking tokens for Gemini 2.5 mod
 
 ```json wrap icon="code" Example config with Google Generative AI provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "google-generative-ai",
@@ -183,7 +183,7 @@ The `thinkingBudget` field sets the number of thinking tokens for Gemini 2.5 mod
 ### Google Vertex
 
 <Note>If you're using an Anthropic model on Google Vertex, you must define a [Google Vertex Anthropic](#google-vertex-anthropic) provider instead</Note>
-<Note>The `credentials` parameter here expects a **path** to a [credentials](https://console.cloud.google.com/apis/credentials) file. This file **must be in a volume mounted by Sourcebot** for it to be readable.</Note>
+<Note>The `credentials` parameter here expects a **path** to a [credentials](https://console.cloud.google.com/apis/credentials) file. This file **must be in a volume mounted by Sourcecat** for it to be readable.</Note>
 
 [Vercel AI SDK Google Vertex AI Docs](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex)
 
@@ -193,7 +193,7 @@ The `thinkingBudget` field sets the number of thinking tokens for Gemini 2.5 mod
 
 ```json wrap icon="code" Example config with Google Vertex provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "google-vertex",
@@ -214,14 +214,14 @@ The `thinkingBudget` field sets the number of thinking tokens for Gemini 2.5 mod
 
 ### Google Vertex Anthropic
 
-<Note>The `credentials` parameter here expects a **path** to a [credentials](https://console.cloud.google.com/apis/credentials) file. This file **must be in a volume mounted by Sourcebot** for it to be readable.</Note>
+<Note>The `credentials` parameter here expects a **path** to a [credentials](https://console.cloud.google.com/apis/credentials) file. This file **must be in a volume mounted by Sourcecat** for it to be readable.</Note>
 
 
 [Vercel AI SDK Google Vertex Anthropic Docs](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex#google-vertex-anthropic-provider-usage)
 
 ```json wrap icon="code" Example config with Google Vertex Anthropic provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "google-vertex-anthropic",
@@ -244,7 +244,7 @@ The `thinkingBudget` field sets the number of thinking tokens for Gemini 2.5 mod
 
 ```json wrap icon="code" Example config with Mistral provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "mistral",
@@ -267,7 +267,7 @@ The `reasoningSummary` field controls whether the model returns its reasoning pr
 
 ```json wrap icon="code" Example config with OpenAI provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "openai",
@@ -292,7 +292,7 @@ The OpenAI compatible provider allows you to use any model that is compatible wi
 
 ```json wrap icon="code" Example config with OpenAI Compatible provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "openai-compatible",
@@ -327,7 +327,7 @@ The OpenAI compatible provider allows you to use any model that is compatible wi
 
 ```json wrap icon="code" Example config with OpenRouter provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "openrouter",
@@ -348,7 +348,7 @@ The OpenAI compatible provider allows you to use any model that is compatible wi
 
 ```json wrap icon="code" Example config with xAI provider
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             "provider": "xai",
@@ -369,7 +369,7 @@ You can pass custom headers to the language model provider by using the `headers
 
 ```json wrap icon="code" Example config with custom headers
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "models": [
         {
             // ... provider, model, displayName, etc...
@@ -393,7 +393,7 @@ You can pass custom headers to the language model provider by using the `headers
 # Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/languageModel.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/languageModel.json)
+[schemas/v3/languageModel.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/languageModel.json)
 
 <LanguageModelSchema />
 

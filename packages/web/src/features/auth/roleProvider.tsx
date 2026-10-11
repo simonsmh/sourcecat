@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext } from "react";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 
 export const RoleContext = createContext<{ role: OrgRole | null }>({ role: null });
 

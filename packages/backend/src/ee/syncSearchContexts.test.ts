@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import type { PrismaClient } from '@sourcebot/db';
-import { repoMetadataSchema } from '@sourcebot/shared';
+import type { PrismaClient } from '@sourcecat/db';
+import { repoMetadataSchema } from '@sourcecat/shared';
 
-vi.mock('@sourcebot/shared', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('@sourcebot/shared')>();
+vi.mock('@sourcecat/shared', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@sourcecat/shared')>();
     return {
         ...actual,
         createLogger: vi.fn(() => ({
@@ -12,7 +12,7 @@ vi.mock('@sourcebot/shared', async (importOriginal) => {
             error: vi.fn(),
             debug: vi.fn(),
         })),
-        SOURCEBOT_SUPPORT_EMAIL: 'support@sourcebot.dev',
+        SOURCECAT_SUPPORT_EMAIL: 'support@sourcecat.dev',
     };
 });
 

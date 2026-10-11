@@ -455,19 +455,19 @@
   "completed": {
     "completionMode": {
       "enum": [
-        "sourcebot_start_spawned",
-        "sourcebot_start_failed",
+        "sourcecat_start_spawned",
+        "sourcecat_start_failed",
         "existing_deployment_left_running",
         "manual_start_required"
       ]
     },
-    "sourcebotStartOffered": {
+    "sourcecatStartOffered": {
       "type": "boolean"
     },
-    "sourcebotStartRequested": {
+    "sourcecatStartRequested": {
       "type": "boolean"
     },
-    "sourcebotStartOutcome": {
+    "sourcecatStartOutcome": {
       "enum": [
         "spawned",
         "declined",

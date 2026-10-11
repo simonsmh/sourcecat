@@ -1,6 +1,6 @@
 import { ErrorCode } from "@/lib/errorCodes";
 import { ServiceError } from "@/lib/serviceError";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { StatusCodes } from "http-status-codes";
 
 export const withMinimumOrgRole = async <T>(

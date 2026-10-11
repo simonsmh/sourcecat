@@ -3,7 +3,7 @@ import { languageModelInfoSchema } from "@/features/chat/types";
 import { apiHandler } from "@/lib/apiHandler";
 import { requestBodySchemaValidationError, serviceErrorResponse } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
-import { ChatVisibility } from "@sourcebot/db";
+import { ChatVisibility } from "@sourcecat/db";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -46,7 +46,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
         return serviceErrorResponse(requestBodySchemaValidationError(parsed.error));
     }
 
-    const source = request.headers.get('X-Sourcebot-Client-Source') ?? undefined;
+    const source = request.headers.get('X-Sourcecat-Client-Source') ?? undefined;
     const response = await askCodebase({ ...parsed.data, source });
 
     if (isServiceError(response)) {

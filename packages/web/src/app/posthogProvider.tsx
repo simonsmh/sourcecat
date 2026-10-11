@@ -34,8 +34,8 @@ interface PostHogProviderProps {
     isDisabled: boolean
     isPiiEnabled: boolean
     posthogApiKey: string
-    sourcebotVersion: string
-    sourcebotInstallId: string
+    sourcecatVersion: string
+    sourcecatInstallId: string
 }
 
 export function PostHogProvider({
@@ -43,8 +43,8 @@ export function PostHogProvider({
     isDisabled,
     isPiiEnabled,
     posthogApiKey,
-    sourcebotVersion,
-    sourcebotInstallId,
+    sourcecatVersion,
+    sourcecatInstallId,
 }: PostHogProviderProps) {
     const { data: session } = useSession();
 
@@ -74,16 +74,16 @@ export function PostHogProvider({
                 loaded: (posthog) => {
                     // Include install id & version in all events.
                     posthog.register({
-                        sourcebot_version: sourcebotVersion,
-                        install_id: sourcebotInstallId,
+                        sourcecat_version: sourcecatVersion,
+                        install_id: sourcecatInstallId,
                     });
-                    posthog.group('company', sourcebotInstallId);
+                    posthog.group('company', sourcecatInstallId);
                 }
             });
         } else {
             console.debug("PostHog telemetry disabled");
         }
-    }, [isDisabled, isPiiEnabled, posthogApiKey, sourcebotInstallId, sourcebotVersion]);
+    }, [isDisabled, isPiiEnabled, posthogApiKey, sourcecatInstallId, sourcecatVersion]);
 
     useEffect(() => {
         if (!session) {

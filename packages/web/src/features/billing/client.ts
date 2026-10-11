@@ -1,5 +1,5 @@
 import { fetchWithRetry, isServiceError } from "@/lib/utils";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import {
     ActivateRequest,
     ActivateResponse,
@@ -22,7 +22,7 @@ import {
     ServicePingRequest,
     ServicePingResponse,
     servicePingResponseSchema,
-} from "@sourcebot/shared/client";
+} from "@sourcecat/shared/client";
 import { lighthouseUnreachable, ServiceError } from "@/lib/serviceError";
 import { ErrorCode } from "@/lib/errorCodes";
 import { StatusCodes } from "http-status-codes";
@@ -34,7 +34,7 @@ const requestLighthouse = async <T extends z.ZodTypeAny>(
     schema: T,
     retryOptions: { retries?: number; backoffMs?: number } = {},
 ): Promise<z.infer<T> | ServiceError> => {
-    const url = `${env.SOURCEBOT_LIGHTHOUSE_URL}${path}`;
+    const url = `${env.SOURCECAT_LIGHTHOUSE_URL}${path}`;
 
     let response: Response;
     try {

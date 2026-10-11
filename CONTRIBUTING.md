@@ -1,25 +1,25 @@
-# Contributing to Sourcebot
+# Contributing to Sourcecat
 
-So you're interested in contributing to Sourcebot. Great! If you have any questions, don't hesitate to reach out on our [Discord](https://discord.gg/HDScTs3ptP).
+So you're interested in contributing to Sourcecat. Great! If you have any questions, don't hesitate to reach out on our [Discord](https://discord.gg/HDScTs3ptP).
 
 ## Understanding the Licenses
 
-First thing to know is that Sourcebot is not a side-project - it is a product of a company based in San Francisco who builds and maintains it professionally. For this reason, Sourcebot follows the [open core](https://en.wikipedia.org/wiki/Open-core_model) business model, which splits the codebase into two parts: **core** and **ee**, which each have their own license:
+First thing to know is that Sourcecat is not a side-project - it is a product of a company based in San Francisco who builds and maintains it professionally. For this reason, Sourcecat follows the [open core](https://en.wikipedia.org/wiki/Open-core_model) business model, which splits the codebase into two parts: **core** and **ee**, which each have their own license:
 
 - **core** code is licensed under the [Functional Source License](https://fsl.software/), a
-mostly permissive non-compete license that converts to Apache 2.0 or MIT after two years. Code shipped in core (without ee) forms the [Sourcebot Community Edition (CE)](https://www.sourcebot.dev/pricing).
-- **ee (enterprise)** code is licensed under the [Sourcebot Enterprise License](ee/license), a commercial license that covers our enterprise offering. Usage of ee code requires a valid license key. Code shipped in core **and** ee forms the [Sourcebot Enterprise Edition (EE)](https://www.sourcebot.dev/pricing).
+mostly permissive non-compete license that converts to Apache 2.0 or MIT after two years. Code shipped in core (without ee) forms the [Sourcecat Community Edition (CE)](https://www.sourcecat.dev/pricing).
+- **ee (enterprise)** code is licensed under the [Sourcecat Enterprise License](ee/license), a commercial license that covers our enterprise offering. Usage of ee code requires a valid license key. Code shipped in core **and** ee forms the [Sourcecat Enterprise Edition (EE)](https://www.sourcecat.dev/pricing).
 
 You can take a look at the root [LICENSE.md](LICENSE.md) for a breakdown of what code is core or ee.
 
 For contributing, the breakdown is as follows:
 
 - **core** : you're free to contribute, but you can't take this and use it to compete with us. You can, however, otherwise use it however you want. Your changes will convert to Apache 2.0 after two years.
-- **ee** : you can also contribute, but Sourcebot retains all rights to your modifications and patches. Your contributions can only be used in production by those with a valid Enterprise license.
+- **ee** : you can also contribute, but Sourcecat retains all rights to your modifications and patches. Your contributions can only be used in production by those with a valid Enterprise license.
 
 ## Contributor Policy
 
-We want to make it easy to contribute to Sourcebot. Here are the most common types of changes that get merged:
+We want to make it easy to contribute to Sourcecat. Here are the most common types of changes that get merged:
 - Bug fixes
 - Improvements to our code host integrations
 - Additional LLM providers
@@ -32,7 +32,7 @@ However, any UI or core product feature must go through a design review with the
 
 Want to take on an issue? Leave a comment and a maintainer may assign it to you unless it is something we are already working on.
 
-## Developing Sourcebot
+## Developing Sourcecat
 
 1. Install <a href="https://go.dev/doc/install"><img src="https://go.dev/favicon.ico" width="16" height="16"> go</a>, <a href="https://docs.docker.com/get-started/get-docker/"><img src="https://www.docker.com/favicon.ico" width="16" height="16"> docker</a>, and <a href="https://nodejs.org/"><img src="https://nodejs.org/favicon.ico" width="16" height="16"> NodeJS</a>. Note that a NodeJS version of at least `24` is required.
 
@@ -64,11 +64,11 @@ Want to take on an issue? Leave a comment and a maintainer may assign it to you 
 
 3. Clone the repository with submodules:
     ```sh
-    git clone --recurse-submodules https://github.com/sourcebot-dev/sourcebot.git
+    git clone --recurse-submodules https://github.com/simonsmh/sourcecat.git
     ```
 4. Run `make` to build zoekt and install dependencies:
     ```sh
-    cd sourcebot
+    cd sourcecat
     make
     ```
 
@@ -91,12 +91,12 @@ Want to take on an issue? Leave a comment and a maintainer may assign it to you 
 
 8. If you're using a declarative configuration file, create a configuration file and update the `CONFIG_PATH` environment variable in your `.env.development.local` file.
 
-9. Start Sourcebot with the command:
+9. Start Sourcecat with the command:
     ```sh
     yarn dev
     ```
 
-    A `.sourcebot` directory will be created and zoekt will begin to index the repositories found in the `config.json` file.
+    A `.sourcecat` directory will be created and zoekt will begin to index the repositories found in the `config.json` file.
 
 10. Start searching at `http://localhost:3000`.
 

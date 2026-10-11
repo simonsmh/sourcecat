@@ -12,7 +12,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import type { JobLogEntry, JobLogLevel, QueueName } from "@sourcebot/shared";
+import type { JobLogEntry, JobLogLevel, QueueName } from "@sourcecat/shared";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Copy, Loader2 } from "lucide-react";
 import { useRef, useState } from "react";

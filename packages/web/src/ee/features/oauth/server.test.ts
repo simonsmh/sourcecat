@@ -9,7 +9,7 @@ vi.mock('@/prisma', async () => {
 
 vi.mock('server-only', () => ({ default: vi.fn() }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     hashSecret: vi.fn((s: string) => s),
     generateOAuthToken: vi.fn(() => ({ token: 'sboa_newtoken', hash: 'newtoken' })),
     generateOAuthRefreshToken: vi.fn(() => ({ token: 'sbor_newrefresh', hash: 'newrefresh' })),
@@ -60,7 +60,7 @@ describe('generateAndStoreAuthCode', () => {
             redirectUri: 'http://localhost:9999/callback',
             codeChallenge: 'challenge',
             scope: TEST_OAUTH_SCOPE,
-            resource: 'https://sourcebot.test/api/mcp',
+            resource: 'https://sourcecat.test/api/mcp',
             dpopJkt: 'dpop-thumbprint',
         });
 
@@ -72,7 +72,7 @@ describe('generateAndStoreAuthCode', () => {
                 redirectUri: 'http://localhost:9999/callback',
                 codeChallenge: 'challenge',
                 scope: TEST_OAUTH_SCOPE,
-                resource: 'https://sourcebot.test/api/mcp',
+                resource: 'https://sourcecat.test/api/mcp',
                 dpopJkt: 'dpop-thumbprint',
             }),
         });

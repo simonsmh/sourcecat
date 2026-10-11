@@ -206,7 +206,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                                                     void form.handleSubmit(onSubmit, onInvalidSubmit)();
                                                 }
                                             }}
-                                            placeholder="email@sourcebot.dev, email2@sourcebot.dev..."
+                                            placeholder="email@sourcecat.dev, email2@sourcecat.dev..."
                                             className="min-h-32 resize-none text-base md:text-sm"
                                             disabled={isSubmitting}
                                         />

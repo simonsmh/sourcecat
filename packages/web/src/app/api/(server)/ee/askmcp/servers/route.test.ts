@@ -15,14 +15,14 @@ vi.mock('@/lib/entitlements', () => ({
 vi.mock('@/middleware/withAuth', () => ({
     withAuth: vi.fn((callback: (context: unknown) => unknown) => callback(mocks.authContext)),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     decryptOAuthToken: vi.fn((value: string) => value),
 }));
 
 const { GET } = await import('./route');
 
 function createRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/servers', { method: 'GET' });
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/servers', { method: 'GET' });
 }
 
 function createPrismaMock() {

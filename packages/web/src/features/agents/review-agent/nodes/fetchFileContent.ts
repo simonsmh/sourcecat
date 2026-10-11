@@ -1,9 +1,9 @@
-import { sourcebot_context, sourcebot_pr_payload } from "@/features/agents/review-agent/types";
+import { sourcecat_context, sourcecat_pr_payload } from "@/features/agents/review-agent/types";
 import { fileSourceResponseSchema, getFileSourceForRepo } from '@/features/git';
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { isServiceError } from "@/lib/utils";
 import { __unsafePrisma } from "@/prisma";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('fetch-file-content');
 
@@ -22,7 +22,7 @@ const getOrg = async (): Promise<NonNullable<Org>> => {
     return cachedOrg;
 };
 
-export const fetchFileContent = async (pr_payload: sourcebot_pr_payload, filename: string): Promise<sourcebot_context> => {
+export const fetchFileContent = async (pr_payload: sourcecat_pr_payload, filename: string): Promise<sourcecat_context> => {
     logger.debug("Executing fetch_file_content");
 
     const org = await getOrg();
@@ -43,7 +43,7 @@ export const fetchFileContent = async (pr_payload: sourcebot_pr_payload, filenam
     const fileSourceResponse = fileSourceResponseSchema.parse(response);
     const fileContent = fileSourceResponse.source;
 
-    const fileContentContext: sourcebot_context = {
+    const fileContentContext: sourcecat_context = {
         type: "file_content",
         description: `The content of the file ${filename}`,
         context: fileContent,

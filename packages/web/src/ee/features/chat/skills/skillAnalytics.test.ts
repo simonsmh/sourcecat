@@ -15,7 +15,7 @@ describe("buildAskSkillInvokedEvent", () => {
         });
 
         expect(event).toEqual({
-            source: "sourcebot-ask-agent",
+            source: "sourcecat-ask-agent",
             activationMethod: "auto",
             skillIdHash: expect.any(String),
             scope: "personal",
@@ -37,7 +37,7 @@ describe("buildAskSkillInvokedEvent", () => {
         });
 
         expect(event).toEqual({
-            source: "sourcebot-ask-agent",
+            source: "sourcecat-ask-agent",
             activationMethod: "auto",
             skillIdHash: expect.any(String),
             scope: undefined,
@@ -58,7 +58,7 @@ describe("buildAskSkillInvokedEvent", () => {
             scope: "shared",
             isSynced: true,
         });
-        expect(manual.source).toBe("sourcebot-ask-agent");
+        expect(manual.source).toBe("sourcecat-ask-agent");
         expect(manual.durationMs).toBeUndefined();
         expect(manual.scope).toBe("shared");
         expect(manual.isSynced).toBe(true);
@@ -68,8 +68,8 @@ describe("buildAskSkillInvokedEvent", () => {
             activationMethod: "auto",
             skillId: "skill-1",
             success: false,
-            source: "sourcebot-web-client",
+            source: "sourcecat-web-client",
         });
-        expect(explicit.source).toBe("sourcebot-web-client");
+        expect(explicit.source).toBe("sourcecat-web-client");
     });
 });

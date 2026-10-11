@@ -1,11 +1,11 @@
 ---
-title: Configuring Sourcebot from a file (declarative config)
+title: Configuring Sourcecat from a file (declarative config)
 sidebarTitle: Declarative config
 ---
 
 import ConfigSchema from '/snippets/schemas/v3/index.schema.mdx'
 
-Some teams require Sourcebot to be configured via a file (where it can be stored in version control, run through CI/CD pipelines, etc.) instead of a web UI. For more information on configuring connections, see this [overview](/docs/connections/indexing-your-code).
+Some teams require Sourcecat to be configured via a file (where it can be stored in version control, run through CI/CD pipelines, etc.) instead of a web UI. For more information on configuring connections, see this [overview](/docs/connections/indexing-your-code).
 
 
 | Variable | Description |
@@ -15,12 +15,12 @@ Some teams require Sourcebot to be configured via a file (where it can be stored
 
 ```json
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/refs/heads/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/refs/heads/main/schemas/v3/index.json",
     "connections": {
         "connection-1": {
             "type": "github",
             "repos": [
-                "sourcebot-dev/sourcebot"
+                "simonsmh/sourcecat"
             ]
         }
     }
@@ -30,7 +30,7 @@ Some teams require Sourcebot to be configured via a file (where it can be stored
 ## Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/index.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/index.json)
+[schemas/v3/index.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/index.json)
 
 <ConfigSchema />
 

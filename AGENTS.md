@@ -6,7 +6,7 @@ See [CLAUDE.md](./CLAUDE.md) for project-wide conventions (code style, file nami
 
 ### Overview
 
-Sourcebot is a self-hosted code intelligence platform (code search, navigation, AI Q&A). It's a Yarn 4 monorepo with packages under `packages/` and a vendored Go-based search engine (Zoekt) under `vendor/zoekt`.
+Sourcecat is a self-hosted code intelligence platform (code search, navigation, AI Q&A). It's a Yarn 4 monorepo with packages under `packages/` and a vendored Go-based search engine (Zoekt) under `vendor/zoekt`.
 
 ### Prerequisites
 
@@ -30,7 +30,7 @@ Sourcebot is a self-hosted code intelligence platform (code search, navigation, 
 Standard dev commands are documented in `CONTRIBUTING.md` and `package.json`. Key ones:
 
 - **Start all services:** `yarn dev` (runs zoekt, backend, web, mcp watcher, schemas watcher concurrently)
-- **Lint:** `yarn workspace @sourcebot/web lint`
+- **Lint:** `yarn workspace @sourcecat/web lint`
 - **Test:** `yarn test` (runs all workspace tests)
 - **Build deps only:** `yarn build:deps` (builds shared packages: schemas, db, shared, query-language)
 - **DB migrations:** `yarn dev:prisma:migrate:dev`
@@ -48,4 +48,4 @@ Standard dev commands are documented in `CONTRIBUTING.md` and `package.json`. Ke
 
 ### Pull Request Workflow
 
-- **CHANGELOG entry required:** Every PR must include a follow-up commit adding an entry to `CHANGELOG.md` under `[Unreleased]`. The entry must be a single sentence describing the change, followed by a link to the PR in the format `[#<id>](https://github.com/sourcebot-dev/sourcebot/pull/<id>)`. Place new entries at the bottom of the appropriate section (`Added`, `Changed`, `Fixed`, etc.). See `CLAUDE.md` and existing entries in `CHANGELOG.md` for the exact conventions.
+- **CHANGELOG entry required:** Every PR must include a follow-up commit adding an entry to `CHANGELOG.md` under `[Unreleased]`. The entry must be a single sentence describing the change, followed by a link to the PR in the format `[#<id>](https://github.com/simonsmh/sourcecat/pull/<id>)`. Place new entries at the bottom of the appropriate section (`Added`, `Changed`, `Fixed`, etc.). See `CLAUDE.md` and existing entries in `CHANGELOG.md` for the exact conventions.

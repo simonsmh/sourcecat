@@ -15,8 +15,8 @@ import { getProviders, IdentityProvider } from "@/auth";
 import { hasEntitlement, isAnonymousAccessEnabled } from "@/lib/entitlements";
 import { createInviteLink, isServiceError } from "@/lib/utils";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
-import { env, getSMTPConnectionURL, isCredentialsLoginEnabled, isEmailCodeLoginEnabled, isMemberApprovalRequired } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env, getSMTPConnectionURL, isCredentialsLoginEnabled, isEmailCodeLoginEnabled, isMemberApprovalRequired } from "@sourcecat/shared";
 import { SettingsCardGroup } from "../components/settingsCard";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
@@ -45,9 +45,9 @@ export default authenticatedPage(async ({ org }) => {
             <div className="space-y-6">
                 <div>
                     <p className="text-md font-medium">Organization access</p>
-                    <p className="text-sm text-muted-foreground">Configure how users can access your Sourcebot deployment.{" "}
+                    <p className="text-sm text-muted-foreground">Configure how users can access your Sourcecat deployment.{" "}
                         <a
-                            href="https://docs.sourcebot.dev/docs/configuration/auth/access-settings"
+                            href="https://docs.sourcecat.dev/docs/configuration/auth/access-settings"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"
@@ -91,7 +91,7 @@ export default authenticatedPage(async ({ org }) => {
                     </div>
                     <p className="text-sm text-muted-foreground">Let users sign in with an external identity provider such as GitHub, Google, or Okta. Providers are managed in your config file.{" "}
                         <a
-                            href="https://docs.sourcebot.dev/docs/configuration/idp"
+                            href="https://docs.sourcecat.dev/docs/configuration/idp"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"
@@ -115,7 +115,7 @@ export default authenticatedPage(async ({ org }) => {
                         <AlertDescription>
                             No identity providers are configured. Add them in your config file.{" "}
                             <a
-                                href="https://docs.sourcebot.dev/docs/configuration/idp"
+                                href="https://docs.sourcecat.dev/docs/configuration/idp"
                                 target="_blank"
                                 rel="noopener"
                                 className="!text-link !no-underline hover:!underline"
@@ -133,7 +133,7 @@ export default authenticatedPage(async ({ org }) => {
                     </div>
                     <p className="text-sm text-muted-foreground">Provision and deprovision members automatically from your identity provider (Okta, Entra). Configure your IdP with the base URL below and a SCIM token.{" "}
                         <a
-                            href="https://docs.sourcebot.dev/docs/configuration/auth/scim"
+                            href="https://docs.sourcecat.dev/docs/configuration/auth/scim"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"

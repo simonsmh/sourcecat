@@ -1,7 +1,7 @@
 import "./instrument.js";
 
 import * as Sentry from "@sentry/node";
-import { createLogger, env, getConfigSettings } from "@sourcebot/shared";
+import { createLogger, env, getConfigSettings } from "@sourcecat/shared";
 import 'express-async-errors';
 import { existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
@@ -74,12 +74,12 @@ const repoPermissionSyncWorkload = createRepoPermissionSyncWorkload({
 });
 const attachmentPruneWorkload = createAttachmentPruneWorkload({
     db: prisma,
-    ttlHours: env.SOURCEBOT_CHAT_ATTACHMENT_ORPHAN_TTL_HOURS,
+    ttlHours: env.SOURCECAT_CHAT_ATTACHMENT_ORPHAN_TTL_HOURS,
 });
 const auditLogPruneWorkload = createAuditLogPruneWorkload({
     db: prisma,
-    enabled: env.SOURCEBOT_EE_AUDIT_LOGGING_ENABLED === "true",
-    retentionDays: env.SOURCEBOT_EE_AUDIT_RETENTION_DAYS,
+    enabled: env.SOURCECAT_EE_AUDIT_LOGGING_ENABLED === "true",
+    retentionDays: env.SOURCECAT_EE_AUDIT_RETENTION_DAYS,
 });
 
 jobManager.register(connectionSyncWorkload);

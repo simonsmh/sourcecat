@@ -13,7 +13,7 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
-import { compareVersions, parseVersion, SOURCEBOT_VERSION } from "@sourcebot/shared/client";
+import { compareVersions, parseVersion, SOURCECAT_VERSION } from "@sourcecat/shared/client";
 
 const VIDEO_EXTENSIONS_RE = /\.(mp4|webm|ogg|mov)$/i;
 const ABSOLUTE_URL_RE = /^(?:[a-z][a-z0-9+\-.]*:|\/\/|#)/i;
@@ -118,7 +118,7 @@ export function ChangelogEntryDialog({ entry, entriesBaseUrl, open, onOpenChange
             return false;
         }
         const entryVersion = parseVersion(entry.version);
-        const currentVersion = parseVersion(SOURCEBOT_VERSION);
+        const currentVersion = parseVersion(SOURCECAT_VERSION);
         if (!entryVersion || !currentVersion) {
             return false;
         }
@@ -139,7 +139,7 @@ export function ChangelogEntryDialog({ entry, entriesBaseUrl, open, onOpenChange
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <a
-                                                    href={`https://github.com/sourcebot-dev/sourcebot/releases/tag/${entry.version}`}
+                                                    href={`https://github.com/simonsmh/sourcecat/releases/tag/${entry.version}`}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -152,7 +152,7 @@ export function ChangelogEntryDialog({ entry, entriesBaseUrl, open, onOpenChange
                                             <TooltipContent side="bottom">
                                                 <div className="grid grid-cols-[auto_auto] gap-x-3 gap-y-1 text-sm items-center">
                                                     <span className="text-muted-foreground">Current version</span>
-                                                    <span className="font-mono text-[11px] bg-muted rounded px-1.5 py-0.5 justify-self-start">{SOURCEBOT_VERSION}</span>
+                                                    <span className="font-mono text-[11px] bg-muted rounded px-1.5 py-0.5 justify-self-start">{SOURCECAT_VERSION}</span>
                                                     <span className="text-muted-foreground">Required version</span>
                                                     <span className="font-mono text-[11px] bg-muted rounded px-1.5 py-0.5 justify-self-start">{entry.version}</span>
                                                 </div>

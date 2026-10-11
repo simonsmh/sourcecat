@@ -6,9 +6,9 @@ const mocks = vi.hoisted(() => ({
     withAuth: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
-    env: { AUTH_URL: "https://sourcebot.example.com" },
+    env: { AUTH_URL: "https://sourcecat.example.com" },
 }));
 
 vi.mock("@/features/chat/utils.server", () => ({
@@ -95,7 +95,7 @@ describe("listSkillsDefinition", () => {
             ]);
         prisma.repo.findMany.mockResolvedValue([{ name: "github.com/acme/widgets" }]);
 
-        const result = await listSkillsDefinition.execute({}, { source: "sourcebot-ask-agent" });
+        const result = await listSkillsDefinition.execute({}, { source: "sourcecat-ask-agent" });
 
         expect(result.metadata).toEqual({ count: 5 });
         const { skills } = JSON.parse(result.output);
@@ -116,7 +116,7 @@ describe("listSkillsDefinition", () => {
             ]);
         prisma.repo.findMany.mockResolvedValue([]);
 
-        const result = await listSkillsDefinition.execute({}, { source: "sourcebot-ask-agent" });
+        const result = await listSkillsDefinition.execute({}, { source: "sourcecat-ask-agent" });
 
         expect(result.metadata).toEqual({ count: 0 });
     });
@@ -129,7 +129,7 @@ describe("listSkillsDefinition", () => {
             principal: { source: "scoped_access_token" },
         };
 
-        await expect(listSkillsDefinition.execute({}, { source: "sourcebot-mcp-server" }))
+        await expect(listSkillsDefinition.execute({}, { source: "sourcecat-mcp-server" }))
             .rejects.toThrow("Repository-scoped access tokens cannot manage skills.");
         expect(prisma.agentSkill.findMany).not.toHaveBeenCalled();
     });
@@ -137,7 +137,7 @@ describe("listSkillsDefinition", () => {
     test("the scope filter limits the query to one catalog", async () => {
         prisma.agentSkill.findMany.mockResolvedValueOnce([personalRow()]);
 
-        const result = await listSkillsDefinition.execute({ scope: "personal" }, { source: "sourcebot-ask-agent" });
+        const result = await listSkillsDefinition.execute({ scope: "personal" }, { source: "sourcecat-ask-agent" });
 
         expect(prisma.agentSkill.findMany).toHaveBeenCalledTimes(1);
         expect(result.metadata).toEqual({ count: 1 });

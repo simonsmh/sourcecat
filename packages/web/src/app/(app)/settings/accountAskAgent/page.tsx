@@ -2,7 +2,7 @@ import { AccountAskAgentPage } from "@/ee/features/chat/mcp/components/accountAs
 import { AccountAskAgentEntitlementMessage } from "./accountAskAgentEntitlementMessage";
 import { hasEntitlement } from "@/lib/entitlements";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 
 interface PageProps extends Record<string, unknown> {
     searchParams: Promise<{
@@ -13,7 +13,7 @@ interface PageProps extends Record<string, unknown> {
 }
 
 export default authenticatedPage<PageProps>(async ({ role }, { searchParams }) => {
-    // Connectors are part of Ask Sourcebot. Gate the EE connector UI
+    // Connectors are part of Ask Sourcecat. Gate the EE connector UI
     // behind the `ask` entitlement here so it never renders or executes on a
     // non-entitled deployment; show the FSL upsell panel instead.
     if (!(await hasEntitlement('ask'))) {

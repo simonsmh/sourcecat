@@ -1,4 +1,4 @@
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import path from "path";
 
 export const SINGLE_TENANT_ORG_ID = 1;

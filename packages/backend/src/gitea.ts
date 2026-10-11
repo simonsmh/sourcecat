@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/node";
-import { getTokenFromConfig } from "@sourcebot/shared";
-import { createLogger } from '@sourcebot/shared';
-import { GiteaConnectionConfig } from '@sourcebot/schemas/v3/gitea.type';
-import { env } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
+import { createLogger } from '@sourcecat/shared';
+import { GiteaConnectionConfig } from '@sourcecat/schemas/v3/gitea.type';
+import { env } from "@sourcecat/shared";
 import fetch from 'cross-fetch';
 import { Api, giteaApi, Repository as GiteaRepository, HttpResponse } from 'gitea-js';
 import micromatch from 'micromatch';
@@ -17,7 +17,7 @@ const GITEA_CLOUD_HOSTNAME = "gitea.com";
 // response compression enabled) cause `cross-fetch` to fail while reading the
 // response body with ERR_STREAM_PREMATURE_CLOSE. Forcing identity encoding and
 // closing the connection avoids the premature close.
-// @see https://github.com/sourcebot-dev/sourcebot/issues/1404
+// @see https://github.com/simonsmh/sourcecat/issues/1404
 const customFetch: typeof fetch = (url, options = {}) => {
     return fetch(url, {
         ...options,

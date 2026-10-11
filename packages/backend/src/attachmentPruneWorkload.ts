@@ -1,11 +1,11 @@
-import { AttachmentStatus, type PrismaClient } from "@sourcebot/db";
+import { AttachmentStatus, type PrismaClient } from "@sourcecat/db";
 import {
     ATTACHMENT_PRUNE_QUEUE,
     createLogger,
     getStorageBackend,
     JOB_PRIORITIES,
     type StorageBackend,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import type { Workload } from "./types.js";
 
 const BATCH_SIZE = 1_000;

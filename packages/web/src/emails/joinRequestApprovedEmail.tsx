@@ -13,7 +13,7 @@ import {
     Text,
 } from '@react-email/components';
 import { EmailFooter } from './emailFooter';
-import { SOURCEBOT_LOGO_LIGHT_LARGE_URL, SOURCEBOT_PLACEHOLDER_AVATAR_URL } from './constants';
+import { SOURCECAT_LOGO_LIGHT_LARGE_URL, SOURCECAT_PLACEHOLDER_AVATAR_URL } from './constants';
 
 interface JoinRequestApprovedEmailProps {
     baseUrl: string;
@@ -30,7 +30,7 @@ export const JoinRequestApprovedEmail = ({
     user,
     orgName,
 }: JoinRequestApprovedEmailProps) => {
-    const previewText = `Your request to join ${orgName} on Sourcebot has been approved`;
+    const previewText = `Your request to join ${orgName} on Sourcecat has been approved`;
     const orgLink = baseUrl;
 
     return (
@@ -42,10 +42,10 @@ export const JoinRequestApprovedEmail = ({
                     <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
                         <Section className="mt-[32px]">
                             <Img
-                                src={SOURCEBOT_LOGO_LIGHT_LARGE_URL}
+                                src={SOURCECAT_LOGO_LIGHT_LARGE_URL}
                                 width="auto"
                                 height="60"
-                                alt="Sourcebot Logo"
+                                alt="Sourcecat Logo"
                                 className="my-0 mx-auto"
                             />
                         </Section>
@@ -56,7 +56,7 @@ export const JoinRequestApprovedEmail = ({
                             Hello{user.name ? ` ${user.name}` : ''},
                         </Text>
                         <Text className="text-black text-[14px] leading-[24px]">
-                            Your request to join <strong>{orgName}</strong> on Sourcebot has been approved. You now have access to the organization.
+                            Your request to join <strong>{orgName}</strong> on Sourcecat has been approved. You now have access to the organization.
                         </Text>
                         <Section className="text-center mt-[32px] mb-[32px]">
                             <Button
@@ -81,11 +81,11 @@ export const JoinRequestApprovedEmail = ({
 };
 
 JoinRequestApprovedEmail.PreviewProps = {
-    baseUrl: 'https://sourcebot.example.com',
+    baseUrl: 'https://sourcecat.example.com',
     user: {
         name: 'Alan Turing',
         email: 'alan.turing@example.com',
-        avatarUrl: SOURCEBOT_PLACEHOLDER_AVATAR_URL,
+        avatarUrl: SOURCECAT_PLACEHOLDER_AVATAR_URL,
     },
     orgName: 'Enigma',
 } satisfies JoinRequestApprovedEmailProps;

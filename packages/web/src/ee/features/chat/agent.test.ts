@@ -28,17 +28,17 @@ const mockLoadSkillTool = vi.hoisted(() => ({
     createLoadSkillTool: vi.fn(() => ({})),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => mockLogger,
     env: {
-        SOURCEBOT_CHAT_FILE_MAX_CHARACTERS: 4000,
-        SOURCEBOT_CHAT_MAX_STEP_COUNT: 8,
-        SOURCEBOT_CHAT_MODEL_TEMPERATURE: 0,
-        SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED: 'false',
-        SOURCEBOT_CHAT_PROMPT_CACHE_STATIC_TTL: '5m',
-        SOURCEBOT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED: 'false',
+        SOURCECAT_CHAT_FILE_MAX_CHARACTERS: 4000,
+        SOURCECAT_CHAT_MAX_STEP_COUNT: 8,
+        SOURCECAT_CHAT_MODEL_TEMPERATURE: 0,
+        SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED: 'false',
+        SOURCECAT_CHAT_PROMPT_CACHE_STATIC_TTL: '5m',
+        SOURCECAT_CHAT_PROMPT_CACHE_BREAK_DETECTION_ENABLED: 'false',
     },
-    getDBConnectionString: () => 'postgresql://sourcebot:sourcebot@db.example.com:5432/sourcebot',
+    getDBConnectionString: () => 'postgresql://sourcecat:sourcecat@db.example.com:5432/sourcecat',
     getStorageBackend: () => ({
         get: vi.fn(),
         put: vi.fn(),

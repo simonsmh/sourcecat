@@ -305,7 +305,7 @@ export const uploadImageAttachment = async (file: File): Promise<{
         method: 'POST',
         body: formData,
         headers: {
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
     });
 

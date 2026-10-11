@@ -1,11 +1,11 @@
-import { sourcebot_file_diff_review, sourcebot_file_diff_review_schema } from "@/features/agents/review-agent/types";
+import { sourcecat_file_diff_review, sourcecat_file_diff_review_schema } from "@/features/agents/review-agent/types";
 import { getConfiguredLanguageModels } from "@/features/chat/utils.server";
 import { getAISDKLanguageModelAndOptions } from "@/features/chat/llm.server";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { generateText } from "ai";
 import fs from "fs";
 import path from "path";
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('invoke-diff-review-llm');
 
@@ -21,7 +21,7 @@ const validateLogPath = (logPath: string): void => {
     }
 };
 
-export const invokeDiffReviewLlm = async (reviewAgentLogPath: string | undefined, prompt: string): Promise<sourcebot_file_diff_review> => {
+export const invokeDiffReviewLlm = async (reviewAgentLogPath: string | undefined, prompt: string): Promise<sourcecat_file_diff_review> => {
     logger.debug("Executing invoke_diff_review_llm");
 
     const models = await getConfiguredLanguageModels();
@@ -62,7 +62,7 @@ export const invokeDiffReviewLlm = async (reviewAgentLogPath: string | undefined
         }
 
         const diffReviewJson = JSON.parse(responseText || '{}');
-        const diffReview = sourcebot_file_diff_review_schema.safeParse(diffReviewJson);
+        const diffReview = sourcecat_file_diff_review_schema.safeParse(diffReviewJson);
 
         if (!diffReview.success) {
             throw new Error(`Invalid diff review format: ${diffReview.error}`);

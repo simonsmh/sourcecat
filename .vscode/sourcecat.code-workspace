@@ -7,7 +7,7 @@
 			"path": "../vendor/zoekt"
 		},
 		{
-			"path": "../../sourcebot-helm-chart"
+			"path": "../../sourcecat-helm-chart"
 		}
 	],
 	"settings": {

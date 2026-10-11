@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { createRepoCleanupWorkload } from "./repoCleanupWorkload.js";
 
@@ -15,8 +15,8 @@ const lifecycleLogger = vi.hoisted(() => ({
     error: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", async (importOriginal) => ({
-    ...(await importOriginal<typeof import("@sourcebot/shared")>()),
+vi.mock("@sourcecat/shared", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@sourcecat/shared")>()),
     createLogger: vi.fn(() => lifecycleLogger),
 }));
 

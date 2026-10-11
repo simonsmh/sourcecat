@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { OrgRole } from '@sourcebot/db';
+import { OrgRole } from '@sourcecat/db';
 import { ErrorCode } from '@/lib/errorCodes';
 
 const mocks = vi.hoisted(() => ({
@@ -33,7 +33,7 @@ vi.mock('@/prisma', () => ({
 const { GET } = await import('./route');
 
 function createRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/configuration', { method: 'GET' });
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/configuration', { method: 'GET' });
 }
 
 function createPrismaMock() {

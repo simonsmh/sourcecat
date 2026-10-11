@@ -1,4 +1,4 @@
-import type { AzureDevOpsConnectionConfig } from '@sourcebot/schemas/v3/azuredevops.type';
+import type { AzureDevOpsConnectionConfig } from '@sourcecat/schemas/v3/azuredevops.type';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -11,8 +11,8 @@ vi.mock("@sentry/node", () => ({
     captureException: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", async (importOriginal) => ({
-    ...await importOriginal<typeof import("@sourcebot/shared")>(),
+vi.mock("@sourcecat/shared", async (importOriginal) => ({
+    ...await importOriginal<typeof import("@sourcecat/shared")>(),
     getTokenFromConfig: vi.fn(async () => "token"),
 }));
 

@@ -1,5 +1,5 @@
 {
-  "name": "@sourcebot/web",
+  "name": "@sourcecat/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -105,11 +105,11 @@
     "@sentry/nextjs": "^10.71.0",
     "@sentry/profiling-node": "^10.71.0",
     "@shopify/lang-jsonc": "^1.0.0",
-    "@sourcebot/codemirror-lang-tcl": "^1.0.13",
-    "@sourcebot/db": "workspace:*",
-    "@sourcebot/query-language": "workspace:*",
-    "@sourcebot/schemas": "workspace:*",
-    "@sourcebot/shared": "workspace:*",
+    "@sourcecat/codemirror-lang-tcl": "^1.0.13",
+    "@sourcecat/db": "workspace:*",
+    "@sourcecat/query-language": "workspace:*",
+    "@sourcecat/schemas": "workspace:*",
+    "@sourcecat/shared": "workspace:*",
     "@ssddanbrown/codemirror-lang-twig": "^1.0.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.53.3",

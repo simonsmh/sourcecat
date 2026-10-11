@@ -3,8 +3,8 @@ import stripJsonComments from 'strip-json-comments';
 import { z } from "zod";
 import { DEFAULT_CONFIG_SETTINGS } from "./constants.js";
 import { ConfigSettings } from "./types.js";
-import { Org, Repo } from "@sourcebot/db";
-import type { SourcebotConfig } from "@sourcebot/schemas/v3/index.type";
+import { Org, Repo } from "@sourcecat/db";
+import type { SourcecatConfig } from "@sourcecat/schemas/v3/index.type";
 import path from "path";
 import { env, isRemotePath, loadConfig } from "./env.server.js";
 
@@ -75,7 +75,7 @@ export const loadJsonFile = async <T>(
 }
 
 
-export const resolveConfigSettings = (config: SourcebotConfig): ConfigSettings =>
+export const resolveConfigSettings = (config: SourcecatConfig): ConfigSettings =>
     ({
         ...DEFAULT_CONFIG_SETTINGS,
         ...config.settings,

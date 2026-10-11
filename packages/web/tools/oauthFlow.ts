@@ -33,10 +33,10 @@ const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000;
 
 function usage(): string {
     return [
-        'Usage: yarn workspace @sourcebot/web tool:oauth-flow [options]',
+        'Usage: yarn workspace @sourcecat/web tool:oauth-flow [options]',
         '',
         'Options:',
-        `  --base-url <url>       Sourcebot URL. Defaults to AUTH_URL or ${DEFAULT_BASE_URL}`,
+        `  --base-url <url>       Sourcecat URL. Defaults to AUTH_URL or ${DEFAULT_BASE_URL}`,
         '  --scope <scope>        OAuth scope to request. Can be repeated.',
         '  --scopes <scopes>      Space-delimited OAuth scopes to request.',
         '  --resource <url>       Resource parameter. Defaults to <base-url>/api/mcp.',
@@ -44,16 +44,16 @@ function usage(): string {
         `  --callback-host <host> Callback host. Defaults to ${DEFAULT_CALLBACK_HOST}.`,
         `  --port <port>          Callback port. Defaults to ${DEFAULT_CALLBACK_PORT}. Use 0 for random.`,
         '  --client-id <id>       Use an existing OAuth client instead of dynamic registration.',
-        '  --client-name <name>   Dynamic client name. Defaults to "Sourcebot OAuth CLI".',
+        '  --client-name <name>   Dynamic client name. Defaults to "Sourcecat OAuth CLI".',
         '  --no-open             Print the authorization URL without opening a browser.',
         '  --timeout-ms <ms>      Callback wait timeout.',
         '  --token-only          Print only the access token.',
         '  --help                Show this help text.',
         '',
         'Examples:',
-        '  yarn workspace @sourcebot/web tool:oauth-flow --scope mcp:read',
-        '  yarn workspace @sourcebot/web tool:oauth-flow --scopes "mcp:read mcp:ask" --token-only',
-        '  yarn workspace @sourcebot/web tool:oauth-flow --base-url http://localhost:3000 --no-open',
+        '  yarn workspace @sourcecat/web tool:oauth-flow --scope mcp:read',
+        '  yarn workspace @sourcecat/web tool:oauth-flow --scopes "mcp:read mcp:ask" --token-only',
+        '  yarn workspace @sourcecat/web tool:oauth-flow --base-url http://localhost:3000 --no-open',
     ].join('\n');
 }
 
@@ -64,7 +64,7 @@ function parseArgs(argv: string[]): Options {
         resource: 'default',
         callbackHost: DEFAULT_CALLBACK_HOST,
         callbackPort: DEFAULT_CALLBACK_PORT,
-        clientName: 'Sourcebot OAuth CLI',
+        clientName: 'Sourcecat OAuth CLI',
         openBrowser: true,
         timeoutMs: DEFAULT_TIMEOUT_MS,
         tokenOnly: false,
@@ -285,7 +285,7 @@ function startCallbackServer({
 
 function writeHtml(response: ServerResponse, status: number, message: string): void {
     response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8' });
-    response.end(`<!doctype html><title>Sourcebot OAuth</title><p>${escapeHtml(message)}</p>`);
+    response.end(`<!doctype html><title>Sourcecat OAuth</title><p>${escapeHtml(message)}</p>`);
 }
 
 function escapeHtml(value: string): string {

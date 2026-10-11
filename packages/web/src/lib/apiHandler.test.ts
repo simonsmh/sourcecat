@@ -9,7 +9,7 @@ vi.mock('./posthog', () => ({
 
 describe('apiHandler', () => {
     test('stores the current request while the handler runs', async () => {
-        const request = new NextRequest('https://sourcebot.example.com/api/test', {
+        const request = new NextRequest('https://sourcecat.example.com/api/test', {
             method: 'POST',
         });
 

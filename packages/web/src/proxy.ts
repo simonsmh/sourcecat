@@ -4,9 +4,9 @@ import type { NextRequest } from 'next/server'
 
 /**
  * As part of our original SaaS effort in April 2025, we introduced
- * multi-tenancy into Sourcebot as part of v3.0.0. Organizations
+ * multi-tenancy into Sourcecat as part of v3.0.0. Organizations
  * (or tenants) were assigned a domain suffix that would be appended
- * as the root part of the URL (e.g., `https://sourcebot.dev/org-a/...`)
+ * as the root part of the URL (e.g., `https://sourcecat.dev/org-a/...`)
  * allowing us to identify what the current organization context was.
  * For self-hosted instances, multi-tenancy was irrelevant, and so the
  * domain suffix was simple `~` for the single-tenant org.
@@ -18,10 +18,10 @@ import type { NextRequest } from 'next/server'
  * 
  * The following proxy middleware is used to redirect URLs that were
  * created between v3.0.0 and v4.16.8 to the new canonical URL structure.
- * For example, `https://sourcebot.dev/~/invite/123` would be redirected
- * to `https://sourcebot.dev/invite/123`.
+ * For example, `https://sourcecat.dev/~/invite/123` would be redirected
+ * to `https://sourcecat.dev/invite/123`.
  * 
- * See: https://github.com/sourcebot-dev/sourcebot/pull/1076
+ * See: https://github.com/simonsmh/sourcecat/pull/1076
  */
 export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();

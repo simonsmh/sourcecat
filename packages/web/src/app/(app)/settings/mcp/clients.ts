@@ -49,11 +49,11 @@ export function buildClientAction(clientId: McpClientId, serverUrl: string): Cli
             const config = btoa(JSON.stringify({ url: serverUrl }));
             return {
                 type: 'deeplink',
-                href: `cursor://anysphere.cursor-deeplink/mcp/install?name=sourcebot&config=${config}`,
+                href: `cursor://anysphere.cursor-deeplink/mcp/install?name=sourcecat&config=${config}`,
             };
         }
         case 'vscode': {
-            const config = JSON.stringify({ name: 'sourcebot', url: serverUrl });
+            const config = JSON.stringify({ name: 'sourcecat', url: serverUrl });
             return {
                 type: 'deeplink',
                 href: `vscode:mcp/install?${encodeURIComponent(config)}`,
@@ -62,12 +62,12 @@ export function buildClientAction(clientId: McpClientId, serverUrl: string): Cli
         case 'claude-code':
             return {
                 type: 'command',
-                command: `claude mcp add --transport http sourcebot ${serverUrl}`,
+                command: `claude mcp add --transport http sourcecat ${serverUrl}`,
             };
         case 'codex':
             return {
                 type: 'command',
-                command: `codex mcp add sourcebot --url ${serverUrl}`,
+                command: `codex mcp add sourcecat --url ${serverUrl}`,
             };
         case 'windsurf':
             return {

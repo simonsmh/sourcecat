@@ -1,7 +1,7 @@
 import { sew } from "@/middleware/sew";
 import { ServiceError, notFound, fileNotFound, invalidGitRef, unresolvedGitRef, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from '@/middleware/withAuth';
-import { getRepoPath } from '@sourcebot/shared';
+import { getRepoPath } from '@sourcecat/shared';
 import { headers } from 'next/headers';
 import { simpleGit } from 'simple-git';
 import type z from 'zod';
@@ -160,7 +160,7 @@ export const getFileBlame = async ({ path: filePath, repo: repoName, ref }: File
     sew(() =>
         withOptionalAuth(async ({ org, prisma, user }) => {
             if (user) {
-                const resolvedSource = source ?? (await headers()).get('X-Sourcebot-Client-Source') ?? undefined;
+                const resolvedSource = source ?? (await headers()).get('X-Sourcecat-Client-Source') ?? undefined;
                 await createAudit({
                     action: 'user.fetched_file_blame',
                     actor: { id: user.id, type: 'user' },

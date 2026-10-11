@@ -7,11 +7,11 @@ import { artifact, scenario, minimal, canary } from './harness.mjs';
 let packed;
 before(() => { packed = artifact(); console.log(`Collector artifact SHA-256: ${packed.digest}`); });
 after(() => packed?.cleanup());
-const props = (r, name) => r.events.filter(e => e.event === `setup_sourcebot_${name}`).map(e => e.properties);
+const props = (r, name) => r.events.filter(e => e.event === `setup_sourcecat_${name}`).map(e => e.properties);
 const end = async d => {
     await d.answer('Add another code host?', 'n');
     await d.answer('Would you like to configure AI features?', 'n');
-    await d.answer('What URL will Sourcebot be hosted at?');
+    await d.answer('What URL will Sourcecat be hosted at?');
     await d.answer('Download docker-compose.yml?', 'n');
 };
 
@@ -208,7 +208,7 @@ for (const provider of providers) {
                 }
                 await d.answer('Display name', `${canary}-display`);
                 await d.answer('Add another model?', 'n');
-                await d.answer('What URL will Sourcebot be hosted at?');
+                await d.answer('What URL will Sourcecat be hosted at?');
                 await d.answer('Download docker-compose.yml?', 'n');
             });
             const s = props(result, 'configured_ai_provider')[0];

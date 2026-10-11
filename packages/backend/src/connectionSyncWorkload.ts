@@ -1,13 +1,13 @@
 import * as Sentry from "@sentry/node";
-import { PrismaClient } from "@sourcebot/db";
-import { ConnectionConfig } from "@sourcebot/schemas/v3/index.type";
+import { PrismaClient } from "@sourcecat/db";
+import { ConnectionConfig } from "@sourcecat/schemas/v3/index.type";
 import {
     CONNECTION_QUEUE,
     createLogger,
     env,
     JOB_PRIORITIES,
     loadConfig,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { REPO_PERMISSION_SYNC_WHERE } from "./ee/permissionSyncEligibility.js";
 import { isPermissionSyncEnabled } from "./entitlements.js";
 import { syncSearchContexts } from "./ee/syncSearchContexts.js";
@@ -42,7 +42,7 @@ export const createConnectionSyncWorkload = ({
     concurrency: settings.maxConnectionSyncJobConcurrency,
     executionLock: {
         resource: ({ connectionId }) =>
-            `sourcebot:lock:connection:${connectionId}`,
+            `sourcecat:lock:connection:${connectionId}`,
         durationMs: CONNECTION_SYNC_LOCK_DURATION_MS,
     },
     process: async ({

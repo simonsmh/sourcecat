@@ -11,7 +11,7 @@ import {
     Schedule,
     scheduleToMs,
     runWithJobLogContext,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { Job, MetricsTime, Queue, Worker } from "bullmq";
 import { Redis } from "ioredis";
 import { WORKER_STOP_GRACEFUL_TIMEOUT_MS } from "./constants.js";

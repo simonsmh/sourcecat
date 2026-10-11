@@ -6,9 +6,9 @@ import { ArrowLeft, AlertCircle } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 import Link from "next/link"
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 import { Footer } from "@/app/components/footer"
-import { SOURCEBOT_SUPPORT_EMAIL } from "@/lib/constants"
+import { SOURCECAT_SUPPORT_EMAIL } from "@/lib/constants"
 import { getAuthErrorContent } from "@/features/auth/errorMessages"
 
 function ErrorPageContent() {
@@ -20,7 +20,7 @@ function ErrorPageContent() {
             <div className="flex-1 flex flex-col items-center p-4 sm:p-12 w-full bg-backgroundSecondary">
                 <div className="w-full max-w-md">
                     <div className="flex justify-center mb-6">
-                        <SourcebotLogo className="h-16" size="large" />
+                        <SourcecatLogo className="h-16" size="large" />
                     </div>
                     <Card className="w-full">
                         <CardHeader className="space-y-3">
@@ -48,7 +48,7 @@ function ErrorPageContent() {
                             <div className="w-full text-center text-sm text-muted-foreground">
                                 <p>
                                     Having trouble?{" "}
-                                    <a href={`mailto:${SOURCEBOT_SUPPORT_EMAIL}`} className="text-primary hover:underline">
+                                    <a href={`mailto:${SOURCECAT_SUPPORT_EMAIL}`} className="text-primary hover:underline">
                                         Contact support
                                     </a>
                                 </p>
@@ -67,7 +67,7 @@ function LoadingErrorPage() {
         <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-backgroundSecondary">
             <div className="w-full max-w-md">
                 <div className="flex justify-center mb-6">
-                    <SourcebotLogo className="h-16" size="large" />
+                    <SourcecatLogo className="h-16" size="large" />
                 </div>
                 <Card className="w-full">
                     <CardHeader className="space-y-1">

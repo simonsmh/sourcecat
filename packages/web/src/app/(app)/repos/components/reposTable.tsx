@@ -22,8 +22,8 @@ import {
     type ScheduledRepoIndexJob,
 } from "@/features/repos/actions";
 import { cn, getCodeHostIcon, getRepoImageSrc, isServiceError } from "@/lib/utils";
-import type { CodeHostType } from "@sourcebot/db";
-import type { WorkloadJob } from "@sourcebot/shared";
+import type { CodeHostType } from "@sourcecat/db";
+import type { WorkloadJob } from "@sourcecat/shared";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import {

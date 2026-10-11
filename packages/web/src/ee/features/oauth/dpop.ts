@@ -1,7 +1,7 @@
 import 'server-only';
 
 import crypto from 'crypto';
-import { env } from '@sourcebot/shared';
+import { env } from '@sourcecat/shared';
 
 export const DPOP_AUTH_SCHEME = 'DPoP';
 export const DPOP_PROOF_HEADER = 'DPoP';

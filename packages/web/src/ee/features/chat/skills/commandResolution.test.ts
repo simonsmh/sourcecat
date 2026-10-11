@@ -57,11 +57,11 @@ const createCommandMessage = (
 describe("getFileSourcesFromText", () => {
     test("extracts and dedupes canonical file references", () => {
         expect(getFileSourcesFromText(
-            "Read @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts} and @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.",
+            "Read @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts} and @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.",
         )).toEqual([
             {
                 type: "file",
-                repo: "github.com/sourcebot-dev/sourcebot",
+                repo: "github.com/simonsmh/sourcecat",
                 path: "packages/web/src/auth.ts",
                 name: "auth.ts",
                 revision: "HEAD",
@@ -144,13 +144,13 @@ describe("materializeCommandMessageText", () => {
             prisma: prisma as never,
             userId: "user-1",
             orgId: 7,
-            requestSource: "sourcebot-mcp-server",
+            requestSource: "sourcecat-mcp-server",
         });
 
         expect(captureEvent).toHaveBeenCalledWith("ask_skill_invoked", expect.objectContaining({
             activationMethod: "manual",
             skillIdHash: expect.any(String),
-            source: "sourcebot-mcp-server",
+            source: "sourcecat-mcp-server",
             success: true,
             scope: "personal",
             isSynced: false,
@@ -162,7 +162,7 @@ describe("materializeCommandMessageText", () => {
             agentSkill: {
                 findMany: vi.fn().mockResolvedValue([{
                     id: "skill-1",
-                    instructions: "Review @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.",
+                    instructions: "Review @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.",
                 }]),
             },
         };
@@ -178,19 +178,19 @@ describe("materializeCommandMessageText", () => {
             type: "data-source",
             data: {
                 type: "file",
-                repo: "github.com/sourcebot-dev/sourcebot",
+                repo: "github.com/simonsmh/sourcecat",
                 path: "packages/web/src/auth.ts",
                 name: "auth.ts",
                 revision: "HEAD",
             },
         });
-        expect(getUserMessageModelText(message)).toBe("Review @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.");
+        expect(getUserMessageModelText(message)).toBe("Review @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.");
     });
 
     test("does not duplicate file sources already present on the message", async () => {
         const existingSource = {
             type: "file",
-            repo: "github.com/sourcebot-dev/sourcebot",
+            repo: "github.com/simonsmh/sourcecat",
             path: "packages/web/src/auth.ts",
             name: "auth.ts",
             revision: "HEAD",
@@ -199,7 +199,7 @@ describe("materializeCommandMessageText", () => {
             agentSkill: {
                 findMany: vi.fn().mockResolvedValue([{
                     id: "skill-1",
-                    instructions: "Review @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.",
+                    instructions: "Review @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.",
                 }]),
             },
         };
@@ -248,7 +248,7 @@ describe("materializeCommandMessageText", () => {
         const message = await materializeCommandMessageText({
             message: createCommandMessage(
                 "session handling",
-                "Review @file:{github.com/sourcebot-dev/sourcebot::packages/web/src/auth.ts}.",
+                "Review @file:{github.com/simonsmh/sourcecat::packages/web/src/auth.ts}.",
             ),
             prisma: prisma as never,
             userId: "user-1",
@@ -260,7 +260,7 @@ describe("materializeCommandMessageText", () => {
             type: "data-source",
             data: {
                 type: "file",
-                repo: "github.com/sourcebot-dev/sourcebot",
+                repo: "github.com/simonsmh/sourcecat",
                 path: "packages/web/src/auth.ts",
                 name: "auth.ts",
                 revision: "HEAD",

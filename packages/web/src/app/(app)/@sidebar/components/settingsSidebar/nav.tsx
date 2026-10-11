@@ -10,7 +10,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useEntitlements } from "@/features/entitlements/useEntitlements";
-import { Entitlement } from "@sourcebot/shared";
+import { Entitlement } from "@sourcecat/shared";
 import {
     BotIcon,
     ChartAreaIcon,

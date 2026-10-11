@@ -1,6 +1,6 @@
 import { createMCPClient, type MCPClient } from '@ai-sdk/mcp';
 import { McpToolSet } from './mcpClientFactory';
-import { createLogger, env } from '@sourcebot/shared';
+import { createLogger, env } from '@sourcecat/shared';
 import type { AnySchemaObject } from 'ajv';
 import { jsonSchema, ToolExecutionOptions } from 'ai';
 import type { JSONSchema7 } from 'json-schema';
@@ -9,7 +9,7 @@ import { getExternalMcpErrorLogFields } from './externalMcpError';
 import { isReconnectRequiredMcpAuthFailure, McpAuthRequiredError, McpToolAuthFailure } from './mcpAuthFailure';
 import { getMcpFaviconUrl } from '@/features/chat/mcp/utils';
 import { __unsafePrisma } from '@/prisma';
-import { McpServerToolPermission } from '@sourcebot/db';
+import { McpServerToolPermission } from '@sourcecat/db';
 import { captureEvent } from '@/lib/posthog';
 import { isUniqueConstraintError } from '@/lib/prismaErrors';
 import type { AskMcpAnalyticsSource } from '@/lib/posthogEvents';
@@ -209,7 +209,7 @@ export async function getMcpTools(clients: McpToolSet[], analyticsContext?: McpT
     const toolDisplayNames: Record<string, string> = {};
     const mcpClients: MCPClient[] = [];
 
-    const connectionTimeoutMs = env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS;
+    const connectionTimeoutMs = env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS;
 
     for (const client of clients) {
         const { serverId, serverName, sanitizedName, serverUrl, transport } = client;
@@ -291,7 +291,7 @@ export async function getMcpTools(clients: McpToolSet[], analyticsContext?: McpT
                 const originalExecute = tool.execute;
                 const rawQualifiedName = `${prefix}__${toolName}`;
                 const qualifiedName = sanitizeMcpToolNameForModel(rawQualifiedName);
-                const timeoutMs = env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS;
+                const timeoutMs = env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS;
                 clientToolDisplayNames[qualifiedName] = toolName;
 
                 const executeWithTimeout = (async (input: unknown, options: ToolExecutionOptions) => {
@@ -349,7 +349,7 @@ export async function getMcpTools(clients: McpToolSet[], analyticsContext?: McpT
                         void captureEvent('ask_mcp_tool_call_completed', {
                             chatId: analyticsContext?.chatId,
                             traceId: analyticsContext?.traceId,
-                            source: analyticsContext?.source ?? 'sourcebot-ask-agent',
+                            source: analyticsContext?.source ?? 'sourcecat-ask-agent',
                             serverId,
                             serverUrl,
                             toolName,

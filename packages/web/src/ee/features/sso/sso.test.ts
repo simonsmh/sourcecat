@@ -14,7 +14,7 @@ vi.mock('@/lib/entitlements', () => ({
 vi.mock('@/features/membership/onCreateUser', () => ({
     onCreateUser: vi.fn(),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({ warn: vi.fn() }),
     env: { AUTH_EE_ALLOW_EMAIL_ACCOUNT_LINKING: 'false' },
     getIdentityProviderConfigs: mocks.getIdentityProviderConfigs,
@@ -32,7 +32,7 @@ describe('getEEIdentityProviders', () => {
         const clientId = { env: 'IDIRA_CLIENT_ID' };
         const clientSecret = { env: 'IDIRA_CLIENT_SECRET' };
         const issuerConfig = { env: 'IDIRA_ISSUER' };
-        const issuer = 'https://example.id.cyberark.cloud/sourcebot/';
+        const issuer = 'https://example.id.cyberark.cloud/sourcecat/';
 
         mocks.getIdentityProviderConfigs.mockResolvedValue({
             idira: {

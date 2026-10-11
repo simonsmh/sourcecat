@@ -48,7 +48,7 @@ To make searching easier, we can create three search contexts in our [config.jso
 
 ```json
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "contexts": {
         "web": {
             // To include repositories in a search context,
@@ -87,7 +87,7 @@ To make searching easier, we can create three search contexts in our [config.jso
 
 <Accordion title="Repository URL details">
     Repo URLs are expected to be formatted without the leading http(s):// prefix. For example:
-    - `github.com/sourcebot-dev/sourcebot` ([link](https://github.com/sourcebot-dev/sourcebot))
+    - `github.com/simonsmh/sourcecat` ([link](https://github.com/simonsmh/sourcecat))
     - `gitlab.com/gitlab-org/gitlab` ([link](https://gitlab.com/gitlab-org/gitlab))
     - `chromium.googlesource.com/chromium` ([link](https://chromium-review.googlesource.com/admin/repos/chromium,general))
 </Accordion>
@@ -112,7 +112,7 @@ If your repositories are tagged with topics on [GitHub](https://docs.github.com/
 
 ```json
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "contexts": {
         "backend": {
             "includeTopics": ["backend", "core-*"],
@@ -142,7 +142,7 @@ Topics are populated when a connection syncs. If you add topics to your reposito
 
 <Accordion title="Reference">
 
-[schemas/v3/searchContext.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/searchContext.json)
+[schemas/v3/searchContext.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/searchContext.json)
 
 <SearchContextSchema />
 

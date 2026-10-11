@@ -10,7 +10,7 @@ import type {
 } from "@/lib/posthogEvents";
 import { isUniqueConstraintError } from "@/lib/prismaErrors";
 import { requestBodySchemaValidationError, ServiceError } from "@/lib/serviceError";
-import { OrgRole, personalAgentSkillAuthScope, personalAgentSkillScope, sharedAgentSkillAuthScope, type AgentSkill, type PrismaClient } from "@sourcebot/db";
+import { OrgRole, personalAgentSkillAuthScope, personalAgentSkillScope, sharedAgentSkillAuthScope, type AgentSkill, type PrismaClient } from "@sourcecat/db";
 import { StatusCodes } from "http-status-codes";
 import {
     agentSkillInputSchema,

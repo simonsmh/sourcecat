@@ -36,7 +36,7 @@ import { sparql } from "codemirror-lang-sparql"; // 3rd party
 import { spreadsheet } from "codemirror-lang-spreadsheet"; // 3rd party
 import { sql } from "@codemirror/lang-sql";
 import { svelte } from "@replit/codemirror-lang-svelte"; // 3rd party
-import { tcl } from "@sourcebot/codemirror-lang-tcl";
+import { tcl } from "@sourcecat/codemirror-lang-tcl";
 import { twig } from "@ssddanbrown/codemirror-lang-twig"; // 3rd party
 import { vue } from "@codemirror/lang-vue";
 import { wast } from "@codemirror/lang-wast";

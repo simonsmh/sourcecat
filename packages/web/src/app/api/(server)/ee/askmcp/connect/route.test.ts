@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { McpServerClientInfoSource } from '@sourcebot/db';
+import { McpServerClientInfoSource } from '@sourcecat/db';
 import { ErrorCode } from '@/lib/errorCodes';
 
 const mocks = vi.hoisted(() => ({
@@ -32,10 +32,10 @@ vi.mock('@/middleware/withAuth', () => ({
 vi.mock('@/prisma', () => ({
     __unsafePrisma: mocks.unsafePrisma,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {
-        AUTH_URL: 'https://sourcebot.example.com',
-        SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
+        AUTH_URL: 'https://sourcecat.example.com',
+        SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
     },
     createLogger: () => mocks.logger,
     encryptOAuthToken: vi.fn((text: string | null | undefined) => text ? `encrypted:${text}` : undefined),
@@ -49,7 +49,7 @@ const { POST } = await import('./route');
 const { getMcpOAuthReturnToFromState } = await import('@/ee/features/chat/mcp/mcpOAuthReturnTo');
 
 function createRequest(body: { serverId: string; returnTo?: string; forceAuthorization?: boolean } = { serverId: 'server-1' }) {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/connect', {
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/connect', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(body),
@@ -57,7 +57,7 @@ function createRequest(body: { serverId: string; returnTo?: string; forceAuthori
 }
 
 function createMalformedJsonRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/connect', {
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/connect', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: '{"serverId":',
@@ -65,7 +65,7 @@ function createMalformedJsonRequest() {
 }
 
 function createTextPlainRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/connect', {
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/connect', {
         method: 'POST',
         headers: { 'content-type': 'text/plain' },
         body: 'server-1',
@@ -73,7 +73,7 @@ function createTextPlainRequest() {
 }
 
 function createEmptyBodyRequest() {
-    return new NextRequest('https://sourcebot.example.com/api/ee/askmcp/connect', {
+    return new NextRequest('https://sourcecat.example.com/api/ee/askmcp/connect', {
         method: 'POST',
     });
 }
@@ -160,7 +160,7 @@ describe('POST /api/ee/askmcp/connect', () => {
         const body = await response.json();
 
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_connection_started', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'unknown',
             serverId: 'server-1',
             serverUrl: 'https://mcp.linear.app/mcp',
@@ -224,7 +224,7 @@ describe('POST /api/ee/askmcp/connect', () => {
                 userId_serverId: { userId: 'user-1', serverId: 'server-1' },
             },
             data: {
-                state: expect.stringContaining('sourcebot_mcp.'),
+                state: expect.stringContaining('sourcecat_mcp.'),
             },
         });
     });
@@ -310,7 +310,7 @@ describe('POST /api/ee/askmcp/connect', () => {
                 userId_serverId: { userId: 'user-1', serverId: 'server-1' },
             },
             data: {
-                state: expect.not.stringContaining('sourcebot_mcp.'),
+                state: expect.not.stringContaining('sourcecat_mcp.'),
             },
         });
     });
@@ -356,7 +356,7 @@ describe('POST /api/ee/askmcp/connect', () => {
         expect(JSON.stringify(mocks.logger.error.mock.calls)).not.toContain('client-secret');
         expect(JSON.stringify(mocks.logger.error.mock.calls)).not.toContain('refresh-token');
         expect(mocks.captureEvent).toHaveBeenCalledWith('ask_mcp_connector_connection_failed', {
-            source: 'sourcebot-web-client',
+            source: 'sourcecat-web-client',
             entryPoint: 'unknown',
             serverId: 'server-1',
             serverUrl: 'https://mcp.linear.app/mcp',

@@ -1,5 +1,5 @@
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { GeneralPage } from "./generalPage";
 
 export default authenticatedPage(async ({ user }) => {

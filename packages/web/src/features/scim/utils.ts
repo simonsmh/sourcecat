@@ -1,6 +1,6 @@
 import { __unsafePrisma } from "@/prisma";
 import { hasEntitlement } from "@/lib/entitlements";
-import { Org } from "@sourcebot/db";
+import { Org } from "@sourcecat/db";
 
 export const isScimEnabled = async (org: Org): Promise<boolean> => {
     if (!await hasEntitlement('scim')) {

@@ -12,7 +12,7 @@ vi.mock('@sentry/node', () => ({
     captureException: vi.fn(),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: vi.fn(() => ({
         debug: vi.fn(),
         error: vi.fn(),

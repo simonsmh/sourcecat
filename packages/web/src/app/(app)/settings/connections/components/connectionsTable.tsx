@@ -23,8 +23,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { cn, getCodeHostIcon } from "@/lib/utils";
-import type { ConnectionType } from "@sourcebot/db";
-import type { WorkloadJob } from "@sourcebot/shared";
+import type { ConnectionType } from "@sourcecat/db";
+import type { WorkloadJob } from "@sourcecat/shared";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import {

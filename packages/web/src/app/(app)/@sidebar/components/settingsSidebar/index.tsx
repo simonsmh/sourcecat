@@ -6,7 +6,7 @@ import { SidebarBase } from "../sidebarBase";
 import { Nav } from "./nav";
 import { SettingsSidebarHeader } from "./header";
 import { isValidLicenseActive } from "@/lib/entitlements";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 
 export async function SettingsSidebar() {
     const session = await auth();

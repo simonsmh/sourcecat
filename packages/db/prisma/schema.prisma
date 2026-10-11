@@ -56,8 +56,8 @@ enum CodeHostType {
 
 model Repo {
   id                    Int                    @id @default(autoincrement())
-  name                  String /// Full repo name, including the vcs hostname (ex. github.com/sourcebot-dev/sourcebot)
-  displayName           String? /// Display name of the repo for UI (ex. sourcebot-dev/sourcebot)
+  name                  String /// Full repo name, including the vcs hostname (ex. github.com/simonsmh/sourcecat)
+  displayName           String? /// Display name of the repo for UI (ex. simonsmh/sourcecat)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   isFork                Boolean
@@ -144,7 +144,7 @@ model Connection {
   /// When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect.
   /// Defaults to the value of `PERMISSION_SYNC_ENABLED`.
   ///
-  /// See https://docs.sourcebot.dev/docs/features/permission-syncing
+  /// See https://docs.sourcecat.dev/docs/features/permission-syncing
   enforcePermissions Boolean @default(true)
 
   /// Controls whether repository permissions are enforced for public repositories
@@ -153,7 +153,7 @@ model Connection {
   /// repositories are visible to all users. Has no effect when enforcePermissions
   /// is false. Defaults to false.
   ///
-  /// See https://docs.sourcebot.dev/docs/features/permission-syncing
+  /// See https://docs.sourcecat.dev/docs/features/permission-syncing
   enforcePermissionsForPublicRepos Boolean @default(false)
 
   // The organization that owns this connection
@@ -450,7 +450,7 @@ model Audit {
   actorType        String
   targetId         String
   targetType       String
-  sourcebotVersion String
+  sourcecatVersion String
   metadata         Json?
 
   org   Org @relation(fields: [orgId], references: [id], onDelete: Cascade)

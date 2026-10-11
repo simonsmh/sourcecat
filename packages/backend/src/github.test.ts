@@ -1,4 +1,4 @@
-import type { GithubConnectionConfig } from "@sourcebot/schemas/v3/github.type";
+import type { GithubConnectionConfig } from "@sourcecat/schemas/v3/github.type";
 import { expect, test, describe, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => {

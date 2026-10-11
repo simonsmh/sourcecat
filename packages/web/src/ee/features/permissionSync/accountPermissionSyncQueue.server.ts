@@ -7,7 +7,7 @@ import {
     getAccountPermissionSyncSchedulerId,
     getConfigSettings,
     JOB_PRIORITIES,
-} from '@sourcebot/shared';
+} from '@sourcecat/shared';
 
 export const scheduleAndTriggerAccountPermissionSync = async (
     accountId: string,

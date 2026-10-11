@@ -9,9 +9,9 @@ const mocks = vi.hoisted(() => ({
     updateAgentSkillForContext: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
-    env: { AUTH_URL: "https://sourcebot.example.com" },
+    env: { AUTH_URL: "https://sourcecat.example.com" },
 }));
 
 vi.mock("@/features/chat/utils.server", () => ({
@@ -65,7 +65,7 @@ describe("updateSkillDefinition", () => {
     test("passes only the provided fields so unspecified fields keep their current values", async () => {
         await updateSkillDefinition.execute(
             { slug: "Review PR", scope: "personal", name: "Renamed" },
-            { source: "sourcebot-ask-agent" },
+            { source: "sourcecat-ask-agent" },
         );
 
         expect(mocks.updateAgentSkillForContext).toHaveBeenCalledWith({
@@ -77,7 +77,7 @@ describe("updateSkillDefinition", () => {
             fields: { name: "Renamed" },
             policy: { sharedManageableBy: "creator", allowSynced: false },
             analytics: {
-                source: "sourcebot-ask-agent",
+                source: "sourcecat-ask-agent",
                 entryPoint: "agent_tool",
             },
         });
@@ -86,13 +86,13 @@ describe("updateSkillDefinition", () => {
     test("maps newSlug to the slug field", async () => {
         await updateSkillDefinition.execute(
             { slug: "review-pr", scope: "shared", newSlug: "review-pr-v2", instructions: "New instructions." },
-            { source: "sourcebot-mcp-server" },
+            { source: "sourcecat-mcp-server" },
         );
 
         expect(mocks.updateAgentSkillForContext).toHaveBeenCalledWith(expect.objectContaining({
             target: { scope: "shared", slug: "review-pr" },
             fields: { slug: "review-pr-v2", instructions: "New instructions." },
-            analytics: expect.objectContaining({ source: "sourcebot-mcp-server" }),
+            analytics: expect.objectContaining({ source: "sourcecat-mcp-server" }),
         }));
     });
 
@@ -105,7 +105,7 @@ describe("updateSkillDefinition", () => {
 
         await expect(updateSkillDefinition.execute(
             { slug: "ghost", scope: "personal", name: "Renamed" },
-            { source: "sourcebot-ask-agent" },
+            { source: "sourcecat-ask-agent" },
         )).rejects.toThrow("Skill not found.");
     });
 
@@ -118,7 +118,7 @@ describe("updateSkillDefinition", () => {
 
         await expect(updateSkillDefinition.execute(
             { slug: "review-pr", scope: "personal", name: "Renamed" },
-            { source: "sourcebot-ask-agent" },
+            { source: "sourcecat-ask-agent" },
         )).rejects.toThrow("Authentication is required to update skills.");
     });
 
@@ -132,7 +132,7 @@ describe("updateSkillDefinition", () => {
 
         await expect(updateSkillDefinition.execute(
             { slug: "review-pr", scope: "personal", name: "Renamed" },
-            { source: "sourcebot-mcp-server" },
+            { source: "sourcecat-mcp-server" },
         )).rejects.toThrow("Repository-scoped access tokens cannot manage skills.");
         expect(mocks.updateAgentSkillForContext).not.toHaveBeenCalled();
     });
@@ -140,10 +140,10 @@ describe("updateSkillDefinition", () => {
     test("returns the updated skill as JSON output plus UI metadata with the tool's scope", async () => {
         const result = await updateSkillDefinition.execute(
             { slug: "review-pr", scope: "personal", name: "Review PR" },
-            { source: "sourcebot-ask-agent" },
+            { source: "sourcecat-ask-agent" },
         );
 
-        const url = "https://sourcebot.example.com/settings/skills?skill=skill-1";
+        const url = "https://sourcecat.example.com/settings/skills?skill=skill-1";
         expect(JSON.parse(result.output)).toEqual({
             id: "skill-1",
             slug: "review-pr",

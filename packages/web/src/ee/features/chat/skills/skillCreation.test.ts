@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { OrgRole, Prisma } from "@sourcebot/db";
+import { OrgRole, Prisma } from "@sourcecat/db";
 import { ErrorCode } from "@/lib/errorCodes";
 import { StatusCodes } from "http-status-codes";
 
@@ -52,7 +52,7 @@ const createdRow = {
 };
 
 const analytics = {
-    source: "sourcebot-ask-agent" as const,
+    source: "sourcecat-ask-agent" as const,
     entryPoint: "agent_tool" as const,
 };
 
@@ -89,7 +89,7 @@ describe("createPersonalAgentSkillForContext", () => {
         });
         expect(result).toMatchObject({ id: "skill-1", slug: "review", enabled: true });
         expect(mocks.captureEvent).toHaveBeenCalledWith("ask_skill_created", expect.objectContaining({
-            source: "sourcebot-ask-agent",
+            source: "sourcecat-ask-agent",
             entryPoint: "agent_tool",
             scope: "personal",
             creationMethod: "manual",
@@ -197,7 +197,7 @@ describe("updateAgentSkillForContext", () => {
         });
         expect(result).toMatchObject({ id: "skill-1" });
         expect(mocks.captureEvent).toHaveBeenCalledWith("ask_skill_updated", expect.objectContaining({
-            source: "sourcebot-ask-agent",
+            source: "sourcecat-ask-agent",
             entryPoint: "agent_tool",
             scope: "personal",
             changedFieldTypes: ["name"],
@@ -339,7 +339,7 @@ describe("updateAgentSkillForContext", () => {
             message: "A skill with command /taken already exists.",
         });
         expect(mocks.captureEvent).toHaveBeenCalledWith("ask_skill_updated", expect.objectContaining({
-            source: "sourcebot-ask-agent",
+            source: "sourcecat-ask-agent",
             entryPoint: "agent_tool",
             success: false,
             failureReason: ErrorCode.AGENT_SKILL_ALREADY_EXISTS,

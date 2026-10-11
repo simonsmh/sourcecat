@@ -24,9 +24,9 @@ vi.mock('@/ee/features/mcp/server', () => ({
 vi.mock('@/lib/utils', () => ({
     isServiceError: () => false,
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {
-        AUTH_URL: 'https://sourcebot.example.com',
+        AUTH_URL: 'https://sourcecat.example.com',
         EXPERIMENT_ASK_GH_ENABLED: 'false',
     },
 }));
@@ -34,7 +34,7 @@ vi.mock('@sourcebot/shared', () => ({
 const { DELETE, POST } = await import('./route');
 
 function createPostRequest(body: unknown) {
-    return new NextRequest('https://sourcebot.example.com/api/mcp', {
+    return new NextRequest('https://sourcecat.example.com/api/mcp', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: typeof body === 'string' ? body : JSON.stringify(body),
@@ -96,7 +96,7 @@ describe('MCP activity recording', () => {
     });
 
     test('does not record activity when closing a session', async () => {
-        const response = await DELETE(new NextRequest('https://sourcebot.example.com/api/mcp', {
+        const response = await DELETE(new NextRequest('https://sourcecat.example.com/api/mcp', {
             method: 'DELETE',
         }));
 

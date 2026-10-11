@@ -33,11 +33,11 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Generate OpenAPI spec
-        run: yarn workspace @sourcebot/web openapi:generate
+        run: yarn workspace @sourcecat/web openapi:generate
 
       - name: Commit regenerated spec if changed
         run: |
-          SPEC=docs/api-reference/sourcebot-public.openapi.json
+          SPEC=docs/api-reference/sourcecat-public.openapi.json
           if [ -z "$(git status --porcelain "$SPEC")" ]; then
             echo "OpenAPI spec is up to date."
             exit 0

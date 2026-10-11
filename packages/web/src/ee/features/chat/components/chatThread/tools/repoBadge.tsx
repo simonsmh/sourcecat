@@ -2,7 +2,7 @@
 
 import { getBrowsePath } from "@/app/(app)/browse/hooks/utils";
 import { getCodeHostIcon } from "@/lib/utils";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import Image from "next/image";
 import Link from "next/link";
 

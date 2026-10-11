@@ -5,9 +5,9 @@ icon: git-alt
 
 import GenericGitHost from '/snippets/schemas/v3/genericGitHost.schema.mdx'
 
-Sourcebot can sync code from any Git host (by clone url). This is helpful when you want to search code that not in a [supported code host](/docs/connections/indexing-your-code#platform-connection-guides).
+Sourcecat can sync code from any Git host (by clone url). This is helpful when you want to search code that not in a [supported code host](/docs/connections/indexing-your-code#platform-connection-guides).
 
-If you're not familiar with Sourcebot [connections](/docs/connections/indexing-your-code), please read that overview first.
+If you're not familiar with Sourcecat [connections](/docs/connections/indexing-your-code), please read that overview first.
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ To connect to a Git host, create a new [connection](/docs/connections/indexing-y
 ```json
 {
     "type": "git",
-    "url": "https://github.com/sourcebot-dev/sourcebot"
+    "url": "https://github.com/simonsmh/sourcecat"
 }
 ```
 
@@ -25,7 +25,7 @@ Note that only `http` & `https` URLs are supported at this time.
 ## Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/genericGitHost.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/genericGitHost.json)
+[schemas/v3/genericGitHost.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/genericGitHost.json)
 
 <GenericGitHost />
 

@@ -13,9 +13,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 export type SearchMode = "precise" | "agentic";
 
-const PRECISE_SEARCH_DOCS_URL = "https://docs.sourcebot.dev/docs/features/search/code-search";
+const PRECISE_SEARCH_DOCS_URL = "https://docs.sourcecat.dev/docs/features/search/code-search";
 // @tood: point this to the actual docs page
-const AGENTIC_SEARCH_DOCS_URL = "https://docs.sourcebot.dev/docs/features/ask/ask-sourcebot";
+const AGENTIC_SEARCH_DOCS_URL = "https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat";
 
 export interface SearchModeSelectorProps {
     searchMode: SearchMode;
@@ -150,7 +150,7 @@ export const SearchModeSelector = ({
                         >
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-row items-center gap-2">
-                                    <p className="font-semibold">Ask Sourcebot</p>
+                                    <p className="font-semibold">Ask Sourcecat</p>
                                 </div>
                                 <Separator orientation="horizontal" className="w-full my-0.5" />
                                 <p>Use natural language to search, summarize and understand your codebase using a reasoning agent.</p>

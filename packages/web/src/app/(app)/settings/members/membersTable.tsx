@@ -24,7 +24,7 @@ declare module "@tanstack/react-table" {
     }
 }
 import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, Info } from "lucide-react";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { UserAvatar } from "@/components/userAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

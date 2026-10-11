@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createLogger } from "./logger.js";
 import { env } from "./env.server.js";
 import { verifySignature } from "./crypto.js";
-import { License } from "@sourcebot/db";
+import { License } from "@sourcecat/db";
 import { LicenseStatus } from "./types.js";
 import {
     onlineLicenseAssertionClaimsSchema,
@@ -12,7 +12,7 @@ import {
 
 const logger = createLogger('entitlements');
 
-const offlineLicensePrefix = "sourcebot_ee_";
+const offlineLicensePrefix = "sourcecat_ee_";
 const offlineLicensePayloadSchema = z.object({
     id: z.string(),
     seats: z.number().optional(),
@@ -38,7 +38,7 @@ const ONLINE_LICENSE_ASSERTION_CLOCK_SKEW_MS = 5 * 60 * 1000;
 
 // @WARNING: when adding a new entitlement to this list, make sure
 // lighthouse/lambda/entitlements.ts is also updated && deployed
-// prior to rolling a new Sourcebot version.
+// prior to rolling a new Sourcecat version.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ALL_ENTITLEMENTS = [
     "search-contexts",
@@ -76,7 +76,7 @@ export const verifyOnlineLicenseAssertion = (assertion: string): OnlineLicenseAs
             return null;
         }
 
-        if (!verifySignature(encodedPayload, signature, env.SOURCEBOT_PUBLIC_KEY_PATH ?? "")) {
+        if (!verifySignature(encodedPayload, signature, env.SOURCECAT_PUBLIC_KEY_PATH ?? "")) {
             logger.error('Online license assertion signature verification failed');
             return null;
         }
@@ -90,8 +90,8 @@ export const verifyOnlineLicenseAssertion = (assertion: string): OnlineLicenseAs
         // A license is considered invalid under the following
         // circumstances:
         if (
-            // 1. It was issued for a different Sourcebot installation.
-            payload.installId !== env.SOURCEBOT_INSTALL_ID ||
+            // 1. It was issued for a different Sourcecat installation.
+            payload.installId !== env.SOURCECAT_INSTALL_ID ||
             // 2. It claims to have been issued too far in the future. A small
             // clock-skew allowance accounts for clocks being slightly out of sync.
             issuedAt > now + ONLINE_LICENSE_ASSERTION_CLOCK_SKEW_MS ||
@@ -131,7 +131,7 @@ const decodeOfflineLicenseKeyPayload = (payload: string): getValidOfflineLicense
             seats: licenseData.seats
         });
 
-        const isSignatureValid = verifySignature(dataToVerify, licenseData.sig, env.SOURCEBOT_PUBLIC_KEY_PATH ?? "");
+        const isSignatureValid = verifySignature(dataToVerify, licenseData.sig, env.SOURCECAT_PUBLIC_KEY_PATH ?? "");
         if (!isSignatureValid) {
             logger.error('License key signature verification failed');
             return null;
@@ -145,7 +145,7 @@ const decodeOfflineLicenseKeyPayload = (payload: string): getValidOfflineLicense
 }
 
 const getDecodedOfflineLicense = (): getValidOfflineLicense | null => {
-    const licenseKey = env.SOURCEBOT_EE_LICENSE_KEY;
+    const licenseKey = env.SOURCECAT_EE_LICENSE_KEY;
     if (!licenseKey || !licenseKey.startsWith(offlineLicensePrefix)) {
         return null;
     }

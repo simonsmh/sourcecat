@@ -12,8 +12,8 @@ import { sew } from "@/middleware/sew";
 import { getAuthenticatedUser, withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
 import { render } from "@react-email/components";
-import { OrgRole } from "@sourcebot/db";
-import { env, getSMTPConnectionURL } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env, getSMTPConnectionURL } from "@sourcecat/shared";
 import { createTransport } from "nodemailer";
 import { logger } from "../logger";
 import { __unsafePrisma } from "@/prisma";
@@ -108,9 +108,9 @@ export const createAccountRequest = async () => sew(async () => {
             const result = await transport.sendMail({
                 to: ownerEmails,
                 from: env.EMAIL_FROM_ADDRESS,
-                subject: `New account request for ${org.name} on Sourcebot`,
+                subject: `New account request for ${org.name} on Sourcecat`,
                 html,
-                text: `New account request for ${org.name} on Sourcebot by ${user.name ?? user.email}`,
+                text: `New account request for ${org.name} on Sourcecat by ${user.name ?? user.email}`,
             });
 
             const failed = result.rejected.concat(result.pending ?? []).filter(Boolean);
@@ -217,7 +217,7 @@ export const approveAccountRequest = async (requestId: string) => sew(async () =
                     from: env.EMAIL_FROM_ADDRESS,
                     subject: `Your request to join ${org.name} has been approved`,
                     html,
-                    text: `Your request to join ${org.name} on Sourcebot has been approved. You can now access the organization at ${env.AUTH_URL}`,
+                    text: `Your request to join ${org.name} on Sourcecat has been approved. You can now access the organization at ${env.AUTH_URL}`,
                 });
 
                 const failed = result.rejected.concat(result.pending ?? []).filter(Boolean);

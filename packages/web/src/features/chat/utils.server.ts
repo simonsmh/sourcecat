@@ -1,9 +1,9 @@
 import 'server-only';
 
 import { getAnonymousId } from '@/lib/anonymousId';
-import { AttachmentStatus, Chat, ChatVisibility, Prisma, PrismaClient, User } from '@sourcebot/db';
-import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
-import { createLogger, env, getStorageBackend, loadConfig } from '@sourcebot/shared';
+import { AttachmentStatus, Chat, ChatVisibility, Prisma, PrismaClient, User } from '@sourcecat/db';
+import { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
+import { createLogger, env, getStorageBackend, loadConfig } from '@sourcecat/shared';
 import fs from 'fs';
 import path from 'path';
 import { BlobAttachment, LanguageModelInfo, SBChatMessage } from './types';
@@ -36,7 +36,7 @@ export const checkAskEntitlement = async (): Promise<ServiceError | null> => {
     return {
         statusCode: StatusCodes.FORBIDDEN,
         errorCode: ErrorCode.INSUFFICIENT_PERMISSIONS,
-        message: "Ask Sourcebot is not available in your current plan",
+        message: "Ask Sourcecat is not available in your current plan",
     } satisfies ServiceError;
 };
 

@@ -126,14 +126,14 @@ describe('DetailsCard', () => {
             toolCallId: 'tool-call-branches',
             state: 'output-available',
             input: {
-                repo: 'github.com/sourcebot-dev/sourcebot',
+                repo: 'github.com/simonsmh/sourcecat',
                 page: 1,
                 perPage: 2,
             },
             output: {
                 output: '{"branches":[]}',
                 metadata: {
-                    repo: 'github.com/sourcebot-dev/sourcebot',
+                    repo: 'github.com/simonsmh/sourcecat',
                     returnedCount: 2,
                     totalCount: 7,
                 },
@@ -155,7 +155,7 @@ describe('DetailsCard', () => {
             </TooltipProvider>
         );
 
-        expect(screen.queryByText('github.com/sourcebot-dev/sourcebot')).toBeTruthy();
+        expect(screen.queryByText('github.com/simonsmh/sourcecat')).toBeTruthy();
         expect(screen.queryByText('2 of 7 branches')).toBeTruthy();
     });
 
@@ -211,7 +211,7 @@ describe('DetailsCard', () => {
                     id: 'skill-1',
                     slug: 'review-pr',
                     name: 'Review PR',
-                    url: 'https://sourcebot.example.com/settings/skills?skill=skill-1',
+                    url: 'https://sourcecat.example.com/settings/skills?skill=skill-1',
                 },
             },
         } satisfies SBChatMessagePart;
@@ -254,7 +254,7 @@ describe('DetailsCard', () => {
                     slug: 'review-pr',
                     name: 'Review PR v2',
                     scope: 'shared',
-                    url: 'https://sourcebot.example.com/settings/skills?skill=skill-1',
+                    url: 'https://sourcecat.example.com/settings/skills?skill=skill-1',
                 },
             },
         } satisfies SBChatMessagePart;

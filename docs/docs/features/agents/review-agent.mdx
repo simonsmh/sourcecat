@@ -5,13 +5,13 @@ sidebarTitle: AI code review agent
 
 This agent provides codebase-aware reviews for your GitHub PRs and GitLab MRs. For each diff, the agent fetches relevant context from your indexed codebase and feeds it into a configured language model for a detailed review.
 
-The AI Code Review Agent is [fair source](https://github.com/sourcebot-dev/sourcebot/tree/main/packages/web/src/features/agents/review-agent) and packaged in [Sourcebot](https://github.com/sourcebot-dev/sourcebot). To get started, [deploy Sourcebot](/docs/deployment/docker-compose) and follow the configuration instructions below.
+The AI Code Review Agent is [fair source](https://github.com/simonsmh/sourcecat/tree/main/packages/web/src/features/agents/review-agent) and packaged in [Sourcecat](https://github.com/simonsmh/sourcecat). To get started, [deploy Sourcecat](/docs/deployment/docker-compose) and follow the configuration instructions below.
 
 ![AI Code Review Agent Example](/images/review_agent_example.png)
 
 # Language model
 
-The review agent uses whichever language model you have configured in your `config.json`. All providers supported by Sourcebot (OpenAI, Anthropic, AWS Bedrock, Azure OpenAI, and others) work out of the box.
+The review agent uses whichever language model you have configured in your `config.json`. All providers supported by Sourcecat (OpenAI, Anthropic, AWS Bedrock, Azure OpenAI, and others) work out of the box.
 
 If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `displayName` of the model you want the agent to use. If this variable is unset, the agent uses the first configured model.
 
@@ -21,9 +21,9 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
     <Step title="Register a GitHub app">
         Follow the official GitHub guide for [registering a GitHub app](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app).
 
-        - **GitHub App name**: Any name you choose (e.g. Sourcebot Review Agent)
-        - **Homepage URL**: Any URL you choose (e.g. `https://www.sourcebot.dev/`)
-        - **Webhook URL** (required): Your Sourcebot deployment URL at `/api/webhook` (e.g. `https://sourcebot.example.com/api/webhook`). Your deployment must be reachable from GitHub. If you are running Sourcebot locally, use [smee](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#step-2-get-a-webhook-proxy-url) to [forward webhooks](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#step-6-start-your-server) to your local deployment.
+        - **GitHub App name**: Any name you choose (e.g. Sourcecat Review Agent)
+        - **Homepage URL**: Any URL you choose (e.g. `https://www.sourcecat.dev/`)
+        - **Webhook URL** (required): Your Sourcecat deployment URL at `/api/webhook` (e.g. `https://sourcecat.example.com/api/webhook`). Your deployment must be reachable from GitHub. If you are running Sourcecat locally, use [smee](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#step-2-get-a-webhook-proxy-url) to [forward webhooks](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#step-6-start-your-server) to your local deployment.
         - **Webhook Secret**: Any string (e.g. generate one with `python -c "import secrets; print(secrets.token_hex(10))"`)
         - **Permissions**
             - Pull requests: Read & Write
@@ -37,13 +37,13 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
         Navigate to your new [GitHub app's page](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#navigate-to-your-app-settings) and press **Install**.
     </Step>
     <Step title="Configure environment variables">
-        Set the following environment variables in your Sourcebot deployment:
+        Set the following environment variables in your Sourcecat deployment:
 
         | Variable | Description |
         |---|---|
         | `GITHUB_REVIEW_AGENT_APP_ID` | The client ID of your GitHub app, found in your [app settings](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#navigate-to-your-app-settings) |
         | `GITHUB_REVIEW_AGENT_APP_WEBHOOK_SECRET` | The webhook secret you set when registering the app |
-        | `GITHUB_REVIEW_AGENT_APP_PRIVATE_KEY_PATH` | Path to your app's private key file inside the container (e.g. `/data/review-agent-key.pem`). Copy the key file into the directory you mount to Sourcebot. |
+        | `GITHUB_REVIEW_AGENT_APP_PRIVATE_KEY_PATH` | Path to your app's private key file inside the container (e.g. `/data/review-agent-key.pem`). Copy the key file into the directory you mount to Sourcecat. |
 
         You can generate a private key in your [app settings](https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/quickstart#navigate-to-your-app-settings).
 
@@ -55,14 +55,14 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
 
         ```yaml
         services:
-            sourcebot:
-                image: docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+            sourcecat:
+                image: ghcr.io/simonsmh/sourcecat:latest
                 pull_policy: always
-                container_name: sourcebot
+                container_name: sourcecat
                 ports:
                     - "3000:3000"
                 volumes:
-                    - "/home/user/sourcebot_workspace:/data"
+                    - "/home/user/sourcecat_workspace:/data"
                 environment:
                     CONFIG_PATH: "/data/config.json"
                     GITHUB_REVIEW_AGENT_APP_ID: "my-github-app-id"
@@ -71,7 +71,7 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
         ```
     </Step>
     <Step title="Verify configuration">
-        Navigate to **Agents** in the Sourcebot nav menu. If your environment variables are set correctly, the GitHub Review Agent card shows a confirmation that the agent is configured and accepting requests.
+        Navigate to **Agents** in the Sourcecat nav menu. If your environment variables are set correctly, the GitHub Review Agent card shows a confirmation that the agent is configured and accepting requests.
 
         <Frame>
           <img src="/images/review_agent_configured.png" alt="Review Agent Configured" />
@@ -92,14 +92,14 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
     <Step title="Configure a webhook in GitLab">
         In your GitLab project, go to **Settings → Webhooks** and add a new webhook:
 
-        - **URL**: Your Sourcebot deployment URL at `/api/webhook` (e.g. `https://sourcebot.example.com/api/webhook`)
+        - **URL**: Your Sourcecat deployment URL at `/api/webhook` (e.g. `https://sourcecat.example.com/api/webhook`)
         - **Secret token**: Any string (e.g. generate one with `python -c "import secrets; print(secrets.token_hex(10))"`)
         - **Trigger events**: Merge request events, Comments
 
         Save the webhook.
     </Step>
     <Step title="Configure environment variables">
-        Set the following environment variables in your Sourcebot deployment:
+        Set the following environment variables in your Sourcecat deployment:
 
         | Variable | Description |
         |---|---|
@@ -111,14 +111,14 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
 
         ```yaml
         services:
-            sourcebot:
-                image: docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+            sourcecat:
+                image: ghcr.io/simonsmh/sourcecat:latest
                 pull_policy: always
-                container_name: sourcebot
+                container_name: sourcecat
                 ports:
                     - "3000:3000"
                 volumes:
-                    - "/home/user/sourcebot_workspace:/data"
+                    - "/home/user/sourcecat_workspace:/data"
                 environment:
                     CONFIG_PATH: "/data/config.json"
                     GITLAB_REVIEW_AGENT_WEBHOOK_SECRET: "my-webhook-secret"
@@ -127,7 +127,7 @@ If you have multiple models configured, set `REVIEW_AGENT_MODEL` to the `display
         ```
     </Step>
     <Step title="Verify configuration">
-        Navigate to **Agents** in the Sourcebot nav menu. If your environment variables are set correctly, the GitLab Review Agent card shows a confirmation that the agent is configured and accepting requests.
+        Navigate to **Agents** in the Sourcecat nav menu. If your environment variables are set correctly, the GitLab Review Agent card shows a confirmation that the agent is configured and accepting requests.
     </Step>
 </Steps>
 

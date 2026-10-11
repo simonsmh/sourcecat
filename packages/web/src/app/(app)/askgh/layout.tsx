@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 
 export default async function AskGHLayout(props: {
     children: React.ReactNode;

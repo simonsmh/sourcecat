@@ -1,8 +1,8 @@
 import { App } from "@octokit/app";
-import { getTokenFromConfig } from "@sourcebot/shared";
-import { createLogger } from "@sourcebot/shared";
-import { GitHubAppConfig } from "@sourcebot/schemas/v3/index.type";
-import { env, loadConfig } from "@sourcebot/shared";
+import { getTokenFromConfig } from "@sourcecat/shared";
+import { createLogger } from "@sourcecat/shared";
+import { GitHubAppConfig } from "@sourcecat/schemas/v3/index.type";
+import { env, loadConfig } from "@sourcecat/shared";
 
 const logger = createLogger('githubAppManager');
 const GITHUB_DEFAULT_DEPLOYMENT_HOSTNAME = 'github.com';

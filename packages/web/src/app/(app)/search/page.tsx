@@ -1,4 +1,4 @@
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { auth } from "@/auth";
 import { SearchLandingPage } from "./components/searchLandingPage";
 import { SearchResultsPage } from "./components/searchResultsPage";

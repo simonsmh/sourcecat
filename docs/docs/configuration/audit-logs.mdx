@@ -7,24 +7,24 @@ import LicenseKeyRequired from '/snippets/license-key-required.mdx'
 
 <LicenseKeyRequired feature="Audit Logs" verb="are" />
 
-Audit logs are a collection of notable events performed by users within a Sourcebot deployment. Each audit log records information on the action taken, the user who performed the 
+Audit logs are a collection of notable events performed by users within a Sourcecat deployment. Each audit log records information on the action taken, the user who performed the 
 action, and when the action took place. 
 
-This feature gives security and compliance teams the necessary information to ensure proper governance and administration of your Sourcebot deployment.
+This feature gives security and compliance teams the necessary information to ensure proper governance and administration of your Sourcecat deployment.
 
 ## Enabling/Disabling Audit Logs
-Audit logs are enabled by default and can be controlled with the `SOURCEBOT_EE_AUDIT_LOGGING_ENABLED` [environment variable](/docs/configuration/environment-variables).
+Audit logs are enabled by default and can be controlled with the `SOURCECAT_EE_AUDIT_LOGGING_ENABLED` [environment variable](/docs/configuration/environment-variables).
 
 ## Retention Policy
-By default, audit logs older than 180 days are automatically pruned daily. You can configure the retention period using the `SOURCEBOT_EE_AUDIT_RETENTION_DAYS` [environment variable](/docs/configuration/environment-variables). Set it to `0` to disable automatic pruning and retain logs indefinitely.
+By default, audit logs older than 180 days are automatically pruned daily. You can configure the retention period using the `SOURCECAT_EE_AUDIT_RETENTION_DAYS` [environment variable](/docs/configuration/environment-variables). Set it to `0` to disable automatic pruning and retain logs indefinitely.
 
 ## Fetching Audit Logs
-Audit logs are stored in the [postgres database](/docs/misc/architecture) connected to Sourcebot. To fetch all of the audit logs, you can use the following API:
+Audit logs are stored in the [postgres database](/docs/misc/architecture) connected to Sourcecat. To fetch all of the audit logs, you can use the following API:
 
 ```bash icon="terminal" Fetch audit logs
-curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
+curl --request GET '$SOURCECAT_URL/api/ee/audit' \
   --header 'X-Org-Domain: ~' \
-  --header 'X-Sourcebot-Api-Key: $SOURCEBOT_OWNER_API_KEY'
+  --header 'X-Sourcecat-Api-Key: $SOURCECAT_OWNER_API_KEY'
 ```
 
 ```json icon="brackets-curly" wrap expandable Fetch audit logs example response
@@ -37,7 +37,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "205d1da1c6c3772b81d4ad697f5851fa11195176c211055ff0c1509772645d6d",
     "targetType": "api_key",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "orgId": 1
   },
   {
@@ -48,7 +48,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "1",
     "targetType": "org",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "metadata": {
       "message": "render branch:HEAD"
     },
@@ -62,7 +62,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "1",
     "targetType": "org",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "metadata": {
       "message": "render branch:HEAD"
     },
@@ -76,7 +76,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "1",
     "targetType": "org",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "metadata": {
       "message": "render branch:HEAD"
     },
@@ -90,7 +90,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "1",
     "targetType": "org",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "metadata": null,
     "orgId": 1
   },
@@ -102,7 +102,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
     "actorType": "user",
     "targetId": "cmc12tnje0000xgn58jj8655h",
     "targetType": "user",
-    "sourcebotVersion": "unknown",
+    "sourcecatVersion": "unknown",
     "metadata": null,
     "orgId": 1
   }
@@ -167,7 +167,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
       "actorType",
       "targetId",
       "targetType",
-      "sourcebotVersion",
+      "sourcecatVersion",
       "metadata",
       "orgId"
     ],
@@ -196,7 +196,7 @@ curl --request GET '$SOURCEBOT_URL/api/ee/audit' \
         "type": "string",
         "enum": ["user", "org", "file", "api_key", "account_join_request", "invite", "chat"]
       },
-      "sourcebotVersion": {
+      "sourcecatVersion": {
         "type": "string"
       },
       "metadata": {

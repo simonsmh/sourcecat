@@ -188,7 +188,7 @@ export const ChatThread = ({
     const transport = useMemo(() => new DefaultChatTransport({
         api: '/api/ee/chat',
         headers: {
-            'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+            'X-Sourcecat-Client-Source': 'sourcecat-web-client',
         },
         body: getTransportBody,
     }), [getTransportBody]);

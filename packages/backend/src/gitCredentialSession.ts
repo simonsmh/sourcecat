@@ -9,7 +9,7 @@ import type { GitHttpCredentials } from './types.js';
 const CACHE_TIMEOUT_SECONDS = 60 * 60;
 const CACHE_EXIT_TIMEOUT_MS = 5_000;
 const GIT_CREDENTIAL_COMMAND_TIMEOUT_MS = 30_000;
-const CREDENTIAL_CACHE_DIRECTORY_PREFIX = 'sourcebot-git-credential-';
+const CREDENTIAL_CACHE_DIRECTORY_PREFIX = 'sourcecat-git-credential-';
 
 type GitCredentialSessionOptions<T> = {
     cloneUrl: string;

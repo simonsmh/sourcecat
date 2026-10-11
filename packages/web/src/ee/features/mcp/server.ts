@@ -6,8 +6,8 @@ import { captureEvent } from '@/lib/posthog';
 import { hasEntitlement } from '@/lib/entitlements';
 import { isServiceError } from '@/lib/utils';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { ChatVisibility } from '@sourcebot/db';
-import { SOURCEBOT_VERSION } from '@sourcebot/shared';
+import { ChatVisibility } from '@sourcecat/db';
+import { SOURCECAT_VERSION } from '@sourcecat/shared';
 import _dedent from 'dedent';
 import { z } from 'zod';
 import { getConfiguredLanguageModelsInfo } from "@/features/chat/utils.server";
@@ -43,7 +43,7 @@ export async function createMcpServer({ canManageSkills }: { canManageSkills: bo
 
     const server = new McpServer({
         name: MCP_SERVER_SOURCE,
-        version: SOURCEBOT_VERSION,
+        version: SOURCECAT_VERSION,
     });
 
     const configuredLanguageModels = await getConfiguredLanguageModelsInfo();
@@ -80,7 +80,7 @@ export async function createMcpServer({ canManageSkills }: { canManageSkills: bo
     server.registerTool(
         "list_language_models",
         {
-            description: dedent`Lists the available language models configured on the Sourcebot instance. Use this to discover which models can be specified when calling ask_codebase.`,
+            description: dedent`Lists the available language models configured on the Sourcecat instance. Use this to discover which models can be specified when calling ask_codebase.`,
             annotations: {
                 readOnlyHint: true,
                 idempotentHint: true,
@@ -113,7 +113,7 @@ export async function createMcpServer({ canManageSkills }: { canManageSkills: bo
             - Search the codebase using multiple strategies (code search, symbol lookup, file reading)
             - Synthesize findings into a comprehensive answer with code references
 
-            Returns a detailed answer in markdown format with code references, plus a link to view the full research session (including all tool calls and reasoning) in the Sourcebot web UI.
+            Returns a detailed answer in markdown format with code references, plus a link to view the full research session (including all tool calls and reasoning) in the Sourcecat web UI.
 
             When using this in shared environments (e.g., Slack), you can set the visibility parameter to 'PUBLIC' to ensure everyone can access the chat link.
             `,

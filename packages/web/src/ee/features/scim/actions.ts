@@ -7,8 +7,8 @@ import { ServiceError } from "@/lib/serviceError";
 import { sew } from "@/middleware/sew";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
-import { generateScimToken as generateScimTokenSecret } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { generateScimToken as generateScimTokenSecret } from "@sourcecat/shared";
 import { StatusCodes } from "http-status-codes";
 
 const scimNotAvailable = (): ServiceError => ({

@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
-    "title": "SourcebotConfig",
+    "title": "SourcecatConfig",
     "definitions": {
         "Settings": {
             "type": "object",
-            "description": "Defines the global settings for Sourcebot.",
+            "description": "Defines the global settings for Sourcecat.",
             "properties": {
                 "maxFileSize": {
                     "type": "number",
@@ -119,7 +119,7 @@
         },
         "contexts": {
             "type": "object",
-            "description": "[Sourcebot EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://docs.sourcebot.dev/docs/features/search/search-contexts",
+            "description": "[Sourcecat EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://docs.sourcecat.dev/docs/features/search/search-contexts",
             "patternProperties": {
                 "^[a-zA-Z0-9_-]+$": {
                     "$ref": "#/definitions/SearchContext"
@@ -132,7 +132,7 @@
         },
         "connections": {
             "type": "object",
-            "description": "Defines a collection of connections from varying code hosts that Sourcebot should sync with. This is only available in single-tenancy mode.",
+            "description": "Defines a collection of connections from varying code hosts that Sourcecat should sync with. This is only available in single-tenancy mode.",
             "patternProperties": {
                 "^[a-zA-Z0-9_-]+$": {
                     "$ref": "./connection.json"
@@ -142,20 +142,20 @@
         },
         "models": {
             "type": "array",
-            "description": "Defines a collection of language models that are available to Sourcebot.",
+            "description": "Defines a collection of language models that are available to Sourcecat.",
             "items": {
                 "$ref": "./languageModel.json"
             }
         },
         "apps": {
             "type": "array",
-            "description": "Defines a collection of apps that are available to Sourcebot.",
+            "description": "Defines a collection of apps that are available to Sourcecat.",
             "items": {
                 "$ref": "./app.json"
             }
         },
         "identityProviders": {
-            "description": "Defines a collection of identity providers that are available to Sourcebot.",
+            "description": "Defines a collection of identity providers that are available to Sourcecat.",
             "oneOf": [
                 {
                     "type": "object",

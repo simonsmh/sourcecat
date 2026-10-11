@@ -6,14 +6,14 @@ import { getAISDKLanguageModelAndOptions } from "@/features/chat/llm.server";
 import { ErrorCode } from "@/lib/errorCodes";
 import { ServiceError } from "@/lib/serviceError";
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { SEARCH_SYNTAX_DESCRIPTION } from "@sourcebot/query-language";
+import { SEARCH_SYNTAX_DESCRIPTION } from "@sourcecat/query-language";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 
-const SYSTEM_PROMPT = `You are a search query translator for Sourcebot, a code search engine.
+const SYSTEM_PROMPT = `You are a search query translator for Sourcecat, a code search engine.
 
-Your job is to convert a natural language description into a valid Sourcebot search query.
+Your job is to convert a natural language description into a valid Sourcecat search query.
 
 ${SEARCH_SYNTAX_DESCRIPTION}
 
@@ -44,7 +44,7 @@ export const translateSearchQuery = async ({ prompt }: { prompt: string }) => se
             system: SYSTEM_PROMPT,
             prompt,
             schema: z.object({
-                query: z.string().describe("The Sourcebot search query."),
+                query: z.string().describe("The Sourcecat search query."),
             }),
         });
 

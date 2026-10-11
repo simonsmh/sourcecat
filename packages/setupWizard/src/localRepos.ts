@@ -7,7 +7,7 @@ import { readdir } from 'fs/promises';
 import { homedir } from 'os';
 import { basename, join, relative, resolve } from 'path';
 import ora from 'ora';
-import type { GenericGitHostConnectionConfig } from '@sourcebot/schemas/v3/genericGitHost.type';
+import type { GenericGitHostConnectionConfig } from '@sourcecat/schemas/v3/genericGitHost.type';
 import type { CollectResult } from './utils.js';
 import { note } from './utils.js';
 

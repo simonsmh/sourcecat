@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 import { auth } from "@/auth";
 import { WelcomeStep } from "./components/welcomeStep";
 import { OwnerSignupStep } from "./components/ownerSignupStep";
@@ -9,10 +9,10 @@ import { AccessSettingsStep } from "./components/accessSettingsStep";
 import { AlreadyLicensedStep } from "./components/alreadyLicensedStep";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { __unsafePrisma } from "@/prisma";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { LogoutEscapeHatch } from "@/app/components/logoutEscapeHatch";
 import { redirect } from "next/navigation";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { GcpIapAuth } from "@/app/(app)/components/gcpIapAuth";
 import { activeOrPendingMembershipWhere } from "@/features/membership/utils";
@@ -75,7 +75,7 @@ export default async function Onboarding(props: OnboardingProps) {
 
     steps.push({
         id: "welcome",
-        title: "Welcome to Sourcebot",
+        title: "Welcome to Sourcecat",
         subtitle: "This onboarding flow will guide you through creating your owner account and configuring your organization.",
         component: <WelcomeStep nextStep={steps.length + 1} />,
     });
@@ -87,7 +87,7 @@ export default async function Onboarding(props: OnboardingProps) {
             <>
                 Use your preferred authentication method to create your owner account. To set up additional authentication providers, check out our{" "}
                 <a
-                    href="https://docs.sourcebot.dev/docs/configuration/auth/authentication"
+                    href="https://docs.sourcecat.dev/docs/configuration/auth/authentication"
                     target="_blank"
                     rel="noopener"
                     className="underline text-primary hover:text-primary/80 transition-colors"
@@ -106,7 +106,7 @@ export default async function Onboarding(props: OnboardingProps) {
             <>
                 Set up your organization&apos;s access settings.{" "}
                 <a
-                    href="https://docs.sourcebot.dev/docs/configuration/auth/access-settings"
+                    href="https://docs.sourcecat.dev/docs/configuration/auth/access-settings"
                     target="_blank"
                     rel="noopener"
                     className="underline text-primary hover:text-primary/80 transition-colors"
@@ -128,7 +128,7 @@ export default async function Onboarding(props: OnboardingProps) {
     steps.push({
         id: "complete",
         title: "You're all set",
-        subtitle: "Your Sourcebot deployment is ready to go.",
+        subtitle: "Your Sourcecat deployment is ready to go.",
         component: <AlreadyLicensedStep />,
     });
 
@@ -144,7 +144,7 @@ export default async function Onboarding(props: OnboardingProps) {
                             <div className="h-full flex flex-col">
                                 <div className="flex-1">
                                     <div className="mb-16">
-                                        <SourcebotLogo
+                                        <SourcecatLogo
                                             className="w-full h-auto mb-12"
                                             size="large"
                                         />
@@ -198,7 +198,7 @@ export default async function Onboarding(props: OnboardingProps) {
                                     <p className="text-xs text-muted-foreground leading-5">
                                         Need help? Check out our{" "}
                                         <a
-                                            href="https://docs.sourcebot.dev/docs/overview"
+                                            href="https://docs.sourcecat.dev/docs/overview"
                                             className="text-primary hover:underline font-medium transition-colors"
                                             target="_blank"
                                             rel="noopener"
@@ -207,7 +207,7 @@ export default async function Onboarding(props: OnboardingProps) {
                                         </a>{" "}
                                         or{" "}
                                         <a
-                                            href="mailto:team@sourcebot.dev"
+                                            href="mailto:team@sourcecat.dev"
                                             className="text-primary hover:underline font-medium transition-colors"
                                             target="_blank"
                                             rel="noopener"
@@ -276,7 +276,7 @@ function NonOwnerOnboardingMessage() {
                                     Onboarding In Progress
                                 </h1>
                                 <p className="text-muted-foreground text-base leading-relaxed">
-                                    Your Sourcebot deployment is being configured by the organization owner.
+                                    Your Sourcecat deployment is being configured by the organization owner.
                                 </p>
                             </div>
 
@@ -292,7 +292,7 @@ function NonOwnerOnboardingMessage() {
                                             Owner Access Required
                                         </p>
                                         <p className="text-sm text-muted-foreground leading-relaxed">
-                                            Only the organization owner can complete the initial setup and configuration. Once onboarding is complete, you&apos;ll be able to access Sourcebot.
+                                            Only the organization owner can complete the initial setup and configuration. Once onboarding is complete, you&apos;ll be able to access Sourcecat.
                                         </p>
                                     </div>
                                 </div>
@@ -302,7 +302,7 @@ function NonOwnerOnboardingMessage() {
                                 <div className="text-xs text-muted-foreground leading-relaxed">
                                     Need help? Contact your organization owner or check out our{" "}
                                     <a
-                                        href="https://docs.sourcebot.dev/docs/overview"
+                                        href="https://docs.sourcecat.dev/docs/overview"
                                         className="text-primary hover:text-primary/80 underline transition-colors"
                                         target="_blank"
                                         rel="noopener"

@@ -7,14 +7,14 @@ import LicenseKeyRequired from '/snippets/license-key-required.mdx'
 
 <LicenseKeyRequired feature="External Identity Providers" verb="are" />
 
-You can connect Sourcebot to various **external identity providers** to associate a Sourcebot user with one or more external service accounts (ex. Google, GitHub, etc).
+You can connect Sourcecat to various **external identity providers** to associate a Sourcecat user with one or more external service accounts (ex. Google, GitHub, etc).
 
 External identity providers can be used for [authentication](/docs/configuration/auth) and/or [permission syncing](/docs/features/permission-syncing). They're defined in the
 [config file](/docs/configuration/config-file) in the top-level `identityProviders` array:
 
 ```json wrap icon="code" Example config with both google and github identity providers defined
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "identityProviders": [
         {
             "provider": "github",
@@ -46,8 +46,8 @@ To configure **multiple providers of the same type**, see [Configuring multiple 
 
 # Supported External Identity Providers
 
-Sourcebot uses [Auth.js](https://authjs.dev/) to connect to external identity providers. If there's a provider supported by Auth.js that you don't see below, please submit a
-[feature request](https://github.com/sourcebot-dev/sourcebot/issues) to have it added.
+Sourcecat uses [Auth.js](https://authjs.dev/) to connect to external identity providers. If there's a provider supported by Auth.js that you don't see below, please submit a
+[feature request](https://github.com/simonsmh/sourcecat/issues) to have it added.
 
 ### GitHub
 
@@ -63,13 +63,13 @@ in the GitHub identity provider config.
         one works, but the **GitHub App** is the [recommended mechanism](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps).
 
 
-        The result of registering an OAuth client is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcebot.
+        The result of registering an OAuth client is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcecat.
     <Tabs>
         <Tab title="GitHub App">
             <Note>You don't need to install the app to use it as an external identity provider</Note>
             Follow [this guide](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app) to register a new GitHub App.
 
-            When asked to provide a callback url, provide `<sourcebot_url>/api/auth/callback/github` (ex. https://sourcebot.coolcorp.com/api/auth/callback/github)
+            When asked to provide a callback url, provide `<sourcecat_url>/api/auth/callback/github` (ex. https://sourcecat.coolcorp.com/api/auth/callback/github)
 
             <Frame>
               <img src="/images/github_app_callback_url.png" alt="GitHub App callback URL configuration" />
@@ -101,22 +101,22 @@ in the GitHub identity provider config.
         <Tab title="GitHub OAuth App">
             Follow [this guide](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app) by GitHub to create an OAuth App.
 
-            When asked to provide a callback url, provide `<sourcebot_url>/api/auth/callback/github` (ex. https://sourcebot.coolcorp.com/api/auth/callback/github)
+            When asked to provide a callback url, provide `<sourcecat_url>/api/auth/callback/github` (ex. https://sourcecat.coolcorp.com/api/auth/callback/github)
 
             If [permission syncing](/docs/features/permission-syncing#github) is enabled, also enable the `repo` scope.
         </Tab>
         </Tabs>
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id and secret for your OAuth client you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id and secret for your OAuth client you must set them as environment variables. These can be named whatever you like
         (ex. `GITHUB_IDENTITY_PROVIDER_CLIENT_ID` and `GITHUB_IDENTITY_PROVIDER_CLIENT_SECRET`) 
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id and secret to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id and secret to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "github",
@@ -155,22 +155,22 @@ in the GitLab identity provider config.
         Follow [this guide](https://docs.gitlab.com/integration/oauth_provider/) by GitLab to create an OAuth application.
 
         When configuring your application:
-        - Set the callback URL to `<sourcebot_url>/api/auth/callback/gitlab` (ex. https://sourcebot.coolcorp.com/api/auth/callback/gitlab)
+        - Set the callback URL to `<sourcecat_url>/api/auth/callback/gitlab` (ex. https://sourcecat.coolcorp.com/api/auth/callback/gitlab)
         - Enable the `read_user` scope
         - If [permission syncing](/docs/features/permission-syncing#gitlab) is enabled, also enable the `read_api` scope
 
-        The result of registering an OAuth application is an `APPLICATION_ID` (`CLIENT_ID`) and `SECRET` (`CLIENT_SECRET`) which you'll provide to Sourcebot.
+        The result of registering an OAuth application is an `APPLICATION_ID` (`CLIENT_ID`) and `SECRET` (`CLIENT_SECRET`) which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id and secret for your OAuth application you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id and secret for your OAuth application you must set them as environment variables. These can be named whatever you like
         (ex. `GITLAB_IDENTITY_PROVIDER_CLIENT_ID` and `GITLAB_IDENTITY_PROVIDER_CLIENT_SECRET`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id and secret to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id and secret to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "gitlab",
@@ -209,22 +209,22 @@ in the Bitbucket Cloud identity provider config.
         Navigate to your Bitbucket workspace settings at `https://bitbucket.org/<your-workspace>/workspace/settings/api` and create a new **OAuth consumer** under the **OAuth consumers** section.
 
         When configuring your consumer:
-        - Set the callback URL to `<sourcebot_url>/api/auth/callback/bitbucket-cloud` (ex. https://sourcebot.coolcorp.com/api/auth/callback/bitbucket-cloud)
+        - Set the callback URL to `<sourcecat_url>/api/auth/callback/bitbucket-cloud` (ex. https://sourcecat.coolcorp.com/api/auth/callback/bitbucket-cloud)
         - Enable **Account: Read**
         - If [permission syncing](/docs/features/permission-syncing#bitbucket-cloud) is enabled, also enable **Repositories: Read**
 
-        The result of creating an OAuth consumer is a `Key` (`CLIENT_ID`) and `Secret` (`CLIENT_SECRET`) which you'll provide to Sourcebot.
+        The result of creating an OAuth consumer is a `Key` (`CLIENT_ID`) and `Secret` (`CLIENT_SECRET`) which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id and secret for your OAuth consumer you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id and secret for your OAuth consumer you must set them as environment variables. These can be named whatever you like
         (ex. `BITBUCKET_CLOUD_IDENTITY_PROVIDER_CLIENT_ID` and `BITBUCKET_CLOUD_IDENTITY_PROVIDER_CLIENT_SECRET`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id and secret to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id and secret to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "bitbucket-cloud",
@@ -260,21 +260,21 @@ in the Bitbucket Server identity provider config.
         In your Bitbucket Server admin panel, navigate to **Administration → Application Links** and create a new incoming external application link.
 
         When configuring your application:
-        - Set the redirect URL to `<sourcebot_url>/api/auth/callback/bitbucket-server` (ex. https://sourcebot.coolcorp.com/api/auth/callback/bitbucket-server)
+        - Set the redirect URL to `<sourcecat_url>/api/auth/callback/bitbucket-server` (ex. https://sourcecat.coolcorp.com/api/auth/callback/bitbucket-server)
         - If [permission syncing](/docs/features/permission-syncing#bitbucket-data-center) is enabled, also enable the `REPO_READ` scope
 
-        The result of creating the application is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcebot.
+        The result of creating the application is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id and secret for your OAuth application you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id and secret for your OAuth application you must set them as environment variables. These can be named whatever you like
         (ex. `BITBUCKET_SERVER_IDENTITY_PROVIDER_CLIENT_ID` and `BITBUCKET_SERVER_IDENTITY_PROVIDER_CLIENT_SECRET`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id, client secret, and your Bitbucket Server base URL to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id, client secret, and your Bitbucket Server base URL to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "bitbucket-server",
@@ -312,20 +312,20 @@ A Google connection can be used for [authentication](/docs/configuration/auth).
 
         When configuring your OAuth client:
         - Set the application type to "Web application"
-        - Add `<sourcebot_url>/api/auth/callback/google` to the authorized redirect URIs (ex. https://sourcebot.coolcorp.com/api/auth/callback/google)
+        - Add `<sourcecat_url>/api/auth/callback/google` to the authorized redirect URIs (ex. https://sourcecat.coolcorp.com/api/auth/callback/google)
 
-        The result of creating OAuth credentials is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcebot.
+        The result of creating OAuth credentials is a `CLIENT_ID` and `CLIENT_SECRET` which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id and secret for your OAuth client you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id and secret for your OAuth client you must set them as environment variables. These can be named whatever you like
         (ex. `GOOGLE_IDENTITY_PROVIDER_CLIENT_ID` and `GOOGLE_IDENTITY_PROVIDER_CLIENT_SECRET`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id and secret to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id and secret to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "google",
@@ -359,20 +359,20 @@ An Okta connection can be used for [authentication](/docs/configuration/auth).
 
         When configuring your application:
         - Set the application type to "Web Application"
-        - Add `<sourcebot_url>/api/auth/callback/okta` to the sign-in redirect URIs (ex. https://sourcebot.coolcorp.com/api/auth/callback/okta)
+        - Add `<sourcecat_url>/api/auth/callback/okta` to the sign-in redirect URIs (ex. https://sourcecat.coolcorp.com/api/auth/callback/okta)
 
-        The result of creating an OAuth application is a `CLIENT_ID`, `CLIENT_SECRET`, and `ISSUER` URL which you'll provide to Sourcebot.
+        The result of creating an OAuth application is a `CLIENT_ID`, `CLIENT_SECRET`, and `ISSUER` URL which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id, client secret, and issuer for your OAuth application you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id, client secret, and issuer for your OAuth application you must set them as environment variables. These can be named whatever you like
         (ex. `OKTA_IDENTITY_PROVIDER_CLIENT_ID`, `OKTA_IDENTITY_PROVIDER_CLIENT_SECRET`, and `OKTA_IDENTITY_PROVIDER_ISSUER`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id, client secret, and issuer to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id, client secret, and issuer to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "okta",
@@ -410,20 +410,20 @@ A Keycloak connection can be used for [authentication](/docs/configuration/auth)
         When configuring your client:
         - Set the client protocol to "openid-connect"
         - Set the access type to "confidential"
-        - Add `<sourcebot_url>/api/auth/callback/keycloak` to the valid redirect URIs (ex. https://sourcebot.coolcorp.com/api/auth/callback/keycloak)
+        - Add `<sourcecat_url>/api/auth/callback/keycloak` to the valid redirect URIs (ex. https://sourcecat.coolcorp.com/api/auth/callback/keycloak)
 
-        The result of creating an OAuth client is a `CLIENT_ID`, `CLIENT_SECRET`, and an `ISSUER` URL (typically in the format `https://<keycloak-domain>/realms/<realm-name>`) which you'll provide to Sourcebot.
+        The result of creating an OAuth client is a `CLIENT_ID`, `CLIENT_SECRET`, and an `ISSUER` URL (typically in the format `https://<keycloak-domain>/realms/<realm-name>`) which you'll provide to Sourcecat.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id, client secret, and issuer for your OAuth client you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id, client secret, and issuer for your OAuth client you must set them as environment variables. These can be named whatever you like
         (ex. `KEYCLOAK_IDENTITY_PROVIDER_CLIENT_ID`, `KEYCLOAK_IDENTITY_PROVIDER_CLIENT_SECRET`, and `KEYCLOAK_IDENTITY_PROVIDER_ISSUER`)
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id, client secret, and issuer to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id, client secret, and issuer to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "keycloak",
@@ -464,23 +464,23 @@ Microsoft renamed Azure Active Directory (Azure AD) to Microsoft Entra ID in 202
 
         When configuring your application:
         - Under "Authentication", add a platform and select "Web"
-        - Set the redirect URI to `<sourcebot_url>/api/auth/callback/microsoft-entra-id` (ex. https://sourcebot.coolcorp.com/api/auth/callback/microsoft-entra-id)
+        - Set the redirect URI to `<sourcecat_url>/api/auth/callback/microsoft-entra-id` (ex. https://sourcecat.coolcorp.com/api/auth/callback/microsoft-entra-id)
         - Under "Certificates & secrets", create a new client secret
 
         The result of registering an application is a `CLIENT_ID` (Application ID), `CLIENT_SECRET`, and `TENANT_ID` which you'll use to construct the issuer URL.
     </Step>
     <Step title="Define environment variables">
-        To provide Sourcebot the client id, client secret, and issuer for your OAuth application you must set them as environment variables. These can be named whatever you like
+        To provide Sourcecat the client id, client secret, and issuer for your OAuth application you must set them as environment variables. These can be named whatever you like
         (ex. `MICROSOFT_ENTRA_ID_IDENTITY_PROVIDER_CLIENT_ID`, `MICROSOFT_ENTRA_ID_IDENTITY_PROVIDER_CLIENT_SECRET`, and `MICROSOFT_ENTRA_ID_IDENTITY_PROVIDER_ISSUER`)
 
         The issuer URL should be in the format: `https://login.microsoftonline.com/<TENANT_ID>/v2.0`
     </Step>
     <Step title="Define the identity provider config">
-        Finally, pass the client id, client secret, and issuer to Sourcebot by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
+        Finally, pass the client id, client secret, and issuer to Sourcecat by defining a `identityProvider` object in the [config file](/docs/configuration/config-file):
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "microsoft-entra-id",
@@ -516,12 +516,12 @@ An Authentik connection can be used for [authentication](/docs/configuration/aut
         When configuring your application:
         - Set the provider type to "OAuth2/OpenID Connect"
         - Set the client type to "Confidential"
-        - Add `<sourcebot_url>/api/auth/callback/authentik` to the redirect URIs (ex. https://sourcebot.coolcorp.com/api/auth/callback/authentik)
+        - Add `<sourcecat_url>/api/auth/callback/authentik` to the redirect URIs (ex. https://sourcecat.coolcorp.com/api/auth/callback/authentik)
 
         After creating the application, open the application details to obtain the client id, client secret, and issuer URL (typically in the format `https://<authentik-domain>/application/o/<provider-slug>/`).
     </Step>
     <Step title="Define environment variables">
-        The client id, secret, and issuer URL are provided to Sourcebot via environment variables. These can be named whatever you like
+        The client id, secret, and issuer URL are provided to Sourcecat via environment variables. These can be named whatever you like
         (ex. `AUTHENTIK_IDENTITY_PROVIDER_CLIENT_ID`, `AUTHENTIK_IDENTITY_PROVIDER_CLIENT_SECRET`, and `AUTHENTIK_IDENTITY_PROVIDER_ISSUER`)
     </Step>
     <Step title="Define the identity provider config">
@@ -529,7 +529,7 @@ An Authentik connection can be used for [authentication](/docs/configuration/aut
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "authentik",
@@ -553,7 +553,7 @@ An Authentik connection can be used for [authentication](/docs/configuration/aut
 
 ### JumpCloud
 
-A JumpCloud connection can be used for [authentication](/docs/configuration/auth). JumpCloud supports OIDC (OpenID Connect), which Sourcebot uses to authenticate users.
+A JumpCloud connection can be used for [authentication](/docs/configuration/auth). JumpCloud supports OIDC (OpenID Connect), which Sourcecat uses to authenticate users.
 
 <Accordion title="instructions">
 <Steps>
@@ -562,24 +562,24 @@ A JumpCloud connection can be used for [authentication](/docs/configuration/auth
 
         When configuring your application:
         - Set the SSO type to "OIDC"
-        - Set the **Token Endpoint Authentication Method** to `client_secret_basic`. JumpCloud defaults to `client_secret_post`, but Sourcebot requires `client_secret_basic`.
-        - Add `<sourcebot_url>/api/auth/callback/jumpcloud` to the redirect URIs (ex. https://sourcebot.coolcorp.com/api/auth/callback/jumpcloud)
-        - Set the login URL to `<sourcebot_url>/login`
+        - Set the **Token Endpoint Authentication Method** to `client_secret_basic`. JumpCloud defaults to `client_secret_post`, but Sourcecat requires `client_secret_basic`.
+        - Add `<sourcecat_url>/api/auth/callback/jumpcloud` to the redirect URIs (ex. https://sourcecat.coolcorp.com/api/auth/callback/jumpcloud)
+        - Set the login URL to `<sourcecat_url>/login`
 
         After creating the application, note the `CLIENT_ID` and `CLIENT_SECRET`. The issuer URL is typically `https://oauth.id.jumpcloud.com`.
     </Step>
     <Step title="Define environment variables">
-        The client id, secret, and issuer URL are provided to Sourcebot via environment variables. These can be named whatever you like
+        The client id, secret, and issuer URL are provided to Sourcecat via environment variables. These can be named whatever you like
         (ex. `JUMPCLOUD_IDENTITY_PROVIDER_CLIENT_ID`, `JUMPCLOUD_IDENTITY_PROVIDER_CLIENT_SECRET`, and `JUMPCLOUD_IDENTITY_PROVIDER_ISSUER`)
 
-        You must also set the `AUTH_SECRET` environment variable. Generate one with `openssl rand -base64 33` and pass it to your Sourcebot deployment. While `AUTH_SECRET` is auto-generated if not provided, it must be explicitly set for SSO to work reliably across restarts.
+        You must also set the `AUTH_SECRET` environment variable. Generate one with `openssl rand -base64 33` and pass it to your Sourcecat deployment. While `AUTH_SECRET` is auto-generated if not provided, it must be explicitly set for SSO to work reliably across restarts.
     </Step>
     <Step title="Define the identity provider config">
         Create a `identityProvider` object in the [config file](/docs/configuration/config-file) with the following fields:
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "jumpcloud",
@@ -605,7 +605,7 @@ A JumpCloud connection can be used for [authentication](/docs/configuration/auth
 
 [Idira custom OpenID Connect application documentation](https://docs.cyberark.com/manage/latest/en/content/identity/applications/appscustom/openidaddconfigapp.htm)
 
-An Idira connection can be used for [authentication](/docs/configuration/auth). Sourcebot uses Idira's OpenID Connect support to authenticate users.
+An Idira connection can be used for [authentication](/docs/configuration/auth). Sourcecat uses Idira's OpenID Connect support to authenticate users.
 
 <Accordion title="instructions">
 <Steps>
@@ -613,14 +613,14 @@ An Idira connection can be used for [authentication](/docs/configuration/auth). 
         In the Idira Admin Portal, go to **Manage > Identities > Web apps**, add the custom **OpenID Connect** application, and configure its Trust settings.
 
         When configuring the application:
-        - Add `<sourcebot_url>/api/auth/callback/idira` to the **Authorized Redirect URIs** (ex. https://sourcebot.coolcorp.com/api/auth/callback/idira)
+        - Add `<sourcecat_url>/api/auth/callback/idira` to the **Authorized Redirect URIs** (ex. https://sourcecat.coolcorp.com/api/auth/callback/idira)
         - Keep exact redirect URI matching enabled
         - Grant the users, groups, or roles that should be able to sign in permission to run the application
 
         From the application's Trust page, note the `CLIENT_ID` and `ISSUER`. Generate a client secret and store it securely. Idira displays the secret only until you confirm that you have saved it.
     </Step>
     <Step title="Define environment variables">
-        Provide the client id, secret, and issuer URL to Sourcebot using environment variables. These variables can be named whatever you like
+        Provide the client id, secret, and issuer URL to Sourcecat using environment variables. These variables can be named whatever you like
         (ex. `IDIRA_IDENTITY_PROVIDER_CLIENT_ID`, `IDIRA_IDENTITY_PROVIDER_CLIENT_SECRET`, and `IDIRA_IDENTITY_PROVIDER_ISSUER`).
     </Step>
     <Step title="Define the identity provider config">
@@ -628,7 +628,7 @@ An Idira connection can be used for [authentication](/docs/configuration/auth). 
 
         ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": {
                 "idira": {
                     "provider": "idira",
@@ -659,13 +659,13 @@ An Idira connection can be used for [authentication](/docs/configuration/auth). 
 Google Cloud Identity-Aware Proxy (IAP) can be used for [authentication](/docs/configuration/auth). IAP provides a layer of security for applications deployed on Google Cloud, allowing you to control access based on user identity and context.
 
 <Info>
-GCP IAP works differently from other identity providers. Instead of redirecting users to an OAuth flow, IAP intercepts requests at the infrastructure level and adds a signed JWT header that Sourcebot validates. This means users are automatically authenticated when accessing Sourcebot through an IAP-protected endpoint.
+GCP IAP works differently from other identity providers. Instead of redirecting users to an OAuth flow, IAP intercepts requests at the infrastructure level and adds a signed JWT header that Sourcecat validates. This means users are automatically authenticated when accessing Sourcecat through an IAP-protected endpoint.
 </Info>
 
 <Accordion title="instructions">
 <Steps>
     <Step title="Enable IAP for your application">
-        Your Sourcebot deployment must be behind Google Cloud IAP. Follow [this guide](https://cloud.google.com/iap/docs/enabling-on-premises-howto) by Google to enable IAP for your application.
+        Your Sourcecat deployment must be behind Google Cloud IAP. Follow [this guide](https://cloud.google.com/iap/docs/enabling-on-premises-howto) by Google to enable IAP for your application.
 
         After enabling IAP, note the **Signed Header JWT Audience**. You can find this in the Google Cloud Console under **Security → Identity-Aware Proxy → (your application) → Edit OAuth Client → Application settings**.
 
@@ -679,7 +679,7 @@ GCP IAP works differently from other identity providers. Instead of redirecting 
 
        ```json wrap icon="code"
         {
-            "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+            "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
             "identityProviders": [
                 {
                     "provider": "gcp-iap",
@@ -700,16 +700,16 @@ GCP IAP works differently from other identity providers. Instead of redirecting 
 By default, each provider in the `identityProviders` array is identified by an **id** equal to its `provider` value. This id determines the provider's OAuth **callback URL** (sometimes called the redirect URL):
 
 ```
-<sourcebot_url>/api/auth/callback/<id>
+<sourcecat_url>/api/auth/callback/<id>
 ```
 
-This is why the examples above register callback URLs like `<sourcebot_url>/api/auth/callback/github`. The array form supports only **one instance per provider type**.
+This is why the examples above register callback URLs like `<sourcecat_url>/api/auth/callback/github`. The array form supports only **one instance per provider type**.
 
 To configure **multiple instances of the same provider type** (for example, gitlab.com alongside a self-hosted GitLab instance), switch `identityProviders` to its object form, where you assign each provider a unique id:
 
 ```json wrap icon="code" Two GitLab providers, one for gitlab.com and one for a self-hosted instance
 {
-    "$schema": "https://raw.githubusercontent.com/sourcebot-dev/sourcebot/main/schemas/v3/index.json",
+    "$schema": "https://raw.githubusercontent.com/simonsmh/sourcecat/main/schemas/v3/index.json",
     "identityProviders": {
         "gitlab-cloud": {
             "provider": "gitlab",
@@ -733,7 +733,7 @@ To configure **multiple instances of the same provider type** (for example, gitl
 Each provider keeps the same fields documented above. The only differences are:
 
 - `identityProviders` is an **object** keyed by id instead of an array.
-- The id you choose (`gitlab-cloud`, `gitlab-selfhosted`) sets the callback URL, so you register `<sourcebot_url>/api/auth/callback/gitlab-cloud` and `<sourcebot_url>/api/auth/callback/gitlab-selfhosted` with their respective OAuth clients.
+- The id you choose (`gitlab-cloud`, `gitlab-selfhosted`) sets the callback URL, so you register `<sourcecat_url>/api/auth/callback/gitlab-cloud` and `<sourcecat_url>/api/auth/callback/gitlab-selfhosted` with their respective OAuth clients.
 - Set an optional `displayName` on each provider to give it a distinct label on the login screen. Without it, both instances fall back to the same provider-type name (for example, "GitLab"), making them hard to tell apart.
 
 <Note>

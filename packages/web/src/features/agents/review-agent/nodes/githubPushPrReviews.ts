@@ -1,10 +1,10 @@
 import { Octokit } from "octokit";
-import { sourcebot_pr_payload, sourcebot_file_diff_review } from "@/features/agents/review-agent/types";
-import { createLogger } from "@sourcebot/shared";
+import { sourcecat_pr_payload, sourcecat_file_diff_review } from "@/features/agents/review-agent/types";
+import { createLogger } from "@sourcecat/shared";
 
 const logger = createLogger('github-push-pr-reviews');
 
-export const githubPushPrReviews = async (octokit: Octokit, pr_payload: sourcebot_pr_payload, file_diff_reviews: sourcebot_file_diff_review[]) => {
+export const githubPushPrReviews = async (octokit: Octokit, pr_payload: sourcecat_pr_payload, file_diff_reviews: sourcecat_file_diff_review[]) => {
     logger.info("Executing github_push_pr_reviews");
 
     try {

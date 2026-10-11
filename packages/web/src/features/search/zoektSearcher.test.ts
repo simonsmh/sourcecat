@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@sourcebot/db';
+import type { PrismaClient } from '@sourcecat/db';
 import type { SearchRequest as ZoektGrpcSearchRequest } from '@/proto/zoekt/webserver/v1/SearchRequest';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
@@ -44,14 +44,14 @@ vi.mock('@sentry/nextjs', () => ({
     captureMessage: vi.fn(),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         error: vi.fn(),
         warn: vi.fn(),
     }),
     env: {
-        AUTH_URL: 'http://sourcebot.test',
+        AUTH_URL: 'http://sourcecat.test',
         ZOEKT_WEBSERVER_URL: 'http://zoekt:6070',
     },
 }));

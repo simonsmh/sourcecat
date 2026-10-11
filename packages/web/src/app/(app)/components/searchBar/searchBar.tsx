@@ -49,7 +49,7 @@ import { SearchAssistBox } from "./searchAssistBox";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { LoginDialog } from "@/app/components/loginDialog";
 
-const LANGUAGE_MODEL_DOCS_URL = "https://docs.sourcebot.dev/docs/configuration/language-model-providers"; 
+const LANGUAGE_MODEL_DOCS_URL = "https://docs.sourcecat.dev/docs/configuration/language-model-providers"; 
 
 interface SearchBarProps {
     className?: string;

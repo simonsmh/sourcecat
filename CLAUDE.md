@@ -15,7 +15,7 @@ Do NOT use `npx prisma migrate dev` directly from packages/db.
 To build a specific package:
 
 ```bash
-yarn workspace @sourcebot/<package-name> build
+yarn workspace @sourcecat/<package-name> build
 ```
 
 ## Backend Workloads
@@ -82,7 +82,7 @@ if (condition) doSomething();
 
 - The `wa_` prefix is reserved for events that can ONLY be fired from the web app (e.g., `wa_login_with_github`, `wa_chat_feedback_submitted`).
 - Events fired from multiple sources (web app, MCP server, API) must NOT use the `wa_` prefix (e.g., `ask_message_sent`, `tool_used`).
-- Multi-source events should include a `source` property to identify the origin (e.g., `'sourcebot-web-client'`, `'sourcebot-mcp-server'`, `'sourcebot-ask-agent'`).
+- Multi-source events should include a `source` property to identify the origin (e.g., `'sourcecat-web-client'`, `'sourcecat-mcp-server'`, `'sourcecat-ask-agent'`).
 
 ## Conditional ClassNames
 
@@ -115,7 +115,7 @@ When implementing a new API route, ask the user whether it should be part of the
 1. Add the request/response Zod schemas to `packages/web/src/openapi/publicApiSchemas.ts`, calling `.openapi('SchemaName')` on each schema to register it with a name.
 2. Register the route in `packages/web/src/openapi/publicApiDocument.ts` using `registry.registerPath(...)`, assigning it to the appropriate tag.
 3. Add the endpoint to the relevant group in the `API Reference` tab of `docs/docs.json`.
-4. Regenerate the OpenAPI spec by running `yarn workspace @sourcebot/web openapi:generate`.
+4. Regenerate the OpenAPI spec by running `yarn workspace @sourcecat/web openapi:generate`.
 
 Route handlers should validate inputs using Zod schemas. Put coercion, defaults, minimums, maximums, and cross-field validation in the schema instead of scattering parsing logic through the handler.
 

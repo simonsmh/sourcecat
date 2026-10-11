@@ -5,11 +5,11 @@ import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
 import { ServiceError } from "@/lib/serviceError";
 import { AnalyticsResponse, AnalyticsRow } from "./types";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { ErrorCode } from "@/lib/errorCodes";
 import { StatusCodes } from "http-status-codes";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { LEGACY_MCP_SERVER_SOURCE, MCP_SERVER_SOURCE } from "@/ee/features/mcp/constants";
 
 export const getAnalytics = async (): Promise<AnalyticsResponse | ServiceError> => sew(() =>
@@ -35,8 +35,8 @@ export const getAnalytics = async (): Promise<AnalyticsResponse | ServiceError> 
           CASE
             WHEN metadata->>'source' IN (${LEGACY_MCP_SERVER_SOURCE}, ${MCP_SERVER_SOURCE}) THEN 'mcp'
             WHEN metadata->>'source' IS NULL
-              OR metadata->>'source' NOT LIKE 'sourcebot-%' THEN 'api'
-            ELSE 'sourcebot'
+              OR metadata->>'source' NOT LIKE 'sourcecat-%' THEN 'api'
+            ELSE 'sourcecat'
           END AS source_category
         FROM "Audit"
         WHERE "orgId" = ${org.id}
@@ -92,32 +92,32 @@ export const getAnalytics = async (): Promise<AnalyticsResponse | ServiceError> 
 
           -- Global active users (any action, any source; excludes web repo listings)
           COUNT(DISTINCT c."actorId") FILTER (
-            WHERE NOT (c.action = 'user.listed_repos' AND c.source_category = 'sourcebot')
+            WHERE NOT (c.action = 'user.listed_repos' AND c.source_category = 'sourcecat')
           ) AS active_users,
 
           -- Web App metrics
           COUNT(DISTINCT c."actorId") FILTER (
             WHERE c.action = 'user.performed_code_search'
-              AND c.metadata->>'source' = 'sourcebot-web-client'
+              AND c.metadata->>'source' = 'sourcecat-web-client'
           ) AS web_search_active_users,
           COUNT(*) FILTER (
             WHERE c.action = 'user.performed_code_search'
-              AND c.metadata->>'source' = 'sourcebot-web-client'
+              AND c.metadata->>'source' = 'sourcecat-web-client'
           ) AS web_code_searches,
           COUNT(*) FILTER (
             WHERE c.action IN ('user.performed_find_references', 'user.performed_goto_definition')
-              AND c.metadata->>'source' = 'sourcebot-web-client'
+              AND c.metadata->>'source' = 'sourcecat-web-client'
           ) AS web_navigations,
           COUNT(DISTINCT c."actorId") FILTER (
             WHERE c.action = 'user.created_ask_chat'
-              AND c.metadata->>'source' = 'sourcebot-web-client'
+              AND c.metadata->>'source' = 'sourcecat-web-client'
           ) AS web_ask_active_users,
           COUNT(*) FILTER (
             WHERE c.action = 'user.created_ask_chat'
-              AND c.metadata->>'source' = 'sourcebot-web-client'
+              AND c.metadata->>'source' = 'sourcecat-web-client'
           ) AS web_ask_chats,
           COUNT(DISTINCT c."actorId") FILTER (
-            WHERE c.metadata->>'source' = 'sourcebot-web-client'
+            WHERE c.metadata->>'source' = 'sourcecat-web-client'
               AND c.action != 'user.listed_repos'
           ) AS web_active_users,
 
@@ -134,7 +134,7 @@ export const getAnalytics = async (): Promise<AnalyticsResponse | ServiceError> 
             WHERE c.source_category = 'mcp'
           ) AS mcp_active_users,
 
-          -- API metrics (source IS NULL or not a Sourcebot/MCP source)
+          -- API metrics (source IS NULL or not a Sourcecat/MCP source)
           COUNT(*) FILTER (
             WHERE c.source_category = 'api'
           ) AS api_requests,
@@ -179,7 +179,7 @@ export const getAnalytics = async (): Promise<AnalyticsResponse | ServiceError> 
 
     return {
       rows,
-      retentionDays: env.SOURCEBOT_EE_AUDIT_RETENTION_DAYS,
+      retentionDays: env.SOURCECAT_EE_AUDIT_RETENTION_DAYS,
       oldestRecordDate: oldestRecord?.timestamp ?? null,
     };
   }))

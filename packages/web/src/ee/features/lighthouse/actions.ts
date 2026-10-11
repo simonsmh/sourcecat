@@ -3,11 +3,11 @@
 import { sew } from "@/middleware/sew";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { ServiceError } from "@/lib/serviceError";
 import { StatusCodes } from "http-status-codes";
 import { ErrorCode } from "@/lib/errorCodes";
-import type { Invoice } from "@sourcebot/shared";
+import type { Invoice } from "@sourcecat/shared";
 
 // Fork: license verification removed. All license server actions are disabled.
 // The license is always valid and no license server is contacted.

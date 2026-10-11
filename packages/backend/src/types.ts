@@ -3,9 +3,9 @@ import {
     PrismaClient,
     Repo,
     RepoToConnection,
-} from "@sourcebot/db";
-import { ConnectionConfig } from "@sourcebot/schemas/v3/connection.type";
-import { Settings as SettingsSchema } from "@sourcebot/schemas/v3/index.type";
+} from "@sourcecat/db";
+import { ConnectionConfig } from "@sourcecat/schemas/v3/connection.type";
+import { Settings as SettingsSchema } from "@sourcecat/schemas/v3/index.type";
 import {
     DataOf,
     JobEnqueueOptions,
@@ -13,7 +13,7 @@ import {
     QueueSpec,
     ResultOf,
     Schedule,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import type { Queue } from "bullmq";
 
 export type Settings = Required<SettingsSchema>;

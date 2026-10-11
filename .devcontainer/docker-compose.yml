@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspaces/sourcebot:cached
+      - ..:/workspaces/sourcecat:cached
       - go-modules:/home/node/go
       - yarn-cache:/home/node/.yarn/berry/cache
     command: sleep infinity
@@ -19,11 +19,11 @@ services:
       CTAGS_COMMAND: ctags
       AUTH_SECRET: "00000000000000000000000000000000000000000000"
       AUTH_URL: http://localhost:3000
-      DATA_CACHE_DIR: /workspaces/sourcebot/.sourcebot
-      SOURCEBOT_ENCRYPTION_KEY: "00000000000000000000000000000000"
+      DATA_CACHE_DIR: /workspaces/sourcecat/.sourcecat
+      SOURCECAT_ENCRYPTION_KEY: "00000000000000000000000000000000"
       NODE_ENV: development
-      SOURCEBOT_LOG_LEVEL: debug
-      SOURCEBOT_TELEMETRY_DISABLED: "true"
+      SOURCECAT_LOG_LEVEL: debug
+      SOURCECAT_TELEMETRY_DISABLED: "true"
       REVIEW_AGENT_LOGGING_ENABLED: "true"
       REVIEW_AGENT_AUTO_REVIEW_ENABLED: "false"
       REVIEW_AGENT_REVIEW_COMMAND: review

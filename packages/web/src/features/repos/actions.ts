@@ -5,8 +5,8 @@ import { unexpectedError } from '@/lib/serviceError';
 import { sew } from '@/middleware/sew';
 import { withAuth } from '@/middleware/withAuth';
 import { withMinimumOrgRole } from '@/middleware/withMinimumOrgRole';
-import { OrgRole } from '@sourcebot/db';
-import { JOB_PRIORITIES, REPO_INDEX_QUEUE } from '@sourcebot/shared';
+import { OrgRole } from '@sourcecat/db';
+import { JOB_PRIORITIES, REPO_INDEX_QUEUE } from '@sourcecat/shared';
 
 const MAX_CONCURRENT_REPO_RETRIES = 10;
 

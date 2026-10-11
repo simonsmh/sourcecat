@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest';
-import { McpServerToolPermission, Prisma } from '@sourcebot/db';
+import { McpServerToolPermission, Prisma } from '@sourcecat/db';
 import type { McpToolSet } from './mcpClientFactory';
 
 // --- Mocks ---
@@ -24,10 +24,10 @@ vi.mock('@ai-sdk/mcp', () => ({
     createMCPClient: (...args: unknown[]) => mockCreateMCPClient(...args),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => mockLogger,
     env: {
-        SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
+        SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS: 5000,
     },
 }));
 
@@ -813,7 +813,7 @@ describe('getMcpTools', () => {
         });
         expect(mockServerToolUpdate).not.toHaveBeenCalled();
         expect(mockCaptureEvent).toHaveBeenCalledWith('ask_mcp_tool_call_completed', expect.objectContaining({
-            source: 'sourcebot-ask-agent',
+            source: 'sourcecat-ask-agent',
             serverId: 'server-linear',
             serverUrl: 'https://linear.example.com/mcp',
             toolName: 'create_issue',
@@ -832,7 +832,7 @@ describe('getMcpTools', () => {
         ], {
             chatId: 'chat-id',
             traceId: 'trace-id',
-            source: 'sourcebot-ask-agent',
+            source: 'sourcecat-ask-agent',
         });
 
         const tool = result.tools['mcp_linear__create_issue'];
@@ -841,7 +841,7 @@ describe('getMcpTools', () => {
         expect(mockCaptureEvent).toHaveBeenCalledWith('ask_mcp_tool_call_completed', expect.objectContaining({
             chatId: 'chat-id',
             traceId: 'trace-id',
-            source: 'sourcebot-ask-agent',
+            source: 'sourcecat-ask-agent',
         }));
     });
 

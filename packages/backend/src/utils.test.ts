@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, beforeEach, afterEach } from 'vitest';
 import { arraysEqualShallow, fetchWithRetry, getAuthCredentialsForRepo } from './utils';
-import { env, isRemotePath } from '@sourcebot/shared';
+import { env, isRemotePath } from '@sourcecat/shared';
 import { Logger } from 'winston';
 import { RequestError } from '@octokit/request-error';
 import type { RepoWithConnections } from './types';
@@ -18,7 +18,7 @@ const createMockLogger = (): Logger => ({
 
 describe('getAuthCredentialsForRepo', () => {
     const originalAskGithubToken = env.EXPERIMENT_ASK_GH_GITHUB_TOKEN;
-    const azureDevOpsTokenEnvironment = 'SOURCEBOT_TEST_AZURE_DEVOPS_TOKEN';
+    const azureDevOpsTokenEnvironment = 'SOURCECAT_TEST_AZURE_DEVOPS_TOKEN';
 
     afterEach(() => {
         env.EXPERIMENT_ASK_GH_GITHUB_TOKEN = originalAskGithubToken;

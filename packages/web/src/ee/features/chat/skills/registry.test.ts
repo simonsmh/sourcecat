@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import { ASK_COMMAND_SOURCE_SHARED_SKILL, ASK_COMMAND_SOURCE_PERSONAL_SKILL } from "@/features/chat/commands/types";
-import { sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope } from "@sourcebot/db";
+import { sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope } from "@sourcecat/db";
 import { buildSkillRegistry, resolveAutoInvocableSkill } from "./registry";
 
 describe("buildSkillRegistry", () => {

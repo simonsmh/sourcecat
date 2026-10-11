@@ -1,4 +1,4 @@
-import { Prisma } from "@sourcebot/db";
+import { Prisma } from "@sourcecat/db";
 
 // @see https://www.prisma.io/docs/orm/reference/error-reference#error-codes
 const isKnownRequestError = (

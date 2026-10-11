@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 
 // Permission gate for skills imported from a repository file. A synced skill
 // (sourceRepoName !== null) mirrors content from an indexed repo, so it must only

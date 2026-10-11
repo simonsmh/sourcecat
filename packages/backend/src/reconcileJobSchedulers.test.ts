@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@sourcebot/db";
+import type { PrismaClient } from "@sourcecat/db";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const isPermissionSyncEnabled = vi.hoisted(() => vi.fn());

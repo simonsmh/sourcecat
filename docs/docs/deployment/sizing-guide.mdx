@@ -2,10 +2,10 @@
 title: "Sizing Guide"
 ---
 
-Sourcebot runs as a single container (vertical scaling). This guide helps you choose the right CPU, memory, and disk allocation based on the number of repositories you plan to index.
+Sourcecat runs as a single container (vertical scaling). This guide helps you choose the right CPU, memory, and disk allocation based on the number of repositories you plan to index.
 
 <Info>
-These recommendations are based on real-world deployments. Your results may vary depending on repository sizes, search patterns, and whether you use features like [multi-branch indexing](/docs/features/search/multi-branch-indexing) or [Ask Sourcebot](/docs/features/ask/ask-sourcebot).
+These recommendations are based on real-world deployments. Your results may vary depending on repository sizes, search patterns, and whether you use features like [multi-branch indexing](/docs/features/search/multi-branch-indexing) or [Ask Sourcecat](/docs/features/ask/ask-sourcecat).
 </Info>
 
 ## Recommendations
@@ -17,15 +17,15 @@ These recommendations are based on real-world deployments. Your results may vary
 | **Memory** | 4 GB | 8 GB | 32 GB | 64+ GB |
 | **Disk** | 50 GB | 100 GB | 250 GB | 500+ GB |
 
-We recommend using external managed Postgres and Redis instances rather than the ones embedded in the Sourcebot container, as this adds stability to your deployment. You can configure these with the `DATABASE_URL` and `REDIS_URL` [environment variables](/docs/configuration/environment-variables).
+We recommend using external managed Postgres and Redis instances rather than the ones embedded in the Sourcecat container, as this adds stability to your deployment. You can configure these with the `DATABASE_URL` and `REDIS_URL` [environment variables](/docs/configuration/environment-variables).
 
-Of all resources, **memory has the most direct impact on search performance**. Sourcebot uses [Zoekt](https://github.com/sourcegraph/zoekt) for search indexing, and the OS page cache keeps frequently accessed index data in memory. More memory means more of the index stays cached, which translates directly to faster searches and less disk I/O.
+Of all resources, **memory has the most direct impact on search performance**. Sourcecat uses [Zoekt](https://github.com/sourcegraph/zoekt) for search indexing, and the OS page cache keeps frequently accessed index data in memory. More memory means more of the index stays cached, which translates directly to faster searches and less disk I/O.
 
 ## Disk usage
 
 Disk is consumed by two things:
 
-1. **Cloned repositories** stored in the `.sourcebot/` cache directory
+1. **Cloned repositories** stored in the `.sourcecat/` cache directory
 2. **Zoekt search indexes** built from those repositories
 
 As a rule of thumb, plan for **2 – 3x the total size of the source code** you intend to index. For example, if your repositories total 50 GB, allocate at least 100 – 150 GB of disk.
@@ -51,7 +51,7 @@ Lowering these values reduces peak resource usage at the cost of slower initial 
 Audit logging is an enterprise feature and is only available with an [enterprise license](/docs/activating-a-subscription). If you are not on an enterprise plan, audit logs are not stored and this section does not apply.
 </Info>
 
-[Audit logs](/docs/configuration/audit-logs) are stored in the Postgres database connected to your Sourcebot deployment. Each audit record captures the action performed, the actor, the target, a timestamp, and optional metadata (e.g., request source). There are three database indexes on the audit table to support analytics and lookup queries.
+[Audit logs](/docs/configuration/audit-logs) are stored in the Postgres database connected to your Sourcecat deployment. Each audit record captures the action performed, the actor, the target, a timestamp, and optional metadata (e.g., request source). There are three database indexes on the audit table to support analytics and lookup queries.
 
 **Estimated storage per audit event: ~350 bytes** (including row data and indexes).
 
@@ -69,7 +69,7 @@ The table below assumes 50 events per user per day. The actual number depends on
 
 ### Retention policy
 
-By default, audit logs older than **180 days** are automatically pruned daily by a background job. You can adjust this with the `SOURCEBOT_EE_AUDIT_RETENTION_DAYS` [environment variable](/docs/configuration/environment-variables). Set it to `0` to disable pruning and retain logs indefinitely.
+By default, audit logs older than **180 days** are automatically pruned daily by a background job. You can adjust this with the `SOURCECAT_EE_AUDIT_RETENTION_DAYS` [environment variable](/docs/configuration/environment-variables). Set it to `0` to disable pruning and retain logs indefinitely.
 
 For most deployments, the default 180-day retention keeps database size manageable. If you have a large team with heavy MCP/API usage and need longer retention, plan your Postgres disk allocation accordingly using the estimates above.
 

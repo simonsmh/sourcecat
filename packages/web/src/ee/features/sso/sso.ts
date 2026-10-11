@@ -1,7 +1,7 @@
 import type { IdentityProvider } from "@/auth";
 import { __unsafePrisma } from "@/prisma";
 import { hasEntitlement } from "@/lib/entitlements";
-import { createLogger, env, getIdentityProviderConfigs, getTokenFromConfig } from "@sourcebot/shared";
+import { createLogger, env, getIdentityProviderConfigs, getTokenFromConfig } from "@sourcecat/shared";
 import { OAuth2Client } from "google-auth-library";
 import type { User as AuthJsUser } from "next-auth";
 import type { Provider } from "next-auth/providers";

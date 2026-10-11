@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { LoginForm } from "../login/components/loginForm";
 import { redirect } from "next/navigation";
 import { Footer } from "@/app/components/footer";
-import { createLogger, env } from "@sourcebot/shared";
+import { createLogger, env } from "@sourcecat/shared";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { __unsafePrisma } from "@/prisma";
 import { isAnonymousAccessEnabled } from "@/lib/entitlements";

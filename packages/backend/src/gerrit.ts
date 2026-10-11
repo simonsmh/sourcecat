@@ -1,5 +1,5 @@
-import { GerritConnectionConfig } from "@sourcebot/schemas/v3/index.type";
-import { createLogger } from '@sourcebot/shared';
+import { GerritConnectionConfig } from "@sourcecat/schemas/v3/index.type";
+import { createLogger } from '@sourcecat/shared';
 import fetch from 'cross-fetch';
 import micromatch from "micromatch";
 import { fetchWithRetry, measure } from './utils.js';

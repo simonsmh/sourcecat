@@ -29,7 +29,7 @@ vi.mock('@/middleware/withMinimumOrgRole', () => ({
         callback: () => unknown,
     ) => callback(),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     CONNECTION_QUEUE: connectionQueue,
     JOB_PRIORITIES: { INTERACTIVE: 1 },
 }));

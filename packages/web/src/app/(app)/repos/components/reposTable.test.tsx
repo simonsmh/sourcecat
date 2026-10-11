@@ -1,6 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
-import type { CodeHostType } from "@sourcebot/db";
-import type { JobLogs } from "@sourcebot/shared";
+import type { CodeHostType } from "@sourcecat/db";
+import type { JobLogs } from "@sourcecat/shared";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
@@ -210,7 +210,7 @@ describe("ReposTable", () => {
 
         fireEvent.change(
             screen.getByPlaceholderText("Search repositories..."),
-            { target: { value: "sourcebot" } },
+            { target: { value: "sourcecat" } },
         );
 
         expect(screen.getByLabelText("Searching repositories")).toBeTruthy();

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { McpServerToolPermission, type PrismaClient } from '@sourcebot/db';
+import { McpServerToolPermission, type PrismaClient } from '@sourcecat/db';
 
 const createMCPClient = vi.hoisted(() => vi.fn());
 const getConnectedMcpClients = vi.hoisted(() => vi.fn());
@@ -12,7 +12,7 @@ vi.mock('@ai-sdk/mcp', () => ({
     createMCPClient,
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         warn: loggerWarn,
         error: vi.fn(),
@@ -20,7 +20,7 @@ vi.mock('@sourcebot/shared', () => ({
         debug: vi.fn(),
     }),
     env: {
-        SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS: 60000,
+        SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS: 60000,
     },
 }));
 

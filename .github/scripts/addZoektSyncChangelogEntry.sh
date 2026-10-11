@@ -10,11 +10,11 @@ if [[ ! "$pr_number" =~ ^[1-9][0-9]*$ ]]; then
   exit 1
 fi
 
-pr_url="https://github.com/sourcebot-dev/sourcebot/pull/$pr_number"
+pr_url="https://github.com/simonsmh/sourcecat/pull/$pr_number"
 entry="- Updated the bundled Zoekt version. [#$pr_number]($pr_url)"
 
 if grep -Fq "$pr_url" "$changelog"; then
-  echo "Changelog already links to Sourcebot PR #$pr_number."
+  echo "Changelog already links to Sourcecat PR #$pr_number."
   exit 0
 fi
 
@@ -126,4 +126,4 @@ awk -v entry="$entry" '
 chmod "$changelog_mode" "$temporary_file"
 mv "$temporary_file" "$changelog"
 trap - EXIT
-echo "Added the changelog entry for Sourcebot PR #$pr_number."
+echo "Added the changelog entry for Sourcecat PR #$pr_number."

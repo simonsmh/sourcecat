@@ -1,12 +1,12 @@
-import { Prisma } from "@sourcebot/db";
+import { Prisma } from "@sourcecat/db";
 import {
     createLogger,
     env,
     JOB_PRIORITIES,
     loadConfig,
     resolveConfigSettings,
-} from "@sourcebot/shared";
-import type { ConnectionConfig } from "@sourcebot/schemas/v3/connection.type";
+} from "@sourcecat/shared";
+import type { ConnectionConfig } from "@sourcecat/schemas/v3/connection.type";
 import chokidar, { FSWatcher } from 'chokidar';
 import {
     reconcileRepoIndexWork,

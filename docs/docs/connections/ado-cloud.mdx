@@ -6,7 +6,7 @@ icon: https://www.svgrepo.com/show/448307/azure-devops.svg
 
 import AzureDevopsSchema from '/snippets/schemas/v3/azuredevops.schema.mdx'
 
-If you're not familiar with Sourcebot [connections](/docs/connections/indexing-your-code), please read that overview first.
+If you're not familiar with Sourcecat [connections](/docs/connections/indexing-your-code), please read that overview first.
 
 ## Examples
 
@@ -84,7 +84,7 @@ If you're not familiar with Sourcebot [connections](/docs/connections/indexing-y
 ## Authenticating with Azure Devops Cloud
 
 Azure Devops Cloud requires you to provide a PAT in order to index your repositories. To learn how to create PAT, check out the [Azure Devops docs](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows).
-Sourcebot needs the `Read` access for the `Code` scope in order to find and clone your repos.
+Sourcecat needs the `Read` access for the `Code` scope in order to find and clone your repos.
 
 Next, provide the access [token](/docs/configuration/config-file#tokens) via an environment variable which is referenced in the `token` property:
 
@@ -108,12 +108,12 @@ Next, provide the access [token](/docs/configuration/config-file#tokens) via an 
         }
         ```
 
-        2. Pass this environment variable each time you run Sourcebot:
+        2. Pass this environment variable each time you run Sourcecat:
         ```bash
         docker run \
             -e ADO_TOKEN=<PAT> \
             /* additional args */ \
-            docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
+            ghcr.io/simonsmh/sourcecat:latest
         ```
     </Tab>
 </Tabs>
@@ -121,7 +121,7 @@ Next, provide the access [token](/docs/configuration/config-file#tokens) via an 
 ## Schema reference
 
 <Accordion title="Reference">
-[schemas/v3/azuredevops.json](https://github.com/sourcebot-dev/sourcebot/blob/main/schemas/v3/azuredevops.json)
+[schemas/v3/azuredevops.json](https://github.com/simonsmh/sourcecat/blob/main/schemas/v3/azuredevops.json)
 
 <AzureDevopsSchema />
 

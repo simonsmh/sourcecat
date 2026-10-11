@@ -1,5 +1,5 @@
-import type { PrismaClient } from "@sourcebot/db";
-import { createLogger } from "@sourcebot/shared";
+import type { PrismaClient } from "@sourcecat/db";
+import { createLogger } from "@sourcecat/shared";
 import { tool, type Tool } from "ai";
 import { z } from "zod";
 import _dedent from "dedent";

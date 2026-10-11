@@ -5,8 +5,8 @@ import { unexpectedError } from '@/lib/serviceError';
 import { sew } from '@/middleware/sew';
 import { withAuth } from '@/middleware/withAuth';
 import { withMinimumOrgRole } from '@/middleware/withMinimumOrgRole';
-import { OrgRole } from '@sourcebot/db';
-import { CONNECTION_QUEUE, JOB_PRIORITIES } from '@sourcebot/shared';
+import { OrgRole } from '@sourcecat/db';
+import { CONNECTION_QUEUE, JOB_PRIORITIES } from '@sourcecat/shared';
 
 export const syncConnection = async (connectionId: number) => sew(() =>
     withAuth(({ org, prisma, role }) =>

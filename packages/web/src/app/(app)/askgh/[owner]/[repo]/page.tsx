@@ -13,7 +13,7 @@ import { getConfiguredLanguageModelsInfo } from "@/features/chat/utils.server";
 import { auth } from "@/auth";
 import { hasEntitlement } from "@/lib/entitlements";
 import { ChatEntitlementMessage } from "@/features/chat/components/chatEntitlementMessage";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 import { listAgentSkillCommandsOrEmpty } from "@/ee/features/chat/skills/skillCommands.server";
 
 interface PageProps {
@@ -91,7 +91,7 @@ export default async function GitHubRepoPage(props: PageProps) {
                     repoId={repoInfo.id}
                     askCommands={askCommands}
                     isAuthenticated={!!session?.user}
-                    maxImageBytes={env.SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES}
+                    maxImageBytes={env.SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES}
                 />
             </CustomSlateEditor>
         </RepoIndexedGuard>

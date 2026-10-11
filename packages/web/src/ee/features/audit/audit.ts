@@ -1,13 +1,13 @@
 import { __unsafePrisma } from '@/prisma';
 import { hasEntitlement } from '@/lib/entitlements';
-import { env, createLogger, SOURCEBOT_VERSION } from '@sourcebot/shared';
+import { env, createLogger, SOURCECAT_VERSION } from '@sourcecat/shared';
 import { AuditEvent } from '@/ee/features/audit/types';
 import { Audit } from '@prisma/client';
 
 const logger = createLogger('audit-service');
 
-export async function createAudit(event: Omit<AuditEvent, 'sourcebotVersion'>): Promise<Audit | null> {
-    const auditLogsEnabled = (env.SOURCEBOT_EE_AUDIT_LOGGING_ENABLED === 'true') && await hasEntitlement("audit");
+export async function createAudit(event: Omit<AuditEvent, 'sourcecatVersion'>): Promise<Audit | null> {
+    const auditLogsEnabled = (env.SOURCECAT_EE_AUDIT_LOGGING_ENABLED === 'true') && await hasEntitlement("audit");
     if (!auditLogsEnabled) {
         return null;
     }
@@ -20,7 +20,7 @@ export async function createAudit(event: Omit<AuditEvent, 'sourcebotVersion'>): 
                 actorType: event.actor.type,
                 targetId: event.target.id,
                 targetType: event.target.type,
-                sourcebotVersion: SOURCEBOT_VERSION,
+                sourcecatVersion: SOURCECAT_VERSION,
                 metadata: event.metadata,
                 orgId: event.orgId,
             },

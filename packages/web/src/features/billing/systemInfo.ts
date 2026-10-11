@@ -1,6 +1,6 @@
 import os from "node:os";
 import fs from "node:fs/promises";
-import { env, createLogger, type SystemInfo } from "@sourcebot/shared";
+import { env, createLogger, type SystemInfo } from "@sourcecat/shared";
 
 const logger = createLogger('system-info');
 

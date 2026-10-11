@@ -38,7 +38,7 @@ trap 'rm -rf "$test_root"' EXIT
 
 zoekt_remote="$test_root/zoekt.git"
 zoekt_upstream="$test_root/zoekt-upstream"
-sourcebot_test="$test_root/sourcebot"
+sourcecat_test="$test_root/sourcecat"
 
 git init --quiet --bare --initial-branch=main "$zoekt_remote"
 git init --quiet --initial-branch=main "$zoekt_upstream"
@@ -57,34 +57,34 @@ git -C "$zoekt_upstream" commit --quiet -am "second"
 second_sha=$(git -C "$zoekt_upstream" rev-parse HEAD)
 git -C "$zoekt_upstream" push --quiet origin main
 
-git init --quiet --initial-branch=main "$sourcebot_test"
-git -C "$sourcebot_test" config user.name "Zoekt Sync Test"
-git -C "$sourcebot_test" config user.email "zoekt-sync-test@example.com"
-git -C "$sourcebot_test" -c protocol.file.allow=always \
+git init --quiet --initial-branch=main "$sourcecat_test"
+git -C "$sourcecat_test" config user.name "Zoekt Sync Test"
+git -C "$sourcecat_test" config user.email "zoekt-sync-test@example.com"
+git -C "$sourcecat_test" -c protocol.file.allow=always \
   submodule add --quiet "$zoekt_remote" vendor/zoekt
-git -C "$sourcebot_test/vendor/zoekt" checkout --quiet --detach "$first_sha"
-git -C "$sourcebot_test" add vendor/zoekt
-git -C "$sourcebot_test" commit --quiet -m "pin first Zoekt commit"
+git -C "$sourcecat_test/vendor/zoekt" checkout --quiet --detach "$first_sha"
+git -C "$sourcecat_test" add vendor/zoekt
+git -C "$sourcecat_test" commit --quiet -m "pin first Zoekt commit"
 
 (
-  cd "$sourcebot_test"
+  cd "$sourcecat_test"
   "$update_script" "$second_sha"
 )
-staged_sha=$(git -C "$sourcebot_test" rev-parse :vendor/zoekt)
+staged_sha=$(git -C "$sourcecat_test" rev-parse :vendor/zoekt)
 assert_equals "$staged_sha" "$second_sha" \
   "the updater should stage the requested main-branch commit"
-git -C "$sourcebot_test" commit --quiet -m "advance Zoekt"
+git -C "$sourcecat_test" commit --quiet -m "advance Zoekt"
 
 (
-  cd "$sourcebot_test"
+  cd "$sourcecat_test"
   "$update_script" "$first_sha"
 )
-current_sha=$(git -C "$sourcebot_test" rev-parse HEAD:vendor/zoekt)
+current_sha=$(git -C "$sourcecat_test" rev-parse HEAD:vendor/zoekt)
 assert_equals "$current_sha" "$second_sha" \
   "a stale event must not downgrade the Zoekt gitlink"
-git -C "$sourcebot_test" diff --quiet || \
+git -C "$sourcecat_test" diff --quiet || \
   fail "a stale event should leave the worktree unchanged"
-git -C "$sourcebot_test" diff --cached --quiet || \
+git -C "$sourcecat_test" diff --cached --quiet || \
   fail "a stale event should leave the index unchanged"
 
 git -C "$zoekt_upstream" switch --quiet --detach "$first_sha"
@@ -93,10 +93,10 @@ printf '%s\n' divergent > "$zoekt_upstream/version.txt"
 git -C "$zoekt_upstream" commit --quiet -am "divergent"
 divergent_sha=$(git -C "$zoekt_upstream" rev-parse HEAD)
 git -C "$zoekt_upstream" push --quiet origin divergent
-git -C "$sourcebot_test/vendor/zoekt" fetch --quiet origin divergent
+git -C "$sourcecat_test/vendor/zoekt" fetch --quiet origin divergent
 
 if (
-  cd "$sourcebot_test"
+  cd "$sourcecat_test"
   "$update_script" "$divergent_sha"
 ) 2> "$test_root/divergent-error.txt"; then
   fail "the updater should reject a commit outside origin/main"
@@ -105,12 +105,12 @@ assert_contains "$test_root/divergent-error.txt" \
   "is not reachable from origin/main" \
   "the non-main error should explain the rejected target"
 
-git -C "$sourcebot_test/vendor/zoekt" checkout --quiet --detach "$divergent_sha"
-git -C "$sourcebot_test" add vendor/zoekt
-git -C "$sourcebot_test" commit --quiet -m "pin divergent Zoekt commit"
+git -C "$sourcecat_test/vendor/zoekt" checkout --quiet --detach "$divergent_sha"
+git -C "$sourcecat_test" add vendor/zoekt
+git -C "$sourcecat_test" commit --quiet -m "pin divergent Zoekt commit"
 
 if (
-  cd "$sourcebot_test"
+  cd "$sourcecat_test"
   "$update_script" "$second_sha"
 ) 2> "$test_root/divergent-history-error.txt"; then
   fail "the updater should reject divergent current and target commits"
@@ -120,7 +120,7 @@ assert_contains "$test_root/divergent-history-error.txt" \
   "the divergent-history error should explain the rejected update"
 
 if (
-  cd "$sourcebot_test"
+  cd "$sourcecat_test"
   "$update_script" deadbeef
 ) 2> "$test_root/invalid-error.txt"; then
   fail "the updater should reject abbreviated commit SHAs"
@@ -161,13 +161,13 @@ assert_contains "$changelog_fixture" \
   "### Changed" \
   "the changelog helper should create the Changed section when absent"
 assert_contains "$changelog_fixture" \
-  "- Updated the bundled Zoekt version. [#42](https://github.com/sourcebot-dev/sourcebot/pull/42)" \
+  "- Updated the bundled Zoekt version. [#42](https://github.com/simonsmh/sourcecat/pull/42)" \
   "the changelog helper should add the generated PR link"
-entry_count=$(grep -Fc "sourcebot/pull/42" "$changelog_fixture")
+entry_count=$(grep -Fc "sourcecat/pull/42" "$changelog_fixture")
 assert_equals "$entry_count" 1 \
   "the changelog helper should add the PR entry only to Unreleased"
 CHANGELOG_PATH="$changelog_fixture" "$changelog_script" 42
-entry_count=$(grep -Fc "sourcebot/pull/42" "$changelog_fixture")
+entry_count=$(grep -Fc "sourcecat/pull/42" "$changelog_fixture")
 assert_equals "$entry_count" 1 \
   "the changelog helper should not duplicate an existing PR entry"
 if changelog_mode=$(stat -f '%Lp' "$changelog_fixture" 2> /dev/null); then
@@ -186,7 +186,7 @@ cat > "$empty_changelog_fixture" <<'EOF'
 EOF
 CHANGELOG_PATH="$empty_changelog_fixture" "$changelog_script" 43
 assert_contains "$empty_changelog_fixture" \
-  "- Updated the bundled Zoekt version. [#43](https://github.com/sourcebot-dev/sourcebot/pull/43)" \
+  "- Updated the bundled Zoekt version. [#43](https://github.com/simonsmh/sourcecat/pull/43)" \
   "the changelog helper should handle an empty Unreleased section at EOF"
 
 ruby -e 'require "yaml"; YAML.parse_file(ARGV.fetch(0))' "$workflow"

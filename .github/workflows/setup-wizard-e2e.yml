@@ -8,7 +8,7 @@ on:
       - 'entrypoint.sh'
       - 'yarn.lock'
       - '.github/workflows/setup-wizard-e2e.yml'
-      - '.github/workflows/release-setup-sourcebot.yml'
+      - '.github/workflows/release-setup-sourcecat.yml'
   workflow_dispatch:
 
 permissions:
@@ -35,22 +35,22 @@ jobs:
       - run: corepack enable
       - run: yarn install --immutable --mode=skip-build
       - run: yarn rebuild node-pty
-      - run: yarn workspace @sourcebot/schemas build
-      - run: yarn workspace setup-sourcebot build
+      - run: yarn workspace @sourcecat/schemas build
+      - run: yarn workspace setup-sourcecat build
       - name: Pack on the release runtime
         shell: bash
         env:
-          SETUP_TEST_TARBALL: ${{ runner.temp }}/setup-sourcebot.tgz
+          SETUP_TEST_TARBALL: ${{ runner.temp }}/setup-sourcecat.tgz
         run: |
-          yarn workspace setup-sourcebot pack --out "$SETUP_TEST_TARBALL"
+          yarn workspace setup-sourcecat pack --out "$SETUP_TEST_TARBALL"
           echo "SETUP_TEST_TARBALL=$SETUP_TEST_TARBALL" >> "$GITHUB_ENV"
       - name: Select end-user test runtime
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - run: corepack enable
-      - run: yarn workspace setup-sourcebot test
-      - run: yarn workspace setup-sourcebot test:platform
+      - run: yarn workspace setup-sourcecat test
+      - run: yarn workspace setup-sourcecat test:platform
       - name: Linux minimum-runtime regression checks
         if: runner.os == 'Linux' && matrix.node != '24.x'
         working-directory: packages/setupWizard
@@ -58,9 +58,9 @@ jobs:
       - name: Linux packed-artifact and runtime checks
         if: runner.os == 'Linux' && matrix.node == '24.x'
         run: |
-          docker pull docker.sourcebot.dev/sourcebot-dev/sourcebot:latest
-          yarn workspace setup-sourcebot test:e2e
-          yarn workspace setup-sourcebot test:baseline
+          docker pull ghcr.io/simonsmh/sourcecat:latest
+          yarn workspace setup-sourcecat test:e2e
+          yarn workspace setup-sourcecat test:baseline
           node packages/setupWizard/tests/e2e/packageManagers.mjs
 
   setup-wizard-e2e:

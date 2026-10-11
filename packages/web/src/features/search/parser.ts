@@ -21,9 +21,9 @@ import {
     QuotedTerm,
     Tree,
     VisibilityExpr,
-} from '@sourcebot/query-language';
-import { parser as _parser } from '@sourcebot/query-language';
-import { PrismaClient } from '@sourcebot/db';
+} from '@sourcecat/query-language';
+import { parser as _parser } from '@sourcecat/query-language';
+import { PrismaClient } from '@sourcecat/db';
 import { SINGLE_TENANT_ORG_ID } from '@/lib/constants';
 import { ServiceErrorException } from '@/lib/serviceError';
 import { StatusCodes } from 'http-status-codes';

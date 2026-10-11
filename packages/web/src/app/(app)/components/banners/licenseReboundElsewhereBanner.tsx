@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { Button } from "@/components/ui/button";
 import { BannerShell } from "./bannerShell";
 import type { BannerProps } from "./types";
@@ -16,8 +16,8 @@ export function LicenseReboundElsewhereBanner({ id, dismissible, role }: BannerP
     );
 
     const description = isOwner
-        ? <>This license is currently activated on a different Sourcebot install, and paid features have been disabled here. To use it on this install, deactivate and reactivate the license. {whatsAffectedLink}</>
-        : <>This license is currently activated on a different Sourcebot install, and paid features have been disabled. Contact your organization administrator to restore access. {whatsAffectedLink}</>;
+        ? <>This license is currently activated on a different Sourcecat install, and paid features have been disabled here. To use it on this install, deactivate and reactivate the license. {whatsAffectedLink}</>
+        : <>This license is currently activated on a different Sourcecat install, and paid features have been disabled. Contact your organization administrator to restore access. {whatsAffectedLink}</>;
 
     return (
         <BannerShell

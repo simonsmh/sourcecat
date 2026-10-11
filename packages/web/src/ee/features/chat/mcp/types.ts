@@ -1,4 +1,4 @@
-import type { McpServerToolPermission } from '@sourcebot/db';
+import type { McpServerToolPermission } from '@sourcecat/db';
 
 export type { McpServerToolPermission };
 

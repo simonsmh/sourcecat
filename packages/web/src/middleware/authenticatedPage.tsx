@@ -1,6 +1,6 @@
 import { withAuth, withOptionalAuth } from "./withAuth";
 import { isServiceError } from "@/lib/utils";
-import { Org, OrgRole, PrismaClient, UserWithAccounts } from "@sourcebot/db";
+import { Org, OrgRole, PrismaClient, UserWithAccounts } from "@sourcecat/db";
 import { redirect } from "next/navigation";
 
 type RequiredPageAuthContext = {

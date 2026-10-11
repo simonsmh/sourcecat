@@ -5,7 +5,7 @@ import { apiHandler } from '@/lib/apiHandler';
 export const dynamic = 'force-dynamic';
 
 async function loadOpenApiDocument() {
-    const openApiPath = path.resolve(process.cwd(), '../../docs/api-reference/sourcebot-public.openapi.json');
+    const openApiPath = path.resolve(process.cwd(), '../../docs/api-reference/sourcecat-public.openapi.json');
     return JSON.parse(await fs.readFile(openApiPath, 'utf8'));
 }
 

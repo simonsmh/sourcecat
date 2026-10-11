@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server';
 import { notAuthenticated } from '../lib/serviceError';
 import { getAuthContext, getAuthenticatedUser, withAuth, withOptionalAuth } from './withAuth';
 import { MOCK_API_KEY, MOCK_OAUTH_TOKEN, MOCK_ORG, MOCK_USER_WITH_ACCOUNTS, prisma } from '../__mocks__/prisma';
-import { OrgRole } from '@sourcebot/db';
+import { OrgRole } from '@sourcecat/db';
 import { ErrorCode } from '../lib/errorCodes';
 import { StatusCodes } from 'http-status-codes';
 import { userScopedPrismaClientExtension } from '@/prisma';
@@ -54,14 +54,14 @@ vi.mock('@/features/billing/servicePing', () => ({
     syncWithLighthouse: mocks.syncWithLighthouse,
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     _hasEntitlement: mocks.hasEntitlement,
     _getEntitlements: vi.fn(() => []),
     _isAnonymousAccessAvailable: mocks.isAnonymousAccessAvailable,
     hashSecret: vi.fn((secret: string) => secret),
     OAUTH_ACCESS_TOKEN_PREFIX: 'sboa_',
     API_KEY_PREFIX: 'sbk_',
-    LEGACY_API_KEY_PREFIX: 'sourcebot-',
+    LEGACY_API_KEY_PREFIX: 'sourcecat-',
     SCOPED_ACCESS_TOKEN_PREFIX: 'sbst_',
     env: mocks.env,
     getSeatCap: mocks.getSeatCap,
@@ -165,7 +165,7 @@ describe('getAuthenticatedUser', () => {
             createdById: userId,
         });
 
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
         const result = await getAuthenticatedUser();
         expect(result).not.toBeUndefined();
         expect(result?.user.id).toBe(userId);
@@ -192,7 +192,7 @@ describe('getAuthenticatedUser', () => {
             createdById: userId,
         });
 
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sbk_apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sbk_apikey' }));
         const result = await getAuthenticatedUser();
         expect(result).not.toBeUndefined();
         expect(result?.user.id).toBe(userId);
@@ -215,7 +215,7 @@ describe('getAuthenticatedUser', () => {
             createdById: userId,
         });
 
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
         const result = await getAuthenticatedUser();
         expect(result).not.toBeUndefined();
         expect(result?.user.id).toBe(userId);
@@ -340,9 +340,9 @@ describe('getAuthenticatedUser', () => {
             createdById: userId,
         });
 
-        const request = new NextRequest('https://sourcebot.example.com/api/test', {
+        const request = new NextRequest('https://sourcecat.example.com/api/test', {
             headers: {
-                Authorization: 'Bearer sourcebot-apikey',
+                Authorization: 'Bearer sourcecat-apikey',
             },
         });
 
@@ -364,7 +364,7 @@ describe('getAuthenticatedUser', () => {
 
     test('should return undefined if a Bearer token is present but the API key does not exist', async () => {
         prisma.apiKey.findUnique.mockResolvedValue(null);
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
         const user = await getAuthenticatedUser();
         expect(user).toBeUndefined();
     });
@@ -470,7 +470,7 @@ describe('getAuthenticatedUser', () => {
             hash: 'apikey',
             createdById: 'test-user-id',
         });
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
         const user = await getAuthenticatedUser();
         expect(user).toBeUndefined();
     });
@@ -482,7 +482,7 @@ describe('getAuthenticatedUser', () => {
 
     test('should return undefined if a api key does not exist', async () => {
         prisma.apiKey.findUnique.mockResolvedValue(null);
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
         const user = await getAuthenticatedUser();
         expect(user).toBeUndefined();
     });
@@ -493,7 +493,7 @@ describe('getAuthenticatedUser', () => {
             hash: 'different-hash',
             createdById: 'test-user-id',
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
         const user = await getAuthenticatedUser();
         expect(user).toBeUndefined();
     });
@@ -512,7 +512,7 @@ describe('getAuthenticatedUser', () => {
             hash: 'apikey',
             createdById: 'test-user-id',
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
         const user = await getAuthenticatedUser();
         expect(user).toBeUndefined();
     });
@@ -616,7 +616,7 @@ describe('getAuthContext', () => {
             lastActiveAt: new Date(),
             role: OrgRole.MEMBER,
         });
-        mocks.env.SOURCEBOT_TELEMETRY_PII_COLLECTION_ENABLED = 'true';
+        mocks.env.SOURCECAT_TELEMETRY_PII_COLLECTION_ENABLED = 'true';
         setMockSession(createMockSession({ user: { id: userId } }));
 
         await getAuthContext();
@@ -970,7 +970,7 @@ describe('getAuthContext', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const authContext = await getAuthContext();
         expect(authContext).toStrictEqual({
@@ -1004,7 +1004,7 @@ describe('getAuthContext', () => {
                 role: OrgRole.MEMBER,
             });
             prisma.apiKey.findUnique.mockResolvedValue({ ...MOCK_API_KEY, hash: 'apikey', createdById: userId });
-            setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+            setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
             const authContext = await getAuthContext();
             expect(authContext).toStrictEqual({
@@ -1029,7 +1029,7 @@ describe('getAuthContext', () => {
                 role: OrgRole.OWNER,
             });
             prisma.apiKey.findUnique.mockResolvedValue({ ...MOCK_API_KEY, hash: 'apikey', createdById: userId });
-            setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+            setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
             const authContext = await getAuthContext();
             expect(authContext).toStrictEqual({
@@ -1143,7 +1143,7 @@ describe('getAuthContext', () => {
                 lastActiveAt: null,
             });
             prisma.apiKey.findUnique.mockResolvedValue({ ...MOCK_API_KEY, hash: 'apikey', createdById: userId });
-            setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+            setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
             const authContext = await getAuthContext({ requiredOAuthScopes: [TEST_OAUTH_SCOPE] });
 
@@ -1179,7 +1179,7 @@ describe('withAuth', () => {
                 hash: 'apikey',
                 createdById: userId,
             });
-            setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+            setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
             const cb = vi.fn(async () => 'allowed');
 
             const result = await withAuth(cb, { requiredAuthSource: 'api_key' });
@@ -1383,7 +1383,7 @@ describe('withAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withAuth(cb);
@@ -1422,7 +1422,7 @@ describe('withAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withAuth(cb);
@@ -1461,7 +1461,7 @@ describe('withAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withAuth(cb);
@@ -1500,7 +1500,7 @@ describe('withAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withAuth(cb);
@@ -1609,7 +1609,7 @@ describe('withAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withAuth(cb);
@@ -1710,7 +1710,7 @@ describe('withOptionalAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withOptionalAuth(cb);
@@ -1749,7 +1749,7 @@ describe('withOptionalAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'X-Sourcebot-Api-Key': 'sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'X-Sourcecat-Api-Key': 'sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withOptionalAuth(cb);
@@ -1788,7 +1788,7 @@ describe('withOptionalAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withOptionalAuth(cb);
@@ -1827,7 +1827,7 @@ describe('withOptionalAuth', () => {
             hash: 'apikey',
             createdById: userId,
         });
-        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcebot-apikey' }));
+        setMockHeaders(new Headers({ 'Authorization': 'Bearer sourcecat-apikey' }));
 
         const cb = vi.fn();
         const result = await withOptionalAuth(cb);

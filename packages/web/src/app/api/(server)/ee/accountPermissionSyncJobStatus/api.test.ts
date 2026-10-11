@@ -13,7 +13,7 @@ vi.mock('@/lib/bullmqClient', () => ({
     getBullMQClient: () => ({ getJob: mocks.getJob }),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     ACCOUNT_PERMISSION_SYNC_QUEUE: { name: 'account-permission-sync' },
     createLogger: () => ({ error: vi.fn() }),
 }));

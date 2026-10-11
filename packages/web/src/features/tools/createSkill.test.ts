@@ -9,9 +9,9 @@ const mocks = vi.hoisted(() => ({
     createPersonalAgentSkillForContext: vi.fn(),
 }));
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: () => ({ error: vi.fn(), info: vi.fn(), warn: vi.fn(), debug: vi.fn() }),
-    env: { AUTH_URL: "https://sourcebot.example.com" },
+    env: { AUTH_URL: "https://sourcecat.example.com" },
 }));
 
 vi.mock("@/features/chat/utils.server", () => ({
@@ -70,14 +70,14 @@ describe("createSkillDefinition", () => {
     });
 
     test("normalizes the slug before creating", async () => {
-        await createSkillDefinition.execute(validInput, { source: "sourcebot-ask-agent" });
+        await createSkillDefinition.execute(validInput, { source: "sourcecat-ask-agent" });
 
         expect(mocks.createPersonalAgentSkillForContext).toHaveBeenCalledWith(expect.objectContaining({
             userId: "user-1",
             orgId: 1,
             input: expect.objectContaining({ slug: "review-pr" }),
             analytics: {
-                source: "sourcebot-ask-agent",
+                source: "sourcecat-ask-agent",
                 entryPoint: "agent_tool",
                 creationMethod: "manual",
             },
@@ -87,7 +87,7 @@ describe("createSkillDefinition", () => {
     test("throws the schema message on invalid input without calling withAuth", async () => {
         await expect(createSkillDefinition.execute(
             { ...validInput, name: " " },
-            { source: "sourcebot-ask-agent" },
+            { source: "sourcecat-ask-agent" },
         )).rejects.toThrow("Name is required.");
 
         expect(mocks.withAuth).not.toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe("createSkillDefinition", () => {
             message: "Not authenticated",
         });
 
-        await expect(createSkillDefinition.execute(validInput, { source: "sourcebot-ask-agent" }))
+        await expect(createSkillDefinition.execute(validInput, { source: "sourcecat-ask-agent" }))
             .rejects.toThrow("Authentication is required to create skills.");
     });
 
@@ -113,7 +113,7 @@ describe("createSkillDefinition", () => {
             principal: { source: "scoped_access_token" },
         };
 
-        await expect(createSkillDefinition.execute(validInput, { source: "sourcebot-mcp-server" }))
+        await expect(createSkillDefinition.execute(validInput, { source: "sourcecat-mcp-server" }))
             .rejects.toThrow("Repository-scoped access tokens cannot manage skills.");
         expect(mocks.createPersonalAgentSkillForContext).not.toHaveBeenCalled();
     });
@@ -122,11 +122,11 @@ describe("createSkillDefinition", () => {
         mocks.checkAskEntitlement.mockResolvedValue({
             statusCode: StatusCodes.FORBIDDEN,
             errorCode: ErrorCode.INSUFFICIENT_PERMISSIONS,
-            message: "Ask Sourcebot is not available in your current plan",
+            message: "Ask Sourcecat is not available in your current plan",
         });
 
-        await expect(createSkillDefinition.execute(validInput, { source: "sourcebot-ask-agent" }))
-            .rejects.toThrow("Ask Sourcebot is not available in your current plan");
+        await expect(createSkillDefinition.execute(validInput, { source: "sourcecat-ask-agent" }))
+            .rejects.toThrow("Ask Sourcecat is not available in your current plan");
         expect(mocks.createPersonalAgentSkillForContext).not.toHaveBeenCalled();
     });
 
@@ -137,14 +137,14 @@ describe("createSkillDefinition", () => {
             message: "A skill with command /review-pr already exists.",
         });
 
-        await expect(createSkillDefinition.execute(validInput, { source: "sourcebot-ask-agent" }))
+        await expect(createSkillDefinition.execute(validInput, { source: "sourcecat-ask-agent" }))
             .rejects.toThrow("A skill with command /review-pr already exists.");
     });
 
     test("returns the created skill as JSON output plus UI metadata with a settings deep link", async () => {
-        const result = await createSkillDefinition.execute(validInput, { source: "sourcebot-mcp-server" });
+        const result = await createSkillDefinition.execute(validInput, { source: "sourcecat-mcp-server" });
 
-        const url = "https://sourcebot.example.com/settings/skills?skill=skill-1";
+        const url = "https://sourcecat.example.com/settings/skills?skill=skill-1";
         expect(JSON.parse(result.output)).toEqual({
             id: "skill-1",
             slug: "review-pr",
@@ -163,7 +163,7 @@ describe("createSkillDefinition", () => {
         // Instructions are never echoed back.
         expect(result.output).not.toContain("Look for correctness issues first.");
         expect(mocks.createPersonalAgentSkillForContext).toHaveBeenCalledWith(expect.objectContaining({
-            analytics: expect.objectContaining({ source: "sourcebot-mcp-server" }),
+            analytics: expect.objectContaining({ source: "sourcecat-mcp-server" }),
         }));
     });
 });

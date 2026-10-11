@@ -4,8 +4,8 @@ import { hasEntitlement } from "@/lib/entitlements";
 import { ServiceErrorException } from "@/lib/serviceError";
 import { isServiceError } from "@/lib/utils";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
-import { OrgRole } from "@sourcebot/db";
-import { env } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env } from "@sourcecat/shared";
 import { SkillsEntitlementMessage } from "./skillsEntitlementMessage";
 
 interface PageProps extends Record<string, unknown> {
@@ -15,7 +15,7 @@ interface PageProps extends Record<string, unknown> {
 }
 
 export default authenticatedPage<PageProps>(async ({ user, role }, { searchParams }) => {
-    // Skills are part of Ask Sourcebot. Gate the EE skill UI behind the `ask`
+    // Skills are part of Ask Sourcecat. Gate the EE skill UI behind the `ask`
     // entitlement so it never renders on a non-entitled deployment; show the FSL
     // upsell panel instead.
     if (!(await hasEntitlement('ask'))) {

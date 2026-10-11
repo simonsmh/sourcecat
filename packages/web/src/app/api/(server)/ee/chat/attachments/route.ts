@@ -8,7 +8,7 @@ import { withAuth } from "@/middleware/withAuth";
 import { checkAskEntitlement } from "@/features/chat/utils.server";
 import { validateImageAttachment } from "@/features/chat/attachments/validation";
 import { sanitizeFilename } from "@/features/chat/attachments/filename";
-import { env, getStorageBackend } from "@sourcebot/shared";
+import { env, getStorageBackend } from "@sourcecat/shared";
 import { createHash, randomUUID } from "crypto";
 import { StatusCodes } from "http-status-codes";
 import { NextRequest } from "next/server";
@@ -18,7 +18,7 @@ export const POST = apiHandler(async (req: NextRequest) => {
     // multipart envelope adds some overhead beyond the raw bytes, so allow a
     // 1 MiB slack on top of the image cap; the exact byte cap is re-checked
     // against the decoded buffer below.
-    const maxImageBytes = env.SOURCEBOT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES;
+    const maxImageBytes = env.SOURCECAT_CHAT_ATTACHMENT_MAX_IMAGE_BYTES;
     const contentLength = Number(req.headers.get('content-length') ?? 0);
     if (contentLength > maxImageBytes + 1024 * 1024) {
         return serviceErrorResponse({
@@ -101,7 +101,7 @@ export const POST = apiHandler(async (req: NextRequest) => {
             }
 
             await captureEvent('chat_attachment_uploaded', {
-                source: req.headers.get('X-Sourcebot-Client-Source') ?? 'unknown',
+                source: req.headers.get('X-Sourcecat-Client-Source') ?? 'unknown',
                 mediaType,
                 sizeBytes,
             });

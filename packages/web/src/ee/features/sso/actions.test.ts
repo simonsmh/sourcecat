@@ -36,7 +36,7 @@ vi.mock('@/lib/entitlements', () => ({
 vi.mock('@/lib/serviceError', () => ({
     unexpectedError: (message: string) => ({ error: message }),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({ info: vi.fn() }),
     doesIdpSupportPermissionSyncing: () => true,
     env: { PERMISSION_SYNC_ENABLED: 'true' },

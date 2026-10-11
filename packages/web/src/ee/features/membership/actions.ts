@@ -5,7 +5,7 @@ import { ErrorCode } from "@/lib/errorCodes";
 import { ServiceError } from "@/lib/serviceError";
 import { withAuth } from "@/middleware/withAuth";
 import { withMinimumOrgRole } from "@/middleware/withMinimumOrgRole";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { hasEntitlement } from "@/lib/entitlements";
 import { isServiceError } from "@/lib/utils";
 import { setMemberRole } from "@/features/membership/membership.service";

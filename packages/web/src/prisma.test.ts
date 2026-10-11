@@ -1,11 +1,11 @@
-import type { UserWithAccounts } from '@sourcebot/db';
+import type { UserWithAccounts } from '@sourcecat/db';
 import { describe, expect, test, vi } from 'vitest';
 
 vi.mock('server-only', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: { NODE_ENV: 'test' },
     getDBConnectionString: () => undefined,
 }));

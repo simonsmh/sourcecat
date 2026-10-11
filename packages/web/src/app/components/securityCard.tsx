@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Shield, Lock, CheckCircle, ExternalLink, Mail } from "lucide-react"
 import useCaptureEvent from "@/hooks/useCaptureEvent"
-import { SOURCEBOT_SUPPORT_EMAIL } from "@/lib/constants"
+import { SOURCECAT_SUPPORT_EMAIL } from "@/lib/constants"
 
 export default function SecurityCard() {
     const captureEvent = useCaptureEvent();
@@ -39,9 +39,9 @@ export default function SecurityCard() {
                         <CheckCircle className="h-5 w-5 text-[#9D5CFF] mr-3 mt-0.5 flex-shrink-0" />
                         <div className="text-sm text-foregroundSecondary text-left">
                             <div className="flex items-center">
-                                <span>Sourcebot is fair-source and trusted by thousands of developers</span>
+                                <span>Sourcecat is fair-source and trusted by thousands of developers</span>
                                 <Link
-                                    href="https://github.com/sourcebot-dev/sourcebot"
+                                    href="https://github.com/simonsmh/sourcecat"
                                     target="_blank"
                                     className="inline-flex items-center ml-2 text-[#9D5CFF] hover:text-[#B47EFF] transition-colors"
                                 >
@@ -63,7 +63,7 @@ export default function SecurityCard() {
                 <div className="flex flex-row justify-center text-sm text-[#A1A1AA] mb-5">
                     Have questions?
                     <Link
-                        href={`mailto:${SOURCEBOT_SUPPORT_EMAIL}`}
+                        href={`mailto:${SOURCECAT_SUPPORT_EMAIL}`}
                         className="inline-flex items-center ml-2 text-[#9D5CFF] hover:text-[#B47EFF] transition-colors"
                     >
                         <Mail className="h-3.5 w-3.5 mr-1" />
@@ -72,7 +72,7 @@ export default function SecurityCard() {
                 </div>
 
                 <Link
-                    href="https://sourcebot.dev/security"
+                    href="https://sourcecat.dev/security"
                     target="_blank"
                     className="inline-flex items-center justify-center px-5 py-2.5 rounded-md bg-backgroundSecondary border border-[#1E2A3A] text-foreground hover:bg-backgroundSecondary/80 transition-colors"
                     onClick={() => captureEvent('wa_security_page_click', {})}

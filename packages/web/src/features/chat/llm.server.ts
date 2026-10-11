@@ -16,9 +16,9 @@ import { LanguageModelV3 as AISDKLanguageModelV3 } from "@ai-sdk/provider";
 import { createXai } from '@ai-sdk/xai';
 import { fromNodeProviderChain } from '@aws-sdk/credential-providers';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
-import { Token } from "@sourcebot/schemas/v3/shared.type";
-import { env, getTokenFromConfig } from '@sourcebot/shared';
+import { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
+import { Token } from "@sourcecat/schemas/v3/shared.type";
+import { env, getTokenFromConfig } from '@sourcecat/shared';
 import { extractReasoningMiddleware, JSONValue, wrapLanguageModel } from "ai";
 import * as Sentry from "@sentry/nextjs";
 import { getAuthContext } from '@/middleware/withAuth';
@@ -318,7 +318,7 @@ const extractLanguageModelKeyValuePairs = async (
     return resolvedPairs;
 };
 
-export const SOURCEBOT_USER_EMAIL_HEADER = 'X-Sourcebot-User-Email';
+export const SOURCECAT_USER_EMAIL_HEADER = 'X-Sourcecat-User-Email';
 
 export const resolveLanguageModelHeaders = async (
     configuredHeaders: Record<string, string | Token> | undefined,
@@ -326,7 +326,7 @@ export const resolveLanguageModelHeaders = async (
     const headers = await extractLanguageModelKeyValuePairs(configuredHeaders);
 
     const userEmail = await (async () => {
-        if (env.SOURCEBOT_LLM_USER_EMAIL_HEADER_ENABLED !== 'true') {
+        if (env.SOURCECAT_LLM_USER_EMAIL_HEADER_ENABLED !== 'true') {
             return undefined;
         }
 
@@ -334,7 +334,7 @@ export const resolveLanguageModelHeaders = async (
         return isServiceError(authContext) ? undefined : authContext.user?.email;
     })();
     if (userEmail) {
-        headers[SOURCEBOT_USER_EMAIL_HEADER] = userEmail.toLowerCase();
+        headers[SOURCECAT_USER_EMAIL_HEADER] = userEmail.toLowerCase();
     }
 
     return Object.keys(headers).length > 0 ? headers : undefined;

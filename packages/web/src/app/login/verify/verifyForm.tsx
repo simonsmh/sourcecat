@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useState, Suspense } from "react"
-import { SourcebotLogo } from "@/app/components/sourcebotLogo"
+import { SourcecatLogo } from "@/app/components/sourcecatLogo"
 import useCaptureEvent from "@/hooks/useCaptureEvent"
 import { Footer } from "@/app/components/footer"
-import { SOURCEBOT_SUPPORT_EMAIL } from "@/lib/constants"
+import { SOURCECAT_SUPPORT_EMAIL } from "@/lib/constants"
 import { Redirect } from "@/app/components/redirect"
 
 function VerifyPageContent() {
@@ -64,7 +64,7 @@ function VerifyPageContent() {
             <div className="flex-1 flex flex-col items-center p-4 sm:p-12 w-full bg-backgroundSecondary">
                 <div className="w-full max-w-md">
                     <div className="flex justify-center mb-6">
-                        <SourcebotLogo className="h-16" size="large" />
+                        <SourcecatLogo className="h-16" size="large" />
                     </div>
                     <Card className="w-full">
                         <CardHeader className="space-y-1">
@@ -113,7 +113,7 @@ function VerifyPageContent() {
                     <div className="mt-8 text-center text-sm text-muted-foreground">
                         <p>
                             Having trouble?{" "}
-                            <a href={`mailto:${SOURCEBOT_SUPPORT_EMAIL}`} className="text-primary hover:underline">
+                            <a href={`mailto:${SOURCECAT_SUPPORT_EMAIL}`} className="text-primary hover:underline">
                                 Contact support
                             </a>
                         </p>
@@ -130,7 +130,7 @@ function LoadingVerifyPage() {
         <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-background to-muted/30">
             <div className="w-full max-w-md">
                 <div className="flex justify-center mb-6">
-                    <SourcebotLogo className="h-16" size="large" />
+                    <SourcecatLogo className="h-16" size="large" />
                 </div>
                 <Card className="w-full shadow-lg border-muted/40">
                     <CardHeader className="space-y-1">

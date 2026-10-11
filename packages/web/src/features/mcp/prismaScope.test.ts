@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import type { UserWithAccounts } from '@sourcebot/db';
+import type { UserWithAccounts } from '@sourcecat/db';
 import { getMcpPrismaQueryExtension, scopeUserMcpServerWhere } from './prismaScope';
 
 const user = {
@@ -49,8 +49,8 @@ describe('scopeUserMcpServerWhere', () => {
     test('fails closed for anonymous users', () => {
         expect(scopeUserMcpServerWhere(undefined, undefined)).toEqual({
             AND: [
-                { userId: '__sourcebot_anonymous_user__' },
-                { userId: '__sourcebot_no_authenticated_user__' },
+                { userId: '__sourcecat_anonymous_user__' },
+                { userId: '__sourcecat_no_authenticated_user__' },
             ],
         });
     });

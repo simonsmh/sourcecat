@@ -5,7 +5,7 @@ import { buildAskSkillInvokedEvent, skillScopeFromSourceId } from "./skillAnalyt
 import { ASK_COMMAND_SOURCE_SHARED_SKILL, ASK_COMMAND_SOURCE_PERSONAL_SKILL, commandInvocationDataSchema, type CommandInvocationData } from "@/features/chat/commands/types";
 import { FILE_REFERENCE_REGEX } from "@/features/chat/constants";
 import type { FileSource, SBChatMessage, SBChatMessagePart } from "@/features/chat/types";
-import { sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope, type PrismaClient } from "@sourcebot/db";
+import { sharedAgentSkillVisibleToUserWhere, personalAgentSkillAuthScope, type PrismaClient } from "@sourcecat/db";
 import { filterSkillsBySourceRepoAccess } from "./sourceRepoAccess";
 
 const getTextPartContent = (message: SBChatMessage) =>

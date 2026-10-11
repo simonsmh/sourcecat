@@ -1,5 +1,5 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
-import { ConnectionType } from '@sourcebot/db';
+import { ConnectionType } from '@sourcecat/db';
 import z from 'zod';
 import {
     findRelatedSymbolsRequestSchema,
@@ -35,7 +35,7 @@ if (!hasExtendedZod) {
 }
 
 export const publicServiceErrorSchema = serviceErrorSchema.openapi('PublicApiServiceError', {
-    description: 'Structured error response returned by Sourcebot public API endpoints.',
+    description: 'Structured error response returned by Sourcecat public API endpoints.',
 });
 
 export const publicSearchRequestSchema = searchRequestSchema.openapi('PublicSearchRequest');
@@ -105,7 +105,7 @@ export const publicEeAuditRecordSchema = z.object({
     actorType: z.string(),
     targetId: z.string(),
     targetType: z.string(),
-    sourcebotVersion: z.string(),
+    sourcecatVersion: z.string(),
     metadata: z.record(z.unknown()).nullable(),
     orgId: z.number(),
 }).openapi('PublicEeAuditRecord');

@@ -5,24 +5,24 @@ import logoLightSmall from "@/public/sb_logo_light_small.png";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-interface SourcebotLogoProps {
+interface SourcecatLogoProps {
     className?: string;
     size?: "small" | "large";
 }
 
-export const SourcebotLogo = ({ className, size = "large" }: SourcebotLogoProps) => {
+export const SourcecatLogo = ({ className, size = "large" }: SourcecatLogoProps) => {
     return (
         <>
             <Image
                 src={size === "large" ? logoDarkLarge : logoDarkSmall}
                 className={cn("h-16 w-auto hidden dark:block", className)}
-                alt={"Sourcebot logo"}
+                alt={"Sourcecat logo"}
                 priority={true}
             />
             <Image
                 src={size === "large" ? logoLightLarge : logoLightSmall}
                 className={cn("h-16 w-auto block dark:hidden", className)}
-                alt={"Sourcebot logo"}
+                alt={"Sourcecat logo"}
                 priority={true}
             />
         </>

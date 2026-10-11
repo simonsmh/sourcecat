@@ -1,5 +1,5 @@
 import type { ProjectSchema } from '@gitbeaker/rest';
-import type { GitlabConnectionConfig } from '@sourcebot/schemas/v3/gitlab.type';
+import type { GitlabConnectionConfig } from '@sourcecat/schemas/v3/gitlab.type';
 import { describe, expect, test, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => {

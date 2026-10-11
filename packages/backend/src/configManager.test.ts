@@ -28,7 +28,7 @@ const mocks = vi.hoisted(() => {
     };
 });
 
-vi.mock("@sourcebot/shared", () => ({
+vi.mock("@sourcecat/shared", () => ({
     createLogger: vi.fn(() => ({
         debug: vi.fn(),
         info: vi.fn(),
@@ -131,7 +131,7 @@ describe("ConfigManager", () => {
             url: "https://github.com",
         };
         mocks.loadConfig.mockResolvedValue({
-            connections: { sourcebot: connectionConfig },
+            connections: { sourcecat: connectionConfig },
             contexts: {},
         });
         const manager = new ConfigManager(jobManager, "/config.json");
@@ -255,7 +255,7 @@ describe("ConfigManager", () => {
             url: "https://github.com",
         };
         mocks.loadConfig.mockResolvedValue({
-            connections: { sourcebot: connectionConfig },
+            connections: { sourcecat: connectionConfig },
         });
         mocks.connectionFindUnique.mockResolvedValue({
             id: 42,

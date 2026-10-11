@@ -19,7 +19,7 @@ vi.mock('@/lib/bullmqClient', () => ({
         upsertJobScheduler: mocks.upsertJobScheduler,
     }),
 }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     ACCOUNT_PERMISSION_SYNC_QUEUE: accountPermissionSyncQueue,
     env: { CONFIG_PATH: '/config.json' },
     getAccountPermissionSyncSchedulerId: (accountId: string) =>

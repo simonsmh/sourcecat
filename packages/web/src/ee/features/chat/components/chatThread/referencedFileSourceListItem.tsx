@@ -10,7 +10,7 @@ import { useExtensionWithDependency } from "@/hooks/useExtensionWithDependency";
 import { useKeymapExtension } from "@/hooks/useKeymapExtension";
 import { cn } from "@/lib/utils";
 import { EditorView } from '@codemirror/view';
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import isEqual from "fast-deep-equal/react";
 import { ChevronDown, ChevronRight } from "lucide-react";

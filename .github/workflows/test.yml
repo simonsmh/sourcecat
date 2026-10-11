@@ -43,4 +43,4 @@ jobs:
       - name: Test
         # The CLI has separate packed-artifact and Node-compatibility gates in setup-wizard-e2e.
         # Keep the application workspaces on their existing runtime here.
-        run: yarn workspaces foreach --all --topological --exclude setup-sourcebot --exclude 'root-workspace-*' run test
+        run: yarn workspaces foreach --all --topological --exclude setup-sourcecat --exclude 'root-workspace-*' run test

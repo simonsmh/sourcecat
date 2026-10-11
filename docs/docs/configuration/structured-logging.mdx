@@ -3,17 +3,17 @@ title: Structured Logging
 sidebarTitle: Structured logging
 ---
 
-By default, Sourcebot will output logs to the console in a human readable format. If you'd like Sourcebot to output structured JSON logs, set the following env vars:
+By default, Sourcecat will output logs to the console in a human readable format. If you'd like Sourcecat to output structured JSON logs, set the following env vars:
 
-- `SOURCEBOT_STRUCTURED_LOGGING_ENABLED` (default: `false`): Controls whether logs are in a structured JSON format
-- `SOURCEBOT_STRUCTURED_LOGGING_FILE`: If structured logging is enabled and this env var is set, structured logs will be written to this file (ex. `/data/sourcebot.log`)
+- `SOURCECAT_STRUCTURED_LOGGING_ENABLED` (default: `false`): Controls whether logs are in a structured JSON format
+- `SOURCECAT_STRUCTURED_LOGGING_FILE`: If structured logging is enabled and this env var is set, structured logs will be written to this file (ex. `/data/sourcecat.log`)
 
 ### Structured log schema
 ```json
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
-    "title": "SourcebotLog",
+    "title": "SourcecatLog",
     "properties": {
         "level": {
             "type": "string",
@@ -21,7 +21,7 @@ By default, Sourcebot will output logs to the console in a human readable format
         },
         "service": {
             "type": "string",
-            "description": "The Sourcebot component that generated the log"
+            "description": "The Sourcecat component that generated the log"
         },
         "message": {
             "type": "string",

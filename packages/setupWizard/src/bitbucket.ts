@@ -1,7 +1,7 @@
 import { sourceSummary } from './telemetrySummary.js';
 import { confirm, input, password, select } from './prompts.js';
 import { checkbox } from './prompts.js';
-import type { BitbucketConnectionConfig } from '@sourcebot/schemas/v3/bitbucket.type';
+import type { BitbucketConnectionConfig } from '@sourcecat/schemas/v3/bitbucket.type';
 import type { CollectResult, EnvVars } from './utils.js';
 import { multiInput, note, toEnvKey } from './utils.js';
 

@@ -3,7 +3,7 @@ import { __unsafePrisma } from "@/prisma";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { notFound, redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SourcebotLogo } from "@/app/components/sourcebotLogo";
+import { SourcecatLogo } from "@/app/components/sourcecatLogo";
 import { AuthMethodSelector } from "@/app/components/authMethodSelector";
 import { JoinOrganizationCard } from "@/features/membership/components/joinOrganizationCard";
 import { NotProvisionedCard } from "@/features/membership/components/notProvisionedCard";
@@ -63,15 +63,15 @@ function WelcomeCard({ inviteLinkId }: { inviteLinkId: string; }) {
         <div className="min-h-screen bg-gradient-to-br from-[var(--background)] to-[var(--accent)]/30 flex items-center justify-center p-6">
             <Card className="w-full max-w-md">
                 <CardHeader className="text-center">
-                    <SourcebotLogo className="h-12 mb-4 mx-auto" size="large" />
+                    <SourcecatLogo className="h-12 mb-4 mx-auto" size="large" />
                     <CardTitle className="text-2xl font-semibold">
-                        Welcome to Sourcebot
+                        Welcome to Sourcecat
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="text-center space-y-3">
                         <p className="text-[var(--muted-foreground)] text-[15px] leading-6">
-                            You&apos;ve been invited to join this Sourcebot deployment. Sign up to get started.
+                            You&apos;ve been invited to join this Sourcecat deployment. Sign up to get started.
                         </p>
                     </div>  
 

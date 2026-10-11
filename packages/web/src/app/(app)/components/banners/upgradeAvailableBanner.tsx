@@ -15,12 +15,12 @@ export function UpgradeAvailableBanner({ id, dismissible, currentVersion, latest
             id={id}
             dismissible={dismissible}
             icon={<CircleArrowUp className="h-4 w-4 mt-0.5" />}
-            title="New Sourcebot version available"
+            title="New Sourcecat version available"
             description={`Update from ${currentVersion} to ${latestVersion}.`}
             action={
                 <Button asChild size="sm" variant="outline">
                     <Link
-                        href="https://github.com/sourcebot-dev/sourcebot/releases/latest"
+                        href="https://github.com/simonsmh/sourcecat/releases/latest"
                         target="_blank"
                         rel="noreferrer"
                     >

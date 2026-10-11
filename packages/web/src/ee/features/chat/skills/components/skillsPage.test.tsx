@@ -125,7 +125,7 @@ function renderSkillsPage({
                 <SkillsPage
                     initialPersonalSkills={personalSkills}
                     initialSharedSkills={sharedSkills}
-                    currentUserEmail="jack@sourcebot.dev"
+                    currentUserEmail="jack@sourcecat.dev"
                     isOwner={isOwner}
                     initialSelectedId={initialSelectedId}
                     permissionSyncEnabled={permissionSyncEnabled}
@@ -143,7 +143,7 @@ const sharedSkill: SharedAgentSkillCatalogItem = {
     description: 'Release steps',
     instructions: 'Do release steps',
     source: null,
-    createdByEmail: 'author@sourcebot.dev',
+    createdByEmail: 'author@sourcecat.dev',
     enabled: true,
     autoEnrolled: true,
     isAdopted: false,
@@ -575,7 +575,7 @@ describe('SkillsPage', () => {
                     <SkillsPage
                         initialPersonalSkills={[]}
                         initialSharedSkills={sharedSkills}
-                        currentUserEmail="jack@sourcebot.dev"
+                        currentUserEmail="jack@sourcecat.dev"
                         isOwner={true}
                         permissionSyncEnabled={true}
                     />

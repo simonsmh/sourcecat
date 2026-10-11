@@ -7,7 +7,7 @@ CREATE TABLE "Audit" (
     "actorType" TEXT NOT NULL,
     "targetId" TEXT NOT NULL,
     "targetType" TEXT NOT NULL,
-    "sourcebotVersion" TEXT NOT NULL,
+    "sourcecatVersion" TEXT NOT NULL,
     "metadata" JSONB,
     "orgId" INTEGER NOT NULL,
 

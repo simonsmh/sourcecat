@@ -27,7 +27,7 @@ import { ClientCard } from "./clientCard";
 import { MCP_CLIENTS, matchKnownClient } from "./clients";
 import { UpsellDialog } from "@/features/billing/upsellDialog";
 
-const DOCS_URL = "https://docs.sourcebot.dev/docs/features/mcp-server";
+const DOCS_URL = "https://docs.sourcecat.dev/docs/features/mcp-server";
 
 interface McpPageProps {
     mcpServerUrl: string;
@@ -75,7 +75,7 @@ export function McpPage({
             <div>
                 <h3 className="text-lg font-medium">MCP Server</h3>
                 <p className="text-sm text-muted-foreground">
-                    Connect your agents to Sourcebot to allow them to fetch code context, and more. <Link href={DOCS_URL} target="_blank" className="text-link hover:underline">Learn more</Link>
+                    Connect your agents to Sourcecat to allow them to fetch code context, and more. <Link href={DOCS_URL} target="_blank" className="text-link hover:underline">Learn more</Link>
                 </p>
             </div>
 
@@ -122,7 +122,7 @@ export function McpPage({
                         <div>
                             <h4 className="text-base font-medium">Install in a client</h4>
                             <p className="text-sm text-muted-foreground">
-                                Set up Sourcebot in your editor or coding agent.
+                                Set up Sourcecat in your editor or coding agent.
                             </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -138,7 +138,7 @@ export function McpPage({
                 <div>
                     <h4 className="text-base font-medium">Connected clients</h4>
                     <p className="text-sm text-muted-foreground">
-                        MCP clients that have been authorized to access Sourcebot on your behalf.
+                        MCP clients that have been authorized to access Sourcecat on your behalf.
                     </p>
                 </div>
 
@@ -181,7 +181,7 @@ export function McpPage({
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Disconnect {client.name}?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    <span className="font-semibold text-foreground">{client.name}</span> will no longer be able to access Sourcebot. You can reconnect it by re-authorizing from the client. This action cannot be undone.
+                                                    <span className="font-semibold text-foreground">{client.name}</span> will no longer be able to access Sourcecat. You can reconnect it by re-authorizing from the client. This action cannot be undone.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>

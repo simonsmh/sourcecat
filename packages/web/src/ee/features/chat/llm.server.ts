@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
+import { LanguageModel } from '@sourcecat/schemas/v3/languageModel.type';
 import { generateText } from "ai";
 import { getAISDKLanguageModelAndOptions } from "@/features/chat/llm.server";
 

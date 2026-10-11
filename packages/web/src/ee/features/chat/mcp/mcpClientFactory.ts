@@ -1,8 +1,8 @@
-import { createLogger } from '@sourcebot/shared';
+import { createLogger } from '@sourcecat/shared';
 import { PrismaOAuthClientProvider } from '@/ee/features/chat/mcp/prismaOAuthClientProvider';
 import { getMcpOAuthCallbackUrl } from '@/ee/features/chat/mcp/utils.server';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import type { PrismaClient } from '@sourcebot/db';
+import type { PrismaClient } from '@sourcecat/db';
 import { getExternalMcpErrorLogFields } from './externalMcpError';
 import { getStoredMcpConnectionStatus } from './connectionStatus';
 import { getEnabledMcpOAuthScopeNames } from './oauthScopeUtils';

@@ -13,7 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Button } from "@/components/ui/button"
 import { listChangelogEntries } from "@/app/api/(client)/client"
 import { unwrapServiceError } from "@/lib/utils"
-import { env, SOURCEBOT_VERSION } from "@sourcebot/shared/client"
+import { env, SOURCECAT_VERSION } from "@sourcecat/shared/client"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2, Mail, MailOpen, Megaphone } from "lucide-react"
 import Link from "next/link"
@@ -184,11 +184,11 @@ export function WhatsNewSidebarButton() {
                         )}
                         <Separator />
                         <div className="px-2 py-2 text-xs text-muted-foreground">
-                            Current version: {SOURCEBOT_VERSION}
+                            Current version: {SOURCECAT_VERSION}
                             {env.NEXT_PUBLIC_BUILD_COMMIT_SHA && (
                                 <Link
                                     className="ml-1 font-mono"
-                                    href={`https://github.com/sourcebot-dev/sourcebot/commit/${env.NEXT_PUBLIC_BUILD_COMMIT_SHA}`}
+                                    href={`https://github.com/simonsmh/sourcecat/commit/${env.NEXT_PUBLIC_BUILD_COMMIT_SHA}`}
                                 >
                                     (<span className="hover:underline">{env.NEXT_PUBLIC_BUILD_COMMIT_SHA.substring(0, 7)}</span>)
                                 </Link>

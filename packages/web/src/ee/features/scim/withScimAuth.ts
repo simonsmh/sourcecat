@@ -1,7 +1,7 @@
 import { __unsafePrisma } from "@/prisma";
 import { hasEntitlement } from "@/lib/entitlements";
-import { hashSecret, SCIM_TOKEN_PREFIX, createLogger } from "@sourcebot/shared";
-import { Org, PrismaClient } from "@sourcebot/db";
+import { hashSecret, SCIM_TOKEN_PREFIX, createLogger } from "@sourcecat/shared";
+import { Org, PrismaClient } from "@sourcecat/db";
 import { NextRequest } from "next/server";
 import { scimError } from "./mapper";
 

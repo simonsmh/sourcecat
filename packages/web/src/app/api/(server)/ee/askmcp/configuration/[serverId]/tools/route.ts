@@ -11,7 +11,7 @@ import { getMcpToolMetadataForServer } from '@/ee/features/chat/mcp/mcpToolMetad
 import { getDefaultMcpServerToolPermission } from '@/ee/features/chat/mcp/mcpToolPermissions';
 import type { GetMcpServerToolPermissionsResponse, McpServerToolPermissionsStatus } from '@/ee/features/chat/mcp/types';
 import { __unsafePrisma } from '@/prisma';
-import { OrgRole } from '@sourcebot/db';
+import { OrgRole } from '@sourcecat/db';
 import { StatusCodes } from 'http-status-codes';
 import type { NextRequest } from 'next/server';
 

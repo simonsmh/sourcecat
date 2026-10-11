@@ -1,7 +1,7 @@
 import { getRepoInfoByName } from "@/actions";
 import { FileTreeNode, getTree } from "@/features/git";
 import { isServiceError } from "@/lib/utils";
-import { CodeHostType } from "@sourcebot/db";
+import { CodeHostType } from "@sourcecat/db";
 import { z } from "zod";
 import description from "./listTree.txt";
 import { logger } from "./logger";

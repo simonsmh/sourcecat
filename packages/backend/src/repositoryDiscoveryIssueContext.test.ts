@@ -16,7 +16,7 @@ const repositoryIssue = (repository: string) => ({
 
 describe("repository discovery issue context", () => {
     test("returns the routine value and collected issues", async () => {
-        const issue = repositoryIssue("sourcebot-dev/legacy");
+        const issue = repositoryIssue("simonsmh/legacy");
 
         await expect(
             collectRepositoryDiscoveryIssues(async () => {
@@ -32,13 +32,13 @@ describe("repository discovery issue context", () => {
     test("does nothing when reporting outside a collection context", () => {
         expect(() =>
             reportRepositoryDiscoveryIssue(
-                repositoryIssue("sourcebot-dev/legacy"),
+                repositoryIssue("simonsmh/legacy"),
             )
         ).not.toThrow();
     });
 
     test("deduplicates identical issues", async () => {
-        const issue = repositoryIssue("sourcebot-dev/legacy");
+        const issue = repositoryIssue("simonsmh/legacy");
 
         await expect(
             collectRepositoryDiscoveryIssues(() => {
@@ -92,7 +92,7 @@ describe("repository discovery issue context", () => {
         ).rejects.toThrow("Discovery failed");
 
         reportRepositoryDiscoveryIssue(
-            repositoryIssue("sourcebot-dev/legacy"),
+            repositoryIssue("simonsmh/legacy"),
         );
         await expect(
             collectRepositoryDiscoveryIssues(async () => {}),

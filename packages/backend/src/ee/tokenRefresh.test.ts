@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import type { Account, PrismaClient } from '@sourcebot/db';
+import type { Account, PrismaClient } from '@sourcecat/db';
 
 const sharedMocks = vi.hoisted(() => ({
     decryptOAuthToken: vi.fn(),
@@ -8,8 +8,8 @@ const sharedMocks = vi.hoisted(() => ({
     getTokenFromConfig: vi.fn(),
 }));
 
-vi.mock('@sourcebot/shared', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('@sourcebot/shared')>();
+vi.mock('@sourcecat/shared', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@sourcecat/shared')>();
     return {
         ...actual,
         createLogger: vi.fn(() => ({

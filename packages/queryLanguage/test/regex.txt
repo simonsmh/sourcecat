@@ -59,12 +59,12 @@ Program(AndExpr(PrefixExpr(FileExpr),Term))
 Program(ParenExpr(OrExpr(PrefixExpr(FileExpr),PrefixExpr(FileExpr))))
 
 # Regex query with grouped prefix filters
-repo:^github\.com/sourcebot\x2ddev/sourcebot$ (file:.yarnrc.yml or file:README.md)
+repo:^github\.com/sourcecat\x2ddev/sourcecat$ (file:.yarnrc.yml or file:README.md)
 ==>
 Program(AndExpr(PrefixExpr(RepoExpr),ParenExpr(OrExpr(PrefixExpr(FileExpr),PrefixExpr(FileExpr)))))
 
 # Multiple filters with a parenthesized regex OR group
-repo:^github\.com/sourcebot-dev/.+$ lang:Dockerfile ( FROM\s+node or RUN\s+npm )
+repo:^github\.com/simonsmh/.+$ lang:Dockerfile ( FROM\s+node or RUN\s+npm )
 ==>
 Program(AndExpr(PrefixExpr(RepoExpr),PrefixExpr(LangExpr),ParenExpr(OrExpr(Term,Term))))
 

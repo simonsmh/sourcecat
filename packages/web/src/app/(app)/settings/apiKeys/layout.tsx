@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { OrgRole } from "@sourcebot/db";
-import { env } from "@sourcebot/shared";
+import { OrgRole } from "@sourcecat/db";
+import { env } from "@sourcecat/shared";
 import { authenticatedPage } from "@/middleware/authenticatedPage";
 import { SettingsContainer } from "../components/settingsContainer";
 import { ReactNode } from "react";

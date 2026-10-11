@@ -14,7 +14,7 @@ import { PendingApprovalCard } from "../../features/membership/components/pendin
 import { SubmitJoinRequestCard } from "../../features/membership/components/submitJoinRequestCard";
 import { NotProvisionedCard } from "@/features/membership/components/notProvisionedCard";
 import { isScimEnabled } from "@/features/scim/utils";
-import { env, SOURCEBOT_VERSION, isMemberApprovalRequired } from "@sourcebot/shared";
+import { env, SOURCECAT_VERSION, isMemberApprovalRequired } from "@sourcecat/shared";
 import { hasEntitlement, isAnonymousAccessEnabled } from "@/lib/entitlements";
 import { GcpIapAuth } from "./components/gcpIapAuth";
 import { JoinOrganizationCard } from "@/features/membership/components/joinOrganizationCard";
@@ -23,14 +23,14 @@ import { BannerSlot } from "./components/banners/bannerSlot";
 import { BannerHeightObserver } from "./components/banners/bannerHeightObserver";
 import { activeOrPendingMembershipWhere } from "@/features/membership/utils";
 import { getPermissionSyncStatus } from "../api/(server)/ee/permissionSyncStatus/api";
-import { OrgRole } from "@sourcebot/db";
+import { OrgRole } from "@sourcecat/db";
 import { ServiceErrorException } from "@/lib/serviceError";
 import { AccountLinkingGuard } from "@/ee/features/sso/components/accountLinkingGuard";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { CheckoutReturnHandler } from "@/features/billing/checkoutReturnHandler";
 import { RoleProvider } from "@/features/auth/roleProvider";
 import { HasLicenseProvider } from "@/features/billing/hasLicenseProvider";
-import { tryGetLatestSourcebotTag } from "./components/banners/actions";
+import { tryGetLatestSourcecatTag } from "./components/banners/actions";
 import { LanguageModelProvider } from "@/features/chat/languageModelContext";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { getRepositorySyncCounts } from "@/features/repos/repositorySyncCounts.server";
@@ -177,7 +177,7 @@ export default async function Layout(props: LayoutProps) {
     const offlineLicense = null;
     const license = null;
 
-    const latestVersion = await tryGetLatestSourcebotTag({
+    const latestVersion = await tryGetLatestSourcecatTag({
         timeoutMs: 3000
     });
 
@@ -206,7 +206,7 @@ export default async function Layout(props: LayoutProps) {
                                                         permissionSyncIssues={permissionSyncIssues}
                                                         connectionSyncCounts={connectionSyncCounts}
                                                         repositorySyncCounts={repositorySyncCounts}
-                                                        currentVersion={SOURCEBOT_VERSION}
+                                                        currentVersion={SOURCECAT_VERSION}
                                                         latestVersion={latestVersion}
                                                     />
                                                 </BannerHeightObserver>

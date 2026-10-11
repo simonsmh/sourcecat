@@ -1,8 +1,8 @@
 {
-    "name": "Sourcebot Development",
+    "name": "Sourcecat Development",
     "dockerComposeFile": "docker-compose.yml",
     "service": "devcontainer",
-    "workspaceFolder": "/workspaces/sourcebot",
+    "workspaceFolder": "/workspaces/sourcecat",
 
     "features": {
         "ghcr.io/devcontainers/features/git:1": {},

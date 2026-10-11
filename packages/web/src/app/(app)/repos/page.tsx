@@ -6,10 +6,10 @@ import {
 import {
     REPO_INDEX_QUEUE,
     type WorkloadJob,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { getRepositorySyncCounts } from "@/features/repos/repositorySyncCounts.server";
 import { isServiceError } from "@/lib/utils";
-import { OrgRole, type Prisma } from "@sourcebot/db";
+import { OrgRole, type Prisma } from "@sourcecat/db";
 import { z } from "zod";
 import { ReposTable } from "./components/reposTable";
 

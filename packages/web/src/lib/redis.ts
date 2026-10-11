@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createRedisClient } from '@sourcebot/shared';
+import { createRedisClient } from '@sourcecat/shared';
 
 let redis: ReturnType<typeof createRedisClient> | undefined;
 

@@ -1,6 +1,6 @@
 /// <reference path="./types/redlock.d.ts" />
 
-import { createLogger } from "@sourcebot/shared";
+import { createLogger } from "@sourcecat/shared";
 import type { Redis } from "ioredis";
 import Redlock, {
     ExecutionError,

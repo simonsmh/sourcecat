@@ -20,7 +20,7 @@ try {
     execFileSync(process.execPath, [require.resolve('typescript/bin/tsc'), '-p', pkg], { stdio: 'inherit' });
     const manifest = JSON.parse(readFileSync(join(pkg, 'package.json'), 'utf8'));
     // Yarn pack rewrites this dev-only workspace reference; mirror that transformation.
-    manifest.devDependencies['@sourcebot/schemas'] = JSON.parse(readFileSync(join(repo, 'packages/schemas/package.json'), 'utf8')).version;
+    manifest.devDependencies['@sourcecat/schemas'] = JSON.parse(readFileSync(join(repo, 'packages/schemas/package.json'), 'utf8')).version;
     writeFileSync(join(pkg, 'package.json'), JSON.stringify(manifest));
     const env = { ...process.env, PATH: `${dirname(process.execPath)}${delimiter}${process.env.PATH}`, PACKAGE_TRACKER_ANALYTICS: 'false' };
     const tgz = execFileSync('npm', ['pack', '--ignore-scripts', '--silent'], { cwd: pkg, env, encoding: 'utf8' }).trim();
@@ -28,16 +28,16 @@ try {
     mkdirSync(install);
     writeFileSync(join(install, 'package.json'), '{"private":true,"allowScripts":{"reo-census":true}}');
     execFileSync('npm', ['install', '--no-audit', '--no-fund', join(pkg, tgz)], { cwd: install, env });
-    const prior = { ...packed, bin: join(install, 'node_modules/.bin/setup-sourcebot'), installed: join(install, 'node_modules/setup-sourcebot') };
+    const prior = { ...packed, bin: join(install, 'node_modules/.bin/setup-sourcecat'), installed: join(install, 'node_modules/setup-sourcecat') };
     const normalize = files => Object.fromEntries(Object.entries(files).map(([name, contents]) => [name, name === '.env'
-        ? contents.replace(/^SOURCEBOT_INSTALL_ID=.*\n/gm, '').replace(/^# Deployment identifier\n/gm, '').replace(/^(AUTH_SECRET|SOURCEBOT_ENCRYPTION_KEY)=.*$/gm, '$1=<generated>').replace(/\n{3,}/g, '\n\n').trim()
+        ? contents.replace(/^SOURCECAT_INSTALL_ID=.*\n/gm, '').replace(/^# Deployment identifier\n/gm, '').replace(/^(AUTH_SECRET|SOURCECAT_ENCRYPTION_KEY)=.*$/gm, '$1=<generated>').replace(/\n{3,}/g, '\n\n').trim()
         : contents]));
     for (const download of [false, true]) {
         const run = (target, baseline) => scenario(target, { baseline }, async d => {
             await minimal(d);
             await d.answer('Download docker-compose.yml?', download ? 'y' : 'n');
             if (download) {
-                await d.answer('Start Sourcebot now?', 'n');
+                await d.answer('Start Sourcecat now?', 'n');
             }
         });
         const original = await run(prior, true);

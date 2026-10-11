@@ -25,7 +25,7 @@ import { LatestCommitInfo } from "./latestCommitInfo";
 
 export const BOTTOM_PANEL_MIN_SIZE = 35;
 export const BOTTOM_PANEL_MAX_SIZE = 65;
-const CODE_NAV_DOCS_URL = "https://docs.sourcebot.dev/docs/features/code-navigation";
+const CODE_NAV_DOCS_URL = "https://docs.sourcecat.dev/docs/features/code-navigation";
 
 interface BottomPanelProps {
     order: number;

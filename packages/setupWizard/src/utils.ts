@@ -2,7 +2,7 @@ import type { CodeSourceSummary } from './telemetryEvents.js';
 import chalk from 'chalk';
 import { randomBytes } from 'crypto';
 import { searchSelect } from './prompts.js';
-import type { ConnectionConfig } from '@sourcebot/schemas/v3/index.type';
+import type { ConnectionConfig } from '@sourcecat/schemas/v3/index.type';
 
 export type { ConnectionConfig };
 export type EnvVars = Record<string, string>;
@@ -16,7 +16,7 @@ export type CollectResult = {
     env: EnvVars;
     telemetry: CodeSourceSummary;
     /**
-     * Optional host path that needs to be mounted into the Sourcebot container.
+     * Optional host path that needs to be mounted into the Sourcecat container.
      * Surfaced in the wizard's next-steps so users get the matching volume mount line.
      */
     localRepoHostPath?: string;

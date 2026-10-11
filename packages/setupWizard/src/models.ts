@@ -9,7 +9,7 @@ import type {
     GoogleVertexLanguageModel,
     LanguageModel,
     OpenAICompatibleLanguageModel,
-} from '@sourcebot/schemas/v3/languageModel.type';
+} from '@sourcecat/schemas/v3/languageModel.type';
 import { INPUT_THEME, note, type EnvVars } from './utils.js';
 
 type Provider = LanguageModel['provider'];
@@ -331,7 +331,7 @@ export async function collectModels(
         [
             'AI features include Ask, which lets you ask questions about your codebase',
             'in natural language and get answers grounded in your indexed code.',
-            '  https://docs.sourcebot.dev/docs/features/ask/ask-sourcebot',
+            '  https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat',
             '',
             'You\'ll need an API key from at least one supported provider',
             '(Anthropic, OpenAI, Google, etc.) to enable these features.',

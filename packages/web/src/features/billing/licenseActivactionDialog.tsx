@@ -212,7 +212,7 @@ export function LicenseActivactionDialog() {
                         <p className="text-xs text-muted-foreground text-center">
                             Didn&apos;t get it?{" "}
                             <a
-                                href="mailto:support@sourcebot.dev"
+                                href="mailto:support@sourcecat.dev"
                                 className="text-primary hover:underline"
                             >
                                 Email us

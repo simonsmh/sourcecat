@@ -1,4 +1,4 @@
-import type { AccountPermissionSyncIssue } from "@sourcebot/db";
+import type { AccountPermissionSyncIssue } from "@sourcecat/db";
 
 export type LinkedAccount = {
     /** Provider instance id (e.g., 'github', 'gitlab-corp') — used for `signIn(provider)`. */

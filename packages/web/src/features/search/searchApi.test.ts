@@ -26,7 +26,7 @@ vi.mock('@/lib/entitlements', () => ({
     hasEntitlement: mocks.hasEntitlement,
 }));
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: mocks.env,
 }));
 

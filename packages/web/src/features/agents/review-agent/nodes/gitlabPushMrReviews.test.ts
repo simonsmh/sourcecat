@@ -1,11 +1,11 @@
 import { expect, test, vi, describe } from 'vitest';
 import { Gitlab } from '@gitbeaker/rest';
 import { gitlabPushMrReviews } from './gitlabPushMrReviews';
-import { sourcebot_pr_payload, sourcebot_file_diff_review } from '../types';
+import { sourcecat_pr_payload, sourcecat_file_diff_review } from '../types';
 
 type GitlabClient = InstanceType<typeof Gitlab>;
 
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     createLogger: () => ({
         debug: vi.fn(),
         info: vi.fn(),
@@ -14,7 +14,7 @@ vi.mock('@sourcebot/shared', () => ({
     }),
 }));
 
-const MOCK_PAYLOAD: sourcebot_pr_payload = {
+const MOCK_PAYLOAD: sourcecat_pr_payload = {
     title: 'Test MR',
     description: 'desc',
     hostDomain: 'gitlab.com',
@@ -30,7 +30,7 @@ const MOCK_PAYLOAD: sourcebot_pr_payload = {
     },
 };
 
-const SINGLE_REVIEW: sourcebot_file_diff_review[] = [
+const SINGLE_REVIEW: sourcecat_file_diff_review[] = [
     {
         filename: 'src/foo.ts',
         reviews: [{ line_start: 5, line_end: 5, review: 'Avoid this pattern' }],
@@ -106,7 +106,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('fallback note body includes the line range', async () => {
-        const multiLineReviews: sourcebot_file_diff_review[] = [
+        const multiLineReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/bar.ts',
                 reviews: [{ line_start: 10, line_end: 20, review: 'Refactor this block' }],
@@ -123,7 +123,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('returns early and does not post when diff_refs is missing', async () => {
-        const payloadWithoutRefs: sourcebot_pr_payload = { ...MOCK_PAYLOAD, diff_refs: undefined };
+        const payloadWithoutRefs: sourcecat_pr_payload = { ...MOCK_PAYLOAD, diff_refs: undefined };
         const client = makeMockClient();
 
         await gitlabPushMrReviews(client, 101, payloadWithoutRefs, SINGLE_REVIEW);
@@ -133,7 +133,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('posts multiple reviews across multiple files', async () => {
-        const multiFileReviews: sourcebot_file_diff_review[] = [
+        const multiFileReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/a.ts',
                 reviews: [
@@ -154,7 +154,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('continues posting remaining reviews when one inline comment fails', async () => {
-        const twoReviews: sourcebot_file_diff_review[] = [
+        const twoReviews: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/foo.ts',
                 reviews: [
@@ -190,7 +190,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('uses oldFilename as oldPath when file was renamed', async () => {
-        const renamedReview: sourcebot_file_diff_review[] = [
+        const renamedReview: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/new-name.ts',
                 oldFilename: 'src/old-name.ts',
@@ -216,7 +216,7 @@ describe('gitlabPushMrReviews', () => {
 
     test('passes oldLine for context lines', async () => {
         // old line 47 = new line 48 (a line was added at new line 47 before it)
-        const payloadWithDiffs: sourcebot_pr_payload = {
+        const payloadWithDiffs: sourcecat_pr_payload = {
             ...MOCK_PAYLOAD,
             file_diffs: [{
                 from: 'src/foo.ts',
@@ -227,7 +227,7 @@ describe('gitlabPushMrReviews', () => {
                 }],
             }],
         };
-        const contextReview: sourcebot_file_diff_review[] = [
+        const contextReview: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/foo.ts',
                 reviews: [{ line_start: 48, line_end: 48, review: 'Context line comment' }],
@@ -251,7 +251,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('does not pass oldLine for added lines', async () => {
-        const payloadWithDiffs: sourcebot_pr_payload = {
+        const payloadWithDiffs: sourcecat_pr_payload = {
             ...MOCK_PAYLOAD,
             file_diffs: [{
                 from: 'src/foo.ts',
@@ -262,7 +262,7 @@ describe('gitlabPushMrReviews', () => {
                 }],
             }],
         };
-        const addedLineReview: sourcebot_file_diff_review[] = [
+        const addedLineReview: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/foo.ts',
                 reviews: [{ line_start: 2, line_end: 2, review: 'Comment on added line' }],
@@ -278,7 +278,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('uses new path for both oldPath and newPath when old path is /dev/null (added file)', async () => {
-        const addedFileReview: sourcebot_file_diff_review[] = [
+        const addedFileReview: sourcecat_file_diff_review[] = [
             {
                 filename: 'src/new-file.ts',
                 oldFilename: '/dev/null',
@@ -303,7 +303,7 @@ describe('gitlabPushMrReviews', () => {
     });
 
     test('uses old path for both oldPath and newPath when new path is /dev/null (deleted file)', async () => {
-        const deletedFileReview: sourcebot_file_diff_review[] = [
+        const deletedFileReview: sourcecat_file_diff_review[] = [
             {
                 filename: '/dev/null',
                 oldFilename: 'src/deleted-file.ts',

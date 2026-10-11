@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { hasEntitlement } from '@/lib/entitlements';
 import { OAUTH_NOT_SUPPORTED_ERROR_MESSAGE } from '@/ee/features/oauth/constants';
 import { ConnectMcpResponse } from "@/app/api/(server)/ee/askmcp/connect/types";
-import { createLogger, env } from "@sourcebot/shared";
+import { createLogger, env } from "@sourcecat/shared";
 import { __unsafePrisma } from '@/prisma';
 import { getExternalMcpErrorLogFields } from '@/ee/features/chat/mcp/externalMcpError';
 import { getMcpOAuthCallbackUrl } from '@/ee/features/chat/mcp/utils.server';
@@ -27,7 +27,7 @@ const bodySchema = z.object({
     forceAuthorization: z.boolean().optional().default(false),
 });
 const logger = createLogger('mcp-connect');
-const MCP_AUTH_FETCH_TIMEOUT_MS = Math.min(env.SOURCEBOT_MCP_TOOL_CALL_TIMEOUT_MS, 30000);
+const MCP_AUTH_FETCH_TIMEOUT_MS = Math.min(env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS, 30000);
 const MCP_AUTH_TRANSACTION_MAX_WAIT_MS = 10000;
 const MCP_AUTH_TRANSACTION_TIMEOUT_MS = MCP_AUTH_FETCH_TIMEOUT_MS + 5000;
 
@@ -87,7 +87,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
         });
         if (!mcpServer) {
             void captureEvent('ask_mcp_connector_connection_failed', {
-                source: 'sourcebot-web-client',
+                source: 'sourcecat-web-client',
                 entryPoint,
                 serverId: parsed.data.serverId,
                 failureReason: 'connector_not_found',
@@ -96,7 +96,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
         }
 
         const eventProperties = {
-            source: 'sourcebot-web-client' as const,
+            source: 'sourcecat-web-client' as const,
             entryPoint,
             serverId: mcpServer.id,
             serverUrl: mcpServer.serverUrl,

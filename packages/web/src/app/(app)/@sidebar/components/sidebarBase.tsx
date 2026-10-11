@@ -1,6 +1,6 @@
 "use client";
 
-import { SourcebotLogo } from "@/app/components/sourcebotLogo";
+import { SourcecatLogo } from "@/app/components/sourcecatLogo";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -102,10 +102,10 @@ export function SidebarBase({ session, collapsible = "icon", headerContent, chil
                 <SidebarHeader className={cn("pt-4 border-b transition-[border-color] duration-200", isScrolled ? "border-sidebar-border" : "border-transparent")}>
                     <Link href="/">
                         <div className="group-data-[state=collapsed]:hidden">
-                            <SourcebotLogo className="w-fit h-8" size="large" />
+                            <SourcecatLogo className="w-fit h-8" size="large" />
                         </div>
                         <div className="hidden group-data-[state=collapsed]:block">
-                            <SourcebotLogo className="w-fit h-8" size="small" />
+                            <SourcecatLogo className="w-fit h-8" size="small" />
                         </div>
                     </Link>
                     {headerContent}

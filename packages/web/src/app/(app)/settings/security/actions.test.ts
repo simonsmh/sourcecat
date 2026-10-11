@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('@/auth', () => ({ getProviders: vi.fn() }));
 vi.mock('@/lib/entitlements', () => ({ isAnonymousAccessAvailable: vi.fn() }));
-vi.mock('@sourcebot/shared', () => ({
+vi.mock('@sourcecat/shared', () => ({
     env: {},
     createLogger: () => ({ error: vi.fn() }),
 }));

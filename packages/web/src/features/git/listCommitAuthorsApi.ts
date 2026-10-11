@@ -1,7 +1,7 @@
 import { sew } from "@/middleware/sew";
 import { invalidGitRef, notFound, ServiceError, unexpectedError } from '@/lib/serviceError';
 import { withOptionalAuth } from '@/middleware/withAuth';
-import { getRepoPath } from '@sourcebot/shared';
+import { getRepoPath } from '@sourcecat/shared';
 import { z } from 'zod';
 import { simpleGit } from 'simple-git';
 import { commitAuthorSchema } from './schemas';

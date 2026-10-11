@@ -3,7 +3,7 @@ import {
     _hasEntitlement,
     _getEntitlements,
     env,
-} from "@sourcebot/shared";
+} from "@sourcecat/shared";
 import { prisma } from "./prisma.js";
 import { SINGLE_TENANT_ORG_ID } from "./constants.js";
 

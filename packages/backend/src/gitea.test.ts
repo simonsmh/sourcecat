@@ -1,4 +1,4 @@
-import type { GiteaConnectionConfig } from '@sourcebot/schemas/v3/gitea.type';
+import type { GiteaConnectionConfig } from '@sourcecat/schemas/v3/gitea.type';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => {

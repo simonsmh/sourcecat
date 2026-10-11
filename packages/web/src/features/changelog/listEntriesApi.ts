@@ -1,6 +1,6 @@
 import { sew } from "@/middleware/sew";
 import { withOptionalAuth } from "@/middleware/withAuth";
-import { env } from "@sourcebot/shared";
+import { env } from "@sourcecat/shared";
 
 export type ChangelogEntryDto = {
     slug: string;

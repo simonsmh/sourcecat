@@ -121,7 +121,7 @@ export const useStreamedSearch = ({ query, matches, contextLines, whole, isRegex
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Sourcebot-Client-Source': 'sourcebot-web-client',
+                        'X-Sourcecat-Client-Source': 'sourcecat-web-client',
                     },
                     body: JSON.stringify({
                         query,
