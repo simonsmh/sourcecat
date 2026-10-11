@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { createPostHogClient, tryGetPostHogDistinctId } from "@/lib/posthog";
 import { logger } from "./logger";
 import Anthropic from "@anthropic-ai/sdk";
 import { createAmazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -17,7 +16,6 @@ import { LanguageModelV3 as AISDKLanguageModelV3 } from "@ai-sdk/provider";
 import { createXai } from '@ai-sdk/xai';
 import { fromNodeProviderChain } from '@aws-sdk/credential-providers';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { withTracing } from "@posthog/ai";
 import { LanguageModel } from '@sourcebot/schemas/v3/languageModel.type';
 import { Token } from "@sourcebot/schemas/v3/shared.type";
 import { env, getTokenFromConfig } from '@sourcebot/shared';
@@ -286,18 +284,8 @@ export const getAISDKLanguageModelAndOptions = async (config: LanguageModel): Pr
         }
     })();
 
-    const posthog = await createPostHogClient();
-    const { distinctId } = await tryGetPostHogDistinctId();
-
-    // Only enable posthog LLM analytics for the ask GH experiment.
-    const model = env.EXPERIMENT_ASK_GH_ENABLED === 'true' ?
-        withTracing(_model, posthog, {
-            // @note: Key anonymous events to the install id so they
-            // collapse to a single identity instead of a brand-new one
-            // on every call.
-            posthogDistinctId: distinctId ?? env.SOURCEBOT_INSTALL_ID,
-        }) :
-        _model;
+    // Fork: telemetry removed. The model is never wrapped with PostHog tracing.
+    const model = _model;
 
     return {
         model,

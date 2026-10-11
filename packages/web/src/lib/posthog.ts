@@ -82,49 +82,11 @@ export const tryGetPostHogDistinctId = async (): Promise<{
 }
 
 export const createPostHogClient = async () => {
-    const posthog = new PostHog(env.POSTHOG_PAPIK, {
-        host: 'https://us.i.posthog.com',
-        flushAt: 1,
-        flushInterval: 0
-    });
-
-    return posthog;
+    // Fork: telemetry removed. No client is created.
+    return null;
 }
 
-export async function captureEvent<E extends PosthogEvent>(event: E, properties: PosthogEventMap[E]) {
-    try {
-        if (env.SOURCEBOT_TELEMETRY_DISABLED === 'true') {
-            return;
-        }
-
-        const { distinctId, isIdentified } = await tryGetPostHogDistinctId();
-        const posthog = await createPostHogClient();
-
-        const headersList = await headers();
-        const host = headersList.get("host") ?? undefined;
-
-        posthog.capture({
-            event,
-            properties: {
-                ...properties,
-                sourcebot_version: SOURCEBOT_VERSION,
-                install_id: env.SOURCEBOT_INSTALL_ID,
-                $host: host,
-                // Mirror the client's `identified_only` setting: only identified
-                // users get a person profile. Anonymous requests (logged-out
-                // visitors and unauthenticated API calls) are sent as personless
-                // events so we don't create a person profile per request and
-                // inflate person counts/billing.
-                // @see: https://posthog.com/handbook/engineering/person-processing#personless-mode-anonymous-events
-                ...(isIdentified ? {} : { $process_person_profile: false }),
-            },
-            // @note: Key anonymous events to the install id so they
-            // collapse to a single identity instead of a brand-new one
-            // on every call.
-            distinctId: distinctId ?? env.SOURCEBOT_INSTALL_ID,
-            groups: { company: env.SOURCEBOT_INSTALL_ID },
-        });
-    } catch (error) {
-        logger.error('Failed to capture PostHog event:', error);
-    }
+export async function captureEvent<E extends PosthogEvent>(_event: E, _properties: PosthogEventMap[E]) {
+    // Fork: telemetry removed. Events are never sent to PostHog.
+    return;
 }

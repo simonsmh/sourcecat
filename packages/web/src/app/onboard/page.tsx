@@ -6,7 +6,6 @@ import { auth } from "@/auth";
 import { WelcomeStep } from "./components/welcomeStep";
 import { OwnerSignupStep } from "./components/ownerSignupStep";
 import { AccessSettingsStep } from "./components/accessSettingsStep";
-import { TrialStep, TrialStepTitle, TrialStepSubtitle } from "./components/trialStep";
 import { AlreadyLicensedStep } from "./components/alreadyLicensedStep";
 import { SINGLE_TENANT_ORG_ID } from "@/lib/constants";
 import { __unsafePrisma } from "@/prisma";
@@ -14,7 +13,7 @@ import { OrgRole } from "@sourcebot/db";
 import { LogoutEscapeHatch } from "@/app/components/logoutEscapeHatch";
 import { redirect } from "next/navigation";
 import { env } from "@sourcebot/shared";
-import { hasEntitlement, isValidLicenseActive } from "@/lib/entitlements";
+import { hasEntitlement } from "@/lib/entitlements";
 import { GcpIapAuth } from "@/app/(app)/components/gcpIapAuth";
 import { activeOrPendingMembershipWhere } from "@/features/membership/utils";
 
@@ -72,8 +71,6 @@ export default async function Onboarding(props: OnboardingProps) {
     const stepParam = searchParams?.step ? parseInt(searchParams.step) : 0;
     const currentStep = session?.user ? Math.max(2, stepParam) : Math.max(0, Math.min(stepParam, 1));
 
-    const isLicensed = await isValidLicenseActive();
-
     const steps: OnboardingStep[] = [];
 
     steps.push({
@@ -127,17 +124,13 @@ export default async function Onboarding(props: OnboardingProps) {
     });
 
     const finalStepIndex = steps.length;
-    steps.push(isLicensed ? {
+    // Fork: license verification removed. The trial/upsell step is deleted;
+    // onboarding always ends with the completion step.
+    steps.push({
         id: "complete",
         title: "You're all set",
         subtitle: "Your Sourcebot deployment is ready to go.",
         component: <AlreadyLicensedStep />,
-    } : {
-        id: "trial",
-        title: "Try Sourcebot Pro",
-        headerTitle: <TrialStepTitle />,
-        subtitle: <TrialStepSubtitle />,
-        component: <TrialStep stepIndex={finalStepIndex} />,
     });
 
     const currentStepData = steps[currentStep]

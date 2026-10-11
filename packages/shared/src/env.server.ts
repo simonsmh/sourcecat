@@ -227,7 +227,9 @@ const options = {
 
         DATA_CACHE_DIR: z.string(),
 
-        SOURCEBOT_PUBLIC_KEY_PATH: z.string(),
+        // Fork: license verification removed. The public key is no longer
+        // needed, so this is optional.
+        SOURCEBOT_PUBLIC_KEY_PATH: z.string().optional(),
 
         // Email
         // Either SMTP_CONNECTION_URL or SMTP_HOST must be set to enable transactional emails.

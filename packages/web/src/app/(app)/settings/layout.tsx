@@ -129,11 +129,6 @@ export const getSidebarNavGroups = async () =>
                         icon: "bot" as const,
                         requiredEntitlement: 'ask',
                     },
-                    {
-                        title: "License",
-                        href: `/settings/license`,
-                        icon: "scroll-text" as const,
-                    },
                 ],
             });
         }

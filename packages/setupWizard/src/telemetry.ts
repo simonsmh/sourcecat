@@ -108,55 +108,8 @@ export class Telemetry {
         return Math.max(0, Math.round(this.clock() - this.began));
     }
     capture<K extends EventName>(event: K, values: Events[K]): void {
-        if (this.closed || !this.client || !this.setupSessionId) {
-            return;
-        }
-        try {
-            const properties = validateFields(
-                eventSchemas[event],
-                values as never,
-            );
-            const version: unknown = bestEffort(
-                () =>
-                    JSON.parse(
-                        readFileSync(
-                            new URL('../package.json', import.meta.url),
-                            'utf8',
-                        ),
-                    ).version,
-                'unknown',
-            );
-            // Immediate independent requests can be ingested out of order. Preserve
-            // session order even across wall-clock adjustments and same-ms checkpoints.
-            this.lastTimestamp = Math.max(
-                this.lastTimestamp + 1,
-                this.wallClockStart + this.elapsed(),
-            );
-            this.client.capture({
-                distinctId: this.setupSessionId,
-                event: `setup_sourcebot_${event}`,
-                groups: { company: this.setupSessionId },
-                timestamp: new Date(this.lastTimestamp),
-                properties: {
-                    ...properties,
-                    ...systemProperties(),
-                    schemaVersion: 1,
-                    source: 'setup-sourcebot-cli',
-                    setupSourcebotVersion:
-                        typeof version === 'string' &&
-                        /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(version)
-                            ? version
-                            : 'unknown',
-                    setupSessionId: this.setupSessionId,
-                    install_id: this.setupSessionId,
-                    elapsedMs: this.elapsed(),
-                    $geoip_disable: true,
-                    $ignore_sent_at: true,
-                },
-            });
-        } catch {
-            /* Telemetry never participates in setup success. */
-        }
+        // Fork: telemetry removed. Events are never sent to PostHog.
+        return;
     }
     shutdown(): Promise<void> {
         if (!this.shutdownPromise) {

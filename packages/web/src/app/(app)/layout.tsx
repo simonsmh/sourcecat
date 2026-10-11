@@ -14,7 +14,7 @@ import { PendingApprovalCard } from "../../features/membership/components/pendin
 import { SubmitJoinRequestCard } from "../../features/membership/components/submitJoinRequestCard";
 import { NotProvisionedCard } from "@/features/membership/components/notProvisionedCard";
 import { isScimEnabled } from "@/features/scim/utils";
-import { env, getOfflineLicenseMetadata, SOURCEBOT_VERSION, isMemberApprovalRequired } from "@sourcebot/shared";
+import { env, SOURCEBOT_VERSION, isMemberApprovalRequired } from "@sourcebot/shared";
 import { hasEntitlement, isAnonymousAccessEnabled } from "@/lib/entitlements";
 import { GcpIapAuth } from "./components/gcpIapAuth";
 import { JoinOrganizationCard } from "@/features/membership/components/joinOrganizationCard";
@@ -173,10 +173,9 @@ export default async function Layout(props: LayoutProps) {
     }
     const connectionSyncCounts = connectionSyncCountsResult;
 
-    const offlineLicense = getOfflineLicenseMetadata();
-    const license = offlineLicense
-        ? null
-        : await __unsafePrisma.license.findUnique({ where: { orgId: org.id } });
+    // Fork: license verification removed. The license is always valid.
+    const offlineLicense = null;
+    const license = null;
 
     const latestVersion = await tryGetLatestSourcebotTag({
         timeoutMs: 3000
@@ -186,7 +185,7 @@ export default async function Layout(props: LayoutProps) {
         <AccountLinkingGuard callbackUrl="/">
             <RoleProvider role={role}>
                 <HasLicenseProvider
-                    hasLicense={offlineLicense !== null || license !== null}
+                    hasLicense={true}
                 >
                     <LanguageModelProvider>
                         <SyntaxGuideProvider>

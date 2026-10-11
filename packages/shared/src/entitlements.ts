@@ -76,7 +76,7 @@ export const verifyOnlineLicenseAssertion = (assertion: string): OnlineLicenseAs
             return null;
         }
 
-        if (!verifySignature(encodedPayload, signature, env.SOURCEBOT_PUBLIC_KEY_PATH)) {
+        if (!verifySignature(encodedPayload, signature, env.SOURCEBOT_PUBLIC_KEY_PATH ?? "")) {
             logger.error('Online license assertion signature verification failed');
             return null;
         }
@@ -131,7 +131,7 @@ const decodeOfflineLicenseKeyPayload = (payload: string): getValidOfflineLicense
             seats: licenseData.seats
         });
 
-        const isSignatureValid = verifySignature(dataToVerify, licenseData.sig, env.SOURCEBOT_PUBLIC_KEY_PATH);
+        const isSignatureValid = verifySignature(dataToVerify, licenseData.sig, env.SOURCEBOT_PUBLIC_KEY_PATH ?? "");
         if (!isSignatureValid) {
             logger.error('License key signature verification failed');
             return null;
@@ -206,52 +206,31 @@ const getValidOnlineLicense = (_license: License | null): ValidOnlineLicense | n
     return null;
 }
 
+// Fork: license verification removed. All license-gated checks below always
+// report an active license / grant all entitlements. No signature verification
+// is performed and no license server is contacted.
 export const isValidOfflineLicenseActive = (): boolean => {
-    return getValidOfflineLicense() !== null;
+    return true;
 }
 
 export const isValidOnlineLicenseActive = (_license: License | null): boolean => {
-    return getValidOnlineLicense(_license) !== null;
+    return true;
 }
 
 export const isValidLicenseActive = (_license: License | null): boolean => {
-    return (
-        isValidOfflineLicenseActive() ||
-        isValidOnlineLicenseActive(_license)
-    );
+    return true;
 }
 
 export const isAnonymousAccessAvailable = (_license: License | null): boolean => {
-    const offlineKey = getValidOfflineLicense();
-    if (offlineKey) {
-        return offlineKey.anonymousAccess === true;
-    }
-
-    const onlineLicense = getValidOnlineLicense(_license);
-    if (onlineLicense) {
-        return false;
-    }
     return true;
 }
 
 export const getEntitlements = (_license: License | null): Entitlement[] => {
-    const offlineLicense = getValidOfflineLicense();
-    if (offlineLicense) {
-        return ALL_ENTITLEMENTS as unknown as Entitlement[];
-    }
-
-    const onlineLicense = getValidOnlineLicense(_license);
-    if (onlineLicense) {
-        return onlineLicense.entitlements as unknown as Entitlement[];
-    }
-    else {
-        return [];
-    }
+    return [...ALL_ENTITLEMENTS];
 }
 
-export const hasEntitlement = (entitlement: Entitlement, _license: License | null) => {
-    const entitlements = getEntitlements(_license);
-    return entitlements.includes(entitlement);
+export const hasEntitlement = (_entitlement: Entitlement, _license: License | null) => {
+    return true;
 }
 
 export type OfflineLicenseMetadata = {
@@ -279,10 +258,5 @@ export const getOfflineLicenseMetadata = (): OfflineLicenseMetadata | null => {
 }
 
 export const getSeatCap = (): number | undefined => {
-    const offlineLicense = getValidOfflineLicense();
-    if (offlineLicense?.seats && offlineLicense.seats > 0) {
-        return offlineLicense.seats;
-    }
-
     return undefined;
 }

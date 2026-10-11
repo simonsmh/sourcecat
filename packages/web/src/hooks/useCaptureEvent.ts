@@ -1,15 +1,11 @@
 'use client';
 
 import { CaptureOptions } from "posthog-js";
-import posthog from "posthog-js";
 import { PosthogEvent, PosthogEventMap } from "../lib/posthogEvents";
 
-export function captureEvent<E extends PosthogEvent>(event: E, properties: PosthogEventMap[E], options?: CaptureOptions) {
-    if(!options) {
-        options = {};
-    }
-    options.send_instantly = true;
-    posthog.capture(event, properties, options);
+// Fork: telemetry removed. Events are never sent to PostHog.
+export function captureEvent<E extends PosthogEvent>(_event: E, _properties: PosthogEventMap[E], _options?: CaptureOptions) {
+    return;
 }
 
 /**
