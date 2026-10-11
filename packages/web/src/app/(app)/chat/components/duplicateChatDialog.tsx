@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface DuplicateChatDialogProps {
     isOpen: boolean;
@@ -19,6 +20,8 @@ interface DuplicateChatDialogProps {
 
 export const DuplicateChatDialog = ({ isOpen, onOpenChange, onDuplicate, currentName }: DuplicateChatDialogProps) => {
     const [isLoading, setIsLoading] = useState(false);
+    const t = useTranslations("chat");
+    const tCommon = useTranslations("common");
 
     const formSchema = z.object({
         name: z.string().min(1),
@@ -63,9 +66,9 @@ export const DuplicateChatDialog = ({ isOpen, onOpenChange, onDuplicate, current
         >
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Duplicate Chat</DialogTitle>
+                    <DialogTitle>{t("duplicateChatTitle")}</DialogTitle>
                     <DialogDescription>
-                        Create a copy of this chat to edit in a new session.
+                        {t("duplicateChatDescription")}
                     </DialogDescription>
                 </DialogHeader>
                 <Form
@@ -85,11 +88,11 @@ export const DuplicateChatDialog = ({ isOpen, onOpenChange, onDuplicate, current
                                 <FormItem
                                     className="flex flex-col gap-2"
                                 >
-                                    <FormLabel className="font-normal">New chat name</FormLabel>
+                                    <FormLabel className="font-normal">{t("newChatName")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter chat name"
+                                            placeholder={t("enterChatName")}
                                             disabled={isLoading}
                                         />
                                     </FormControl>
@@ -108,7 +111,7 @@ export const DuplicateChatDialog = ({ isOpen, onOpenChange, onDuplicate, current
                             onOpenChange(false);
                         }}
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </Button>
                     <LoadingButton
                         loading={isLoading}
@@ -116,7 +119,7 @@ export const DuplicateChatDialog = ({ isOpen, onOpenChange, onDuplicate, current
                             form.handleSubmit(onSubmit)();
                         }}
                     >
-                        Duplicate
+                        {t("duplicate")}
                     </LoadingButton>
                 </DialogFooter>
             </DialogContent>

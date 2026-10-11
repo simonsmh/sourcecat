@@ -48,6 +48,7 @@ import { CaseSensitiveIcon, RegexIcon, Wand2Icon } from "lucide-react";
 import { SearchAssistBox } from "./searchAssistBox";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { LoginDialog } from "@/app/components/loginDialog";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const LANGUAGE_MODEL_DOCS_URL = "https://docs.sourcecat.dev/docs/configuration/language-model-providers"; 
 
@@ -115,6 +116,7 @@ export const SearchBar = ({
     const captureEvent = useCaptureEvent();
     const suggestionBoxRef = useRef<HTMLDivElement>(null);
     const editorRef = useRef<ReactCodeMirrorRef>(null);
+    const tt = useTranslations("search");
     const [cursorPosition, setCursorPosition] = useState(0);
     const [activePanel, setActivePanel] = useState<'suggestions' | 'searchAssist'>();
     const isSuggestionsEnabled = activePanel === 'suggestions';
@@ -328,7 +330,7 @@ export const SearchBar = ({
             <CodeMirror
                 ref={editorRef}
                 className="w-full"
-                placeholder={isHistorySearchEnabled ? "Filter history..." : "Search (/) through repos..."}
+                placeholder={isHistorySearchEnabled ? tt("filterHistoryPlaceholder") : tt("searchBarPlaceholder")}
                 value={query}
                 onChange={(value) => {
                     setQuery(value);

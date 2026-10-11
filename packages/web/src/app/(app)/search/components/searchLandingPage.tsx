@@ -7,6 +7,7 @@ import { SearchModeSelector } from "../../components/searchModeSelector"
 import { getRepos } from "@/actions"
 import { ServiceErrorException } from "@/lib/serviceError"
 import { isServiceError } from "@/lib/utils"
+import { getTranslations } from "@/i18n/server"
 
 export interface SearchLandingPageProps {
     isSearchAssistSupported: boolean;
@@ -17,6 +18,7 @@ export const SearchLandingPage = async ({
     isSearchAssistSupported,
     showLoginWall,
 }: SearchLandingPageProps) => {
+    const t = await getTranslations("search");
     const carouselRepos = await getRepos({
         where: {
             indexedAt: {
@@ -53,54 +55,54 @@ export const SearchLandingPage = async ({
                 </div>
 
                 <div className="flex flex-col items-center w-fit gap-6 mt-8">
-                    <span className="font-semibold">How to search</span>
+                    <span className="font-semibold">{t("howToSearch")}</span>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <HowToSection
-                            title="Search in files or paths"
+                            title={t("searchInFilesOrPaths")}
                         >
                             <QueryExample>
-                                <Query query="test todo">test todo</Query> <QueryExplanation>(both test and todo)</QueryExplanation>
+                                <Query query="test todo">test todo</Query> <QueryExplanation>{t("queryBoth", { a: "test", b: "todo" })}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="test or todo">test <Highlight>or</Highlight> todo</Query> <QueryExplanation>(either test or todo)</QueryExplanation>
+                                <Query query="test or todo">test <Highlight>or</Highlight> todo</Query> <QueryExplanation>{t("queryEither", { a: "test", b: "todo" })}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query={`"exit boot"`}>{`"exit boot"`}</Query> <QueryExplanation>(exact match)</QueryExplanation>
+                                <Query query={`"exit boot"`}>{`"exit boot"`}</Query> <QueryExplanation>{t("queryExactMatch")}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="TODO" isCaseSensitivityEnabled={true}>TODO</Query> <QueryExplanation>(case sensitive)</QueryExplanation>
+                                <Query query="TODO" isCaseSensitivityEnabled={true}>TODO</Query> <QueryExplanation>{t("queryCaseSensitive")}</QueryExplanation>
                             </QueryExample>
                         </HowToSection>
                         <HowToSection
-                            title="Filter results"
+                            title={t("filterResults")}
                         >
                             <QueryExample>
-                                <Query query="file:README setup"><Highlight>file:</Highlight>README setup</Query> <QueryExplanation>(by filename)</QueryExplanation>
+                                <Query query="file:README setup"><Highlight>file:</Highlight>README setup</Query> <QueryExplanation>{t("queryByFilename")}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="repo:torvalds/linux test"><Highlight>repo:</Highlight>torvalds/linux test</Query> <QueryExplanation>(by repo)</QueryExplanation>
+                                <Query query="repo:torvalds/linux test"><Highlight>repo:</Highlight>torvalds/linux test</Query> <QueryExplanation>{t("queryByRepo")}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="lang:TypeScript"><Highlight>lang:</Highlight>TypeScript</Query> <QueryExplanation>(by language)</QueryExplanation>
+                                <Query query="lang:TypeScript"><Highlight>lang:</Highlight>TypeScript</Query> <QueryExplanation>{t("queryByLanguage")}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="rev:HEAD"><Highlight>rev:</Highlight>HEAD</Query> <QueryExplanation>(by branch or tag)</QueryExplanation>
+                                <Query query="rev:HEAD"><Highlight>rev:</Highlight>HEAD</Query> <QueryExplanation>{t("queryByBranchOrTag")}</QueryExplanation>
                             </QueryExample>
                         </HowToSection>
                         <HowToSection
-                            title="Advanced"
+                            title={t("advanced")}
                         >
                             <QueryExample>
-                                <Query query="file:\.py$"><Highlight>file:</Highlight>{`\\.py$`}</Query> <QueryExplanation>{`(files that end in ".py")`}</QueryExplanation>
+                                <Query query="file:\.py$"><Highlight>file:</Highlight>{`\\.py$`}</Query> <QueryExplanation>{t("queryFilesEndWith", { suffix: '".py"' })}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="sym:main"><Highlight>sym:</Highlight>main</Query> <QueryExplanation>{`(symbols named "main")`}</QueryExplanation>
+                                <Query query="sym:main"><Highlight>sym:</Highlight>main</Query> <QueryExplanation>{t("querySymbolsNamed", { name: '"main"' })}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="todo -lang:c">todo <Highlight>-lang:c</Highlight></Query> <QueryExplanation>(negate filter)</QueryExplanation>
+                                <Query query="todo -lang:c">todo <Highlight>-lang:c</Highlight></Query> <QueryExplanation>{t("queryNegateFilter")}</QueryExplanation>
                             </QueryExample>
                             <QueryExample>
-                                <Query query="content:README"><Highlight>content:</Highlight>README</Query> <QueryExplanation>(search content only)</QueryExplanation>
+                                <Query query="content:README"><Highlight>content:</Highlight>README</Query> <QueryExplanation>{t("querySearchContentOnly")}</QueryExplanation>
                             </QueryExample>
                         </HowToSection>
                     </div>

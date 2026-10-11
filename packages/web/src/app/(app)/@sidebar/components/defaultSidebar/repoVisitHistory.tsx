@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import { useTranslations } from "@/i18n/I18nProvider";import {
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -29,6 +29,7 @@ interface RepoVisitHistoryProps {
 
 export function RepoVisitHistory({ repoVisits }: RepoVisitHistoryProps) {
     const pathname = usePathname();
+    const t = useTranslations("sidebar");
 
     if (repoVisits.length === 0) {
         return null;
@@ -36,7 +37,7 @@ export function RepoVisitHistory({ repoVisits }: RepoVisitHistoryProps) {
 
     return (
         <SidebarGroup className="group-data-[state=collapsed]:hidden">
-            <SidebarGroupLabel className="text-muted-foreground whitespace-nowrap">Recent Repositories</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-muted-foreground whitespace-nowrap">{t("recentRepositories")}</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                     {repoVisits.map((visit) => {

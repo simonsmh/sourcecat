@@ -9,6 +9,7 @@ import { useIdentityProviders } from "@/features/auth/useIdentityProviders";
 import Link from "next/link";
 import { LoginMessage } from "@/features/auth/components/loginMessage";
 import { getAuthErrorContent } from "@/features/auth/errorMessages";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface LoginFormProps {
     callbackUrl?: string;
@@ -22,6 +23,7 @@ interface LoginFormProps {
 export const LoginForm = ({ callbackUrl, error, context, isAnonymousAccessEnabled = false, hideSecurityNotice = false, loginMessage }: LoginFormProps) => {
     const captureEvent = useCaptureEvent();
     const providers = useIdentityProviders();
+    const t = useTranslations("auth");
 
     const safeCallbackUrl = useMemo(() => {
         if (!callbackUrl) return "/";
@@ -71,7 +73,7 @@ export const LoginForm = ({ callbackUrl, error, context, isAnonymousAccessEnable
                     className="h-12 sm:h-16 mb-3"
                 />
                 <h2 className="text-lg font-medium text-center">
-                    {context === "login" ? "Sign in to your account" : "Create a new account"}
+                    {context === "login" ? t("signInToAccount") : t("createNewAccount")}
                 </h2>
             </div>
             <Card className="flex flex-col items-center border p-6 sm:p-8 rounded-lg gap-4 w-full sm:w-[500px] max-w-[500px] bg-background">
@@ -91,17 +93,17 @@ export const LoginForm = ({ callbackUrl, error, context, isAnonymousAccessEnable
                 <p className="text-sm text-muted-foreground mt-2">
                     {context === "login" ?
                         <>
-                            Don&apos;t have an account? <Link className="underline" href={callbackUrl ? `/signup?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/signup"}>Sign up</Link>
+                            {t("dontHaveAccount")} <Link className="underline" href={callbackUrl ? `/signup?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/signup"}>{t("signUp")}</Link>
                         </>
                     :
                         <>
-                            Already have an account? <Link className="underline" href={callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login"}>Sign in</Link>
+                            {t("alreadyHaveAccount")} <Link className="underline" href={callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login"}>{t("signIn")}</Link>
                         </>
                     }
                 </p>
                 {isAnonymousAccessEnabled && (
                     <p className="text-sm text-muted-foreground">
-                        <Link className="underline" href={safeCallbackUrl}>Continue as guest</Link>
+                        <Link className="underline" href={safeCallbackUrl}>{t("continueAsGuest")}</Link>
                     </p>
                 )}
             </Card>

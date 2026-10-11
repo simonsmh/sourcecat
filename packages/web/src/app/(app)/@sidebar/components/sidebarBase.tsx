@@ -48,6 +48,8 @@ import { WhatsNewSidebarButton } from "./whatsNewSidebarButton";
 import { BookACallSidebarButton } from "./bookACallSidebarButton";
 import { UpgradeButton } from "./upgradeButton";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { LanguageSwitcher } from "@/i18n/LanguageSwitcher";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 // Retains the sidebar's scroll position across route-driven remounts of the
 // `@sidebar` slot. Module-level so it survives remounts but resets on reload.
@@ -135,6 +137,7 @@ export function SidebarBase({ session, collapsible = "icon", headerContent, chil
 
 function MobileSidebarTrigger() {
     const { isMobile, setOpenMobile } = useSidebar();
+    const t = useTranslations("sidebar");
     if (!isMobile) {
         return null;
     }
@@ -144,7 +147,7 @@ function MobileSidebarTrigger() {
             size="icon"
             onClick={() => setOpenMobile(true)}
             className="fixed bottom-4 left-4 z-50 shadow-md rounded-full"
-            aria-label="Open sidebar"
+            aria-label={t("openSidebar")}
         >
             <Menu className="h-4 w-4" />
         </Button>
@@ -154,6 +157,7 @@ function MobileSidebarTrigger() {
 function CollapseSidebarButton() {
     const { toggleSidebar, state } = useSidebar();
     const [tooltipOpen, setTooltipOpen] = useState(false);
+    const t = useTranslations("sidebar");
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -166,7 +170,7 @@ function CollapseSidebarButton() {
                             {state === "expanded" ? (
                                 <>
                                     <ArrowLeftToLineIcon />
-                                    <span>Collapse sidebar</span>
+                                    <span>{t("collapseSidebar")}</span>
                                 </>
                             ) : (
                                 <ArrowRightToLineIcon />
@@ -176,7 +180,7 @@ function CollapseSidebarButton() {
                     <TooltipContent side="right" className="flex items-center gap-2">
                         <KeyboardShortcutHint shortcut="[" />
                         <Separator orientation="vertical" className="h-4" />
-                        <span>Expand sidebar</span>
+                        <span>{t("expandSidebar")}</span>
                     </TooltipContent>
                 </Tooltip>
             </SidebarMenuItem>
@@ -191,6 +195,7 @@ interface MeControlDropdownMenuProps {
 const MeControlDropdownMenu = ({
     session,
 }: MeControlDropdownMenuProps) => {
+    const t = useTranslations("sidebar");
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -206,7 +211,7 @@ const MeControlDropdownMenu = ({
                                 className="h-8 w-8"
                             />
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{session.user.name ?? "User"}</span>
+                                <span className="truncate font-semibold">{session.user.name ?? t("user")}</span>
                                 {session.user.email && (
                                     <span className="truncate text-xs text-muted-foreground">{session.user.email}</span>
                                 )}
@@ -223,7 +228,7 @@ const MeControlDropdownMenu = ({
                                     className="h-10 w-10 flex-shrink-0"
                                 />
                                 <div className="flex flex-col flex-1 min-w-0">
-                                    <p className="text-sm font-semibold truncate">{session.user.name ?? "User"}</p>
+                                    <p className="text-sm font-semibold truncate">{session.user.name ?? t("user")}</p>
                                     {session.user.email && (
                                         <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
                                     )}
@@ -235,7 +240,7 @@ const MeControlDropdownMenu = ({
                         <DropdownMenuItem asChild>
                             <a href={`/settings`}>
                                 <SettingsIcon className="h-4 w-4 mr-2" />
-                                <span>Settings</span>
+                                <span>{t("settings")}</span>
                             </a>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -250,7 +255,7 @@ const MeControlDropdownMenu = ({
                                 }}
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
-                                <span>Log out</span>
+                                <span>{t("logOut")}</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
@@ -261,6 +266,7 @@ const MeControlDropdownMenu = ({
 }
 
 const GuestDropdownMenu = () => {
+    const t = useTranslations("sidebar");
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -274,8 +280,8 @@ const GuestDropdownMenu = () => {
                                 <UserIcon className="h-4 w-4 text-muted-foreground" />
                             </div>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">Guest</span>
-                                <span className="truncate text-xs text-muted-foreground">Not signed in</span>
+                                <span className="truncate font-semibold">{t("guest")}</span>
+                                <span className="truncate text-xs text-muted-foreground">{t("notSignedIn")}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -286,7 +292,7 @@ const GuestDropdownMenu = () => {
                         <DropdownMenuItem asChild>
                             <Link href="/login">
                                 <LogIn className="h-4 w-4 mr-2" />
-                                <span>Sign in</span>
+                                <span>{t("signIn")}</span>
                             </Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -300,6 +306,7 @@ const GuestDropdownMenu = () => {
 const AppearanceDropdownMenuGroup = () => {
     const { theme: _theme, setTheme } = useTheme();
     const [keymapType, setKeymapType] = useKeymapType();
+    const t = useTranslations("sidebar");
 
     const theme = useMemo(() => {
         return _theme ?? "light";
@@ -320,22 +327,23 @@ const AppearanceDropdownMenuGroup = () => {
 
     return (
         <DropdownMenuGroup>
+            <LanguageSwitcher />
             <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                     {ThemeIcon}
-                    <span>Theme</span>
+                    <span>{t("theme")}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                     <DropdownMenuSubContent>
                         <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
                             <DropdownMenuRadioItem value="light">
-                                Light
+                                {t("themeLight")}
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="dark">
-                                Dark
+                                {t("themeDark")}
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="system">
-                                System
+                                {t("themeSystem")}
                             </DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuSubContent>
@@ -344,16 +352,16 @@ const AppearanceDropdownMenuGroup = () => {
             <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                     <CodeIcon className="h-4 w-4 mr-2" />
-                    <span>Editor keymap</span>
+                    <span>{t("editorKeymap")}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                     <DropdownMenuSubContent>
                         <DropdownMenuRadioGroup value={keymapType} onValueChange={(value) => setKeymapType(value as KeymapType)}>
                             <DropdownMenuRadioItem value="default">
-                                Standard
+                                {t("keymapStandard")}
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="vim">
-                                Vim
+                                {t("keymapVim")}
                             </DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuSubContent>

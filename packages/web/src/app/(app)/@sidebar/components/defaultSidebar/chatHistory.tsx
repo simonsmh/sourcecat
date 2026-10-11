@@ -21,6 +21,7 @@ import { EllipsisIcon, MessagesSquareIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export interface ChatHistoryItem {
     id: string;
@@ -37,6 +38,7 @@ export function ChatHistory({ chatHistory, hasMore }: ChatHistoryProps) {
     const pathname = usePathname();
     const router = useRouter();
     const { toast } = useToast();
+    const t = useTranslations("sidebar");
 
     const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false);
     const [chatIdToRename, setChatIdToRename] = useState<string | null>(null);
@@ -92,7 +94,7 @@ export function ChatHistory({ chatHistory, hasMore }: ChatHistoryProps) {
     return (
         <>
             <SidebarGroup className="group-data-[state=collapsed]:hidden">
-                <SidebarGroupLabel className="text-muted-foreground whitespace-nowrap">Recent Chats</SidebarGroupLabel>
+                <SidebarGroupLabel className="text-muted-foreground whitespace-nowrap">{t("recentChats")}</SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         {chatHistory.map((chat) => (
@@ -102,7 +104,7 @@ export function ChatHistory({ chatHistory, hasMore }: ChatHistoryProps) {
                                     isActive={pathname === `/chat/${chat.id}`}
                                 >
                                     <Link href={`/chat/${chat.id}`}>
-                                        <span>{chat.name ?? "Untitled chat"}</span>
+                                        <span>{chat.name ?? t("untitledChat")}</span>
                                     </Link>
                                 </SidebarMenuButton>
                                 <ChatActionsDropdown
@@ -130,7 +132,7 @@ export function ChatHistory({ chatHistory, hasMore }: ChatHistoryProps) {
                                 <SidebarMenuButton asChild>
                                     <Link href="/chats">
                                         <MessagesSquareIcon className="h-4 w-4" />
-                                        <span>All chats</span>
+                                        <span>{t("allChats")}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

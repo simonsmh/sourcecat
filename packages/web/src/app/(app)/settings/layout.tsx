@@ -10,6 +10,7 @@ import { env } from "@sourcecat/shared";
 import { hasEntitlement } from "@/lib/entitlements";
 import { withAuth } from "@/middleware/withAuth";
 import { NavGroup } from "../@sidebar/components/settingsSidebar/nav";
+import { getTranslations } from "@/i18n/server";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -38,6 +39,7 @@ export default async function SettingsLayout(
 
 export const getSidebarNavGroups = async () =>
     withAuth(async ({ role }) => {
+        const t = await getTranslations("settings");
         let numJoinRequests: number | undefined;
         if (role === OrgRole.OWNER) {
             const requests = await getOrgAccountRequests();
@@ -51,42 +53,42 @@ export const getSidebarNavGroups = async () =>
 
         const groups: NavGroup[] = [
             {
-                label: "Account",
+                label: t("account"),
                 items: [
                     {
-                        title: "General",
+                        title: t("general"),
                         href: `/settings/general`,
                         icon: "settings" as const,
                     },
                     ...(env.DISABLE_API_KEY_USAGE_FOR_NON_OWNER_USERS === 'false' || role === OrgRole.OWNER ? [
                         {
-                            title: "API Keys",
+                            title: t("apiKeys"),
                             href: `/settings/apiKeys`,
                             icon: "key-round" as const,
                         }
                     ] : []),
                     ...(await hasEntitlement("sso") ? [
                         {
-                            title: "Linked Accounts",
+                            title: t("linkedAccounts"),
                             href: `/settings/linked-accounts`,
                             icon: "link" as const,
                         }
                     ] : []),
                     {
-                        title: "MCP Server",
+                        title: t("mcpServer"),
                         href: `/settings/mcp`,
                         icon: 'mcp' as const,
                         requiredEntitlement: 'mcp',
                     },
                     ...(hasAskEntitlement ? [
                         {
-                            title: "Ask Sourcecat",
+                            title: t("askSourcecat"),
                             href: `/settings/accountAskAgent`,
                             hrefRegex: `/settings/accountAskAgent(/.*)?$`,
                             icon: "bot" as const,
                         },
                         {
-                            title: "Skills",
+                            title: t("skills"),
                             href: `/settings/skills`,
                             hrefRegex: `/settings/skills(/.*)?$`,
                             icon: "sparkles" as const,
@@ -98,33 +100,33 @@ export const getSidebarNavGroups = async () =>
 
         if (role === OrgRole.OWNER) {
             groups.push({
-                label: "Workspace",
+                label: t("workspace"),
                 items: [
                     {
-                        title: "Security",
+                        title: t("security"),
                         href: `/settings/security`,
                         icon: "shield" as const,
                     },
                     {
-                        title: "Members",
+                        title: t("members"),
                         isNotificationDotVisible: numJoinRequests !== undefined && numJoinRequests > 0,
                         href: `/settings/members`,
                         icon: "users" as const,
                     },
                     {
-                        title: "Connections",
+                        title: t("connections"),
                         href: `/settings/connections`,
                         hrefRegex: `/settings/connections(/[^/]+)?$`,
                         icon: "plug" as const,
                     },
                     {
-                        title: "Analytics",
+                        title: t("analytics"),
                         href: `/settings/analytics`,
                         icon: "chart-area" as const,
                         requiredEntitlement: 'analytics'
                     },
                     {
-                        title: "Ask Sourcecat",
+                        title: t("askSourcecat"),
                         href: `/settings/workspaceAskAgent`,
                         icon: "bot" as const,
                         requiredEntitlement: 'ask',

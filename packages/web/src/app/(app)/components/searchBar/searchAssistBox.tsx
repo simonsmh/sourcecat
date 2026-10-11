@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Loader2, WandSparkles, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const SEARCH_ASSIST_DOCS_URL = "https://docs.sourcecat.dev/docs/features/search/ai-search-assist";
 
@@ -39,6 +40,7 @@ export const SearchAssistBox = ({
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
     const captureEvent = useCaptureEvent();
+    const t = useTranslations("search");
 
     const translateQuery = useCallback(async () => {
         if (!query.trim() || isLoading) {
@@ -110,7 +112,7 @@ export const SearchAssistBox = ({
             <div className="flex flex-row gap-2 items-center">
                 <div className="relative flex-1">
                     <Input
-                        placeholder="Describe what you're looking for..."
+                        placeholder={t("searchAssistPlaceholder")}
                         ref={inputRef}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}

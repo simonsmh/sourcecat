@@ -22,6 +22,7 @@ import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { AlertTriangleIcon, BugIcon, FilterIcon, RefreshCwIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ImperativePanelHandle } from "react-resizable-panels";
@@ -204,6 +205,7 @@ export const SearchResultsPage = ({
                     searchStats={stats}
                     isMoreResultsButtonVisible={!isExhaustive}
                     isBranchFilteringEnabled={isBranchFilteringEnabled}
+                    searchQuery={searchQuery}
                 />
             )}
         </div>
@@ -220,6 +222,7 @@ interface PanelGroupProps {
     searchDurationMs: number;
     numMatches: number;
     searchStats?: SearchStats;
+    searchQuery: string;
 }
 
 const PanelGroup = ({
@@ -232,12 +235,14 @@ const PanelGroup = ({
     searchDurationMs: _searchDurationMs,
     numMatches,
     searchStats,
+    searchQuery,
 }: PanelGroupProps) => {
     const [previewedFile, setPreviewedFile] = useState<SearchResultFile | undefined>(undefined);
     const filteredFileMatches = useFilteredMatches(fileMatches);
     const filterPanelRef = useRef<ImperativePanelHandle>(null);
     const searchResultsPanelRef = useRef<SearchResultsPanelHandle>(null);
     const [selectedMatchIndex, setSelectedMatchIndex] = useState(0);
+    const t = useTranslations("search");
 
     const [isFilterPanelCollapsed, setIsFilterPanelCollapsed] = useLocalStorage('isFilterPanelCollapsed', false);
 
@@ -321,9 +326,9 @@ const PanelGroup = ({
                         {isStreaming ? (
                             <>
                                 <RefreshCwIcon className="h-4 w-4 animate-spin mr-2" />
-                                <p className="text-sm font-medium mr-1">Searching...</p>
+                                <p className="text-sm font-medium mr-1">{t("searching")}</p>
                                 {numMatches > 0 && (
-                                    <p className="text-sm font-medium">{`Found ${numMatches} matches in ${fileMatches.length} ${fileMatches.length > 1 ? 'files' : 'file'}`}</p>
+                                    <p className="text-sm font-medium">{t("foundMatches", { numMatches, numFiles: fileMatches.length })}</p>
                                 )}
                             </>
                         ) : (
@@ -335,7 +340,7 @@ const PanelGroup = ({
                                     <TooltipContent side="right" className="flex flex-col items-start gap-2 p-4">
                                         <div className="flex flex-row items-center w-full">
                                             <BugIcon className="w-4 h-4 mr-1.5" />
-                                            <p className="text-md font-medium">Search stats for nerds</p>
+                                            <p className="text-md font-medium">{t("searchStatsForNerds")}</p>
                                             <CopyIconButton
                                                 onCopy={() => {
                                                     navigator.clipboard.writeText(JSON.stringify(searchStats, null, 2));
@@ -351,9 +356,9 @@ const PanelGroup = ({
                                 </Tooltip>
                                 {
                                     fileMatches.length > 0 ? (
-                                        <p className="text-sm font-medium">{`[${searchDurationMs} ms] Found ${numMatches} matches in ${fileMatches.length} ${fileMatches.length > 1 ? 'files' : 'file'}`}</p>
+                                        <p className="text-sm font-medium">{`[${searchDurationMs} ms] `}{t("foundMatches", { numMatches, numFiles: fileMatches.length })}</p>
                                     ) : (
-                                        <p className="text-sm font-medium">No results</p>
+                                        <p className="text-sm font-medium">{t("noResults")}</p>
                                     )
                                 }
                                 {isMoreResultsButtonVisible && (
@@ -361,7 +366,7 @@ const PanelGroup = ({
                                         className="cursor-pointer text-blue-500 text-sm hover:underline ml-4"
                                         onClick={onLoadMoreResults}
                                     >
-                                        (load more)
+                                        {t("loadMore")}
                                     </div>
                                 )}
                             </>
@@ -384,11 +389,11 @@ const PanelGroup = ({
                         ) : isStreaming ? (
                             <div className="flex flex-col items-center justify-center h-full gap-2">
                                 <RefreshCwIcon className="h-6 w-6 animate-spin" />
-                                <p className="font-semibold text-center">Searching...</p>
+                                <p className="font-semibold text-center">{t("searching")}</p>
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full">
-                                <p className="text-sm text-muted-foreground">No results found</p>
+                                <p className="text-sm text-muted-foreground">{t("noResultsFor", { query: searchQuery })}</p>
                             </div>
                         )}
                     </div>

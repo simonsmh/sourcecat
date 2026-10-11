@@ -22,6 +22,8 @@ import { getEntitlements } from "@/lib/entitlements";
 import { IdentityProvidersProvider } from "@/features/auth/identityProvidersProvider";
 import { getIdentityProviderMetadata } from "@/lib/identityProviders";
 import { SentryUserProvider } from "./sentryUserProvider";
+import { getLocale, getMessages } from "@/i18n/server";
+import { I18nProvider } from "@/i18n/I18nProvider";
 
 export const metadata: Metadata = {
     metadataBase: env.AUTH_URL ? new URL(env.AUTH_URL) : undefined,
@@ -43,10 +45,12 @@ export default async function RootLayout({
 }>) {
     const entitlements = await getEntitlements();
     const identityProviders = await getIdentityProviderMetadata();
+    const locale = await getLocale();
+    const messages = await getMessages(locale);
 
     return (
         <html
-            lang="en"
+            lang={locale}
             // @see : https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
             suppressHydrationWarning
         >
@@ -73,6 +77,7 @@ export default async function RootLayout({
                 )}
             </head>
             <body>
+                <I18nProvider locale={locale} messages={messages}>
                 <Toaster />
                 <SessionProvider>
                     <SentryUserProvider
@@ -108,6 +113,7 @@ export default async function RootLayout({
                         </IdentityProvidersProvider>
                     </PlanProvider>
                 </SessionProvider>
+                </I18nProvider>
             </body>
         </html>
     );

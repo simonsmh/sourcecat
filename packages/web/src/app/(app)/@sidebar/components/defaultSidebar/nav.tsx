@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useEntitlements } from "@/features/entitlements/useEntitlements";
 import { Entitlement } from "@sourcecat/shared";
 import { UpgradeBadge } from "../upgradeBadge";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface NavItem {
     title: string;
@@ -40,18 +41,19 @@ export function Nav({
 }: NavProps) {
     const pathname = usePathname();
     const entitlements = useEntitlements();
+    const t = useTranslations("nav");
 
     const baseItems = useMemo((): NavItem[] => {
 
         const searchItem: NavItem = {
-            title: "Code Search",
+            title: t("codeSearch"),
             href: "/search",
             icon: SearchIcon,
             key: "search",
         }
 
         const askItem: NavItem = {
-            title: "Ask",
+            title: t("ask"),
             href: "/chat",
             icon: MessageCircleIcon,
             key: "chat",
@@ -67,7 +69,7 @@ export function Nav({
                 searchItem,
             ]),
             {
-                title: "Chats",
+                title: t("chats"),
                 href: "/chats",
                 icon: MessagesSquareIcon,
                 key: "chats",
@@ -76,13 +78,13 @@ export function Nav({
                 hideIfMissingEntitlement: true,
             },
             {
-                title: "Repositories",
+                title: t("repositories"),
                 href: "/repos",
                 icon: BookMarkedIcon,
                 key: "repos"
             },
             {
-                title: "Settings",
+                title: t("settings"),
                 href: "/settings",
                 icon: SettingsIcon,
                 key: "settings",
@@ -91,7 +93,7 @@ export function Nav({
         ]
 
 
-    }, [homeView]);
+    }, [homeView, t]);
 
     const isActive = (href: string) => {
         if (pathname === "/") {

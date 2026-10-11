@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added i18n internationalization to the web frontend with English, Simplified Chinese, Japanese, and Korean support. Users can switch languages from the sidebar user menu; the choice persists via cookie.
+
 ## [5.1.16] - 2026-10-09
 
 ### Added
