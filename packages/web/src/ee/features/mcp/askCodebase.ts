@@ -69,7 +69,7 @@ export const askCodebase = (params: AskCodebaseParams): Promise<AskCodebaseResul
                 return {
                     statusCode: StatusCodes.BAD_REQUEST,
                     errorCode: ErrorCode.INVALID_REQUEST_BODY,
-                    message: "No language models are configured. Please configure at least one language model. See: https://docs.sourcecat.dev/docs/configuration/language-model-providers",
+                    message: "No language models are configured. Please configure at least one language model. See: https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/language-model-providers.mdx",
                 } satisfies ServiceError;
             }
 

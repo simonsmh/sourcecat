@@ -29,6 +29,6 @@ export const GET = oauthApiHandler(async () => {
         code_challenge_methods_supported: ['S256'],
         token_endpoint_auth_methods_supported: ['none'],
         dpop_signing_alg_values_supported: SUPPORTED_DPOP_SIGNING_ALGS,
-        service_documentation: 'https://docs.sourcecat.dev',
+        service_documentation: 'https://github.com/simonsmh/sourcecat',
     });
 });

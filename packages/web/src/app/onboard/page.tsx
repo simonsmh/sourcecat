@@ -87,7 +87,7 @@ export default async function Onboarding(props: OnboardingProps) {
             <>
                 Use your preferred authentication method to create your owner account. To set up additional authentication providers, check out our{" "}
                 <a
-                    href="https://docs.sourcecat.dev/docs/configuration/auth/authentication"
+                    href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/authentication.mdx"
                     target="_blank"
                     rel="noopener"
                     className="underline text-primary hover:text-primary/80 transition-colors"
@@ -106,7 +106,7 @@ export default async function Onboarding(props: OnboardingProps) {
             <>
                 Set up your organization&apos;s access settings.{" "}
                 <a
-                    href="https://docs.sourcecat.dev/docs/configuration/auth/access-settings"
+                    href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/access-settings.mdx"
                     target="_blank"
                     rel="noopener"
                     className="underline text-primary hover:text-primary/80 transition-colors"
@@ -198,7 +198,7 @@ export default async function Onboarding(props: OnboardingProps) {
                                     <p className="text-xs text-muted-foreground leading-5">
                                         Need help? Check out our{" "}
                                         <a
-                                            href="https://docs.sourcecat.dev/docs/overview"
+                                            href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/overview.mdx"
                                             className="text-primary hover:underline font-medium transition-colors"
                                             target="_blank"
                                             rel="noopener"
@@ -302,7 +302,7 @@ function NonOwnerOnboardingMessage() {
                                 <div className="text-xs text-muted-foreground leading-relaxed">
                                     Need help? Contact your organization owner or check out our{" "}
                                     <a
-                                        href="https://docs.sourcecat.dev/docs/overview"
+                                        href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/overview.mdx"
                                         className="text-primary hover:text-primary/80 underline transition-colors"
                                         target="_blank"
                                         rel="noopener"

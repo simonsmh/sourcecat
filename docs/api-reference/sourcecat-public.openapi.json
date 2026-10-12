@@ -1369,7 +1369,7 @@
         "summary": "Search code",
         "description": "Executes a blocking code search and returns all matching file chunks.",
         "x-mint": {
-          "content": "## Usage\n\nThe `query` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcecat.dev/docs/features/search/syntax-reference) for the full query language."
+          "content": "## Usage\n\nThe `query` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/syntax-reference.mdx) for the full query language."
         },
         "requestBody": {
           "required": true,

@@ -303,7 +303,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [5.0.2] - 2026-06-11
 
 ### Changed
-- Removed support for configuring the GitHub, GitLab, Google, Okta, Keycloak, and Microsoft Entra ID identity providers via the deprecated `AUTH_EE_*` environment variables. See the [v5 migration guide](http://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide#identity-providers-must-be-configured-via-the-config-file) for more details. [#1297](https://github.com/simonsmh/sourcecat/pull/1297)
+- Removed support for configuring the GitHub, GitLab, Google, Okta, Keycloak, and Microsoft Entra ID identity providers via the deprecated `AUTH_EE_*` environment variables. See the [v5 migration guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx#identity-providers-must-be-configured-via-the-config-file) for more details. [#1297](https://github.com/simonsmh/sourcecat/pull/1297)
 - Anthropic thinking mode (adaptive vs. extended) is now resolved from the model's capabilities via the Anthropic Models API instead of a hardcoded model list. [#1294](https://github.com/simonsmh/sourcecat/pull/1294)
 
 ### Added
@@ -331,13 +331,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.0.0] - 2026-06-04
 
-Checkout the [migration guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide) for details on upgrading your instance to v5.
+Checkout the [migration guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx) for details on upgrading your instance to v5.
 
 ### Changed
-- [**Breaking Change**] Changed the default role assignment to `Owner` for organizations on the free tier. See the [v4 to v5 guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
-- [**Breaking Change**] Relicensed Ask Sourcecat and MCP under ee. See the [v4 to v5 guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
-- [**Breaking Change**] Removed the embedded Postgres and Redis from the Docker image. External Postgres and Redis are now required: set `DATABASE_URL` and `REDIS_URL`, or deploy with the provided `docker-compose.yml`. See the [v4 to v5 guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
-- [**Breaking Change**] Sourcecat no longer auto-generates `AUTH_SECRET` and `SOURCECAT_ENCRYPTION_KEY`, nor reads them from the plaintext files it previously wrote to the data volume; both must now be set explicitly as environment variables. See the [v4 to v5 guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-guide). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
+- [**Breaking Change**] Changed the default role assignment to `Owner` for organizations on the free tier. See the [v4 to v5 guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
+- [**Breaking Change**] Relicensed Ask Sourcecat and MCP under ee. See the [v4 to v5 guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
+- [**Breaking Change**] Removed the embedded Postgres and Redis from the Docker image. External Postgres and Redis are now required: set `DATABASE_URL` and `REDIS_URL`, or deploy with the provided `docker-compose.yml`. See the [v4 to v5 guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
+- [**Breaking Change**] Sourcecat no longer auto-generates `AUTH_SECRET` and `SOURCECAT_ENCRYPTION_KEY`, nor reads them from the plaintext files it previously wrote to the data volume; both must now be set explicitly as environment variables. See the [v4 to v5 guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v4-to-v5-guide.mdx). [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
 - Redesigned the app layout with a new collapsible sidebar navigation, replacing the previous top navigation bar. [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
 - Expired offline license keys no longer crash the process. An expired key now degrades to the unlicensed state. [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
 - Improved the `setup-sourcecat` wizard: prompts for a setup directory, clarifies that secrets are stored locally in `.env`, switches multi-select to Tab, hides "No results" until a real search runs, and detects/cleans up conflicting Docker deployments and volumes before starting. [#1106](https://github.com/simonsmh/sourcecat/pull/1106)
@@ -1432,19 +1432,19 @@ Checkout the [migration guide](https://docs.sourcecat.dev/docs/upgrade/v4-to-v5-
 
 ## [4.0.0] - 2025-05-28
 
-Sourcecat V4 introduces authentication, performance improvements and code navigation. Checkout the [migration guide](https://docs.sourcecat.dev/docs/upgrade/v3-to-v4-guide) for information on upgrading your instance to v4.
+Sourcecat V4 introduces authentication, performance improvements and code navigation. Checkout the [migration guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v3-to-v4-guide.mdx) for information on upgrading your instance to v4.
 
 ### Changed
 - [**Breaking Change**] Authentication is now required by default. Notes:
   - When setting up your instance, email / password login will be the default authentication provider.
-  - The first user that logs into the instance is given the `owner` role. ([docs](https://docs.sourcecat.dev/docs/configuration/auth/roles-and-permissions)).
+  - The first user that logs into the instance is given the `owner` role. ([docs](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/roles-and-permissions.mdx)).
   - Subsequent users can request to join the instance. The `owner` can approve / deny requests to join the instance via `Settings` > `Members` > `Pending Requests`.
   - If a user is approved to join the instance, they are given the `member` role.
-  - Additional login providers, including email links and SSO, can be configured with additional environment variables. ([docs](https://docs.sourcecat.dev/docs/configuration/auth/overview)).
+  - Additional login providers, including email links and SSO, can be configured with additional environment variables. (docs).
 - Clicking on a search result now takes you to the `/browse` view. Files can still be previewed by clicking the "Preview" button or holding `Cmd` / `Ctrl` when clicking on a search result. [#315](https://github.com/simonsmh/sourcecat/pull/315)
 
 ### Added
-- [Sourcecat EE] Added search-based code navigation, allowing you to jump between symbol definition and references when viewing source files. [Read the documentation](https://docs.sourcecat.dev/docs/features/code-navigation). [#315](https://github.com/simonsmh/sourcecat/pull/315)
+- [Sourcecat EE] Added search-based code navigation, allowing you to jump between symbol definition and references when viewing source files. [Read the documentation](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/code-navigation.mdx). [#315](https://github.com/simonsmh/sourcecat/pull/315)
 - Added collapsible filter panel. [#315](https://github.com/simonsmh/sourcecat/pull/315)
 - Added Sourcecat API key management for external clients. [#311](https://github.com/simonsmh/sourcecat/pull/311)
 
@@ -1459,7 +1459,7 @@ Sourcecat V4 introduces authentication, performance improvements and code naviga
 ## [3.2.0] - 2025-05-12
 
 ### Added
-- Added AI code review agent [#298](https://github.com/simonsmh/sourcecat/pull/298). Checkout the [docs](https://docs.sourcecat.dev/docs/features/agents/review-agent) for more information.
+- Added AI code review agent [#298](https://github.com/simonsmh/sourcecat/pull/298). Checkout the [docs](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/agents/review-agent.mdx) for more information.
 
 ### Fixed
 - Fixed issue with repos appearing in the carousel when they fail indexing for the first time. [#305](https://github.com/simonsmh/sourcecat/pull/305)
@@ -1528,24 +1528,24 @@ Sourcecat V4 introduces authentication, performance improvements and code naviga
 
 ## [3.0.0] - 2025-04-01
 
-Sourcecat v3 is here and brings a number of structural changes to the tool's foundation, including a SQL database, parallelized indexing, authentication support, multitenancy, and more. Checkout the [migration guide](https://docs.sourcecat.dev/docs/upgrade/v2-to-v3-guide) for information on upgrading your instance to v3.
+Sourcecat v3 is here and brings a number of structural changes to the tool's foundation, including a SQL database, parallelized indexing, authentication support, multitenancy, and more. Checkout the [migration guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v2-to-v3-guide.mdx) for information on upgrading your instance to v3.
 
 ### Changed
-- [**Breaking Change**] Changed the config schema such that connection objects are specified in the `connection` map, instead of the `repos` array. [See migration guide](https://docs.sourcecat.dev/docs/upgrade/v2-to-v3-guide).
+- [**Breaking Change**] Changed the config schema such that connection objects are specified in the `connection` map, instead of the `repos` array. [See migration guide](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/upgrade/v2-to-v3-guide.mdx).
 - Updated the tool's color-palette in dark mode.
 
 ### Added
-- Added parallelized repo indexing and connection syncing via Redis & BullMQ. See the [architecture overview](https://docs.sourcecat.dev/docs/overview#architecture).
+- Added parallelized repo indexing and connection syncing via Redis & BullMQ. See the [architecture overview](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/overview.mdx#architecture).
 - Added repo indexing progress indicators in the navbar.
-- Added authentication support via OAuth or email/password. For instructions on enabling, see [this doc](https://docs.sourcecat.dev/docs/configuration/auth/overview).
-- Added the following UI for managing your deployment when **[auth is enabled](https://docs.sourcecat.dev/docs/configuration/auth/overview)**:
+- Added authentication support via OAuth or email/password. For instructions on enabling, see this doc.
+- Added the following UI for managing your deployment when **auth is enabled**:
   - connection management: create and manage your JSON configs via a integrated web-editor.
   - secrets: import personal access tokens (PAT) into Sourcecat (AES-256 encrypted). Reference secrets in your connection config by name.
-  - team & invite management: invite users to your instance to give them access. Configure team [roles & permissions](https://docs.sourcecat.dev/docs/configuration/auth/roles-and-permissions).
-- Added multi-tenancy support. See [this doc](https://docs.sourcecat.dev/self-hosting/more/tenancy).
+  - team & invite management: invite users to your instance to give them access. Configure team [roles & permissions](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/roles-and-permissions.mdx).
+- Added multi-tenancy support. See this doc.
 
 ### Removed
-- [**Breaking Change**] Removed `db.json` in favour of a Postgres database for transactional workloads. See the [architecture overview](https://docs.sourcecat.dev/self-hosting/overview#architecture).
+- [**Breaking Change**] Removed `db.json` in favour of a Postgres database for transactional workloads. See the architecture overview.
 - [**Breaking Change**] Removed local folder & arbitrary .git repo support. If your deployment depended on these features, please [open a issue](https://github.com/simonsmh/sourcecat/issues/new?template=get_help.md) and let us know.
 - [**Breaking Chnage**] Removed ability to specify a `token` as a string literal from the schema.
 - [**Breaking Change**] Removed support for `DOMAIN_SUB_PATH` configuration.

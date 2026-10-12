@@ -65,7 +65,7 @@ export const SyntaxReferenceGuide = () => {
                 className="max-h-[80vh] max-w-[700px] overflow-scroll gap-2"
             >
                 <DialogHeader>
-                    <DialogTitle>Syntax Reference Guide <Link href="https://docs.sourcecat.dev/docs/features/search/syntax-reference"><ExternalLinkIcon className="inline w-4 h-4 ml-1 mb-1 text-muted-foreground cursor-pointer" /></Link></DialogTitle>
+                    <DialogTitle>Syntax Reference Guide <Link href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/syntax-reference.mdx"><ExternalLinkIcon className="inline w-4 h-4 ml-1 mb-1 text-muted-foreground cursor-pointer" /></Link></DialogTitle>
                     <DialogDescription className="text-sm text-foreground">
                         Queries consist of space-separated search patterns that are matched against file contents. A file must have at least one match for each expression to be included. Queries can optionally contain search filters to further refine the search results.
                     </DialogDescription>

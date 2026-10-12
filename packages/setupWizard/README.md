@@ -13,7 +13,7 @@ npx setup-sourcecat
 The wizard walks you through:
 
 - **Code hosts** — GitHub, GitLab, Bitbucket (Cloud or Data Center), Azure DevOps (Cloud or Server), Gitea, Gerrit, a local folder of cloned repos, or any other git URL.
-- **AI providers** (optional) — Anthropic, OpenAI, Google Gemini, Google Vertex, DeepSeek, Mistral, xAI, OpenRouter, OpenAI-compatible endpoints, Amazon Bedrock, or Azure OpenAI. Powers [Ask](https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat).
+- **AI providers** (optional) — Anthropic, OpenAI, Google Gemini, Google Vertex, DeepSeek, Mistral, xAI, OpenRouter, OpenAI-compatible endpoints, Amazon Bedrock, or Azure OpenAI. Powers [Ask](../../docs/docs/features/ask/ask-sourcecat.mdx).
 
 ## Requirements
 
@@ -48,4 +48,4 @@ The runtime suite uses `ghcr.io/simonsmh/sourcecat:latest`
 
 ## Docs
 
-Full deployment guide: [docs.sourcecat.dev/docs/deployment/docker-compose](https://docs.sourcecat.dev/docs/deployment/docker-compose)
+Full deployment guide: [deployment guide](../../docs/docs/deployment/docker-compose.mdx)

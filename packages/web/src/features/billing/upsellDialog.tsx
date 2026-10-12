@@ -88,7 +88,7 @@ function UpsellLoadError({ variant, onRetry, className }: UpsellLoadErrorProps) 
                     Check that outbound access to{" "}
                     <CodeSnippet>deployments.sourcecat.dev</CodeSnippet>{" "}isn&apos;t blocked.{" "}
                     <a
-                        href="https://docs.sourcecat.dev/docs/misc/service-ping"
+                        href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/misc/service-ping.mdx"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-link hover:underline"

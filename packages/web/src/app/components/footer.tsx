@@ -6,7 +6,7 @@ export function Footer() {
         <footer className="w-full mt-auto py-4 flex flex-row justify-center items-center gap-4">
         <Link href="https://sourcecat.dev" className="text-gray-400 text-sm hover:underline">About</Link>
         <Separator orientation="vertical" className="h-4" />
-        <Link href="https://docs.sourcecat.dev" className="text-gray-400 text-sm hover:underline">Docs</Link>
+        <Link href="https://github.com/simonsmh/sourcecat/tree/main/docs/docs" className="text-gray-400 text-sm hover:underline">Docs</Link>
         <Separator orientation="vertical" className="h-4" />
         <Link href="https://sourcecat.dev/security" className="text-gray-400 text-sm hover:underline">Security</Link>
         <Separator orientation="vertical" className="h-4" />

@@ -59,7 +59,7 @@ export function EmailCodeLoginEnabledSettingsCard({
                     <AlertDescription>
                         This setting requires transactional email to be configured.{" "}
                         <a
-                            href="https://docs.sourcecat.dev/docs/configuration/transactional-emails"
+                            href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/transactional-emails.mdx"
                             target="_blank"
                             rel="noopener"
                             className="underline text-primary hover:text-primary/80 transition-colors"

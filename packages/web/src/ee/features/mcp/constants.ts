@@ -1,4 +1,4 @@
-export const MCP_DOCS_URL = "https://docs.sourcecat.dev/docs/features/mcp-server";
+export const MCP_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/mcp-server.mdx";
 
 export const MCP_SERVER_SOURCE = 'sourcecat-mcp-server';
 export const LEGACY_MCP_SERVER_SOURCE = 'mcp';

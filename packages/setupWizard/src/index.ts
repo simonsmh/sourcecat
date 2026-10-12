@@ -567,12 +567,12 @@ async function main() {
         'config.json': {
             description: 'The Sourcecat configuration file. This controls which repos Sourcecat indexes and which language models it connects to.',
             docsLabel: 'Configuration file docs',
-            docsUrl: 'https://docs.sourcecat.dev/docs/configuration/config-file',
+            docsUrl: 'https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/config-file.mdx',
         },
         '.env': {
             description: 'The environment file your Sourcecat deployment will load. This includes any of the access tokens you provided here, as well as generated secrets required to run Sourcecat.',
             docsLabel: 'Environment variables docs',
-            docsUrl: 'https://docs.sourcecat.dev/docs/configuration/environment-variables',
+            docsUrl: 'https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/environment-variables.mdx',
         },
         'docker-compose.override.yml': {
             description: 'Mounts your local repositories into the Sourcecat container so they can be indexed. Merged with docker-compose.yml at `docker compose up` time.',

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export const CONNECTORS_DOCS_URL = "https://docs.sourcecat.dev/docs/features/ask/connectors";
+export const CONNECTORS_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/ask/connectors.mdx";
 
 interface ConnectorsExplainerTextProps {
     /** Rendered inline before the shared description sentence. */

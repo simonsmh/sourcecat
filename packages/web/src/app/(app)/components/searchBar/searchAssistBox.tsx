@@ -13,7 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import Link from "next/link";
 import { useTranslations } from "@/i18n/I18nProvider";
 
-const SEARCH_ASSIST_DOCS_URL = "https://docs.sourcecat.dev/docs/features/search/ai-search-assist";
+const SEARCH_ASSIST_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/ai-search-assist.mdx";
 
 const EXAMPLES = [
     "Find console.log statements",

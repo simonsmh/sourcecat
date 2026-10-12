@@ -223,7 +223,7 @@ export const ShareSettings = ({
             <Separator className="-mx-4 w-auto my-4" />
             <div className="flex justify-between items-center">
                 <Link
-                    href="https://docs.sourcecat.dev/docs/features/ask/chat-sharing"
+                    href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/ask/chat-sharing.mdx"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"

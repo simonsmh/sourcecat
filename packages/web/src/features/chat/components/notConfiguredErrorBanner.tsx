@@ -2,7 +2,7 @@ import { TriangleAlertIcon } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils";
 
-const DOCS_URL = "https://docs.sourcecat.dev/docs/configuration/language-model-providers"; 
+const DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/language-model-providers.mdx"; 
 
 interface NotConfiguredErrorBannerProps {
     className?: string;

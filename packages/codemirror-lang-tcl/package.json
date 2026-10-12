@@ -1,1 +1,17 @@
-{"dependencies":{"@codemirror/highlight":"^0.19.0","@codemirror/language":"^6.0.0","@lezer/common":"^1.0.0","@lezer/highlight":"^1.0.0","@lezer/lr":"^1.0.0","tslib":"^2.8.1"},"description":"CodeMirror 6 language extension for Tcl (vendored; upstream @sourcebot/codemirror-lang-tcl is not published under the sourcecat scope)","license":"MIT","main":"dist/index.js","name":"@sourcecat/codemirror-lang-tcl","type":"module","types":"dist/index.d.ts","version":"1.0.13"}
+{
+  "dependencies": {
+    "@codemirror/highlight": "^0.19.0",
+    "@codemirror/language": "^6.0.0",
+    "@lezer/common": "^1.0.0",
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.0.0",
+    "tslib": "^2.8.1"
+  },
+  "description": "CodeMirror 6 language extension for Tcl (vendored; upstream @sourcebot/codemirror-lang-tcl is not published under the sourcecat scope)",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "@sourcecat/codemirror-lang-tcl",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "version": "1.0.13"
+}

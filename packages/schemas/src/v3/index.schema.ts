@@ -296,7 +296,7 @@ const schema = {
     },
     "contexts": {
       "type": "object",
-      "description": "[Sourcecat EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://docs.sourcecat.dev/docs/features/search/search-contexts",
+      "description": "[Sourcecat EE] Defines a collection of search contexts. This is only available in single-tenancy mode. See: https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/search-contexts.mdx",
       "patternProperties": {
         "^[a-zA-Z0-9_-]+$": {
           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -709,12 +709,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -781,6 +781,15 @@ const schema = {
                     "https://gitlab.example.com"
                   ],
                   "pattern": "^https?:\\/\\/[^\\s/$.?#].[^\\s]*$"
+                },
+                "urlStyle": {
+                  "type": "string",
+                  "enum": [
+                    "modern",
+                    "legacy"
+                  ],
+                  "default": "modern",
+                  "description": "URL style used when constructing links to the GitLab web UI. `modern` uses the standard GitLab \"/-/\" URL prefix (e.g. `/group/project/-/blob/<ref>/<path>`). `legacy` omits the \"/-/\" prefix (e.g. `/group/project/blob/<ref>/<path>`), for GitLab-compatible hosts that don't use it. Defaults to `modern`."
                 },
                 "all": {
                   "type": "boolean",
@@ -929,12 +938,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -1093,12 +1102,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -1209,12 +1218,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -1388,12 +1397,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -1605,12 +1614,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [
@@ -1683,12 +1692,12 @@ const schema = {
                 },
                 "enforcePermissions": {
                   "type": "boolean",
-                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for this connection. When `PERMISSION_SYNC_ENABLED` is false, this setting has no effect. Defaults to the value of `PERMISSION_SYNC_ENABLED`. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 },
                 "enforcePermissionsForPublicRepos": {
                   "type": "boolean",
                   "default": false,
-                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://docs.sourcecat.dev/docs/features/permission-syncing"
+                  "description": "Controls whether repository permissions are enforced for public repositories in this connection. When true, public repositories are only visible to users with a linked account for this connection's code host. When false, public repositories are visible to all users. Has no effect when enforcePermissions is false. Defaults to false. See https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx"
                 }
               },
               "required": [

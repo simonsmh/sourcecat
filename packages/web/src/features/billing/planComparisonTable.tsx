@@ -109,7 +109,7 @@ export function PlanComparisonTable({
             </TableHeader>
             <TableBody>
                 <TableRow>
-                    <FeatureLink text="Code search" href="https://docs.sourcecat.dev/docs/features/search/code-search" />
+                    <FeatureLink text="Code search" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/code-search.mdx" />
                     <SupportIcon supported />
                     <SupportIcon supported />
                 </TableRow>
@@ -119,32 +119,32 @@ export function PlanComparisonTable({
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Ask Sourcecat" href="https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat" />
+                    <FeatureLink text="Ask Sourcecat" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/ask/ask-sourcecat.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="MCP server" href="https://docs.sourcecat.dev/docs/features/mcp-server" />
+                    <FeatureLink text="MCP server" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/mcp-server.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Code navigation" href="https://docs.sourcecat.dev/docs/features/code-navigation" />
+                    <FeatureLink text="Code navigation" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/code-navigation.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="SSO & OAuth" href="https://docs.sourcecat.dev/docs/configuration/idp" />
+                    <FeatureLink text="SSO & OAuth" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/idp.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Permission syncing" href="https://docs.sourcecat.dev/docs/features/permission-syncing" />
+                    <FeatureLink text="Permission syncing" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/permission-syncing.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>
                 <TableRow>
-                    <FeatureLink text="Audit logs" href="https://docs.sourcecat.dev/docs/configuration/audit-logs" />
+                    <FeatureLink text="Audit logs" href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/audit-logs.mdx" />
                     <SupportIcon supported={false} />
                     <SupportIcon supported />
                 </TableRow>

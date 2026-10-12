@@ -50,7 +50,7 @@ import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { LoginDialog } from "@/app/components/loginDialog";
 import { useTranslations } from "@/i18n/I18nProvider";
 
-const LANGUAGE_MODEL_DOCS_URL = "https://docs.sourcecat.dev/docs/configuration/language-model-providers"; 
+const LANGUAGE_MODEL_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/language-model-providers.mdx"; 
 
 interface SearchBarProps {
     className?: string;

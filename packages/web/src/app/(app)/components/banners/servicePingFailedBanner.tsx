@@ -13,7 +13,7 @@ interface ServicePingFailedBannerProps extends BannerProps {
     lastSyncAt: string | null;
 }
 
-const SERVICE_PING_DOCS_LINK = "https://docs.sourcecat.dev/docs/misc/service-ping";
+const SERVICE_PING_DOCS_LINK = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/misc/service-ping.mdx";
 
 export function ServicePingFailedBanner({
     id,

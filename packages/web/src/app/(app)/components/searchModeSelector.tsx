@@ -13,9 +13,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 export type SearchMode = "precise" | "agentic";
 
-const PRECISE_SEARCH_DOCS_URL = "https://docs.sourcecat.dev/docs/features/search/code-search";
+const PRECISE_SEARCH_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/code-search.mdx";
 // @tood: point this to the actual docs page
-const AGENTIC_SEARCH_DOCS_URL = "https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat";
+const AGENTIC_SEARCH_DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/ask/ask-sourcecat.mdx";
 
 export interface SearchModeSelectorProps {
     searchMode: SearchMode;

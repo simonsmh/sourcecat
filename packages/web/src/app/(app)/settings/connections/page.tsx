@@ -9,7 +9,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { ConnectionsTable } from "./components/connectionsTable";
 
-const DOCS_URL = "https://docs.sourcecat.dev/docs/connections/indexing-your-code";
+const DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/connections/indexing-your-code.mdx";
 const DEFAULT_PAGE_SIZE = 20;
 const pageSchema = z.coerce.number().int().positive();
 const sortBySchema = z.enum(["name", "syncedAt"]);

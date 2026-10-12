@@ -142,7 +142,7 @@ export function createPublicOpenApiDocument(version: string) {
             content: dedent`
                 ## Usage
                 
-                The \`query\` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://docs.sourcecat.dev/docs/features/search/syntax-reference) for the full query language.
+                The \`query\` field supports literal, regexp, and symbol searches with filters for repository, file, language, branch, and more. See the [search syntax reference](https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/search/syntax-reference.mdx) for the full query language.
                 `,
         },
     });

@@ -331,7 +331,7 @@ export async function collectModels(
         [
             'AI features include Ask, which lets you ask questions about your codebase',
             'in natural language and get answers grounded in your indexed code.',
-            '  https://docs.sourcecat.dev/docs/features/ask/ask-sourcecat',
+            '  https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/ask/ask-sourcecat.mdx',
             '',
             'You\'ll need an API key from at least one supported provider',
             '(Anthropic, OpenAI, Google, etc.) to enable these features.',

@@ -27,7 +27,7 @@ import { ClientCard } from "./clientCard";
 import { MCP_CLIENTS, matchKnownClient } from "./clients";
 import { UpsellDialog } from "@/features/billing/upsellDialog";
 
-const DOCS_URL = "https://docs.sourcecat.dev/docs/features/mcp-server";
+const DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/features/mcp-server.mdx";
 
 interface McpPageProps {
     mcpServerUrl: string;
