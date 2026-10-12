@@ -1,7 +1,6 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest';
 import { McpServerToolPermission, Prisma } from '@sourcecat/db';
 import type { McpToolSet } from './mcpClientFactory';
-import type { ModelMessage } from 'ai';
 
 // --- Mocks ---
 
@@ -99,11 +98,12 @@ function createMockClient(overrides: Partial<McpToolSet> & { serverName: string 
     };
 }
 
-// provider-utils 5.x requires `context` in ToolExecutionOptions and types
-// `messages` as ModelMessage[] (not never[]).
+// provider-utils 5.x requires `context` in ToolExecutionOptions.
+// messages is typed as any[] to avoid the duplicate @ai-sdk/provider-utils
+// type identity problem (ai@6 bundles 4.x, @ai-sdk/mcp bundles 5.x).
 function createMockToolExecutionOptions(toolCallId = 'test') {
     return {
-        messages: [] as ModelMessage[],
+        messages: [] as any[],
         toolCallId,
         context: undefined,
     };
