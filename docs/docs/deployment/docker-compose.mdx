@@ -9,26 +9,11 @@ If you are looking to deploy onto Kubernetes, see the [Kubernetes (Helm)](/docs/
 ## System requirements
 - RAM: Ensure your environment has at least 4GB of RAM. Insufficient memory may cause your Sourcecat deployment to be unstable.
 - Docker & Docker Compose: Make sure both are installed and up-to-date.
-- Node.js 18+: Required for the setup CLI
+- Node.js 18+
 
 For a more detailed requirements breakdown, please check out our [sizing guide](/docs/deployment/sizing-guide).
 
-## Option 1: Setup CLI
-
-The setup CLI will guide you through deploying Sourcecat and connecting it to your code hosts and LLM providers. This will create a new directory and generate a [configuration file](/docs/configuration/config-file) 
-and Docker Compose file for you.
-
-Run the following command to get started:
-
-```
-npx setup-sourcecat
-```
-
-<Frame>
-    <img src="/images/setup_sourcecat_splash.png" alt="npx setup-sourcecat" />
-</Frame>
-
-## Option 2: Manual steps
+## Deploy with Docker Compose
 
 ### Obtain the Docker Compose file
 

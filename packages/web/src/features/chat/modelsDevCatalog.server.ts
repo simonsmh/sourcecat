@@ -4,8 +4,7 @@ import { createLogger } from '@sourcecat/shared';
 
 const logger = createLogger('models-dev-catalog');
 
-// The same public, unauthenticated catalog the setup wizard already consumes
-// (see packages/setupWizard/src/models.ts). Each model entry exposes a
+// The same public, unauthenticated models.dev catalog. Each model entry exposes a
 // `limit.context` field (total context window in tokens) and a `modalities`
 // field describing the inputs/outputs the model supports natively.
 const MODELS_DEV_API_URL = 'https://models.dev/api.json';
