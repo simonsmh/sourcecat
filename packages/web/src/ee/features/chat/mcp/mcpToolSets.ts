@@ -2,7 +2,7 @@ import { createMCPClient, type MCPClient } from '@ai-sdk/mcp';
 import { McpToolSet } from './mcpClientFactory';
 import { createLogger, env } from '@sourcecat/shared';
 import type { AnySchemaObject } from 'ajv';
-import { jsonSchema, ToolExecutionOptions } from 'ai';
+import { jsonSchema } from 'ai';
 import type { JSONSchema7 } from 'json-schema';
 import { createHash } from 'crypto';
 import { getExternalMcpErrorLogFields } from './externalMcpError';
@@ -294,7 +294,11 @@ export async function getMcpTools(clients: McpToolSet[], analyticsContext?: McpT
                 const timeoutMs = env.SOURCECAT_MCP_TOOL_CALL_TIMEOUT_MS;
                 clientToolDisplayNames[qualifiedName] = toolName;
 
-                const executeWithTimeout = (async (input: unknown, options: ToolExecutionOptions) => {
+                // Infer the options type from the wrapped tool so it stays in sync
+                // with the provider-utils version that @ai-sdk/mcp bundles
+                // (its ToolExecutionOptions requires `context` since 5.x).
+                type McpToolExecuteOptions = Parameters<NonNullable<typeof originalExecute>>[1];
+                const executeWithTimeout = (async (input: unknown, options: McpToolExecuteOptions) => {
                     const startTime = Date.now();
                     const timeoutSignal = AbortSignal.timeout(timeoutMs);
                     const combinedSignal = options.abortSignal

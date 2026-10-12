@@ -56,9 +56,13 @@ export function buildMcpToolRegistry(tools: McpToolRecord): McpToolRegistryEntry
         .map(([name, tool]) => {
             const match = name.match(/^mcp_(.+?)__/);
             const serverName = match ? match[1] : '';
+            // provider-utils 5.x allows description to be a function of the tool
+            // context; the registry is built without a call context, so fall
+            // back to an empty string in that case.
+            const description = tool.description;
             return {
                 name,
-                description: tool.description ?? '',
+                description: typeof description === 'function' ? '' : (description ?? ''),
                 serverName,
             };
         });

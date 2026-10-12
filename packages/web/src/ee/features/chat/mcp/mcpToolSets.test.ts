@@ -1,6 +1,7 @@
 import { expect, test, describe, vi, beforeEach } from 'vitest';
 import { McpServerToolPermission, Prisma } from '@sourcecat/db';
 import type { McpToolSet } from './mcpClientFactory';
+import type { ModelMessage } from 'ai';
 
 // --- Mocks ---
 
@@ -98,6 +99,16 @@ function createMockClient(overrides: Partial<McpToolSet> & { serverName: string 
     };
 }
 
+// provider-utils 5.x requires `context` in ToolExecutionOptions and types
+// `messages` as ModelMessage[] (not never[]).
+function createMockToolExecutionOptions(toolCallId = 'test') {
+    return {
+        messages: [] as ModelMessage[],
+        toolCallId,
+        context: undefined,
+    };
+}
+
 // --- Tests ---
 
 // Import after mocks are set up
@@ -168,7 +179,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools['mcp_backstage__catalog_query-catalog-entities'];
         await expect(
-            tool.execute({ filter: 'kind=component' }, { messages: [], toolCallId: 'test' })
+            tool.execute({ filter: 'kind=component' }, createMockToolExecutionOptions())
         ).resolves.toEqual({ content: [{ type: 'text', text: 'result' }] });
 
         expect(mockServerToolUpsert).toHaveBeenCalledWith(expect.objectContaining({
@@ -204,7 +215,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools[modelToolName];
         await expect(
-            tool.execute({}, { messages: [], toolCallId: 'test' })
+            tool.execute({}, createMockToolExecutionOptions())
         ).resolves.toEqual({ content: [{ type: 'text', text: 'result' }] });
 
         expect(mockServerToolUpsert).toHaveBeenCalledWith(expect.objectContaining({
@@ -709,7 +720,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools['mcp_linear__create_issue'];
         await expect(
-            tool.execute({}, { messages: [], toolCallId: 'test' })
+            tool.execute({}, createMockToolExecutionOptions())
         ).rejects.toThrow('External API failed');
         expect(mockServerToolUpsert).not.toHaveBeenCalled();
         expect(mockServerToolUpdate).not.toHaveBeenCalled();
@@ -739,7 +750,7 @@ describe('getMcpTools', () => {
         ], undefined, { onAuthFailure });
 
         const tool = result.tools['mcp_linear__list_issues'];
-        const thrown = await Promise.resolve(tool.execute({}, { messages: [], toolCallId: 'tool-call-1' }))
+        const thrown = await Promise.resolve(tool.execute({}, createMockToolExecutionOptions('tool-call-1')))
             .then(() => undefined, (error: Error) => error);
         expect(thrown).toBeInstanceOf(Error);
         expect(thrown?.message).toContain('Authentication required: the connection to "Linear" is no longer authorized');
@@ -774,7 +785,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools['mcp_linear__list_issues'];
         await expect(
-            tool.execute({}, { messages: [], toolCallId: 'tool-call-1' })
+            tool.execute({}, createMockToolExecutionOptions('tool-call-1'))
         ).rejects.toThrow('Forbidden');
 
         expect(onAuthFailure).not.toHaveBeenCalled();
@@ -792,7 +803,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools['mcp_linear__create_issue'];
         await expect(
-            tool.execute({ title: 'My Issue' }, { messages: [], toolCallId: 'test' })
+            tool.execute({ title: 'My Issue' }, createMockToolExecutionOptions())
         ).resolves.toEqual({ content: [{ type: 'text', text: 'result' }] });
 
         expect(mockServerToolUpsert).toHaveBeenCalledWith({
@@ -836,7 +847,7 @@ describe('getMcpTools', () => {
         });
 
         const tool = result.tools['mcp_linear__create_issue'];
-        await tool.execute({ title: 'My Issue' }, { messages: [], toolCallId: 'test' });
+        await tool.execute({ title: 'My Issue' }, createMockToolExecutionOptions());
 
         expect(mockCaptureEvent).toHaveBeenCalledWith('ask_mcp_tool_call_completed', expect.objectContaining({
             chatId: 'chat-id',
@@ -861,7 +872,7 @@ describe('getMcpTools', () => {
         ]);
 
         const tool = result.tools['mcp_linear__list_issues'];
-        const execution = Promise.resolve(tool.execute({}, { messages: [], toolCallId: 'test' }));
+        const execution = Promise.resolve(tool.execute({}, createMockToolExecutionOptions()));
         let didResolve = false;
         const observedExecution = execution.then((value) => {
             didResolve = true;
@@ -900,7 +911,7 @@ describe('getMcpTools', () => {
 
         const tool = result.tools['mcp_linear__create_issue'];
         await expect(
-            tool.execute({ title: 'My Issue' }, { messages: [], toolCallId: 'test' })
+            tool.execute({ title: 'My Issue' }, createMockToolExecutionOptions())
         ).resolves.toEqual({ content: [{ type: 'text', text: 'result' }] });
 
         expect(mockServerToolUpdate).toHaveBeenCalledWith({
