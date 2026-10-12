@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="404" viewBox="0 0 1000 404" role="img" aria-labelledby="title desc">
-  <title id="title">Your repositories, connected through Sourcebot</title>
-  <desc id="desc">Collections of repositories on GitHub, GitLab, Bitbucket, and Azure DevOps connect to Sourcebot. Agents use the API or MCP; humans use Code Search and Ask Sourcebot in the web app.</desc>
+  <title id="title">Your repositories, connected through Sourcecat</title>
+  <desc id="desc">Collections of repositories on GitHub, GitLab, Bitbucket, and Azure DevOps connect to Sourcecat. Agents use the API or MCP; humans use Code Search and Ask Sourcecat in the web app.</desc>
   <style>
     :root { color-scheme:light dark; --ink:#36363b; --muted:#626267; --border:#c5c5c0; --wire:#858580; --surface:#f7f7f5; --stack:#edede8; --accent:#0099ff; }
     @media (prefers-color-scheme:dark) { :root { --ink:#edede8; --muted:#b0b0aa; --border:#51514e; --wire:#858580; --surface:#181818; --stack:#232321; --accent:#0099ff; } }
@@ -65,7 +65,7 @@
     <use href="#repo" x="241" y="22"/>
   </g>
   <rect x="426" y="150" width="160" height="104" rx="2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/>
-  <text x="506" y="210" text-anchor="middle" font-size="24" font-weight="600" letter-spacing="-1">Sourcebot</text>
+  <text x="506" y="210" text-anchor="middle" font-size="24" font-weight="600" letter-spacing="-1">Sourcecat</text>
   <path class="wire" d="M586 202h58M644 128h62M644 128v148h62"/>
   <path class="wire" d="m700 123 6 5-6 5m0 138 6 5-6 5"/>
   <circle cx="644" cy="202" r="3" fill="var(--accent)"/>
@@ -83,6 +83,6 @@
     <rect x="164" y="18" width="65" height="22" rx="2" fill="var(--stack)" stroke="var(--border)"/>
     <text class="muted" x="196.5" y="33" text-anchor="middle" font-size="11" font-weight="600">Web App</text>
     <text class="muted" x="22" y="63" font-size="13">Code Search</text>
-    <text class="muted" x="22" y="82" font-size="13">Ask Sourcebot</text>
+    <text class="muted" x="22" y="82" font-size="13">Ask Sourcecat</text>
   </g>
 </svg>
