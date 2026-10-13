@@ -24,7 +24,7 @@ WORKDIR /zoekt
 COPY vendor/zoekt/go.mod vendor/zoekt/go.sum ./
 RUN go mod download
 COPY vendor/zoekt ./
-RUN CGO_ENABLED=0 GOOS=linux go build -o /cmd/ ./cmd/...
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /cmd/ ./cmd/...
 # -------------------------
 
 # ------ Build shared libraries ------
