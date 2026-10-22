@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Removed the "What's new" changelog and "Book a call" sidebar entries from the web frontend.
 
+### Fixed
+- Restored the `-tenant_id` and `-repo_id` flags in the bundled Zoekt (dropped when the fork was rebased onto upstream) that the backend passes to `zoekt-git-index`. Without them every indexing job failed immediately and code search returned no results.
+
 ## [5.1.16] - 2026-10-09
 
 ### Added
