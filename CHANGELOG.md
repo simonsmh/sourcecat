@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added i18n internationalization to the web frontend with English, Simplified Chinese, Japanese, and Korean support. Users can switch languages from the sidebar user menu; the choice persists via cookie.
 - Extended i18n coverage to the chats page, the general settings page, and the sync and upgrade banners in English, Simplified Chinese, Japanese, and Korean, and localized relative timestamps on the chats page.
+- Added a configuration file editor for organization owners under Settings → Configuration. It edits the deployment's config.json in place, validates the content against the config schema before saving, and relies on the existing config file watcher to apply changes automatically. Configs loaded from a remote URL are shown read-only.
 
 ### Removed
 - Removed the "What's new" changelog and "Book a call" sidebar entries from the web frontend.

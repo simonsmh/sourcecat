@@ -123,6 +123,11 @@ export const getSidebarNavGroups = async () =>
                         icon: "plug" as const,
                     },
                     {
+                        title: t("configuration"),
+                        href: `/settings/configuration`,
+                        icon: "scroll-text" as const,
+                    },
+                    {
                         title: t("analytics"),
                         href: `/settings/analytics`,
                         icon: "chart-area" as const,
