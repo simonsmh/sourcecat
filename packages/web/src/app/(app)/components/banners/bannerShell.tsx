@@ -2,6 +2,7 @@
 
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { dismissBanner } from "./actions";
@@ -18,6 +19,7 @@ interface BannerShellProps {
 
 export function BannerShell({ id, dismissible, icon, title, description, action }: BannerShellProps) {
     const [isDismissed, setIsDismissed] = useState(false);
+    const t = useTranslations("common");
 
     if (isDismissed) {
         return null;
@@ -42,7 +44,7 @@ export function BannerShell({ id, dismissible, icon, title, description, action 
                             size="icon"
                             className="h-6 w-6"
                             onClick={handleDismiss}
-                            aria-label="Dismiss"
+                            aria-label={t("dismiss")}
                         >
                             <X className="h-4 w-4" />
                         </Button>

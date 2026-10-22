@@ -2,6 +2,7 @@
 
 import { getConnectionSyncCounts } from "@/app/api/(client)/client";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/i18n/I18nProvider";
 import type { ConnectionSyncCounts } from "@/features/connections/connectionSyncCounts.server";
 import { unwrapServiceError } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -25,6 +26,7 @@ export function ConnectionFirstSyncBanner({
     initialCounts,
 }: ConnectionFirstSyncBannerProps) {
     const router = useRouter();
+    const t = useTranslations("banners");
     const { data: counts, isError, isPending } = useQuery({
         queryKey: ["connection-sync-counts"],
         queryFn: () => unwrapServiceError(getConnectionSyncCounts()),
@@ -51,19 +53,18 @@ export function ConnectionFirstSyncBanner({
     }
 
     const firstTimeSyncingCount = counts.firstTimeSyncingCount;
-    const isSingular = firstTimeSyncingCount === 1;
 
     return (
         <BannerShell
             id={id}
             dismissible={dismissible}
             icon={<Loader2 className="mt-0.5 h-4 w-4 animate-spin" />}
-            title={`${firstTimeSyncingCount} code host ${isSingular ? "connection is" : "connections are"} syncing for the first time`}
-            description={`Repositories from ${isSingular ? "this connection are" : "these connections are"} unavailable until syncing completes.`}
+            title={t("connectionFirstSyncTitle", { count: firstTimeSyncingCount })}
+            description={t("connectionFirstSyncDescription", { count: firstTimeSyncingCount })}
             action={(
                 <Button asChild size="sm" variant="outline">
                     <Link href="/settings/connections?sortBy=syncedAt&sortOrder=desc">
-                        View connections
+                        {t("viewConnections")}
                     </Link>
                 </Button>
             )}

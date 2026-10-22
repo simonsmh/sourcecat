@@ -44,8 +44,6 @@ import { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from
 import { KeyboardShortcutHint } from "@/app/components/keyboardShortcutHint";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
-import { WhatsNewSidebarButton } from "./whatsNewSidebarButton";
-import { BookACallSidebarButton } from "./bookACallSidebarButton";
 import { UpgradeButton } from "./upgradeButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { LanguageSwitcher } from "@/i18n/LanguageSwitcher";
@@ -61,10 +59,9 @@ interface SidebarBaseProps {
     headerContent: ReactNode;
     children: ReactNode;
     isValidLicenseActive: boolean;
-    isAskGhEnabled: boolean;
 }
 
-export function SidebarBase({ session, collapsible = "icon", headerContent, children, isValidLicenseActive, isAskGhEnabled }: SidebarBaseProps) {
+export function SidebarBase({ session, collapsible = "icon", headerContent, children, isValidLicenseActive }: SidebarBaseProps) {
     const [isScrolled, setIsScrolled] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
@@ -121,8 +118,6 @@ export function SidebarBase({ session, collapsible = "icon", headerContent, chil
                         (collapsible !== "none" && !isMobile) &&
                         <CollapseSidebarButton />
                     }
-                    <WhatsNewSidebarButton />
-                    <BookACallSidebarButton isAskGhEnabled={isAskGhEnabled} />
                     {session ? (
                         <MeControlDropdownMenu session={session} />
                     ) : (

@@ -4,26 +4,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { UserAvatar } from "@/components/userAvatar";
 import { HomeView, useHomeView } from "@/hooks/useHomeView";
 import { useKeymapType } from "@/hooks/useKeymapType";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { KeymapType } from "@/lib/types";
 import { useTheme } from "next-themes";
 import { useMemo } from "react";
 import { BasicSettingsCard, SettingsCard, SettingsCardGroup } from "../components/settingsCard";
-
-const themeOptions = [
-    { value: "light", label: "Light" },
-    { value: "dark", label: "Dark" },
-    { value: "system", label: "System" },
-] as const;
-
-const homeViewOptions = [
-    { value: "search", label: "Code Search" },
-    { value: "ask", label: "Ask" },
-] as const;
-
-const keymapOptions = [
-    { value: "default", label: "Standard" },
-    { value: "vim", label: "Vim" },
-] as const;
 
 interface GeneralPageProps {
     userName?: string;
@@ -41,22 +26,41 @@ export function GeneralPage({
     const { theme: _theme, setTheme } = useTheme();
     const [homeView, setHomeView] = useHomeView(defaultHomeView);
     const [keymapType, setKeymapType] = useKeymapType();
+    const t = useTranslations("settings");
+    const tNav = useTranslations("nav");
+    const tSidebar = useTranslations("sidebar");
 
     const theme = useMemo(() => {
         return _theme ?? "light";
     }, [_theme]);
 
+    const themeOptions = [
+        { value: "light", label: tSidebar("themeLight") },
+        { value: "dark", label: tSidebar("themeDark") },
+        { value: "system", label: tSidebar("themeSystem") },
+    ] as const;
+
+    const homeViewOptions = [
+        { value: "search", label: tNav("codeSearch") },
+        { value: "ask", label: tNav("ask") },
+    ] as const;
+
+    const keymapOptions = [
+        { value: "default", label: tSidebar("keymapStandard") },
+        { value: "vim", label: tSidebar("keymapVim") },
+    ] as const;
+
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h3 className="text-lg font-medium">General</h3>
+                <h3 className="text-lg font-medium">{t("general")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Manage your profile and preferences.
+                    {t("manageProfileAndPreferences")}
                 </p>
             </div>
 
             <div className="flex flex-col gap-2">
-                <h4 className="text-sm font-medium text-muted-foreground">Profile</h4>
+                <h4 className="text-sm font-medium text-muted-foreground">{t("profile")}</h4>
                 <SettingsCard>
                     <div className="flex items-center gap-4">
                         <UserAvatar
@@ -65,7 +69,7 @@ export function GeneralPage({
                             className="h-12 w-12"
                         />
                         <div className="flex flex-col">
-                            <span className="font-medium">{userName ?? "User"}</span>
+                            <span className="font-medium">{userName ?? tSidebar("user")}</span>
                             {userEmail && (
                                 <span className="text-sm text-muted-foreground">{userEmail}</span>
                             )}
@@ -75,9 +79,9 @@ export function GeneralPage({
             </div>
 
             <div className="flex flex-col gap-2">
-                <h4 className="text-sm font-medium text-muted-foreground">Preferences</h4>
+                <h4 className="text-sm font-medium text-muted-foreground">{t("preferences")}</h4>
                 <SettingsCardGroup>
-                    <BasicSettingsCard name="Default home view" description="Choose which page to show when you open Sourcebot.">
+                    <BasicSettingsCard name={t("defaultHomeView")} description={t("defaultHomeViewDescription")}>
                         <Select value={homeView} onValueChange={(value) => setHomeView(value as HomeView)}>
                             <SelectTrigger className="w-36">
                                 <SelectValue />
@@ -91,7 +95,7 @@ export function GeneralPage({
                             </SelectContent>
                         </Select>
                     </BasicSettingsCard>
-                    <BasicSettingsCard name="Appearance" description="Choose how Sourcebot looks to you.">
+                    <BasicSettingsCard name={t("appearance")} description={t("appearanceDescription")}>
                         <Select value={theme} onValueChange={setTheme}>
                             <SelectTrigger className="w-36">
                                 <SelectValue />
@@ -105,7 +109,7 @@ export function GeneralPage({
                             </SelectContent>
                         </Select>
                     </BasicSettingsCard>
-                    <BasicSettingsCard name="Editor keymap" description="Choose the keyboard shortcuts used in the code viewer.">
+                    <BasicSettingsCard name={tSidebar("editorKeymap")} description={t("editorKeymapDescription")}>
                         <Select value={keymapType} onValueChange={(value) => setKeymapType(value as KeymapType)}>
                             <SelectTrigger className="w-36">
                                 <SelectValue />

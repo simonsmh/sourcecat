@@ -2,6 +2,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { RepositorySyncIssuesBanner } from "./repositorySyncIssuesBanner";
+import { I18nProvider } from "@/i18n/I18nProvider";
+import enMessages from "@/i18n/messages/en.json";
 
 vi.mock("./bannerShell", () => ({
     BannerShell: ({
@@ -29,14 +31,16 @@ afterEach(cleanup);
 describe("RepositorySyncIssuesBanner", () => {
     test("summarizes failures and warnings with links to both filters", () => {
         render(
-            <RepositorySyncIssuesBanner
-                id="repositorySyncFailed"
-                dismissible={true}
-                role={null}
-                now={new Date("2026-08-17T12:00:00Z")}
-                failedCount={1}
-                warningCount={2}
-            />,
+            <I18nProvider locale="en" messages={enMessages}>
+                <RepositorySyncIssuesBanner
+                    id="repositorySyncFailed"
+                    dismissible={true}
+                    role={null}
+                    now={new Date("2026-08-17T12:00:00Z")}
+                    failedCount={1}
+                    warningCount={2}
+                />
+            </I18nProvider>,
         );
 
         expect(screen.getByText("3 repositories need attention")).toBeTruthy();
@@ -53,14 +57,16 @@ describe("RepositorySyncIssuesBanner", () => {
 
     test("uses singular copy and only renders the relevant action", () => {
         render(
-            <RepositorySyncIssuesBanner
-                id="repositorySyncWarning"
-                dismissible={true}
-                role={null}
-                now={new Date("2026-08-17T12:00:00Z")}
-                failedCount={0}
-                warningCount={1}
-            />,
+            <I18nProvider locale="en" messages={enMessages}>
+                <RepositorySyncIssuesBanner
+                    id="repositorySyncWarning"
+                    dismissible={true}
+                    role={null}
+                    now={new Date("2026-08-17T12:00:00Z")}
+                    failedCount={0}
+                    warningCount={1}
+                />
+            </I18nProvider>,
         );
 
         expect(screen.getByText("1 repository needs attention")).toBeTruthy();

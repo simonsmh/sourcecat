@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
@@ -10,22 +13,20 @@ interface RepositorySyncIssuesBannerProps extends BannerProps {
     warningCount: number;
 }
 
-const pluralizeRepository = (count: number) =>
-    count === 1 ? "repository" : "repositories";
-
 export function RepositorySyncIssuesBanner({
     id,
     dismissible,
     failedCount,
     warningCount,
 }: RepositorySyncIssuesBannerProps) {
+    const t = useTranslations("banners");
     const totalCount = failedCount + warningCount;
     const descriptions = [
         failedCount > 0
-            ? `${failedCount} ${pluralizeRepository(failedCount)} failed to sync and ${failedCount === 1 ? "is" : "are"} unavailable.`
+            ? t("repositoryFailedDescription", { count: failedCount })
             : null,
         warningCount > 0
-            ? `${warningCount} ${pluralizeRepository(warningCount)} ${warningCount === 1 ? "has a warning" : "have warnings"} and may contain stale results.`
+            ? t("repositoryWarningDescription", { count: warningCount })
             : null,
     ].filter((description): description is string => description !== null);
 
@@ -41,18 +42,18 @@ export function RepositorySyncIssuesBanner({
                     )}
                 />
             )}
-            title={`${totalCount} ${pluralizeRepository(totalCount)} ${totalCount === 1 ? "needs" : "need"} attention`}
+            title={t("repositoryNeedsAttention", { count: totalCount })}
             description={descriptions.join(" ")}
             action={(
                 <>
                     {failedCount > 0 && (
                         <Button asChild size="sm" variant="outline">
-                            <Link href="/repos?status=failed">View failed</Link>
+                            <Link href="/repos?status=failed">{t("viewFailed")}</Link>
                         </Button>
                     )}
                     {warningCount > 0 && (
                         <Button asChild size="sm" variant="outline">
-                            <Link href="/repos?status=warning">View warnings</Link>
+                            <Link href="/repos?status=warning">{t("viewWarnings")}</Link>
                         </Button>
                     )}
                 </>

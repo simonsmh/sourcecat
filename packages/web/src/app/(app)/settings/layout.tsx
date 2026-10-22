@@ -16,8 +16,11 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
-export const metadata: Metadata = {
-    title: "Settings",
+export async function generateMetadata(): Promise<Metadata> {
+    const t = await getTranslations("nav");
+    return {
+        title: t("settings"),
+    };
 }
 
 export default async function SettingsLayout(

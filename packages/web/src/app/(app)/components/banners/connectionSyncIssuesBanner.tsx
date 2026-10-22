@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
@@ -10,17 +13,14 @@ interface ConnectionSyncIssuesBannerProps extends BannerProps {
     status: "failed" | "warning";
 }
 
-const pluralizeConnection = (count: number) =>
-    count === 1 ? "connection" : "connections";
-
 export function ConnectionSyncIssuesBanner({
     id,
     dismissible,
     count,
     status,
 }: ConnectionSyncIssuesBannerProps) {
+    const t = useTranslations("banners");
     const isFailed = status === "failed";
-    const isSingular = count === 1;
 
     return (
         <BannerShell
@@ -34,14 +34,14 @@ export function ConnectionSyncIssuesBanner({
                     )}
                 />
             )}
-            title={`${count} code host ${pluralizeConnection(count)} ${isSingular ? "needs" : "need"} attention`}
+            title={t("connectionNeedsAttention", { count })}
             description={isFailed
-                ? `${isSingular ? "This connection" : "These connections"} failed to sync. Repositories are unavailable.`
-                : `${isSingular ? "This connection has a warning" : "These connections have warnings"}. Repository discovery may be incomplete or out of date.`}
+                ? t("connectionFailedDescription", { count })
+                : t("connectionWarningDescription", { count })}
             action={(
                 <Button asChild size="sm" variant="outline">
                     <Link href={`/settings/connections?status=${status}`}>
-                        {isFailed ? "View failed" : "View warnings"}
+                        {isFailed ? t("viewFailed") : t("viewWarnings")}
                     </Link>
                 </Button>
             )}

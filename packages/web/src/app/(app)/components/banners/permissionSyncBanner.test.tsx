@@ -33,6 +33,8 @@ vi.mock('./bannerShell', () => ({
 }));
 
 const { PermissionSyncBanner } = await import('./permissionSyncBanner');
+const { I18nProvider } = await import('@/i18n/I18nProvider');
+const enMessages = (await import('@/i18n/messages/en.json')).default;
 
 const renderBanner = (initialStatus: PermissionSyncStatusResponse) => {
     const queryClient = new QueryClient({
@@ -40,6 +42,7 @@ const renderBanner = (initialStatus: PermissionSyncStatusResponse) => {
     });
     return render(
         <QueryClientProvider client={queryClient}>
+            <I18nProvider locale="en" messages={enMessages}>
             <PermissionSyncBanner
                 id="permissionSync"
                 dismissible={false}
@@ -47,6 +50,7 @@ const renderBanner = (initialStatus: PermissionSyncStatusResponse) => {
                 now={new Date('2026-07-22T12:00:00Z')}
                 initialStatus={initialStatus}
             />
+            </I18nProvider>
         </QueryClientProvider>,
     );
 };
@@ -94,7 +98,7 @@ describe('PermissionSyncBanner', () => {
     test('retains the existing initial-sync progress state', () => {
         renderBanner({ hasPendingFirstSync: true, issues: [] });
 
-        expect(screen.getByText(/Syncing repository access with Sourcebot/)).toBeTruthy();
+        expect(screen.getByText(/Syncing repository access with Sourcecat/)).toBeTruthy();
     });
 
     test('shows syncing while recovering an account with an unresolved issue', () => {
@@ -110,7 +114,7 @@ describe('PermissionSyncBanner', () => {
             }],
         });
 
-        expect(screen.getByText(/Syncing repository access with Sourcebot/)).toBeTruthy();
+        expect(screen.getByText(/Syncing repository access with Sourcecat/)).toBeTruthy();
         expect(screen.queryByText(/needs attention/)).toBeNull();
     });
 });

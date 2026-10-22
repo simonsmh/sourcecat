@@ -37,6 +37,8 @@ vi.mock("./bannerShell", () => ({
 const { ConnectionFirstSyncBanner } = await import(
     "./connectionFirstSyncBanner"
 );
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
 
 const renderBanner = (firstTimeSyncingCount: number) => {
     const queryClient = new QueryClient({
@@ -44,6 +46,7 @@ const renderBanner = (firstTimeSyncingCount: number) => {
     });
     render(
         <QueryClientProvider client={queryClient}>
+            <I18nProvider locale="en" messages={enMessages}>
             <ConnectionFirstSyncBanner
                 id="connectionFirstSync"
                 dismissible={true}
@@ -55,6 +58,7 @@ const renderBanner = (firstTimeSyncingCount: number) => {
                     warningCount: 0,
                 }}
             />
+            </I18nProvider>
         </QueryClientProvider>,
     );
     return queryClient;

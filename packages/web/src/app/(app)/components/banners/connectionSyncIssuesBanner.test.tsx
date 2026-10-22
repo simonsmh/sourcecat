@@ -2,6 +2,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { ConnectionSyncIssuesBanner } from "./connectionSyncIssuesBanner";
+import { I18nProvider } from "@/i18n/I18nProvider";
+import enMessages from "@/i18n/messages/en.json";
 
 vi.mock("./bannerShell", () => ({
     BannerShell: ({
@@ -29,14 +31,16 @@ afterEach(cleanup);
 describe("ConnectionSyncIssuesBanner", () => {
     test("renders a never-synced failure independently", () => {
         render(
-            <ConnectionSyncIssuesBanner
-                id="connectionSyncFailed"
-                dismissible={true}
-                role={null}
-                now={new Date("2026-08-18T12:00:00Z")}
-                count={1}
-                status="failed"
-            />,
+            <I18nProvider locale="en" messages={enMessages}>
+                <ConnectionSyncIssuesBanner
+                    id="connectionSyncFailed"
+                    dismissible={true}
+                    role={null}
+                    now={new Date("2026-08-18T12:00:00Z")}
+                    count={1}
+                    status="failed"
+                />
+            </I18nProvider>,
         );
 
         expect(screen.getByText("1 code host connection needs attention")).toBeTruthy();
@@ -51,14 +55,16 @@ describe("ConnectionSyncIssuesBanner", () => {
 
     test("renders warnings independently", () => {
         render(
-            <ConnectionSyncIssuesBanner
-                id="connectionSyncWarning"
-                dismissible={true}
-                role={null}
-                now={new Date("2026-08-18T12:00:00Z")}
-                count={2}
-                status="warning"
-            />,
+            <I18nProvider locale="en" messages={enMessages}>
+                <ConnectionSyncIssuesBanner
+                    id="connectionSyncWarning"
+                    dismissible={true}
+                    role={null}
+                    now={new Date("2026-08-18T12:00:00Z")}
+                    count={2}
+                    status="warning"
+                />
+            </I18nProvider>,
         );
 
         expect(screen.getByText("2 code host connections need attention")).toBeTruthy();

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { usePrevious } from "@uidotdev/usehooks";
 import { BannerShell } from "./bannerShell";
+import { useTranslations } from "@/i18n/I18nProvider";
 import type { BannerProps } from "./types";
 import type { PermissionSyncStatusResponse } from "@/app/api/(server)/ee/permissionSyncStatus/api";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ interface PermissionSyncBannerProps extends BannerProps {
 
 export function PermissionSyncBanner({ id, dismissible, initialStatus }: PermissionSyncBannerProps) {
     const router = useRouter();
+    const t = useTranslations("banners");
 
     const { data: status, isError, isPending } = useQuery({
         queryKey: ["permissionSyncStatus"],
@@ -60,11 +62,11 @@ export function PermissionSyncBanner({ id, dismissible, initialStatus }: Permiss
                 icon={<Info className="h-4 w-4 mt-0.5" />}
                 title={
                     <span className="flex items-center gap-2">
-                        Syncing repository access with Sourcebot.
+                        {t("permissionSyncingTitle")}
                         <Loader2 className="h-4 w-4 animate-spin" />
                     </span>
                 }
-                description="Sourcebot is syncing what repositories you have access to from a code host. This may take a minute."
+                description={t("permissionSyncingDescription")}
             />
         );
     }
@@ -73,18 +75,18 @@ export function PermissionSyncBanner({ id, dismissible, initialStatus }: Permiss
     if (issue) {
         const providerName = status.issues.length === 1
             ? getAuthProviderInfo(issue.providerType).displayName
-            : `${status.issues.length} code hosts`;
+            : t("permissionMultipleCodeHosts", { count: status.issues.length });
 
         return (
             <BannerShell
                 id={id}
                 dismissible={dismissible}
                 icon={<AlertTriangle className="h-4 w-4 mt-0.5" />}
-                title={`Repository access from ${providerName} needs attention.`}
-                description="Sourcebot could not verify your repository permissions. Review your linked accounts to restore access to private repositories."
+                title={t("permissionNeedsAttentionTitle", { provider: providerName })}
+                description={t("permissionNeedsAttentionDescription")}
                 action={(
                     <Button asChild variant="outline" size="sm">
-                        <Link href="/settings/linked-accounts">Review linked accounts</Link>
+                        <Link href="/settings/linked-accounts">{t("reviewLinkedAccounts")}</Link>
                     </Button>
                 )}
             />

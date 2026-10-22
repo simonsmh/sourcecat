@@ -56,7 +56,6 @@ export async function DefaultSidebar() {
             session={session}
             collapsible="icon"
             isValidLicenseActive={licenseActive}
-            isAskGhEnabled={env.EXPERIMENT_ASK_GH_ENABLED === 'true'}
             headerContent={
                 <Nav
                     isSettingsNotificationVisible={isSettingsNotificationVisible}
