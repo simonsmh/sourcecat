@@ -537,6 +537,131 @@
                 "description": "将你的智能体连接到 Sourcebot，让它们能够获取代码上下文等信息。"
             }
         },
+        "membersPage": {
+            "title": "成员",
+            "description": "邀请并管理你的组织成员。",
+            "searchPlaceholder": "按姓名或邮箱搜索",
+            "exportCsv": "导出 CSV",
+            "filter": {
+                "all": "全部",
+                "owners": "所有者",
+                "members": "成员"
+            },
+            "status": {
+                "active": "活跃",
+                "pending": "待确认",
+                "suspended": "已停用",
+                "invited": "已邀请",
+                "requests": "请求",
+                "requested": "已请求"
+            },
+            "sectionDescriptions": {
+                "requests": "请求访问该组织的人。",
+                "active": "有权访问该组织的用户。活跃用户计入计费。",
+                "pending": "有权访问该组织但从未登录过的用户。待确认用户不计入计费。",
+                "suspended": "无法访问该组织的用户。已停用用户不计入计费。",
+                "invited": "收到该组织待处理邀请的人。"
+            },
+            "table": {
+                "name": "姓名",
+                "email": "邮箱",
+                "role": "角色",
+                "status": "状态",
+                "joined": "加入时间",
+                "lastSeen": "最近活跃",
+                "sortBy": "按{column}排序",
+                "never": "从未",
+                "online": "在线",
+                "noRows": "没有行与此筛选条件匹配。",
+                "clearFilter": "清除筛选",
+                "expandSection": "展开{section}分组",
+                "collapseSection": "折叠{section}分组",
+                "sectionInfo": "{section}分组说明"
+            },
+            "role": {
+                "owner": "所有者",
+                "member": "成员"
+            },
+            "actions": {
+                "openActions": "打开成员操作",
+                "copyEmail": "复制邮箱",
+                "copyInviteLink": "复制邀请链接",
+                "emailCopied": "邮箱已复制到剪贴板。",
+                "emailCopyFailed": "复制邮箱失败。",
+                "inviteLinkCopied": "邀请链接已复制到剪贴板。",
+                "inviteLinkCopyFailed": "复制邀请链接失败。",
+                "scimTitle": "SCIM 预配已启用",
+                "planTitle": "你当前的套餐不提供组织管理功能",
+                "cannotDemoteLastOwner": "无法降级最后一位活跃所有者",
+                "cannotLeaveLastOwner": "作为最后一位活跃所有者无法退出",
+                "cannotSuspendLastOwner": "无法停用最后一位活跃所有者",
+                "promoteToOwner": "提升为所有者",
+                "demoteToMember": "降级为成员",
+                "leaveOrganization": "退出组织",
+                "approveRequest": "批准请求",
+                "rejectRequest": "拒绝请求",
+                "cancelInvite": "取消邀请",
+                "suspend": "停用",
+                "reactivate": "重新启用",
+                "remove": "移除",
+                "labels": {
+                    "promote": "提升",
+                    "demote": "降级",
+                    "suspend": "停用",
+                    "reactivate": "重新启用",
+                    "remove": "移除",
+                    "leave": "退出",
+                    "cancelInvite": "取消邀请",
+                    "approveRequest": "批准",
+                    "rejectRequest": "拒绝"
+                },
+                "verbs": {
+                    "promote": "提升",
+                    "demote": "降级",
+                    "suspend": "停用",
+                    "reactivate": "重新启用",
+                    "remove": "移除",
+                    "leave": "退出",
+                    "cancelInvite": "取消邀请",
+                    "approveRequest": "批准",
+                    "rejectRequest": "拒绝"
+                },
+                "failedAction": "{action}失败。",
+                "failedActionReason": "{action}失败。原因：{reason}",
+                "actionSuccessful": "{action}成功。",
+                "dialogs": {
+                    "promoteTitle": "提升为所有者",
+                    "promoteDescription": "确定要将 {name} 提升为所有者吗？他们将拥有完整的管理员权限。",
+                    "promotePendingDescription": "确定要将 {name} 提升为所有者吗？他们登录后将拥有完整的管理员权限。",
+                    "demoteTitle": "降级为成员",
+                    "demoteDescription": "确定要将 {name} 从所有者降级为成员吗？他们将失去管理员权限。",
+                    "suspendTitle": "停用成员",
+                    "suspendDescription": "确定要停用 {name} 吗？他们将无法访问此组织。",
+                    "reactivateTitle": "重新启用成员",
+                    "reactivateDescription": "确定要重新启用 {name} 吗？他们将重新获得此组织的访问权限。",
+                    "removeTitle": "移除成员",
+                    "removeDescription": "确定要将 {name} 永久移出此组织吗？",
+                    "leaveTitle": "退出组织",
+                    "leaveDescription": "确定要退出此组织吗？",
+                    "cancelInviteTitle": "取消邀请",
+                    "cancelInviteDescription": "确定要取消对 {email} 的邀请吗？",
+                    "approveTitle": "批准请求",
+                    "approveDescription": "确定要批准来自 {email} 的请求吗？他们将被添加为你的组织成员。",
+                    "rejectTitle": "拒绝请求",
+                    "rejectDescription": "确定要拒绝来自 {email} 的请求吗？"
+                }
+            },
+            "invite": {
+                "button": "邀请",
+                "title": "邀请成员",
+                "description": "邀请新成员加入你的组织。",
+                "emailLabel": "邮箱",
+                "sendInvites": "发送邀请",
+                "sentToast": "{count, plural, other {已成功发送 # 份邀请。}}",
+                "failedToast": "发送邀请失败。原因：{reason}",
+                "failedGeneric": "发送邀请失败。"
+            }
+        },
         "securityPage": {
             "upgrade": "升级",
             "organizationAccess": "组织访问",

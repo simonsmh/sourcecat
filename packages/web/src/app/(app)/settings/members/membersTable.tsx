@@ -34,6 +34,10 @@ import { DisplayDate } from "@/app/(app)/components/DisplayDate";
 import { NotificationDot } from "@/app/(app)/components/notificationDot";
 import { cn } from "@/lib/utils";
 import { MembersTableActions, type MembersTableActionsProps } from "./membersTableActions";
+import { useTranslations } from "@/i18n/I18nProvider";
+
+type SettingsTranslator = ReturnType<typeof useTranslations<"settings">>;
+type StatusKey = "active" | "pending" | "suspended" | "invited" | "requested";
 
 // Matches the `lastActiveAt` write throttle in withAuth: a member seen within
 // this window is treated as currently online.
@@ -77,32 +81,12 @@ type RequestRow = Request & { kind: "request"; section: "requests" };
 export type TableRowData = MemberRow | InviteRow | RequestRow;
 export type MemberFilter = "all" | "owners" | "members" | Section;
 
-const SECTIONS: { id: Section; label: string; description: string }[] = [
-    {
-        id: "requests",
-        label: "Requests",
-        description: "People who requested access to the organization.",
-    },
-    {
-        id: "active",
-        label: "Active",
-        description: "Users who have access to the organization. Active users count toward billing.",
-    },
-    {
-        id: "pending",
-        label: "Pending",
-        description: "Users who have access to the organization but have never signed in. Pending users do not count toward billing.",
-    },
-    {
-        id: "suspended",
-        label: "Suspended",
-        description: "Users who cannot access the organization. Suspended users do not count toward billing.",
-    },
-    {
-        id: "invited",
-        label: "Invited",
-        description: "People with pending invitations to the organization.",
-    },
+const SECTIONS: { id: Section }[] = [
+    { id: "requests" },
+    { id: "active" },
+    { id: "pending" },
+    { id: "suspended" },
+    { id: "invited" },
 ];
 
 const COLUMN_WIDTHS = ["auto", "180px", "120px", "120px", "120px", "64px"];
@@ -128,7 +112,7 @@ const getRoleLabel = (row: TableRowData) => {
     return "";
 };
 
-const getStatusLabel = (row: TableRowData) => {
+const getStatusLabel = (row: TableRowData): StatusKey => {
     if (row.kind === "member") {
         return row.section;
     }
@@ -203,6 +187,7 @@ const SortableHeader = ({
     column: Column<TableRowData, unknown>;
     children: string;
 }) => {
+    const t = useTranslations("settings");
     const sortDirection = column.getIsSorted();
     const Icon = sortDirection === "asc" ? ArrowDown : sortDirection === "desc" ? ArrowUp : ArrowDown;
 
@@ -212,7 +197,7 @@ const SortableHeader = ({
             className="group -ml-3 h-8 px-3 gap-0 [&_svg]:size-3"
             size="sm"
             onClick={() => column.toggleSorting(sortDirection === "asc")}
-            aria-label={`Sort by ${children}`}
+            aria-label={t("membersPage.table.sortBy", { column: children })}
         >
             {children}
             <Icon
@@ -258,12 +243,12 @@ export const getMemberSection = (member: Member): MemberRow["section"] => {
     return "active";
 };
 
-const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">): ColumnDef<TableRowData>[] => [
+const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">, t: SettingsTranslator): ColumnDef<TableRowData>[] => [
     {
         id: "identity",
         accessorFn: getDisplayName,
         sortingFn: sortByName,
-        header: ({ column }) => <SortableHeader column={column}>Name</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>{t("membersPage.table.name")}</SortableHeader>,
         cell: ({ row }) => {
             const r = row.original;
             const name = getDisplayName(r);
@@ -289,13 +274,13 @@ const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">): Colum
         accessorFn: getRoleLabel,
         meta: { className: "whitespace-nowrap" },
         sortingFn: sortByRole,
-        header: ({ column }) => <SortableHeader column={column}>Role</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>{t("membersPage.table.role")}</SortableHeader>,
         cell: ({ row }) => {
             const r = row.original;
             if (r.kind === "member") {
-                const roleLabel = r.role.toLowerCase();
+                const roleLabel = t(r.role === OrgRole.OWNER ? "membersPage.role.owner" : "membersPage.role.member");
                 const stateLabel = r.section === "pending" || r.section === "suspended"
-                    ? ` (${r.section})`
+                    ? ` (${t(`membersPage.status.${r.section}`)})`
                     : "";
 
                 return (
@@ -316,10 +301,10 @@ const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">): Colum
         accessorFn: getStatusLabel,
         meta: { className: "whitespace-nowrap" },
         sortingFn: sortByStatus,
-        header: ({ column }) => <SortableHeader column={column}>Status</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>{t("membersPage.table.status")}</SortableHeader>,
         cell: ({ row }) => (
             <span className="text-sm text-muted-foreground capitalize">
-                {getStatusLabel(row.original)}
+                {t(`membersPage.status.${getStatusLabel(row.original)}`)}
             </span>
         ),
     },
@@ -328,7 +313,7 @@ const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">): Colum
         accessorFn: getJoinedTime,
         meta: { className: "whitespace-nowrap" },
         sortingFn: sortByJoined,
-        header: ({ column }) => <SortableHeader column={column}>Joined</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>{t("membersPage.table.joined")}</SortableHeader>,
         cell: ({ row }) => {
             const r = row.original;
             if (r.kind !== "member") {
@@ -343,20 +328,20 @@ const getColumns = (actionContext: Omit<MembersTableActionsProps, "row">): Colum
         accessorFn: getLastSeenTime,
         meta: { className: "whitespace-nowrap" },
         sortingFn: sortByLastSeen,
-        header: ({ column }) => <SortableHeader column={column}>Last seen</SortableHeader>,
+        header: ({ column }) => <SortableHeader column={column}>{t("membersPage.table.lastSeen")}</SortableHeader>,
         cell: ({ row }) => {
             const r = row.original;
             if (r.kind !== "member" || r.suspendedAt !== null) {
                 return <span className="text-sm text-muted-foreground">—</span>;
             }
             if (!r.lastActiveAt) {
-                return <span className="text-sm text-muted-foreground">Never</span>;
+                return <span className="text-sm text-muted-foreground">{t("membersPage.table.never")}</span>;
             }
             if (Date.now() - r.lastActiveAt.getTime() < ONLINE_THRESHOLD_MS) {
                 return (
                     <div className="flex items-center gap-2">
                         <NotificationDot />
-                        <span className="text-sm">Online</span>
+                        <span className="text-sm">{t("membersPage.table.online")}</span>
                     </div>
                 );
             }
@@ -400,6 +385,7 @@ export const MembersTable = ({
     hasOrgManagement,
     scimEnabled,
 }: MembersTableProps) => {
+    const t = useTranslations("settings");
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const scrollTopBeforeSortRef = useRef<number | null>(null);
     const [sorting, setSorting] = useState<SortingState>([
@@ -438,7 +424,7 @@ export const MembersTable = ({
         activeOwnerCount,
         hasOrgManagement,
         scimEnabled,
-    }), [activeOwnerCount, currentUserId, hasOrgManagement, scimEnabled]);
+    }, t), [activeOwnerCount, currentUserId, hasOrgManagement, scimEnabled, t]);
 
     const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
         scrollTopBeforeSortRef.current = scrollContainerRef.current?.scrollTop ?? null;
@@ -557,9 +543,9 @@ export const MembersTable = ({
                             <TableRow className="hover:bg-transparent">
                                 <TableCell colSpan={columns.length} className="h-24 text-center text-sm text-muted-foreground">
                                     <div className="flex flex-col items-center gap-3">
-                                        <span>No rows match this filter.</span>
+                                        <span>{t("membersPage.table.noRows")}</span>
                                         <Button variant="outline" size="sm" onClick={onClearFilters}>
-                                            Clear filter
+                                            {t("membersPage.table.clearFilter")}
                                         </Button>
                                     </div>
                                 </TableCell>
@@ -603,25 +589,25 @@ export const MembersTable = ({
                                                         <button
                                                             type="button"
                                                             className="inline-flex h-5 w-5 items-center justify-center rounded-sm text-muted-foreground hover:bg-muted-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                            aria-label={`${isCollapsed ? "Expand" : "Collapse"} ${section.label} section`}
+                                                            aria-label={isCollapsed ? t("membersPage.table.expandSection", { section: t(`membersPage.status.${section.id}`) }) : t("membersPage.table.collapseSection", { section: t(`membersPage.status.${section.id}`) })}
                                                             aria-expanded={!isCollapsed}
                                                             onClick={() => toggleSection(section.id)}
                                                         >
                                                             <Icon className="h-3.5 w-3.5" />
                                                         </button>
-                                                        <span>{section.label}</span>
+                                                        <span>{t(`membersPage.status.${section.id}`)}</span>
                                                         <Tooltip>
                                                             <TooltipTrigger asChild>
                                                                 <button
                                                                     type="button"
                                                                     className="inline-flex h-4 w-4 items-center justify-center rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                                    aria-label={`${section.label} section info`}
+                                                                    aria-label={t("membersPage.table.sectionInfo", { section: t(`membersPage.status.${section.id}`) })}
                                                                 >
                                                                     <Info className="h-3.5 w-3.5" />
                                                                 </button>
                                                             </TooltipTrigger>
                                                             <TooltipContent className="max-w-xs">
-                                                                {section.description}
+                                                                {t(`membersPage.sectionDescriptions.${section.id}`)}
                                                             </TooltipContent>
                                                         </Tooltip>
                                                         •

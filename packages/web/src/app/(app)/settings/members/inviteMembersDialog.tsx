@@ -21,6 +21,7 @@ import { useToast } from "@/components/hooks/use-toast";
 import { createInvites } from "@/features/membership/actions";
 import { isServiceError } from "@/lib/utils";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface InviteMembersDialogProps {
     className?: string;
@@ -69,6 +70,7 @@ const inviteMembersFormSchema = z.object({
 type InviteMembersFormValues = z.infer<typeof inviteMembersFormSchema>;
 
 export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => {
+    const t = useTranslations("settings");
     const [open, setOpen] = useState(false);
     const [shouldFocusEmails, setShouldFocusEmails] = useState(false);
     const emailsTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -136,7 +138,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                     shouldFocus: true,
                 });
                 setShouldFocusEmails(true);
-                toast({ description: `Failed to send invites. Reason: ${result.message}` });
+                toast({ description: t("membersPage.invite.failedToast", { reason: result.message }) });
                 captureEvent("wa_invite_member_card_invite_fail", {
                     errorCode: result.errorCode,
                     num_emails: emails.length,
@@ -144,7 +146,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                 return;
             }
 
-            toast({ description: `Successfully sent ${emails.length} invite${emails.length === 1 ? "" : "s"}.` });
+            toast({ description: t("membersPage.invite.sentToast", { count: emails.length }) });
             captureEvent("wa_invite_member_card_invite_success", {
                 num_emails: emails.length,
             });
@@ -159,7 +161,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                 shouldFocus: true,
             });
             setShouldFocusEmails(true);
-            toast({ description: "Failed to send invites." });
+            toast({ description: t("membersPage.invite.failedGeneric") });
         }
     };
 
@@ -172,13 +174,13 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <Button type="button" size="sm" className={className} onClick={() => setOpen(true)}>
-                Invite
+                {t("membersPage.invite.button")}
             </Button>
             <DialogContent className="sm:max-w-xl">
                 <DialogHeader>
-                    <DialogTitle>Invite members</DialogTitle>
+                    <DialogTitle>{t("membersPage.invite.title")}</DialogTitle>
                     <DialogDescription>
-                        Invite new members to your organization.
+                        {t("membersPage.invite.description")}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -188,7 +190,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                             name="emails"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>{t("membersPage.invite.emailLabel")}</FormLabel>
                                     <FormControl>
                                         <Textarea
                                             {...field}
@@ -218,7 +220,7 @@ export const InviteMembersDialog = ({ className }: InviteMembersDialogProps) => 
                         <DialogFooter>
                             <Button type="submit" disabled={isSendDisabled}>
                                 {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                                Send invites
+                                {t("membersPage.invite.sendInvites")}
                             </Button>
                         </DialogFooter>
                     </form>

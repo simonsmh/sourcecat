@@ -537,6 +537,131 @@
                 "description": "Connect your agents to Sourcebot to allow them to fetch code context, and more."
             }
         },
+        "membersPage": {
+            "title": "Members",
+            "description": "Invite and manage members of your organization.",
+            "searchPlaceholder": "Search by name or email",
+            "exportCsv": "Export CSV",
+            "filter": {
+                "all": "All",
+                "owners": "Owners",
+                "members": "Members"
+            },
+            "status": {
+                "active": "Active",
+                "pending": "Pending",
+                "suspended": "Suspended",
+                "invited": "Invited",
+                "requests": "Requests",
+                "requested": "Requested"
+            },
+            "sectionDescriptions": {
+                "requests": "People who requested access to the organization.",
+                "active": "Users who have access to the organization. Active users count toward billing.",
+                "pending": "Users who have access to the organization but have never signed in. Pending users do not count toward billing.",
+                "suspended": "Users who cannot access the organization. Suspended users do not count toward billing.",
+                "invited": "People with pending invitations to the organization."
+            },
+            "table": {
+                "name": "Name",
+                "email": "Email",
+                "role": "Role",
+                "status": "Status",
+                "joined": "Joined",
+                "lastSeen": "Last seen",
+                "sortBy": "Sort by {column}",
+                "never": "Never",
+                "online": "Online",
+                "noRows": "No rows match this filter.",
+                "clearFilter": "Clear filter",
+                "expandSection": "Expand {section} section",
+                "collapseSection": "Collapse {section} section",
+                "sectionInfo": "{section} section info"
+            },
+            "role": {
+                "owner": "Owner",
+                "member": "Member"
+            },
+            "actions": {
+                "openActions": "Open member actions",
+                "copyEmail": "Copy email",
+                "copyInviteLink": "Copy invite link",
+                "emailCopied": "Email copied to clipboard.",
+                "emailCopyFailed": "Failed to copy email.",
+                "inviteLinkCopied": "Invite link copied to clipboard.",
+                "inviteLinkCopyFailed": "Failed to copy invite link.",
+                "scimTitle": "SCIM provisioning is enabled",
+                "planTitle": "Organization management is not available in your current plan",
+                "cannotDemoteLastOwner": "Cannot demote the last active owner",
+                "cannotLeaveLastOwner": "Cannot leave as the last active owner",
+                "cannotSuspendLastOwner": "Cannot suspend the last active owner",
+                "promoteToOwner": "Promote to owner",
+                "demoteToMember": "Demote to member",
+                "leaveOrganization": "Leave organization",
+                "approveRequest": "Approve request",
+                "rejectRequest": "Reject request",
+                "cancelInvite": "Cancel invite",
+                "suspend": "Suspend",
+                "reactivate": "Reactivate",
+                "remove": "Remove",
+                "labels": {
+                    "promote": "Promote",
+                    "demote": "Demote",
+                    "suspend": "Suspend",
+                    "reactivate": "Reactivate",
+                    "remove": "Remove",
+                    "leave": "Leave",
+                    "cancelInvite": "Cancel invite",
+                    "approveRequest": "Approve",
+                    "rejectRequest": "Reject"
+                },
+                "verbs": {
+                    "promote": "promote",
+                    "demote": "demote",
+                    "suspend": "suspend",
+                    "reactivate": "reactivate",
+                    "remove": "remove",
+                    "leave": "leave",
+                    "cancelInvite": "cancel invite",
+                    "approveRequest": "approve",
+                    "rejectRequest": "reject"
+                },
+                "failedAction": "Failed to {action}.",
+                "failedActionReason": "Failed to {action}. Reason: {reason}",
+                "actionSuccessful": "{action} successful.",
+                "dialogs": {
+                    "promoteTitle": "Promote to Owner",
+                    "promoteDescription": "Are you sure you want to promote {name} to owner? They will have full administrative access.",
+                    "promotePendingDescription": "Are you sure you want to promote {name} to owner? They will have full administrative access once they sign in.",
+                    "demoteTitle": "Demote to Member",
+                    "demoteDescription": "Are you sure you want to demote {name} from owner to member? They will lose administrative access.",
+                    "suspendTitle": "Suspend Member",
+                    "suspendDescription": "Are you sure you want to suspend {name}? They will lose access to this organization.",
+                    "reactivateTitle": "Reactivate Member",
+                    "reactivateDescription": "Are you sure you want to reactivate {name}? They will regain access to this organization.",
+                    "removeTitle": "Remove Member",
+                    "removeDescription": "Are you sure you want to permanently remove {name} from this organization?",
+                    "leaveTitle": "Leave Organization",
+                    "leaveDescription": "Are you sure you want to leave this organization?",
+                    "cancelInviteTitle": "Cancel Invite",
+                    "cancelInviteDescription": "Are you sure you want to cancel the invite for {email}?",
+                    "approveTitle": "Approve Request",
+                    "approveDescription": "Are you sure you want to approve the request from {email}? They will be added as a member to your organization.",
+                    "rejectTitle": "Reject Request",
+                    "rejectDescription": "Are you sure you want to reject the request from {email}?"
+                }
+            },
+            "invite": {
+                "button": "Invite",
+                "title": "Invite members",
+                "description": "Invite new members to your organization.",
+                "emailLabel": "Email",
+                "sendInvites": "Send invites",
+                "sentToast": "{count, plural, one {Successfully sent # invite.} other {Successfully sent # invites.}}",
+                "failedToast": "Failed to send invites. Reason: {reason}",
+                "failedGeneric": "Failed to send invites."
+            }
+        },
         "securityPage": {
             "upgrade": "Upgrade",
             "organizationAccess": "Organization access",

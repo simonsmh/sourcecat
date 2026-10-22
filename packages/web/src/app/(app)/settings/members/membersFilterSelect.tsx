@@ -2,16 +2,17 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type MemberFilter } from "./membersTable";
+import { useTranslations } from "@/i18n/I18nProvider";
 
-const FILTER_OPTIONS: { value: MemberFilter; label: string }[] = [
-    { value: "all", label: "All" },
-    { value: "owners", label: "Owners" },
-    { value: "members", label: "Members" },
-    { value: "active", label: "Active" },
-    { value: "pending", label: "Pending" },
-    { value: "suspended", label: "Suspended" },
-    { value: "invited", label: "Invited" },
-    { value: "requests", label: "Requests" },
+const FILTER_OPTIONS: { value: MemberFilter; labelKey: "filter.all" | "filter.owners" | "filter.members" | "status.active" | "status.pending" | "status.suspended" | "status.invited" | "status.requests" }[] = [
+    { value: "all", labelKey: "filter.all" },
+    { value: "owners", labelKey: "filter.owners" },
+    { value: "members", labelKey: "filter.members" },
+    { value: "active", labelKey: "status.active" },
+    { value: "pending", labelKey: "status.pending" },
+    { value: "suspended", labelKey: "status.suspended" },
+    { value: "invited", labelKey: "status.invited" },
+    { value: "requests", labelKey: "status.requests" },
 ];
 
 interface MembersFilterSelectProps {
@@ -20,6 +21,7 @@ interface MembersFilterSelectProps {
 }
 
 export const MembersFilterSelect = ({ value, onValueChange }: MembersFilterSelectProps) => {
+    const t = useTranslations("settings");
     return (
         <Select value={value} onValueChange={(nextValue) => onValueChange(nextValue as MemberFilter)}>
             <SelectTrigger className="w-fit">
@@ -28,7 +30,7 @@ export const MembersFilterSelect = ({ value, onValueChange }: MembersFilterSelec
             <SelectContent align="end">
                 {FILTER_OPTIONS.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
-                        {option.label}
+                        {t(`membersPage.${option.labelKey}`)}
                     </SelectItem>
                 ))}
             </SelectContent>

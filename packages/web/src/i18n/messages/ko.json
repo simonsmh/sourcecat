@@ -537,6 +537,131 @@
                 "description": "에이전트를 Sourcebot에 연결하여 코드 컨텍스트 등을 가져올 수 있게 합니다."
             }
         },
+        "membersPage": {
+            "title": "멤버",
+            "description": "조직의 멤버를 초대하고 관리합니다.",
+            "searchPlaceholder": "이름 또는 이메일로 검색",
+            "exportCsv": "CSV 내보내기",
+            "filter": {
+                "all": "전체",
+                "owners": "소유자",
+                "members": "멤버"
+            },
+            "status": {
+                "active": "활성",
+                "pending": "보류 중",
+                "suspended": "정지됨",
+                "invited": "초대됨",
+                "requests": "요청",
+                "requested": "요청됨"
+            },
+            "sectionDescriptions": {
+                "requests": "조직에 대한 액세스를 요청한 사람들입니다.",
+                "active": "조직에 액세스할 수 있는 사용자입니다. 활성 사용자는 요금에 포함됩니다.",
+                "pending": "조직에 액세스할 수 있지만 한 번도 로그인하지 않은 사용자입니다. 보류 중인 사용자는 요금에 포함되지 않습니다.",
+                "suspended": "조직에 액세스할 수 없는 사용자입니다. 정지된 사용자는 요금에 포함되지 않습니다.",
+                "invited": "조직의 보류 중인 초대를 받은 사람들입니다."
+            },
+            "table": {
+                "name": "이름",
+                "email": "이메일",
+                "role": "역할",
+                "status": "상태",
+                "joined": "가입일",
+                "lastSeen": "마지막 접속",
+                "sortBy": "{column} 기준 정렬",
+                "never": "없음",
+                "online": "온라인",
+                "noRows": "이 필터와 일치하는 행이 없습니다.",
+                "clearFilter": "필터 지우기",
+                "expandSection": "{section} 섹션 펼치기",
+                "collapseSection": "{section} 섹션 접기",
+                "sectionInfo": "{section} 섹션 정보"
+            },
+            "role": {
+                "owner": "소유자",
+                "member": "멤버"
+            },
+            "actions": {
+                "openActions": "멤버 작업 열기",
+                "copyEmail": "이메일 복사",
+                "copyInviteLink": "초대 링크 복사",
+                "emailCopied": "이메일이 클립보드에 복사되었습니다.",
+                "emailCopyFailed": "이메일을 복사하지 못했습니다.",
+                "inviteLinkCopied": "초대 링크가 클립보드에 복사되었습니다.",
+                "inviteLinkCopyFailed": "초대 링크를 복사하지 못했습니다.",
+                "scimTitle": "SCIM 프로비저닝이 활성화되어 있습니다",
+                "planTitle": "현재 요금제에서는 조직 관리를 사용할 수 없습니다",
+                "cannotDemoteLastOwner": "마지막 활성 소유자는 강등할 수 없습니다",
+                "cannotLeaveLastOwner": "마지막 활성 소유자로는 나갈 수 없습니다",
+                "cannotSuspendLastOwner": "마지막 활성 소유자는 정지할 수 없습니다",
+                "promoteToOwner": "소유자로 승격",
+                "demoteToMember": "멤버로 강등",
+                "leaveOrganization": "조직 나가기",
+                "approveRequest": "요청 승인",
+                "rejectRequest": "요청 거부",
+                "cancelInvite": "초대 취소",
+                "suspend": "정지",
+                "reactivate": "재활성화",
+                "remove": "제거",
+                "labels": {
+                    "promote": "승격",
+                    "demote": "강등",
+                    "suspend": "정지",
+                    "reactivate": "재활성화",
+                    "remove": "제거",
+                    "leave": "나가기",
+                    "cancelInvite": "초대 취소",
+                    "approveRequest": "승인",
+                    "rejectRequest": "거부"
+                },
+                "verbs": {
+                    "promote": "승격",
+                    "demote": "강등",
+                    "suspend": "정지",
+                    "reactivate": "재활성화",
+                    "remove": "제거",
+                    "leave": "나가기",
+                    "cancelInvite": "초대 취소",
+                    "approveRequest": "승인",
+                    "rejectRequest": "거부"
+                },
+                "failedAction": "{action}에 실패했습니다.",
+                "failedActionReason": "{action}에 실패했습니다. 이유: {reason}",
+                "actionSuccessful": "{action}이(가) 완료되었습니다.",
+                "dialogs": {
+                    "promoteTitle": "소유자로 승격",
+                    "promoteDescription": "{name}을(를) 소유자로 승격하시겠습니까? 전체 관리자 액세스 권한을 갖게 됩니다.",
+                    "promotePendingDescription": "{name}을(를) 소유자로 승격하시겠습니까? 로그인하면 전체 관리자 액세스 권한을 갖게 됩니다.",
+                    "demoteTitle": "멤버로 강등",
+                    "demoteDescription": "{name}을(를) 소유자에서 멤버로 강등하시겠습니까? 관리자 액세스 권한을 잃게 됩니다.",
+                    "suspendTitle": "멤버 정지",
+                    "suspendDescription": "{name}을(를) 정지하시겠습니까? 이 조직에 대한 액세스 권한을 잃게 됩니다.",
+                    "reactivateTitle": "멤버 재활성화",
+                    "reactivateDescription": "{name}을(를) 재활성화하시겠습니까? 이 조직에 대한 액세스 권한이 복원됩니다.",
+                    "removeTitle": "멤버 제거",
+                    "removeDescription": "{name}을(를) 이 조직에서 영구적으로 제거하시겠습니까?",
+                    "leaveTitle": "조직 나가기",
+                    "leaveDescription": "이 조직을 나가시겠습니까?",
+                    "cancelInviteTitle": "초대 취소",
+                    "cancelInviteDescription": "{email}에 대한 초대를 취소하시겠습니까?",
+                    "approveTitle": "요청 승인",
+                    "approveDescription": "{email}의 요청을 승인하시겠습니까? 조직의 멤버로 추가됩니다.",
+                    "rejectTitle": "요청 거부",
+                    "rejectDescription": "{email}의 요청을 거부하시겠습니까?"
+                }
+            },
+            "invite": {
+                "button": "초대",
+                "title": "멤버 초대",
+                "description": "새 멤버를 조직에 초대합니다.",
+                "emailLabel": "이메일",
+                "sendInvites": "초대 보내기",
+                "sentToast": "{count, plural, other {초대 #건을 성공적으로 보냈습니다.}}",
+                "failedToast": "초대를 보내지 못했습니다. 이유: {reason}",
+                "failedGeneric": "초대를 보내지 못했습니다."
+            }
+        },
         "securityPage": {
             "upgrade": "업그레이드",
             "organizationAccess": "조직 액세스",

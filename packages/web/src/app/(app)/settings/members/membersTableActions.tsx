@@ -35,6 +35,9 @@ import { demoteToMember, promoteToOwner } from "@/ee/features/membership/actions
 import { type ServiceError } from "@/lib/serviceError";
 import { createPathWithQueryParams, isServiceError } from "@/lib/utils";
 import { type TableRowData } from "./membersTable";
+import { useTranslations } from "@/i18n/I18nProvider";
+
+type SettingsTranslator = ReturnType<typeof useTranslations<"settings">>;
 
 type MemberAction =
     | "promote"
@@ -62,81 +65,62 @@ const getDisplayName = (row: TableRowData) => {
     return row.name ?? row.email;
 };
 
-const getActionLabel = (action: MemberAction) => {
-    switch (action) {
-        case "promote":
-            return "Promote";
-        case "demote":
-            return "Demote";
-        case "suspend":
-            return "Suspend";
-        case "reactivate":
-            return "Reactivate";
-        case "remove":
-            return "Remove";
-        case "leave":
-            return "Leave";
-        case "cancelInvite":
-            return "Cancel invite";
-        case "approveRequest":
-            return "Approve";
-        case "rejectRequest":
-            return "Reject";
-    }
-};
+const getActionLabel = (action: MemberAction, t: SettingsTranslator) => t(`membersPage.actions.labels.${action}`);
 
-const getDialogCopy = (action: MemberAction, row: TableRowData) => {
+const getActionVerb = (action: MemberAction, t: SettingsTranslator) => t(`membersPage.actions.verbs.${action}`);
+
+const getDialogCopy = (action: MemberAction, row: TableRowData, t: SettingsTranslator) => {
     const name = getDisplayName(row);
 
     switch (action) {
         case "promote": {
             const isPending = row.kind === "member" && row.suspendedAt == null && row.lastActiveAt == null;
             return {
-                title: "Promote to Owner",
+                title: t("membersPage.actions.dialogs.promoteTitle"),
                 description: isPending
-                    ? `Are you sure you want to promote ${name} to owner? They will have full administrative access once they sign in.`
-                    : `Are you sure you want to promote ${name} to owner? They will have full administrative access.`,
+                    ? t("membersPage.actions.dialogs.promotePendingDescription", { name })
+                    : t("membersPage.actions.dialogs.promoteDescription", { name }),
             };
         }
         case "demote":
             return {
-                title: "Demote to Member",
-                description: `Are you sure you want to demote ${name} from owner to member? They will lose administrative access.`,
+                title: t("membersPage.actions.dialogs.demoteTitle"),
+                description: t("membersPage.actions.dialogs.demoteDescription", { name }),
             };
         case "suspend":
             return {
-                title: "Suspend Member",
-                description: `Are you sure you want to suspend ${name}? They will lose access to this organization.`,
+                title: t("membersPage.actions.dialogs.suspendTitle"),
+                description: t("membersPage.actions.dialogs.suspendDescription", { name }),
             };
         case "reactivate":
             return {
-                title: "Reactivate Member",
-                description: `Are you sure you want to reactivate ${name}? They will regain access to this organization.`,
+                title: t("membersPage.actions.dialogs.reactivateTitle"),
+                description: t("membersPage.actions.dialogs.reactivateDescription", { name }),
             };
         case "remove":
             return {
-                title: "Remove Member",
-                description: `Are you sure you want to permanently remove ${name} from this organization?`,
+                title: t("membersPage.actions.dialogs.removeTitle"),
+                description: t("membersPage.actions.dialogs.removeDescription", { name }),
             };
         case "leave":
             return {
-                title: "Leave Organization",
-                description: "Are you sure you want to leave this organization?",
+                title: t("membersPage.actions.dialogs.leaveTitle"),
+                description: t("membersPage.actions.dialogs.leaveDescription"),
             };
         case "cancelInvite":
             return {
-                title: "Cancel Invite",
-                description: `Are you sure you want to cancel the invite for ${row.email}?`,
+                title: t("membersPage.actions.dialogs.cancelInviteTitle"),
+                description: t("membersPage.actions.dialogs.cancelInviteDescription", { email: row.email }),
             };
         case "approveRequest":
             return {
-                title: "Approve Request",
-                description: `Are you sure you want to approve the request from ${row.email}? They will be added as a member to your organization.`,
+                title: t("membersPage.actions.dialogs.approveTitle"),
+                description: t("membersPage.actions.dialogs.approveDescription", { email: row.email }),
             };
         case "rejectRequest":
             return {
-                title: "Reject Request",
-                description: `Are you sure you want to reject the request from ${row.email}?`,
+                title: t("membersPage.actions.dialogs.rejectTitle"),
+                description: t("membersPage.actions.dialogs.rejectDescription", { email: row.email }),
             };
     }
 };
@@ -152,6 +136,8 @@ export const MembersTableActions = ({
     hasOrgManagement,
     scimEnabled,
 }: MembersTableActionsProps) => {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const router = useRouter();
     const { toast } = useToast();
     const [pendingAction, setPendingAction] = useState<MemberAction | null>(null);
@@ -163,14 +149,14 @@ export const MembersTableActions = ({
     const isLastActiveOwner = isActiveMember
         && row.role === OrgRole.OWNER
         && activeOwnerCount <= 1;
-    const scimDisabledTitle = scimEnabled ? "SCIM provisioning is enabled" : undefined;
+    const scimDisabledTitle = scimEnabled ? t("membersPage.actions.scimTitle") : undefined;
 
     const copyEmail = async () => {
         try {
             await navigator.clipboard.writeText(row.email);
-            toast({ description: "Email copied to clipboard." });
+            toast({ description: t("membersPage.actions.emailCopied") });
         } catch {
-            toast({ description: "Failed to copy email." });
+            toast({ description: t("membersPage.actions.emailCopyFailed") });
         }
     };
 
@@ -182,9 +168,9 @@ export const MembersTableActions = ({
         try {
             const url = createPathWithQueryParams(`${window.location.origin}/redeem?invite_id=${row.id}`);
             await navigator.clipboard.writeText(url);
-            toast({ description: "Invite link copied to clipboard." });
+            toast({ description: t("membersPage.actions.inviteLinkCopied") });
         } catch {
-            toast({ description: "Failed to copy invite link." });
+            toast({ description: t("membersPage.actions.inviteLinkCopyFailed") });
         }
     };
 
@@ -240,27 +226,27 @@ export const MembersTableActions = ({
                 }
             })();
         } catch {
-            toast({ description: `Failed to ${getActionLabel(action).toLowerCase()}.` });
+            toast({ description: t("membersPage.actions.failedAction", { action: getActionVerb(action, t) }) });
             setPendingAction(null);
             return;
         }
 
         if (isServiceError(result)) {
             toast({
-                description: `Failed to ${getActionLabel(action).toLowerCase()}. Reason: ${result.message}`,
+                description: t("membersPage.actions.failedActionReason", { action: getActionVerb(action, t), reason: result.message }),
             });
             setPendingAction(null);
             return;
         }
 
-        toast({ description: `${getActionLabel(action)} successful.` });
+        toast({ description: t("membersPage.actions.actionSuccessful", { action: getActionLabel(action, t) }) });
         setConfirmingAction(null);
         clearPendingActionAfterClose(action);
         router.refresh();
     };
 
     const dialogAction = confirmingAction ?? pendingAction;
-    const dialogCopy = dialogAction == null ? null : getDialogCopy(dialogAction, row);
+    const dialogCopy = dialogAction == null ? null : getDialogCopy(dialogAction, row, t);
     const isConfirming = dialogAction != null && pendingAction === dialogAction;
     const confirmButtonClassName = dialogAction != null && isDestructiveAction(dialogAction)
         ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -270,24 +256,24 @@ export const MembersTableActions = ({
         <>
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0" aria-label="Open member actions">
+                    <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("membersPage.actions.openActions")}>
                         <MoreVertical className="h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem className="cursor-pointer" onClick={copyEmail}>
-                        Copy email
+                        {t("membersPage.actions.copyEmail")}
                     </DropdownMenuItem>
                     {row.kind === "invite" && (
                         <>
                             <DropdownMenuItem className="cursor-pointer" onClick={copyInviteLink}>
-                                Copy invite link
+                                {t("membersPage.actions.copyInviteLink")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="cursor-pointer text-destructive"
                                 onClick={() => setConfirmingAction("cancelInvite")}
                             >
-                                Cancel invite
+                                {t("membersPage.actions.cancelInvite")}
                             </DropdownMenuItem>
                         </>
                     )}
@@ -299,13 +285,13 @@ export const MembersTableActions = ({
                                 title={scimDisabledTitle}
                                 onClick={() => setConfirmingAction("approveRequest")}
                             >
-                                Approve request
+                                {t("membersPage.actions.approveRequest")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                                 className="cursor-pointer text-destructive"
                                 onClick={() => setConfirmingAction("rejectRequest")}
                             >
-                                Reject request
+                                {t("membersPage.actions.rejectRequest")}
                             </DropdownMenuItem>
                         </>
                     )}
@@ -315,10 +301,10 @@ export const MembersTableActions = ({
                                 <DropdownMenuItem
                                     className="cursor-pointer"
                                     disabled={!hasOrgManagement}
-                                    title={!hasOrgManagement ? "Organization management is not available in your current plan" : undefined}
+                                    title={!hasOrgManagement ? t("membersPage.actions.planTitle") : undefined}
                                     onClick={() => setConfirmingAction("promote")}
                                 >
-                                    Promote to owner
+                                    {t("membersPage.actions.promoteToOwner")}
                                 </DropdownMenuItem>
                             )}
                             {!isSuspended && row.role === OrgRole.OWNER && (
@@ -327,14 +313,14 @@ export const MembersTableActions = ({
                                     disabled={!hasOrgManagement || isLastActiveOwner}
                                     title={
                                         !hasOrgManagement
-                                            ? "Organization management is not available in your current plan"
+                                            ? t("membersPage.actions.planTitle")
                                             : isLastActiveOwner
-                                                ? "Cannot demote the last active owner"
+                                                ? t("membersPage.actions.cannotDemoteLastOwner")
                                                 : undefined
                                     }
                                     onClick={() => setConfirmingAction("demote")}
                                 >
-                                    Demote to member
+                                    {t("membersPage.actions.demoteToMember")}
                                 </DropdownMenuItem>
                             )}
                             {!isSuspended ? (
@@ -342,19 +328,19 @@ export const MembersTableActions = ({
                                     <DropdownMenuItem
                                         className="cursor-pointer text-destructive"
                                         disabled={scimEnabled || isLastActiveOwner}
-                                        title={scimDisabledTitle ?? (isLastActiveOwner ? "Cannot leave as the last active owner" : undefined)}
+                                        title={scimDisabledTitle ?? (isLastActiveOwner ? t("membersPage.actions.cannotLeaveLastOwner") : undefined)}
                                         onClick={() => setConfirmingAction("leave")}
                                     >
-                                        Leave organization
+                                        {t("membersPage.actions.leaveOrganization")}
                                     </DropdownMenuItem>
                                 ) : (
                                     <DropdownMenuItem
                                         className="cursor-pointer text-destructive"
                                         disabled={scimEnabled || isLastActiveOwner}
-                                        title={scimDisabledTitle ?? (isLastActiveOwner ? "Cannot suspend the last active owner" : undefined)}
+                                        title={scimDisabledTitle ?? (isLastActiveOwner ? t("membersPage.actions.cannotSuspendLastOwner") : undefined)}
                                         onClick={() => setConfirmingAction("suspend")}
                                     >
-                                        Suspend
+                                        {t("membersPage.actions.suspend")}
                                     </DropdownMenuItem>
                                 )
                             ) : (
@@ -365,7 +351,7 @@ export const MembersTableActions = ({
                                         title={scimDisabledTitle}
                                         onClick={() => setConfirmingAction("reactivate")}
                                     >
-                                        Reactivate
+                                        {t("membersPage.actions.reactivate")}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
                                         className="cursor-pointer text-destructive"
@@ -373,7 +359,7 @@ export const MembersTableActions = ({
                                         title={scimDisabledTitle}
                                         onClick={() => setConfirmingAction("remove")}
                                     >
-                                        Remove
+                                        {t("membersPage.actions.remove")}
                                     </DropdownMenuItem>
                                 </>
                             )}
@@ -404,7 +390,7 @@ export const MembersTableActions = ({
                         <AlertDialogDescription>{dialogCopy?.description}</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={pendingAction != null}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={pendingAction != null}>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             className={confirmButtonClassName}
                             disabled={pendingAction != null}
@@ -414,7 +400,7 @@ export const MembersTableActions = ({
                             }}
                         >
                             {isConfirming && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                            {dialogAction == null ? "Confirm" : getActionLabel(dialogAction)}
+                            {dialogAction == null ? tCommon("confirm") : getActionLabel(dialogAction, t)}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

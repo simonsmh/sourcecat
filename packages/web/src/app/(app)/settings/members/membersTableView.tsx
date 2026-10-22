@@ -8,6 +8,7 @@ import { OrgRole } from "@sourcecat/db";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MembersFilterSelect } from "./membersFilterSelect";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { InviteMembersDialog } from "./inviteMembersDialog";
 import {
     MembersTable,
@@ -68,6 +69,7 @@ export const MembersTableView = ({
     hasOrgManagement,
     scimEnabled,
 }: MembersTableViewProps) => {
+    const t = useTranslations("settings");
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -160,18 +162,18 @@ export const MembersTableView = ({
 
     const handleExportCsv = () => {
         const csvRows = [
-            ["Name", "Email", "Role", "Status", "Joined", "Last seen"],
+            [t("membersPage.table.name"), t("membersPage.table.email"), t("membersPage.table.role"), t("membersPage.table.status"), t("membersPage.table.joined"), t("membersPage.table.lastSeen")],
             ...rows.map((row) => [
                 row.kind === "invite" ? "" : row.name ?? "",
                 row.email,
                 row.kind === "member"
-                    ? row.role === OrgRole.OWNER ? "Owner" : "Member"
+                    ? row.role === OrgRole.OWNER ? t("membersPage.role.owner") : t("membersPage.role.member")
                     : "-",
-                row.kind === "request" ? "Requested" : row.section[0].toUpperCase() + row.section.slice(1),
+                row.kind === "request" ? t("membersPage.status.requested") : t(`membersPage.status.${row.section}`),
                 (row.kind === "member" ? row.joinedAt : row.createdAt).toISOString(),
                 row.kind !== "member"
                     ? ""
-                    : row.lastActiveAt?.toISOString() ?? "Never",
+                    : row.lastActiveAt?.toISOString() ?? t("membersPage.table.never"),
             ]),
         ];
 
@@ -186,7 +188,7 @@ export const MembersTableView = ({
                     <Input
                         value={searchQuery}
                         onChange={(event) => setSearchQuery(event.target.value)}
-                        placeholder="Search by name or email"
+                        placeholder={t("membersPage.searchPlaceholder")}
                         className="pl-9"
                     />
                 </div>
@@ -199,7 +201,7 @@ export const MembersTableView = ({
                     onClick={handleExportCsv}
                     disabled={rows.length === 0}
                 >
-                    Export CSV
+                    {t("membersPage.exportCsv")}
                 </Button>
                 <InviteMembersDialog />
             </div>

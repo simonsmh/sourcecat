@@ -6,8 +6,10 @@ import { ServiceErrorException } from "@/lib/serviceError";
 import { MembersTableView } from "./membersTableView";
 import { isScimEnabled } from "@/features/scim/utils";
 import { hasEntitlement } from "@/lib/entitlements";
+import { getTranslations } from "@/i18n/server";
 
 export default authenticatedPage(async ({ org, user }) => {
+    const t = await getTranslations("settings");
     const [members, invites, requests, scimEnabled, hasOrgManagement] = await Promise.all([
         getOrgMembers(),
         getOrgInvites(),
@@ -29,9 +31,9 @@ export default authenticatedPage(async ({ org, user }) => {
     return (
         <div className="flex flex-1 min-h-0 flex-col gap-6">
             <div>
-                <h3 className="text-lg font-medium">Members</h3>
+                <h3 className="text-lg font-medium">{t("membersPage.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Invite and manage members of your organization.
+                    {t("membersPage.description")}
                 </p>
             </div>
             <MembersTableView

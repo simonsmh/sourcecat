@@ -537,6 +537,131 @@
                 "description": "エージェントを Sourcebot に接続し、コードのコンテキストなどを取得できるようにします。"
             }
         },
+        "membersPage": {
+            "title": "メンバー",
+            "description": "組織のメンバーを招待・管理します。",
+            "searchPlaceholder": "名前またはメールで検索",
+            "exportCsv": "CSV をエクスポート",
+            "filter": {
+                "all": "すべて",
+                "owners": "所有者",
+                "members": "メンバー"
+            },
+            "status": {
+                "active": "アクティブ",
+                "pending": "保留中",
+                "suspended": "停止中",
+                "invited": "招待済み",
+                "requests": "リクエスト",
+                "requested": "リクエスト済み"
+            },
+            "sectionDescriptions": {
+                "requests": "組織へのアクセスをリクエストした人。",
+                "active": "組織にアクセスできるユーザー。アクティブユーザーは課金対象にカウントされます。",
+                "pending": "組織にアクセスできますが、まだサインインしたことのないユーザー。保留中のユーザーは課金対象にカウントされません。",
+                "suspended": "組織にアクセスできないユーザー。停止中のユーザーは課金対象にカウントされません。",
+                "invited": "組織への保留中の招待を受けている人。"
+            },
+            "table": {
+                "name": "名前",
+                "email": "メール",
+                "role": "ロール",
+                "status": "ステータス",
+                "joined": "参加日",
+                "lastSeen": "最終アクセス",
+                "sortBy": "{column} で並べ替え",
+                "never": "なし",
+                "online": "オンライン",
+                "noRows": "このフィルターに一致する行がありません。",
+                "clearFilter": "フィルターをクリア",
+                "expandSection": "{section} セクションを展開",
+                "collapseSection": "{section} セクションを折りたたむ",
+                "sectionInfo": "{section} セクションの情報"
+            },
+            "role": {
+                "owner": "所有者",
+                "member": "メンバー"
+            },
+            "actions": {
+                "openActions": "メンバーアクションを開く",
+                "copyEmail": "メールをコピー",
+                "copyInviteLink": "招待リンクをコピー",
+                "emailCopied": "メールをクリップボードにコピーしました。",
+                "emailCopyFailed": "メールのコピーに失敗しました。",
+                "inviteLinkCopied": "招待リンクをクリップボードにコピーしました。",
+                "inviteLinkCopyFailed": "招待リンクのコピーに失敗しました。",
+                "scimTitle": "SCIM プロビジョニングが有効です",
+                "planTitle": "現在のプランでは組織管理を利用できません",
+                "cannotDemoteLastOwner": "最後のアクティブな所有者は降格できません",
+                "cannotLeaveLastOwner": "最後のアクティブな所有者として退出できません",
+                "cannotSuspendLastOwner": "最後のアクティブな所有者は停止できません",
+                "promoteToOwner": "所有者に昇格",
+                "demoteToMember": "メンバーに降格",
+                "leaveOrganization": "組織を退出",
+                "approveRequest": "リクエストを承認",
+                "rejectRequest": "リクエストを却下",
+                "cancelInvite": "招待をキャンセル",
+                "suspend": "停止",
+                "reactivate": "再有効化",
+                "remove": "削除",
+                "labels": {
+                    "promote": "昇格",
+                    "demote": "降格",
+                    "suspend": "停止",
+                    "reactivate": "再有効化",
+                    "remove": "削除",
+                    "leave": "退出",
+                    "cancelInvite": "招待をキャンセル",
+                    "approveRequest": "承認",
+                    "rejectRequest": "却下"
+                },
+                "verbs": {
+                    "promote": "昇格",
+                    "demote": "降格",
+                    "suspend": "停止",
+                    "reactivate": "再有効化",
+                    "remove": "削除",
+                    "leave": "退出",
+                    "cancelInvite": "招待をキャンセル",
+                    "approveRequest": "承認",
+                    "rejectRequest": "却下"
+                },
+                "failedAction": "{action}に失敗しました。",
+                "failedActionReason": "{action}に失敗しました。理由：{reason}",
+                "actionSuccessful": "{action}が完了しました。",
+                "dialogs": {
+                    "promoteTitle": "所有者に昇格",
+                    "promoteDescription": "{name} を所有者に昇格してもよろしいですか？完全な管理者権限を持つようになります。",
+                    "promotePendingDescription": "{name} を所有者に昇格してもよろしいですか？サインイン後に完全な管理者権限を持つようになります。",
+                    "demoteTitle": "メンバーに降格",
+                    "demoteDescription": "{name} を所有者からメンバーに降格してもよろしいですか？管理者権限を失います。",
+                    "suspendTitle": "メンバーを停止",
+                    "suspendDescription": "{name} を停止してもよろしいですか？この組織へのアクセスを失います。",
+                    "reactivateTitle": "メンバーを再有効化",
+                    "reactivateDescription": "{name} を再有効化してもよろしいですか？この組織へのアクセスが回復します。",
+                    "removeTitle": "メンバーを削除",
+                    "removeDescription": "{name} をこの組織から完全に削除してもよろしいですか？",
+                    "leaveTitle": "組織を退出",
+                    "leaveDescription": "この組織を退出してもよろしいですか？",
+                    "cancelInviteTitle": "招待をキャンセル",
+                    "cancelInviteDescription": "{email} への招待をキャンセルしてもよろしいですか？",
+                    "approveTitle": "リクエストを承認",
+                    "approveDescription": "{email} からのリクエストを承認してもよろしいですか？あなたの組織のメンバーとして追加されます。",
+                    "rejectTitle": "リクエストを却下",
+                    "rejectDescription": "{email} からのリクエストを却下してもよろしいですか？"
+                }
+            },
+            "invite": {
+                "button": "招待",
+                "title": "メンバーを招待",
+                "description": "新しいメンバーを組織に招待します。",
+                "emailLabel": "メール",
+                "sendInvites": "招待を送信",
+                "sentToast": "{count, plural, other {招待を # 件送信しました。}}",
+                "failedToast": "招待の送信に失敗しました。理由：{reason}",
+                "failedGeneric": "招待の送信に失敗しました。"
+            }
+        },
         "securityPage": {
             "upgrade": "アップグレード",
             "organizationAccess": "組織アクセス",
