@@ -31,6 +31,7 @@ import {
     TriangleAlert,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 type SyncIssuePopoverProps = {
     connection: {
@@ -84,6 +85,7 @@ export const SyncIssuePopover = ({
     const [isLogsOpen, setIsLogsOpen] = useState(false);
     const [isRetrying, setIsRetrying] = useState(false);
     const { toast } = useToast();
+    const t = useTranslations("settings");
     const isWarning = annotation === "WARNING";
     const reasons = latestJob.status === "COMPLETED"
         && latestJob.result?.outcome === "PARTIAL_SUCCESS"
@@ -96,7 +98,7 @@ export const SyncIssuePopover = ({
         return null;
     }
 
-    const label = isWarning ? "Warning" : "Failed";
+    const label = isWarning ? t("connectionsPage.issue.warning") : t("connectionsPage.issue.failed");
     const Icon = isWarning ? TriangleAlert : CircleX;
 
     const retrySync = async () => {
@@ -107,7 +109,7 @@ export const SyncIssuePopover = ({
             if (isServiceError(response)) {
                 toast({
                     variant: "destructive",
-                    title: "Failed to retry sync",
+                    title: t("connectionsPage.actions.retryFailedTitle"),
                     description: response.message,
                 });
                 return;
@@ -115,15 +117,15 @@ export const SyncIssuePopover = ({
 
             onRetryScheduled(connection.id, response.jobId);
             toast({
-                title: "Sync scheduled",
-                description: `${connection.name} was queued for syncing.`,
+                title: t("connectionsPage.actions.syncScheduledTitle"),
+                description: t("connectionsPage.actions.syncScheduledDescription", { name: connection.name }),
             });
             setIsOpen(false);
         } catch {
             toast({
                 variant: "destructive",
-                title: "Failed to retry sync",
-                description: "An unexpected error occurred while scheduling the sync.",
+                title: t("connectionsPage.actions.retryFailedTitle"),
+                description: t("connectionsPage.actions.syncFailedDescription"),
             });
         } finally {
             setIsRetrying(false);
@@ -148,7 +150,7 @@ export const SyncIssuePopover = ({
                                 isWarning
                                     && "border-amber-500/40 bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 dark:text-amber-400",
                             )}
-                            aria-label={`View ${label.toLowerCase()} details for ${connection.name}`}
+                            aria-label={isWarning ? t("connectionsPage.issue.viewWarningDetails", { name: connection.name }) : t("connectionsPage.issue.viewFailureDetails", { name: connection.name })}
                         >
                             <Icon className="h-3 w-3" />
                             {label}
@@ -164,8 +166,8 @@ export const SyncIssuePopover = ({
                 <TooltipContent>
                     <p>
                         {isWarning
-                            ? "View warning details"
-                            : "View failure details"}
+                            ? t("connectionsPage.issue.tooltipWarning")
+                            : t("connectionsPage.issue.tooltipFailure")}
                     </p>
                 </TooltipContent>
             </Tooltip>
@@ -186,17 +188,17 @@ export const SyncIssuePopover = ({
                         <div className="space-y-1">
                             <p className="text-sm font-medium">
                                 {reasons
-                                    ? "Connection sync completed with warnings"
+                                    ? t("connectionsPage.issue.completedWithWarningsTitle")
                                     : isWarning
-                                        ? "Latest connection sync failed"
-                                        : "Connection sync failed"}
+                                        ? t("connectionsPage.issue.latestFailedTitle")
+                                        : t("connectionsPage.issue.failedTitle")}
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 {reasons
-                                    ? "Sourcecat could not honor the full configured discovery scope. Some repositories may be missing."
+                                    ? t("connectionsPage.issue.completedWithWarningsDescription")
                                     : isWarning
-                                        ? "Previously discovered repositories remain available, but they may be stale."
-                                    : "This connection failed to sync. Its repositories are unavailable."}
+                                        ? t("connectionsPage.issue.latestFailedDescription")
+                                        : t("connectionsPage.issue.failedDescription")}
                             </p>
                         </div>
                         {reasons
@@ -204,7 +206,7 @@ export const SyncIssuePopover = ({
                             : (
                                   <div className="space-y-1.5">
                                       <p className="text-xs font-medium text-muted-foreground">
-                                          Error
+                                          {t("connectionsPage.issue.errorLabel")}
                                       </p>
                                       <div className="max-h-40 overflow-auto rounded-md bg-muted p-2">
                                           <LightweightCodeHighlighter
@@ -214,7 +216,7 @@ export const SyncIssuePopover = ({
                                               wrapLines={false}
                                           >
                                               {latestJob.errorMessage
-                                                  ?? "No error details were reported."}
+                                                  ?? t("connectionsPage.issue.noErrorDetails")}
                                           </LightweightCodeHighlighter>
                                       </div>
                                   </div>
@@ -223,14 +225,14 @@ export const SyncIssuePopover = ({
                             {connection.syncedAt && (
                                 <>
                                     <dt className="text-muted-foreground">
-                                        Last synced
+                                        {t("connectionsPage.issue.lastSynced")}
                                     </dt>
                                     <dd>
                                         <DisplayDate date={connection.syncedAt} />
                                     </dd>
                                 </>
                             )}
-                            <dt className="text-muted-foreground">Job ID</dt>
+                            <dt className="text-muted-foreground">{t("connectionsPage.issue.jobId")}</dt>
                             <dd className="min-w-0 truncate">
                                 <code title={latestJob.id}>{latestJob.id}</code>
                             </dd>
@@ -245,7 +247,7 @@ export const SyncIssuePopover = ({
                                 }}
                             >
                                 <ScrollText className="h-4 w-4" />
-                                View logs
+                                {t("connectionsPage.issue.viewLogs")}
                             </Button>
                             <Button
                                 size="sm"
@@ -257,7 +259,7 @@ export const SyncIssuePopover = ({
                                 ) : (
                                     <RotateCw className="h-4 w-4" />
                                 )}
-                                {isRetrying ? "Retrying…" : "Retry sync"}
+                                {isRetrying ? t("connectionsPage.issue.retrying") : t("connectionsPage.issue.retrySync")}
                             </Button>
                         </div>
                     </div>

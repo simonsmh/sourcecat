@@ -662,6 +662,77 @@
                 "failedGeneric": "发送邀请失败。"
             }
         },
+        "connectionsPage": {
+            "title": "代码托管连接",
+            "description": "管理到外部代码托管平台的连接。",
+            "learnMore": "了解更多",
+            "table": {
+                "name": "名称",
+                "lastSynced": "上次同步",
+                "actions": "操作",
+                "sortBy": "按{label}排序",
+                "logoAlt": "{type} 标志"
+            },
+            "searchPlaceholder": "搜索连接...",
+            "searching": "正在搜索连接",
+            "filterByStatusAria": "按状态筛选连接",
+            "statusPlaceholder": "状态",
+            "filterAll": "按状态筛选",
+            "failed": "失败",
+            "warning": "警告",
+            "clearFilters": "清除筛选",
+            "emptyFailed": "没有失败的连接。",
+            "emptyWarning": "没有带警告的连接。",
+            "emptyAll": "未找到连接。",
+            "showing": "显示第 {first}-{last} 个，共 {total} 个",
+            "pageOf": "第 {current} 页，共 {total} 页",
+            "previous": "上一页",
+            "actions": {
+                "openActions": "打开 {name} 的操作",
+                "sync": "同步",
+                "syncScheduledTitle": "同步已安排",
+                "syncScheduledDescription": "{name} 已加入同步队列。",
+                "syncFailedTitle": "同步连接失败",
+                "syncFailedDescription": "安排同步时发生意外错误。",
+                "retryFailedTitle": "重试同步失败"
+            },
+            "annotation": {
+                "completed": "已完成",
+                "syncing": "同步中"
+            },
+            "issue": {
+                "warning": "警告",
+                "failed": "失败",
+                "viewWarningDetails": "查看 {name} 的警告详情",
+                "viewFailureDetails": "查看 {name} 的失败详情",
+                "tooltipWarning": "查看警告详情",
+                "tooltipFailure": "查看失败详情",
+                "completedWithWarningsTitle": "连接同步已完成，但有警告",
+                "latestFailedTitle": "最近一次连接同步失败",
+                "failedTitle": "连接同步失败",
+                "completedWithWarningsDescription": "Sourcecat 无法完全按照配置的发现范围执行。某些仓库可能缺失。",
+                "latestFailedDescription": "先前发现的仓库仍可使用，但可能已过期。",
+                "failedDescription": "此连接同步失败。它的仓库不可用。",
+                "errorLabel": "错误",
+                "noErrorDetails": "未报告错误详情。",
+                "lastSynced": "上次同步",
+                "jobId": "任务 ID",
+                "viewLogs": "查看日志",
+                "retrying": "正在重试…",
+                "retrySync": "重试同步"
+            },
+            "jobLogs": {
+                "title": "任务日志",
+                "copyAll": "全部复制",
+                "time": "时间",
+                "level": "级别",
+                "message": "消息",
+                "loading": "正在加载任务日志",
+                "loadFailed": "加载任务日志失败。",
+                "noLogs": "此任务没有记录日志。",
+                "unknownTime": "未知时间"
+            }
+        },
         "securityPage": {
             "upgrade": "升级",
             "organizationAccess": "组织访问",

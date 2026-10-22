@@ -662,6 +662,77 @@
                 "failedGeneric": "招待の送信に失敗しました。"
             }
         },
+        "connectionsPage": {
+            "title": "コードホスト接続",
+            "description": "外部コードホストへの接続を管理します。",
+            "learnMore": "詳細を見る",
+            "table": {
+                "name": "名前",
+                "lastSynced": "最終同期",
+                "actions": "アクション",
+                "sortBy": "{label} で並べ替え",
+                "logoAlt": "{type} のロゴ"
+            },
+            "searchPlaceholder": "接続を検索...",
+            "searching": "接続を検索中",
+            "filterByStatusAria": "ステータスで接続を絞り込み",
+            "statusPlaceholder": "ステータス",
+            "filterAll": "ステータスで絞り込み",
+            "failed": "失敗",
+            "warning": "警告",
+            "clearFilters": "フィルターをクリア",
+            "emptyFailed": "失敗した接続はありません。",
+            "emptyWarning": "警告のある接続はありません。",
+            "emptyAll": "接続が見つかりません。",
+            "showing": "{total} 件中 {first}〜{last} 件を表示",
+            "pageOf": "{total} ページ中 {current} ページ",
+            "previous": "前へ",
+            "actions": {
+                "openActions": "{name} のアクションを開く",
+                "sync": "同期",
+                "syncScheduledTitle": "同期をスケジュールしました",
+                "syncScheduledDescription": "{name} が同期キューに追加されました。",
+                "syncFailedTitle": "接続の同期に失敗しました",
+                "syncFailedDescription": "同期のスケジュール中に予期しないエラーが発生しました。",
+                "retryFailedTitle": "同期の再試行に失敗しました"
+            },
+            "annotation": {
+                "completed": "完了",
+                "syncing": "同期中"
+            },
+            "issue": {
+                "warning": "警告",
+                "failed": "失敗",
+                "viewWarningDetails": "{name} の警告詳細を表示",
+                "viewFailureDetails": "{name} の失敗詳細を表示",
+                "tooltipWarning": "警告詳細を表示",
+                "tooltipFailure": "失敗詳細を表示",
+                "completedWithWarningsTitle": "警告付きで接続の同期が完了しました",
+                "latestFailedTitle": "最新の接続同期が失敗しました",
+                "failedTitle": "接続の同期が失敗しました",
+                "completedWithWarningsDescription": "Sourcecat は設定された検出範囲を完全には適用できませんでした。一部のリポジトリが不足している可能性があります。",
+                "latestFailedDescription": "以前に検出されたリポジトリは引き続き利用できますが、古くなっている可能性があります。",
+                "failedDescription": "この接続の同期に失敗しました。そのリポジトリは利用できません。",
+                "errorLabel": "エラー",
+                "noErrorDetails": "エラーの詳細は報告されませんでした。",
+                "lastSynced": "最終同期",
+                "jobId": "ジョブ ID",
+                "viewLogs": "ログを表示",
+                "retrying": "再試行中…",
+                "retrySync": "同期を再試行"
+            },
+            "jobLogs": {
+                "title": "ジョブログ",
+                "copyAll": "すべてコピー",
+                "time": "時刻",
+                "level": "レベル",
+                "message": "メッセージ",
+                "loading": "ジョブログを読み込み中",
+                "loadFailed": "ジョブログの読み込みに失敗しました。",
+                "noLogs": "このジョブのログは記録されていません。",
+                "unknownTime": "不明な時刻"
+            }
+        },
         "securityPage": {
             "upgrade": "アップグレード",
             "organizationAccess": "組織アクセス",

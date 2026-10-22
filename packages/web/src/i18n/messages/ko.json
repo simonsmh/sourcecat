@@ -662,6 +662,77 @@
                 "failedGeneric": "초대를 보내지 못했습니다."
             }
         },
+        "connectionsPage": {
+            "title": "코드 호스트 연결",
+            "description": "외부 코드 호스트에 대한 연결을 관리합니다.",
+            "learnMore": "자세히 알아보기",
+            "table": {
+                "name": "이름",
+                "lastSynced": "마지막 동기화",
+                "actions": "작업",
+                "sortBy": "{label} 기준 정렬",
+                "logoAlt": "{type} 로고"
+            },
+            "searchPlaceholder": "연결 검색...",
+            "searching": "연결 검색 중",
+            "filterByStatusAria": "상태별로 연결 필터링",
+            "statusPlaceholder": "상태",
+            "filterAll": "상태별 필터",
+            "failed": "실패",
+            "warning": "경고",
+            "clearFilters": "필터 지우기",
+            "emptyFailed": "실패한 연결이 없습니다.",
+            "emptyWarning": "경고가 있는 연결이 없습니다.",
+            "emptyAll": "연결을 찾을 수 없습니다.",
+            "showing": "{total}개 중 {first}-{last} 표시",
+            "pageOf": "{total}페이지 중 {current}페이지",
+            "previous": "이전",
+            "actions": {
+                "openActions": "{name}에 대한 작업 열기",
+                "sync": "동기화",
+                "syncScheduledTitle": "동기화가 예약되었습니다",
+                "syncScheduledDescription": "{name}이(가) 동기화 대기열에 추가되었습니다.",
+                "syncFailedTitle": "연결을 동기화하지 못했습니다",
+                "syncFailedDescription": "동기화를 예약하는 중 예기치 않은 오류가 발생했습니다.",
+                "retryFailedTitle": "동기화 재시도에 실패했습니다"
+            },
+            "annotation": {
+                "completed": "완료됨",
+                "syncing": "동기화 중"
+            },
+            "issue": {
+                "warning": "경고",
+                "failed": "실패",
+                "viewWarningDetails": "{name}의 경고 세부 정보 보기",
+                "viewFailureDetails": "{name}의 실패 세부 정보 보기",
+                "tooltipWarning": "경고 세부 정보 보기",
+                "tooltipFailure": "실패 세부 정보 보기",
+                "completedWithWarningsTitle": "경고와 함께 연결 동기화가 완료되었습니다",
+                "latestFailedTitle": "최근 연결 동기화가 실패했습니다",
+                "failedTitle": "연결 동기화가 실패했습니다",
+                "completedWithWarningsDescription": "Sourcecat가 구성된 검색 범위를 완전히 적용하지 못했습니다. 일부 리포지토리가 누락되었을 수 있습니다.",
+                "latestFailedDescription": "이전에 검색된 리포지토리는 계속 사용할 수 있지만 오래되었을 수 있습니다.",
+                "failedDescription": "이 연결을 동기화하지 못했습니다. 해당 리포지토리를 사용할 수 없습니다.",
+                "errorLabel": "오류",
+                "noErrorDetails": "보고된 오류 세부 정보가 없습니다.",
+                "lastSynced": "마지막 동기화",
+                "jobId": "작업 ID",
+                "viewLogs": "로그 보기",
+                "retrying": "재시도 중…",
+                "retrySync": "동기화 재시도"
+            },
+            "jobLogs": {
+                "title": "작업 로그",
+                "copyAll": "모두 복사",
+                "time": "시간",
+                "level": "수준",
+                "message": "메시지",
+                "loading": "작업 로그 로드 중",
+                "loadFailed": "작업 로그를 로드하지 못했습니다.",
+                "noLogs": "이 작업에 기록된 로그가 없습니다.",
+                "unknownTime": "알 수 없는 시간"
+            }
+        },
         "securityPage": {
             "upgrade": "업그레이드",
             "organizationAccess": "조직 액세스",

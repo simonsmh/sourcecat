@@ -662,6 +662,77 @@
                 "failedGeneric": "Failed to send invites."
             }
         },
+        "connectionsPage": {
+            "title": "Code Host Connections",
+            "description": "Manage connections to external code hosts.",
+            "learnMore": "Learn more",
+            "table": {
+                "name": "Name",
+                "lastSynced": "Last synced",
+                "actions": "Actions",
+                "sortBy": "Sort by {label}",
+                "logoAlt": "{type} logo"
+            },
+            "searchPlaceholder": "Search connections...",
+            "searching": "Searching connections",
+            "filterByStatusAria": "Filter connections by status",
+            "statusPlaceholder": "Status",
+            "filterAll": "Filter by status",
+            "failed": "Failed",
+            "warning": "Warning",
+            "clearFilters": "Clear filters",
+            "emptyFailed": "No failed connections.",
+            "emptyWarning": "No connections with warnings.",
+            "emptyAll": "No connections found.",
+            "showing": "Showing {first}-{last} of {total}",
+            "pageOf": "Page {current} of {total}",
+            "previous": "Previous",
+            "actions": {
+                "openActions": "Open actions for {name}",
+                "sync": "Sync",
+                "syncScheduledTitle": "Sync scheduled",
+                "syncScheduledDescription": "{name} was queued for syncing.",
+                "syncFailedTitle": "Failed to sync connection",
+                "syncFailedDescription": "An unexpected error occurred while scheduling the sync.",
+                "retryFailedTitle": "Failed to retry sync"
+            },
+            "annotation": {
+                "completed": "Completed",
+                "syncing": "Syncing"
+            },
+            "issue": {
+                "warning": "Warning",
+                "failed": "Failed",
+                "viewWarningDetails": "View warning details for {name}",
+                "viewFailureDetails": "View failed details for {name}",
+                "tooltipWarning": "View warning details",
+                "tooltipFailure": "View failure details",
+                "completedWithWarningsTitle": "Connection sync completed with warnings",
+                "latestFailedTitle": "Latest connection sync failed",
+                "failedTitle": "Connection sync failed",
+                "completedWithWarningsDescription": "Sourcecat could not honor the full configured discovery scope. Some repositories may be missing.",
+                "latestFailedDescription": "Previously discovered repositories remain available, but they may be stale.",
+                "failedDescription": "This connection failed to sync. Its repositories are unavailable.",
+                "errorLabel": "Error",
+                "noErrorDetails": "No error details were reported.",
+                "lastSynced": "Last synced",
+                "jobId": "Job ID",
+                "viewLogs": "View logs",
+                "retrying": "Retrying…",
+                "retrySync": "Retry sync"
+            },
+            "jobLogs": {
+                "title": "Job logs",
+                "copyAll": "Copy all",
+                "time": "Time",
+                "level": "Level",
+                "message": "Message",
+                "loading": "Loading job logs",
+                "loadFailed": "Failed to load job logs.",
+                "noLogs": "No logs were recorded for this job.",
+                "unknownTime": "Unknown time"
+            }
+        },
         "securityPage": {
             "upgrade": "Upgrade",
             "organizationAccess": "Organization access",

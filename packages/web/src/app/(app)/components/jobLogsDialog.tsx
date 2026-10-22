@@ -16,6 +16,8 @@ import type { JobLogEntry, JobLogLevel, QueueName } from "@sourcecat/shared";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Copy, Loader2 } from "lucide-react";
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "@/i18n/I18nProvider";
+import type { Locale } from "@/i18n/config";
 
 type JobLogsDialogProps = {
     queue: QueueName;
@@ -25,7 +27,14 @@ type JobLogsDialogProps = {
     onOpenChange: (open: boolean) => void;
 };
 
-const timestampFormatter = new Intl.DateTimeFormat("en-CA", {
+const timestampLocales: Record<Locale, string> = {
+    en: "en-CA",
+    zh: "zh-CN",
+    ja: "ja-JP",
+    ko: "ko-KR",
+};
+
+const createTimestampFormatter = (locale: Locale) => new Intl.DateTimeFormat(timestampLocales[locale], {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -37,22 +46,24 @@ const timestampFormatter = new Intl.DateTimeFormat("en-CA", {
     hourCycle: "h23",
 });
 
-const formatTimestamp = (timestamp: string | null) => {
+type TimestampFormatter = ReturnType<typeof createTimestampFormatter>;
+
+const formatTimestamp = (timestamp: string | null, formatter: TimestampFormatter, unknownTime: string) => {
     if (!timestamp) {
-        return "Unknown time";
+        return unknownTime;
     }
 
     const date = new Date(timestamp);
     return Number.isNaN(date.getTime())
         ? timestamp
-        : timestampFormatter.format(date).replace(",", "");
+        : formatter.format(date).replace(",", "");
 };
 
-const formatLogLine = (entry: JobLogEntry) => {
+const formatLogLine = (entry: JobLogEntry, formatter: TimestampFormatter, unknownTime: string) => {
     const fields = entry.fields
         ? ` ${JSON.stringify(entry.fields)}`
         : "";
-    return `${formatTimestamp(entry.timestamp)} ${entry.level.toUpperCase()} ${entry.message}${fields}`;
+    return `${formatTimestamp(entry.timestamp, formatter, unknownTime)} ${entry.level.toUpperCase()} ${entry.message}${fields}`;
 };
 
 const levelStyles: Record<
@@ -95,6 +106,11 @@ export const JobLogsDialog = ({
     open,
     onOpenChange,
 }: JobLogsDialogProps) => {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
+    const locale = useLocale();
+    const timestampFormatter = createTimestampFormatter(locale);
+    const unknownTime = t("connectionsPage.jobLogs.unknownTime");
     const titleRef = useRef<HTMLHeadingElement>(null);
     const [copiedAll, setCopiedAll] = useState(false);
     const { data, isPending, isError } = useQuery({
@@ -116,7 +132,7 @@ export const JobLogsDialog = ({
     const copyAllLogs = async () => {
         try {
             await navigator.clipboard.writeText(
-                displayedLogs.map(formatLogLine).join("\n"),
+                displayedLogs.map((entry) => formatLogLine(entry, timestampFormatter, unknownTime)).join("\n"),
             );
             setCopiedAll(true);
             setTimeout(() => setCopiedAll(false), 2_000);
@@ -142,7 +158,7 @@ export const JobLogsDialog = ({
                                 tabIndex={-1}
                                 className="focus:outline-none"
                             >
-                                Job logs
+                                {t("connectionsPage.jobLogs.title")}
                             </DialogTitle>
                             <DialogDescription className="truncate">
                                 {subject} · <code title={jobId}>{jobId}</code>
@@ -158,7 +174,7 @@ export const JobLogsDialog = ({
                             {copiedAll
                                 ? <Check className="text-green-500" />
                                 : <Copy />}
-                            {copiedAll ? "Copied" : "Copy all"}
+                            {copiedAll ? tCommon("copied") : t("connectionsPage.jobLogs.copyAll")}
                         </Button>
                     </div>
                 </DialogHeader>
@@ -173,9 +189,9 @@ export const JobLogsDialog = ({
                         <thead>
                             <tr className="border-b">
                                 {[
-                                    "Time",
-                                    "Level",
-                                    "Message",
+                                    t("connectionsPage.jobLogs.time"),
+                                    t("connectionsPage.jobLogs.level"),
+                                    t("connectionsPage.jobLogs.message"),
                                 ].map((heading) => (
                                     <th
                                         key={heading}
@@ -194,7 +210,7 @@ export const JobLogsDialog = ({
                                               <div className="flex items-center justify-center text-muted-foreground">
                                                   <Loader2 className="h-5 w-5 animate-spin" />
                                                   <span className="sr-only">
-                                                      Loading job logs
+                                                      {t("connectionsPage.jobLogs.loading")}
                                                   </span>
                                               </div>
                                           </td>
@@ -207,7 +223,7 @@ export const JobLogsDialog = ({
                                                   colSpan={3}
                                                   className="h-64 text-center text-sm text-destructive"
                                               >
-                                                  Failed to load job logs.
+                                                  {t("connectionsPage.jobLogs.loadFailed")}
                                               </td>
                                           </tr>
                                       )
@@ -224,6 +240,8 @@ export const JobLogsDialog = ({
                                                       >
                                                           {formatTimestamp(
                                                               entry.timestamp,
+                                                              timestampFormatter,
+                                                              unknownTime,
                                                           )}
                                                       </time>
                                                   </td>
@@ -248,6 +266,8 @@ export const JobLogsDialog = ({
                                                                   void navigator.clipboard.writeText(
                                                                       formatLogLine(
                                                                           entry,
+                                                                          timestampFormatter,
+                                                                          unknownTime,
                                                                       ),
                                                                   );
                                                                   return true;
@@ -265,7 +285,7 @@ export const JobLogsDialog = ({
                                                       colSpan={3}
                                                       className="h-64 text-center text-sm text-muted-foreground"
                                                   >
-                                                      No logs were recorded for this job.
+                                                      {t("connectionsPage.jobLogs.noLogs")}
                                                   </td>
                                               </tr>
                                           )}

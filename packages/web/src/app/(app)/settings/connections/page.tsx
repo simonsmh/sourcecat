@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { z } from "zod";
 import { ConnectionsTable } from "./components/connectionsTable";
+import { getTranslations } from "@/i18n/server";
 
 const DOCS_URL = "https://github.com/simonsmh/sourcecat/blob/main/docs/docs/connections/indexing-your-code.mdx";
 const DEFAULT_PAGE_SIZE = 20;
@@ -30,6 +31,7 @@ export default authenticatedPage<ConnectionsPageProps>(async (
     { org, prisma },
     { searchParams },
 ) => {
+    const t = await getTranslations("settings");
     const params = await searchParams;
     const page = pageSchema.safeParse(params.page).data ?? 1;
     const search = z.string().optional().safeParse(params.search).data?.trim()
@@ -121,15 +123,15 @@ export default authenticatedPage<ConnectionsPageProps>(async (
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h3 className="text-lg font-medium">Code Host Connections</h3>
+                <h3 className="text-lg font-medium">{t("connectionsPage.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Manage connections to external code hosts.{" "}
+                    {t("connectionsPage.description")}{" "}
                     <Link
                         href={DOCS_URL}
                         target="_blank"
                         className="text-link hover:underline"
                     >
-                        Learn more
+                        {t("connectionsPage.learnMore")}
                     </Link>
                 </p>
             </div>

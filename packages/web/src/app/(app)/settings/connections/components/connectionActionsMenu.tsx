@@ -12,6 +12,7 @@ import { syncConnection } from "@/features/connections/actions";
 import { isServiceError } from "@/lib/utils";
 import { EllipsisVertical, Loader2, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 type ConnectionActionsMenuProps = {
     connection: {
@@ -29,6 +30,7 @@ export const ConnectionActionsMenu = ({
 }: ConnectionActionsMenuProps) => {
     const [isScheduling, setIsScheduling] = useState(false);
     const { toast } = useToast();
+    const t = useTranslations("settings");
 
     const scheduleSync = async () => {
         setIsScheduling(true);
@@ -38,7 +40,7 @@ export const ConnectionActionsMenu = ({
             if (isServiceError(response)) {
                 toast({
                     variant: "destructive",
-                    title: "Failed to sync connection",
+                    title: t("connectionsPage.actions.syncFailedTitle"),
                     description: response.message,
                 });
                 return;
@@ -46,14 +48,14 @@ export const ConnectionActionsMenu = ({
 
             onSyncScheduled(connection.id, response.jobId);
             toast({
-                title: "Sync scheduled",
-                description: `${connection.name} was queued for syncing.`,
+                title: t("connectionsPage.actions.syncScheduledTitle"),
+                description: t("connectionsPage.actions.syncScheduledDescription", { name: connection.name }),
             });
         } catch {
             toast({
                 variant: "destructive",
-                title: "Failed to sync connection",
-                description: "An unexpected error occurred while scheduling the sync.",
+                title: t("connectionsPage.actions.syncFailedTitle"),
+                description: t("connectionsPage.actions.syncFailedDescription"),
             });
         } finally {
             setIsScheduling(false);
@@ -67,7 +69,7 @@ export const ConnectionActionsMenu = ({
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    aria-label={`Open actions for ${connection.name}`}
+                    aria-label={t("connectionsPage.actions.openActions", { name: connection.name })}
                 >
                     <EllipsisVertical className="h-4 w-4" />
                 </Button>
@@ -83,7 +85,7 @@ export const ConnectionActionsMenu = ({
                     ) : (
                         <RefreshCw className="h-4 w-4" />
                     )}
-                    Sync
+                    {t("connectionsPage.actions.sync")}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

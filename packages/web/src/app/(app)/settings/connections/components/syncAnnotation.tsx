@@ -4,6 +4,7 @@ import { Check, Loader2 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { SyncIssuePopover } from "./syncIssuePopover";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const COMPLETED_BADGE_VISIBLE_MS = 5_000;
 
@@ -60,6 +61,7 @@ export const SyncAnnotation = ({
     syncedAt,
     onRetryScheduled,
 }: SyncAnnotationProps) => {
+    const t = useTranslations("settings");
     const prefersReducedMotion = useReducedMotion();
     const completionKey = showCompleted
         ? latestJob?.id ?? `connection:${connectionId}`
@@ -87,14 +89,14 @@ export const SyncAnnotation = ({
                 return (
                     <Badge className="shrink-0 gap-1 rounded-sm bg-green-600 text-white hover:bg-green-700">
                         <Check className="h-3 w-3" />
-                        Completed
+                        {t("connectionsPage.annotation.completed")}
                     </Badge>
                 );
             case "SYNCING":
                 return (
                     <Badge variant="secondary" className="shrink-0 gap-1 rounded-sm">
                         <Loader2 className="h-3 w-3 animate-spin" />
-                        Syncing
+                        {t("connectionsPage.annotation.syncing")}
                     </Badge>
                 );
             case "FAILED":

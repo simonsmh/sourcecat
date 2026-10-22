@@ -41,6 +41,8 @@ vi.mock("@/components/hooks/use-toast", () => ({
 }));
 
 const { ConnectionsTable } = await import("./connectionsTable");
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
 
 const connections: Connection[] = [
     {
@@ -76,6 +78,7 @@ const renderTable = (options: RenderTableOptions = {}) => {
     return render(
         <QueryClientProvider client={queryClient}>
             <TooltipProvider>
+                <I18nProvider locale="en" messages={enMessages}>
                 <ConnectionsTable
                     data={data}
                     currentPage={options.currentPage ?? 1}
@@ -84,6 +87,7 @@ const renderTable = (options: RenderTableOptions = {}) => {
                     sortBy={options.sortBy ?? "name"}
                     sortOrder={options.sortOrder ?? "asc"}
                 />
+                </I18nProvider>
             </TooltipProvider>
         </QueryClientProvider>,
     );

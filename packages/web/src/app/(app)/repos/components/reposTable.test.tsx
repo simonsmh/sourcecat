@@ -30,6 +30,8 @@ vi.mock("next/navigation", () => ({
 }));
 
 const { ReposTable } = await import("./reposTable");
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
 
 const repos: Repo[] = [
     {
@@ -75,6 +77,7 @@ const renderTable = (
     return render(
         <QueryClientProvider client={queryClient}>
             <TooltipProvider>
+                <I18nProvider locale="en" messages={enMessages}>
                 <ReposTable
                     data={data}
                     currentPage={1}
@@ -85,6 +88,7 @@ const renderTable = (
                     sortBy="indexedAt"
                     sortOrder="asc"
                 />
+                </I18nProvider>
             </TooltipProvider>
         </QueryClientProvider>,
     );

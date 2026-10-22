@@ -47,6 +47,9 @@ import {
 import { useHotkeys } from "react-hotkeys-hook";
 import type { ConnectionSyncStatusesResponse } from "../types";
 import { ConnectionActionsMenu } from "./connectionActionsMenu";
+import { useTranslations } from "@/i18n/I18nProvider";
+
+type SettingsTranslator = ReturnType<typeof useTranslations<"settings">>;
 import {
     getConnectionSyncAnnotation,
     SyncAnnotation,
@@ -111,6 +114,7 @@ const SortableHeader = ({
     sortOrder: SortOrder;
     onSortChange: (column: SortBy) => void;
 }) => {
+    const t = useTranslations("settings");
     const isActive = sortBy === column;
     const SortIcon = isActive && sortOrder === "desc" ? ArrowUp : ArrowDown;
 
@@ -120,7 +124,7 @@ const SortableHeader = ({
             className="group -ml-3 h-8 gap-0 px-3 [&_svg]:size-3"
             size="sm"
             onClick={() => onSortChange(column)}
-            aria-label={`Sort by ${label}`}
+            aria-label={t("connectionsPage.table.sortBy", { label })}
         >
             {label}
             <SortIcon
@@ -140,17 +144,19 @@ const getColumns = ({
     sortOrder,
     onSortChange,
     onSyncScheduled,
+    t,
 }: {
     sortBy: SortBy;
     sortOrder: SortOrder;
     onSortChange: (column: SortBy) => void;
     onSyncScheduled: (connectionId: number, jobId: string) => void;
+    t: SettingsTranslator;
 }): ColumnDef<DisplayedConnection>[] => [
     {
         accessorKey: "name",
         header: () => (
             <SortableHeader
-                label="Name"
+                label={t("connectionsPage.table.name")}
                 column="name"
                 sortBy={sortBy}
                 sortOrder={sortOrder}
@@ -165,7 +171,7 @@ const getColumns = ({
                 <div className="flex min-w-0 items-center gap-2">
                     <Image
                         src={codeHostIcon.src}
-                        alt={`${connection.connectionType} logo`}
+                        alt={t("connectionsPage.table.logoAlt", { type: connection.connectionType })}
                         width={24}
                         height={24}
                         className={cn(
@@ -192,7 +198,7 @@ const getColumns = ({
         accessorKey: "syncedAt",
         header: () => (
             <SortableHeader
-                label="Last synced"
+                label={t("connectionsPage.table.lastSynced")}
                 column="syncedAt"
                 sortBy={sortBy}
                 sortOrder={sortOrder}
@@ -205,7 +211,7 @@ const getColumns = ({
     },
     {
         id: "actions",
-        header: () => <span className="sr-only">Actions</span>,
+        header: () => <span className="sr-only">{t("connectionsPage.table.actions")}</span>,
         cell: ({ row }) => (
             <div className="flex justify-end">
                 <ConnectionActionsMenu
@@ -239,6 +245,8 @@ export const ConnectionsTable = ({
     sortBy,
     sortOrder,
 }: ConnectionsTableProps) => {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -481,8 +489,9 @@ export const ConnectionsTable = ({
             sortOrder,
             onSortChange,
             onSyncScheduled,
+            t,
         }),
-        [onSortChange, onSyncScheduled, sortBy, sortOrder],
+        [onSortChange, onSyncScheduled, sortBy, sortOrder, t],
     );
     const table = useReactTable({
         data: displayedData,
@@ -551,10 +560,10 @@ export const ConnectionsTable = ({
     };
 
     const emptyMessage = statusFilter === "failed"
-        ? "No failed connections."
+        ? t("connectionsPage.emptyFailed")
         : statusFilter === "warning"
-            ? "No connections with warnings."
-            : "No connections found.";
+            ? t("connectionsPage.emptyWarning")
+            : t("connectionsPage.emptyAll");
 
     return (
         <div>
@@ -567,13 +576,13 @@ export const ConnectionsTable = ({
                         ref={searchInputRef}
                         value={searchValue}
                         onChange={(event) => setSearchValue(event.target.value)}
-                        placeholder="Search connections..."
+                        placeholder={t("connectionsPage.searchPlaceholder")}
                     />
                     {isSearchPending && (
                         <InputGroupAddon align="inline-end">
                             <Loader2
                                 className="h-4 w-4 animate-spin"
-                                aria-label="Searching connections"
+                                aria-label={t("connectionsPage.searching")}
                             />
                         </InputGroupAddon>
                     )}
@@ -585,14 +594,14 @@ export const ConnectionsTable = ({
                 >
                     <SelectTrigger
                         className="h-9 w-40"
-                        aria-label="Filter connections by status"
+                        aria-label={t("connectionsPage.filterByStatusAria")}
                     >
-                        <SelectValue placeholder="Status" />
+                        <SelectValue placeholder={t("connectionsPage.statusPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">Filter by status</SelectItem>
-                        <SelectItem value="failed">Failed</SelectItem>
-                        <SelectItem value="warning">Warning</SelectItem>
+                        <SelectItem value="all">{t("connectionsPage.filterAll")}</SelectItem>
+                        <SelectItem value="failed">{t("connectionsPage.failed")}</SelectItem>
+                        <SelectItem value="warning">{t("connectionsPage.warning")}</SelectItem>
                     </SelectContent>
                 </Select>
                 {hasActiveFilters && (
@@ -603,7 +612,7 @@ export const ConnectionsTable = ({
                         onClick={clearFilters}
                     >
                         <CircleX className="h-4 w-4" />
-                        Clear filters
+                        {t("connectionsPage.clearFilters")}
                     </Button>
                 )}
             </div>
@@ -671,11 +680,11 @@ export const ConnectionsTable = ({
             {totalCount > 0 && (
                 <div className="flex items-center justify-between py-4">
                     <p className="text-sm text-muted-foreground">
-                        Showing {firstVisibleConnection}-{lastVisibleConnection} of {totalCount}
+                        {t("connectionsPage.showing", { first: firstVisibleConnection, last: lastVisibleConnection, total: totalCount })}
                     </p>
                     <div className="flex items-center gap-4">
                         <p className="text-sm text-muted-foreground">
-                            Page {currentPage} of {totalPages}
+                            {t("connectionsPage.pageOf", { current: currentPage, total: totalPages })}
                         </p>
                         <div className="flex gap-2">
                             <Button
@@ -684,7 +693,7 @@ export const ConnectionsTable = ({
                                 onClick={() => goToPage(currentPage - 1)}
                                 disabled={!table.getCanPreviousPage()}
                             >
-                                Previous
+                                {t("connectionsPage.previous")}
                             </Button>
                             <Button
                                 variant="outline"
@@ -692,7 +701,7 @@ export const ConnectionsTable = ({
                                 onClick={() => goToPage(currentPage + 1)}
                                 disabled={!table.getCanNextPage()}
                             >
-                                Next
+                                {tCommon("next")}
                             </Button>
                         </div>
                     </div>
