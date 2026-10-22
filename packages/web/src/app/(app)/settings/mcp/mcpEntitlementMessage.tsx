@@ -1,6 +1,7 @@
 "use client"
 
 import { UpsellPanel } from "@/features/billing/upsellDialog"
+import { useTranslations } from "@/i18n/I18nProvider"
 
 /**
  * Shown in place of the MCP server setup UI when the deployment is not on a plan
@@ -9,13 +10,14 @@ import { UpsellPanel } from "@/features/billing/upsellDialog"
  * (plan comparison + trial/upgrade) without mounting any ee/ MCP feature code.
  */
 export function McpEntitlementMessage() {
+    const t = useTranslations("settings")
     return (
         <div className="flex items-center justify-center min-h-[60vh] py-12 px-4">
             <UpsellPanel
                 source="mcp_settings"
                 returnPath="/settings/mcp"
-                title="Upgrade to use the MCP server"
-                description="Connect your agents to Sourcebot to allow them to fetch code context, and more."
+                title={t("mcpPage.entitlement.title")}
+                description={t("mcpPage.entitlement.description")}
                 className="w-full max-w-2xl"
                 loadingVariant="spinner"
             />

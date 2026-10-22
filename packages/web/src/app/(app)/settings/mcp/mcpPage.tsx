@@ -16,6 +16,16 @@ import { useToast } from "@/components/hooks/use-toast";
 import { type ConnectedOauthClient, revokeMcpClient } from "@/ee/features/oauth/actions";
 import { isServiceError } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
+import { enUS, ja as jaDateLocale, ko as koDateLocale, zhCN } from "date-fns/locale";
+import { useLocale, useTranslations } from "@/i18n/I18nProvider";
+import type { Locale } from "@/i18n/config";
+
+const dateFnsLocales: Record<Locale, typeof enUS> = {
+    en: enUS,
+    zh: zhCN,
+    ja: jaDateLocale,
+    ko: koDateLocale,
+};
 import { AlertTriangle, Boxes, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,6 +51,9 @@ export function McpPage({
     isMcpEnabled
 }: McpPageProps) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
+    const locale = useLocale();
     const router = useRouter();
     const [isUpsellDialogOpen, setIsUpsellDialogOpen] = useState(false);
 
@@ -48,8 +61,8 @@ export function McpPage({
         navigator.clipboard.writeText(mcpServerUrl)
             .catch(() => {
                 toast({
-                    title: "Error",
-                    description: "Failed to copy URL to clipboard",
+                    title: t("mcpPage.error"),
+                    description: t("mcpPage.copyUrlFailed"),
                     variant: "destructive",
                 });
             });
@@ -60,22 +73,22 @@ export function McpPage({
         const result = await revokeMcpClient({ clientId });
         if (isServiceError(result)) {
             toast({
-                title: "Error",
-                description: `Failed to revoke ${name}: ${result.message}`,
+                title: t("mcpPage.error"),
+                description: t("mcpPage.revokeFailed", { name, message: result.message }),
                 variant: "destructive",
             });
             return;
         }
         router.refresh();
-        toast({ description: `${name} has been disconnected.` });
+        toast({ description: t("mcpPage.disconnectedToast", { name }) });
     };
 
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h3 className="text-lg font-medium">MCP Server</h3>
+                <h3 className="text-lg font-medium">{t("mcpPage.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Connect your agents to Sourcecat to allow them to fetch code context, and more. <Link href={DOCS_URL} target="_blank" className="text-link hover:underline">Learn more</Link>
+                    {t("mcpPage.description")} <Link href={DOCS_URL} target="_blank" className="text-link hover:underline">{t("mcpPage.learnMore")}</Link>
                 </p>
             </div>
 
@@ -84,15 +97,15 @@ export function McpPage({
                     <div className="flex items-start gap-3 rounded-lg border bg-muted/40 p-4">
                         <AlertTriangle className="h-4 w-4 text-muted-foreground mt-0.5" />
                         <div>
-                            <p className="text-sm font-medium">The MCP server is unavailable on your plan</p>
+                            <p className="text-sm font-medium">{t("mcpPage.unavailableTitle")}</p>
                             <p className="text-sm text-muted-foreground">
-                                You can disconnect existing clients below, but connecting new clients requires{" "}
+                                {t("mcpPage.unavailableBefore")}{" "}
                                 <button
                                     type="button"
                                     onClick={() => setIsUpsellDialogOpen(true)}
                                     className="text-link hover:underline font-medium"
                                 >
-                                    an upgrade
+                                    {t("mcpPage.upgrade")}
                                 </button>.
                             </p>
                         </div>
@@ -109,7 +122,7 @@ export function McpPage({
             {isMcpEnabled && (
                 <>
                     <SettingsCard>
-                        <h4 className="text-sm font-medium mb-2">Server URL</h4>
+                        <h4 className="text-sm font-medium mb-2">{t("mcpPage.serverUrl")}</h4>
                         <div className="flex items-center gap-2">
                             <div className="bg-muted p-2 rounded-md text-sm flex-1 break-all font-mono">
                                 {mcpServerUrl}
@@ -120,9 +133,9 @@ export function McpPage({
 
                     <div className="flex flex-col gap-2">
                         <div>
-                            <h4 className="text-base font-medium">Install in a client</h4>
+                            <h4 className="text-base font-medium">{t("mcpPage.installTitle")}</h4>
                             <p className="text-sm text-muted-foreground">
-                                Set up Sourcecat in your editor or coding agent.
+                                {t("mcpPage.installDescription")}
                             </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -136,16 +149,16 @@ export function McpPage({
 
             <div className="flex flex-col gap-2">
                 <div>
-                    <h4 className="text-base font-medium">Connected clients</h4>
+                    <h4 className="text-base font-medium">{t("mcpPage.connectedClients")}</h4>
                     <p className="text-sm text-muted-foreground">
-                        MCP clients that have been authorized to access Sourcecat on your behalf.
+                        {t("mcpPage.connectedClientsDescription")}
                     </p>
                 </div>
 
                 {connectedClients.length === 0 ? (
                     <SettingsCard>
                         <div className="py-4 text-center text-sm text-muted-foreground">
-                            No clients connected yet.
+                            {t("mcpPage.noClients")}
                         </div>
                     </SettingsCard>
                 ) : (
@@ -159,11 +172,11 @@ export function McpPage({
                                     <div className="flex flex-col min-w-0 flex-1">
                                         <span className="text-sm font-medium truncate">{client.name}</span>
                                         <span className="text-xs text-muted-foreground">
-                                            Connected {formatDistanceToNow(client.connectedAt, { addSuffix: true })}
+                                            {t("mcpPage.connected", { distance: formatDistanceToNow(client.connectedAt, { addSuffix: true, locale: dateFnsLocales[locale] }) })}
                                             {" · "}
                                             {client.lastUsedAt
-                                                ? `last used ${formatDistanceToNow(client.lastUsedAt, { addSuffix: true })}`
-                                                : "never used"
+                                                ? t("mcpPage.lastUsed", { distance: formatDistanceToNow(client.lastUsedAt, { addSuffix: true, locale: dateFnsLocales[locale] }) })
+                                                : t("mcpPage.neverUsed")
                                             }
                                         </span>
                                     </div>
@@ -179,18 +192,18 @@ export function McpPage({
                                         </AlertDialogTrigger>
                                         <AlertDialogContent>
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle>Disconnect {client.name}?</AlertDialogTitle>
+                                                <AlertDialogTitle>{t("mcpPage.disconnectTitle", { name: client.name })}</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    <span className="font-semibold text-foreground">{client.name}</span> will no longer be able to access Sourcecat. You can reconnect it by re-authorizing from the client. This action cannot be undone.
+                                                    {t("mcpPage.disconnectDescription", { name: client.name })}
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                                                 <AlertDialogAction
                                                     onClick={() => handleRevokeClient(client.id, client.name)}
                                                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                                 >
-                                                    Disconnect
+                                                    {t("mcpPage.disconnect")}
                                                 </AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
@@ -206,11 +219,12 @@ export function McpPage({
 }
 
 function ConnectedClientLogo({ logoUri, name }: { logoUri: string | null; name: string }) {
+    const t = useTranslations("settings");
     if (logoUri) {
         return (
             <Image
                 src={logoUri}
-                alt={`${name} logo`}
+                alt={t("mcpPage.logoAlt", { name })}
                 width={40}
                 height={40}
                 unoptimized
@@ -225,7 +239,7 @@ function ConnectedClientLogo({ logoUri, name }: { logoUri: string | null; name: 
             <>
                 <Image
                     src={known.logoSrc}
-                    alt={`${name} logo`}
+                    alt={t("mcpPage.logoAlt", { name })}
                     width={24}
                     height={24}
                     className={`h-6 w-6 ${known.logoSrcDark ? 'block dark:hidden' : ''}`}
@@ -233,7 +247,7 @@ function ConnectedClientLogo({ logoUri, name }: { logoUri: string | null; name: 
                 {known.logoSrcDark && (
                     <Image
                         src={known.logoSrcDark}
-                        alt={`${name} logo`}
+                        alt={t("mcpPage.logoAlt", { name })}
                         width={24}
                         height={24}
                         className="h-6 w-6 hidden dark:block"

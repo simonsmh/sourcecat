@@ -53,6 +53,8 @@ vi.mock('./providerIcon', () => ({
 }));
 
 const { LinkedAccountProviderCard } = await import('./linkedAccountProviderCard');
+const { I18nProvider } = await import('@/i18n/I18nProvider');
+const enMessages = (await import('@/i18n/messages/en.json')).default;
 
 const linkedAccount: LinkedAccount = {
     providerId: 'bitbucket-server-corp',
@@ -71,7 +73,9 @@ const renderCard = (account: LinkedAccount) => {
     });
     return render(
         <QueryClientProvider client={queryClient}>
-            <LinkedAccountProviderCard linkedAccount={account} />
+            <I18nProvider locale="en" messages={enMessages}>
+                <LinkedAccountProviderCard linkedAccount={account} />
+            </I18nProvider>
         </QueryClientProvider>,
     );
 };

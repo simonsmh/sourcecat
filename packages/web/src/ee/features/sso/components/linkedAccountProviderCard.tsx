@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountSyncStatus } from "@/app/api/(client)/client";
 import { SettingsCard } from "@/app/(app)/settings/components/settingsCard";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface LinkedAccountProviderCardProps {
     linkedAccount: LinkedAccount;
@@ -36,16 +37,17 @@ export function LinkedAccountProviderCard({
     const [syncJobId, setSyncJobId] = useState<string | null>(null);
     const router = useRouter();
     const { toast } = useToast();
+    const t = useTranslations("settings");
 
     const providerInfo = getAuthProviderInfo(linkedAccount.providerType);
     const displayName = linkedAccount.displayName ?? providerInfo.displayName;
     const needsAttention = linkedAccount.permissionSyncIssue !== undefined;
     const issueDescription = linkedAccount.permissionSyncIssue === 'INSUFFICIENT_SCOPE'
-        ? 'Additional permissions are required to restore repository access.'
-        : 'Reconnect this account to restore repository access.';
+        ? t("linkedAccountsPage.card.insufficientScope")
+        : t("linkedAccountsPage.card.reconnectToRestore");
     const reconnectLabel = linkedAccount.permissionSyncIssue === 'INSUFFICIENT_SCOPE'
-        ? 'Reauthorize Account'
-        : 'Reconnect Account';
+        ? t("linkedAccountsPage.card.reauthorize")
+        : t("linkedAccountsPage.card.reconnect");
 
     const { data: syncStatusData } = useQuery({
         queryKey: ["accountSyncStatus", syncJobId],
@@ -71,17 +73,17 @@ export function LinkedAccountProviderCard({
 
         if (syncJobStatus === 'COMPLETED') {
             setSyncJobId(null);
-            toast({ description: `✅ Permissions refreshed for ${displayName}.` });
+            toast({ description: t("linkedAccountsPage.card.refreshedToast", { name: displayName }) });
             router.refresh();
         } else if (syncJobStatus === 'FAILED') {
             setSyncJobId(null);
             toast({
-                description: `❌ Failed to refresh permissions for ${displayName}. Please try again.`,
+                description: t("linkedAccountsPage.card.refreshFailedToast", { name: displayName }),
                 variant: "destructive",
             });
             router.refresh();
         }
-    }, [syncJobId, syncJobStatus, displayName, toast, router]);
+    }, [syncJobId, syncJobStatus, displayName, toast, router, t]);
 
     const handleConnect = () => {
         signIn(linkedAccount.providerId, { redirectTo: callbackUrl ?? window.location.href });
@@ -93,16 +95,16 @@ export function LinkedAccountProviderCard({
             const result = await unlinkLinkedAccountProvider(linkedAccount.providerId);
             if (isServiceError(result)) {
                 toast({
-                    description: `❌ Failed to disconnect ${displayName}. ${result.message}`,
+                    description: t("linkedAccountsPage.card.disconnectFailedToast", { name: displayName, message: result.message }),
                     variant: "destructive",
                 });
                 return;
             }
-            toast({ description: `✅ ${displayName} disconnected.` });
+            toast({ description: t("linkedAccountsPage.card.disconnectedToast", { name: displayName }) });
             router.refresh();
         } catch (error) {
             toast({
-                description: `❌ Failed to disconnect. ${error instanceof Error ? error.message : "Unknown error"}`,
+                description: t("linkedAccountsPage.card.disconnectFailedGeneric", { message: error instanceof Error ? error.message : t("linkedAccountsPage.card.unknownError") }),
                 variant: "destructive",
             });
         } finally {
@@ -118,7 +120,7 @@ export function LinkedAccountProviderCard({
             const result = await triggerAccountPermissionSync(linkedAccount.accountId);
             if (isServiceError(result)) {
                 toast({
-                    description: `❌ Failed to refresh permissions. ${result.message}`,
+                    description: t("linkedAccountsPage.card.refreshFailedGeneric", { message: result.message }),
                     variant: "destructive",
                 });
                 return;
@@ -126,7 +128,7 @@ export function LinkedAccountProviderCard({
             setSyncJobId(result.jobId);
         } catch (error) {
             toast({
-                description: `❌ Failed to refresh permissions. ${error instanceof Error ? error.message : "Unknown error"}`,
+                description: t("linkedAccountsPage.card.refreshFailedGeneric", { message: error instanceof Error ? error.message : t("linkedAccountsPage.card.unknownError") }),
                 variant: "destructive",
             });
         }
@@ -147,7 +149,7 @@ export function LinkedAccountProviderCard({
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium">{displayName}</span>
                             {linkedAccount.required && (
-                                <Badge variant="default" className="text-xs font-medium">Required</Badge>
+                                <Badge variant="default" className="text-xs font-medium">{t("linkedAccountsPage.card.required")}</Badge>
                             )}
                         </div>
                         {linkedAccount.isLinked && linkedAccount.providerAccountId && (
@@ -176,12 +178,12 @@ export function LinkedAccountProviderCard({
                                         )} />
                                     )}
                                     {isDisconnecting
-                                        ? "Disconnecting..."
+                                        ? t("linkedAccountsPage.card.disconnecting")
                                         : isSyncing
-                                            ? "Syncing..."
+                                            ? t("linkedAccountsPage.card.syncing")
                                             : needsAttention
-                                                ? "Needs attention"
-                                                : "Connected"}
+                                                ? t("linkedAccountsPage.card.needsAttention")
+                                                : t("linkedAccountsPage.card.connected")}
                                     <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
                                 </LoadingButton>
                             </DropdownMenuTrigger>
@@ -197,7 +199,7 @@ export function LinkedAccountProviderCard({
                                     linkedAccount.accountId && (
                                         <DropdownMenuItem onClick={handleRefreshPermissions}>
                                             <RefreshCw className="h-4 w-4 mr-2" />
-                                            Refresh Permissions
+                                            {t("linkedAccountsPage.card.refreshPermissions")}
                                         </DropdownMenuItem>
                                     )}
                                 <DropdownMenuItem
@@ -205,14 +207,14 @@ export function LinkedAccountProviderCard({
                                     className="text-destructive focus:text-destructive"
                                 >
                                     <Unlink className="h-4 w-4 mr-2" />
-                                    Disconnect...
+                                    {t("linkedAccountsPage.card.disconnect")}
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
 
                     ) : (
                         <LoadingButton variant="ghost" size="sm" onClick={handleConnect} className="gap-1">
-                            Connect
+                            {t("linkedAccountsPage.card.connect")}
                             <ArrowUpRight className="h-3.5 w-3.5" />
                         </LoadingButton>
                     )}

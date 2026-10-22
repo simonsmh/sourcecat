@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { SettingsCard } from "@/app/(app)/settings/components/settingsCard";
 import { type McpClient, buildClientAction } from "./clients";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface ClientCardProps {
     client: McpClient;
@@ -15,6 +16,7 @@ interface ClientCardProps {
 
 export function ClientCard({ client, serverUrl }: ClientCardProps) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
     const [commandCopied, setCommandCopied] = useState(false);
     const action = buildClientAction(client.id, serverUrl);
 
@@ -26,8 +28,8 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
             })
             .catch(() => {
                 toast({
-                    title: "Error",
-                    description: "Failed to copy command",
+                    title: t("mcpPage.error"),
+                    description: t("mcpPage.clientCard.copyCommandFailed"),
                     variant: "destructive",
                 });
             });
@@ -40,7 +42,7 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted overflow-hidden">
                         <Image
                             src={client.logoSrc}
-                            alt={`${client.name} logo`}
+                            alt={t("mcpPage.logoAlt", { name: client.name })}
                             width={24}
                             height={24}
                             className={`h-6 w-6 ${client.logoSrcDark ? 'block dark:hidden' : ''}`}
@@ -48,7 +50,7 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
                         {client.logoSrcDark && (
                             <Image
                                 src={client.logoSrcDark}
-                                alt={`${client.name} logo`}
+                                alt={t("mcpPage.logoAlt", { name: client.name })}
                                 width={24}
                                 height={24}
                                 className="h-6 w-6 hidden dark:block"
@@ -65,7 +67,7 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
                         onClick={() => { window.location.href = action.href; }}
                     >
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Install
+                        {t("mcpPage.clientCard.install")}
                     </Button>
                 )}
                 {action.type === 'command' && (
@@ -80,7 +82,7 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
                         ) : (
                             <Copy className="h-4 w-4 mr-2" />
                         )}
-                        {commandCopied ? 'Copied' : 'Copy command'}
+                        {commandCopied ? t("mcpPage.clientCard.copied") : t("mcpPage.clientCard.copyCommand")}
                     </Button>
                 )}
                 {action.type === 'docs' && (
@@ -91,7 +93,7 @@ export function ClientCard({ client, serverUrl }: ClientCardProps) {
                         onClick={() => window.open(action.href, '_blank', 'noopener,noreferrer')}
                     >
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Setup instructions
+                        {t("mcpPage.clientCard.setupInstructions")}
                     </Button>
                 )}
             </div>

@@ -22,6 +22,16 @@ import { useToast } from "@/components/hooks/use-toast";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatDistanceToNow } from "date-fns";
+import { enUS, ja as jaDateLocale, ko as koDateLocale, zhCN } from "date-fns/locale";
+import { useLocale, useTranslations } from "@/i18n/I18nProvider";
+import type { Locale } from "@/i18n/config";
+
+const dateFnsLocales: Record<Locale, typeof enUS> = {
+    en: enUS,
+    zh: zhCN,
+    ja: jaDateLocale,
+    ko: koDateLocale,
+};
 import { useRouter } from "next/navigation";
 
 interface ApiKey {
@@ -37,6 +47,9 @@ interface ApiKeysPageProps {
 
 export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
+    const locale = useLocale();
     const captureEvent = useCaptureEvent();
     const router = useRouter();
 
@@ -49,8 +62,8 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
     const handleCreateApiKey = async () => {
         if (!newKeyName.trim()) {
             toast({
-                title: "Error",
-                description: "API key name cannot be empty",
+                title: t("apiKeysPage.error"),
+                description: t("apiKeysPage.nameEmpty"),
                 variant: "destructive",
             });
             return;
@@ -61,8 +74,8 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
             const result = await createApiKey(newKeyName.trim());
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
-                    description: `Failed to create API key: ${result.message}`,
+                    title: t("apiKeysPage.error"),
+                    description: t("apiKeysPage.createFailed", { message: result.message }),
                     variant: "destructive",
                 });
                 captureEvent('wa_api_key_creation_fail', {});
@@ -75,8 +88,8 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
         } catch (error) {
             console.error(error);
             toast({
-                title: "Error",
-                description: `Failed to create API key: ${error}`,
+                title: t("apiKeysPage.error"),
+                description: t("apiKeysPage.createFailed", { message: String(error) }),
                 variant: "destructive",
             });
             captureEvent('wa_api_key_creation_fail', {});
@@ -97,8 +110,8 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
             })
             .catch(() => {
                 toast({
-                    title: "Error",
-                    description: "Failed to copy API key to clipboard",
+                    title: t("apiKeysPage.error"),
+                    description: t("apiKeysPage.copyFailed"),
                     variant: "destructive",
                 });
             });
@@ -115,14 +128,14 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
         const result = await deleteApiKey(name);
         if (isServiceError(result)) {
             toast({
-                title: "Error",
-                description: `Failed to delete API key: ${result.message}`,
+                title: t("apiKeysPage.error"),
+                description: t("apiKeysPage.deleteFailed", { message: result.message }),
                 variant: "destructive",
             });
             return;
         }
         router.refresh();
-        toast({ description: "API key deleted" });
+        toast({ description: t("apiKeysPage.deleted") });
     };
 
     const sortedKeys = useMemo(
@@ -133,23 +146,23 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
     return (
         <div className="flex flex-col gap-4">
             <div>
-                <h3 className="text-lg font-medium">API Keys</h3>
+                <h3 className="text-lg font-medium">{t("apiKeysPage.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Create and manage API keys for programmatic access to Sourcebot on your behalf.
+                    {t("apiKeysPage.description")}
                 </p>
             </div>
 
             <div className="border border-border rounded-lg bg-card">
                 <div className="flex items-center justify-between px-4 py-3">
                     <span className="text-sm text-muted-foreground">
-                        {apiKeys.length} API key{apiKeys.length !== 1 ? "s" : ""}
+                        {t("apiKeysPage.keyCount", { count: apiKeys.length })}
                     </span>
 
                     <TooltipProvider>
                         <Tooltip>
                             {!canCreateApiKey && (
                                 <TooltipContent>
-                                    API key creation is restricted.
+                                    {t("apiKeysPage.creationRestricted")}
                                 </TooltipContent>
                             )}
                             <TooltipTrigger asChild>
@@ -168,12 +181,12 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                                 }}
                                             >
                                                 <Plus className="h-4 w-4" />
-                                                New API key
+                                                {t("apiKeysPage.newApiKey")}
                                             </Button>
                                         </DialogTrigger>
                                         <DialogContent className="sm:max-w-md">
                                             <DialogHeader>
-                                                <DialogTitle>{newlyCreatedKey ? 'Your New API Key' : 'Create API Key'}</DialogTitle>
+                                                <DialogTitle>{newlyCreatedKey ? t("apiKeysPage.yourNewApiKey") : t("apiKeysPage.createApiKey")}</DialogTitle>
                                             </DialogHeader>
 
                                             {newlyCreatedKey ? (
@@ -181,7 +194,7 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                                     <div className="flex items-center gap-2 p-3 border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 rounded-md text-yellow-700 dark:text-yellow-400">
                                                         <AlertTriangle className="h-5 w-5 flex-shrink-0" />
                                                         <p className="text-sm">
-                                                            This is the only time you&apos;ll see this API key. Make sure to copy it now.
+                                                            {t("apiKeysPage.onlyTimeWarning")}
                                                         </p>
                                                     </div>
 
@@ -207,7 +220,7 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                                     <Input
                                                         value={newKeyName}
                                                         onChange={(e) => setNewKeyName(e.target.value)}
-                                                        placeholder="Enter a name for your API key"
+                                                        placeholder={t("apiKeysPage.namePlaceholder")}
                                                         className="mb-2"
                                                     />
                                                 </div>
@@ -216,19 +229,19 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                             <DialogFooter className="sm:justify-between">
                                                 {newlyCreatedKey ? (
                                                     <Button onClick={handleCloseDialog}>
-                                                        Done
+                                                        {tCommon("done")}
                                                     </Button>
                                                 ) : (
                                                     <>
                                                         <Button variant="outline" onClick={handleCloseDialog}>
-                                                            Cancel
+                                                            {tCommon("cancel")}
                                                         </Button>
                                                         <Button
                                                             onClick={handleCreateApiKey}
                                                             disabled={isCreatingKey || !newKeyName.trim()}
                                                         >
                                                             {isCreatingKey && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                                                            Create
+                                                            {t("apiKeysPage.create")}
                                                         </Button>
                                                     </>
                                                 )}
@@ -243,7 +256,7 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
 
                 {sortedKeys.length === 0 ? (
                     <div className="border-t border-border px-4 py-8 text-center text-sm text-muted-foreground">
-                        No API keys yet.
+                        {t("apiKeysPage.noKeys")}
                     </div>
                 ) : (
                     <div className="border-t border-border">
@@ -258,11 +271,11 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                 <div className="flex flex-col min-w-0 flex-1">
                                     <span className="text-sm font-medium truncate">{key.name}</span>
                                     <span className="text-xs text-muted-foreground">
-                                        Created {formatDistanceToNow(key.createdAt, { addSuffix: true })}
+                                        {t("apiKeysPage.created", { distance: formatDistanceToNow(key.createdAt, { addSuffix: true, locale: dateFnsLocales[locale] }) })}
                                         {" · "}
                                         {key.lastUsedAt
-                                            ? `last used ${formatDistanceToNow(key.lastUsedAt, { addSuffix: true })}`
-                                            : "never used"
+                                            ? t("apiKeysPage.lastUsed", { distance: formatDistanceToNow(key.lastUsedAt, { addSuffix: true, locale: dateFnsLocales[locale] }) })
+                                            : t("apiKeysPage.neverUsed")
                                         }
                                     </span>
                                 </div>
@@ -278,18 +291,18 @@ export function ApiKeysPage({ canCreateApiKey, apiKeys }: ApiKeysPageProps) {
                                     </AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
-                                            <AlertDialogTitle>Delete API Key</AlertDialogTitle>
+                                            <AlertDialogTitle>{t("apiKeysPage.deleteTitle")}</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                Are you sure you want to delete the API key <span className="font-semibold text-foreground">{key.name}</span>? Any applications using this key will no longer be able to access the API. This action cannot be undone.
+                                                {t("apiKeysPage.deleteDescription", { name: key.name })}
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                                             <AlertDialogAction
                                                 onClick={() => handleDeleteApiKey(key.name)}
                                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                             >
-                                                Delete
+                                                {tCommon("delete")}
                                             </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
