@@ -1,6 +1,7 @@
 "use client"
 
 import { UpsellPanel } from "@/features/billing/upsellDialog"
+import { useTranslations } from "@/i18n/I18nProvider"
 
 /**
  * Shown in place of the workspace Ask Sourcebot connector configuration UI when the
@@ -10,13 +11,14 @@ import { UpsellPanel } from "@/features/billing/upsellDialog"
  * ee/ connector code.
  */
 export function WorkspaceAskAgentEntitlementMessage() {
+    const t = useTranslations("settings")
     return (
         <div className="flex items-center justify-center min-h-[60vh] py-12 px-4">
             <UpsellPanel
                 source="chat_connectors"
                 returnPath="/settings/workspaceAskAgent"
-                title="Upgrade to configure Ask Sourcebot connectors"
-                description="Approve the external tools (like Linear, Notion, and Sentry) that your users can connect to Ask Sourcebot."
+                title={t("askPage.entitlement.workspaceTitle")}
+                description={t("askPage.entitlement.workspaceDescription")}
                 className="w-full max-w-2xl"
                 loadingVariant="spinner"
             />

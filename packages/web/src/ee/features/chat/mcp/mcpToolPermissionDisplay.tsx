@@ -3,9 +3,10 @@ import { cn } from '@/lib/utils';
 import type { McpServerToolPermission } from '@sourcecat/db';
 import { BanIcon, CircleCheckIcon, HandIcon, type LucideIcon } from 'lucide-react';
 import type { ToolSummary } from './types';
+import { useTranslations } from '@/i18n/I18nProvider';
 
 interface McpServerToolPermissionDisplay {
-    label: string;
+    labelKey: 'allowed' | 'needsApproval' | 'blocked';
     icon: LucideIcon;
     iconClassName: string;
     selectedClassName: string;
@@ -13,19 +14,19 @@ interface McpServerToolPermissionDisplay {
 
 export const MCP_SERVER_TOOL_PERMISSION_DISPLAY = {
     ALLOWED: {
-        label: 'Allowed',
+        labelKey: 'allowed',
         icon: CircleCheckIcon,
         iconClassName: 'text-green-500',
         selectedClassName: '!border-green-600 !bg-green-600 !text-white !opacity-100 shadow-sm ring-2 ring-green-600/30',
     },
     NEEDS_APPROVAL: {
-        label: 'Needs Approval',
+        labelKey: 'needsApproval',
         icon: HandIcon,
         iconClassName: 'text-primary',
         selectedClassName: '!border-primary !bg-primary !text-primary-foreground !opacity-100 shadow-sm ring-2 ring-primary/30',
     },
     DISABLED: {
-        label: 'Blocked',
+        labelKey: 'blocked',
         icon: BanIcon,
         iconClassName: 'text-destructive',
         selectedClassName: '!border-destructive !bg-destructive !text-destructive-foreground !opacity-100 shadow-sm ring-2 ring-destructive/30',
@@ -45,6 +46,8 @@ export function getMcpServerToolPermissionDisplay(permission: McpServerToolPermi
 }
 
 export function ToolHintBadges({ annotations }: { annotations?: ToolSummary['annotations'] }) {
+    const t = useTranslations("settings");
+
     if (!annotations) {
         return null;
     }
@@ -53,17 +56,17 @@ export function ToolHintBadges({ annotations }: { annotations?: ToolSummary['ann
         <>
             {annotations.readOnlyHint === true && (
                 <Badge variant="outline" className="px-1.5 py-0 text-[10px] font-medium text-muted-foreground">
-                    Read-only
+                    {t("askPage.toolPermissions.readOnly")}
                 </Badge>
             )}
             {annotations.destructiveHint === true && (
                 <Badge variant="outline" className="px-1.5 py-0 text-[10px] font-medium text-destructive">
-                    Destructive
+                    {t("askPage.toolPermissions.destructive")}
                 </Badge>
             )}
             {annotations.idempotentHint === true && (
                 <Badge variant="outline" className="px-1.5 py-0 text-[10px] font-medium text-muted-foreground">
-                    Idempotent
+                    {t("askPage.toolPermissions.idempotent")}
                 </Badge>
             )}
         </>
@@ -71,6 +74,8 @@ export function ToolHintBadges({ annotations }: { annotations?: ToolSummary['ann
 }
 
 export function ToolPermissionBadge({ permission }: { permission?: McpServerToolPermission }) {
+    const t = useTranslations("settings");
+
     if (!permission) {
         return null;
     }
@@ -87,7 +92,7 @@ export function ToolPermissionBadge({ permission }: { permission?: McpServerTool
             )}
         >
             <Icon className="mr-1 h-3 w-3" />
-            {display.label}
+            {t(`askPage.toolPermissions.${display.labelKey}`)}
         </Badge>
     );
 }

@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CableIcon, ExternalLink, MoreHorizontal, SearchIcon, Settings2Icon, Unplug } from "lucide-react";
 import { getMcpServersWithStatus } from "@/app/api/(client)/client";
 import { useToast } from "@/components/hooks/use-toast";
+import { useTranslations } from "@/i18n/I18nProvider";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
     AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -26,7 +27,6 @@ import { useConnectMcp } from "@/ee/features/chat/mcp/hooks/useConnectMcp";
 import { useMcpToolMetadata } from "@/ee/features/chat/mcp/hooks/useMcpToolMetadata";
 import { disconnectMcpServer } from "@/ee/features/chat/mcp/actions";
 import { invalidateMcpConfigurationQueries, mcpQueryKeys } from "@/ee/features/chat/mcp/queryKeys";
-import { pluralize } from "@/features/chat/mcp/utils";
 import { cn, isServiceError } from "@/lib/utils";
 import type { McpServerWithStatus } from "@/app/api/(server)/ee/askmcp/servers/route";
 import type { ServerToolsEntry } from "@/ee/features/chat/mcp/types";
@@ -49,6 +49,7 @@ interface AccountAskAgentPageProps {
 }
 
 export function AccountAskAgentEmptyState({ canManageConnectors }: { canManageConnectors: boolean }) {
+    const t = useTranslations("settings");
     return (
         <Card>
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
@@ -56,18 +57,18 @@ export function AccountAskAgentEmptyState({ canManageConnectors }: { canManageCo
                     <CableIcon className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <p className="text-sm font-medium text-foreground mb-1">
-                    {canManageConnectors ? "No connectors configured yet" : "No connectors available"}
+                    {canManageConnectors ? t("askPage.noConnectors") : t("askPage.account.noConnectorsAvailable")}
                 </p>
                 <p className="text-sm text-muted-foreground max-w-sm">
                     {canManageConnectors
-                        ? "Open Workspace Ask Sourcebot to approve connectors for your workspace."
-                        : "No connectors have been approved for this workspace yet. Contact your workspace admin."}
+                        ? t("askPage.account.emptyManageDescription")
+                        : t("askPage.account.emptyDescription")}
                 </p>
                 {canManageConnectors && (
                     <Button asChild variant="outline" className="mt-4">
                         <Link href="/settings/workspaceAskAgent">
                             <Settings2Icon className="h-4 w-4 mr-2" />
-                            Open Workspace Ask Sourcebot
+                            {t("askPage.account.openWorkspace")}
                         </Link>
                     </Button>
                 )}
@@ -97,6 +98,7 @@ function AccountConnectedConnectorCard({
     onDisconnect,
     disconnectingServerId,
 }: AccountConnectedConnectorCardProps) {
+    const t = useTranslations("settings");
     return (
         <ConnectorCard
             faviconUrl={server.faviconUrl}
@@ -113,13 +115,13 @@ function AccountConnectedConnectorCard({
                     {server.isConnected && (
                         <span className="inline-flex items-center gap-1.5 text-green-600 dark:text-green-400">
                             <span className="h-1.5 w-1.5 rounded-full bg-green-500/80" />
-                            Connected
+                            {t("askPage.account.connected")}
                         </span>
                     )}
                     {server.isAuthExpired && (
                         <span className="inline-flex items-center gap-1.5 text-yellow-600 dark:text-yellow-400">
                             <span className="h-1.5 w-1.5 rounded-full bg-yellow-500/80" />
-                            Authorization expired
+                            {t("askPage.account.authorizationExpired")}
                         </span>
                     )}
                 </>
@@ -134,7 +136,7 @@ function AccountConnectedConnectorCard({
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => onReconnect(server.id)}>
                             <ExternalLink className="h-4 w-4 mr-2" />
-                            Reconnect
+                            {t("askPage.account.reconnect")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className="text-destructive focus:text-destructive"
@@ -142,7 +144,7 @@ function AccountConnectedConnectorCard({
                             onClick={() => onDisconnect(server)}
                         >
                             <Unplug className="h-4 w-4 mr-2" />
-                            {disconnectingServerId === server.id ? "Disconnecting..." : "Disconnect"}
+                            {disconnectingServerId === server.id ? t("askPage.account.disconnecting") : t("askPage.account.disconnect")}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -188,6 +190,8 @@ export function AccountAskAgentPage({
     canManageConnectors,
 }: AccountAskAgentPageProps) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const queryClient = useQueryClient();
     const didHandleCallbackRef = useRef(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -202,14 +206,14 @@ export function AccountAskAgentPage({
         }
         if (callbackStatus === 'connected') {
             didHandleCallbackRef.current = true;
-            toast({ description: `Successfully connected${callbackServer ? ` to ${callbackServer}` : ''}.` });
+            toast({ description: callbackServer ? t("askPage.connectedToToast", { server: callbackServer }) : t("askPage.connectedToast") });
             clearCallbackParams();
         } else if (callbackStatus === 'error') {
             didHandleCallbackRef.current = true;
-            toast({ title: "Connection failed", description: callbackMessage ?? 'Failed to connect connector.', variant: "destructive" });
+            toast({ title: t("askPage.connectionFailed"), description: callbackMessage ?? t("askPage.connectFailedFallback"), variant: "destructive" });
             clearCallbackParams();
         }
-    }, [callbackStatus, callbackServer, callbackMessage, toast]);
+    }, [callbackStatus, callbackServer, callbackMessage, toast, t]);
 
     const { data: servers = [], isLoading, isError } = useQuery({
         queryKey: mcpQueryKeys.serversWithStatus,
@@ -273,37 +277,37 @@ export function AccountAskAgentPage({
         try {
             const result = await disconnectMcpServer(serverId, 'account_settings');
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to disconnect: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.account.disconnectFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
-            toast({ description: "Connector disconnected." });
+            toast({ description: t("askPage.account.disconnectedToast") });
             await invalidateMcpConfigurationQueries(queryClient);
         } catch {
-            toast({ title: "Error", description: "Failed to disconnect connector.", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.account.disconnectFailedGeneric"), variant: "destructive" });
         } finally {
             setDisconnectingServerId(null);
         }
     };
 
     if (isError) {
-        return <div>Error loading connectors</div>;
+        return <div>{t("askPage.account.loadError")}</div>;
     }
 
     if (!isLoading && servers.length === 0) {
         return (
             <div className="flex flex-col gap-6">
                 <div>
-                    <h3 className="text-lg font-medium">Ask Sourcebot</h3>
+                    <h3 className="text-lg font-medium">{t("askPage.title")}</h3>
                     <p className="text-sm text-muted-foreground max-w-lg">
-                        Manage your personal Ask Sourcebot setup.
+                        {t("askPage.accountDescription")}
                     </p>
                 </div>
                 <Separator />
                 <div className="space-y-3">
                     <div>
-                        <h4 className="text-sm font-semibold text-foreground">Connectors</h4>
+                        <h4 className="text-sm font-semibold text-foreground">{t("askPage.connectors")}</h4>
                         <p className="text-sm text-muted-foreground max-w-lg">
-                            Manage workspace-approved connectors for use with Ask Sourcebot.
+                            {t("askPage.accountConnectorsDescription")}
                         </p>
                     </div>
                     <AccountAskAgentEmptyState canManageConnectors={canManageConnectors} />
@@ -315,9 +319,9 @@ export function AccountAskAgentPage({
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h3 className="text-lg font-medium">Ask Sourcebot</h3>
+                <h3 className="text-lg font-medium">{t("askPage.title")}</h3>
                 <p className="text-sm text-muted-foreground max-w-lg">
-                    Manage your personal Ask Sourcebot setup.
+                    {t("askPage.accountDescription")}
                 </p>
             </div>
 
@@ -325,9 +329,9 @@ export function AccountAskAgentPage({
 
             <div className="space-y-3">
                 <div>
-                    <h4 className="text-sm font-semibold text-foreground">Connectors</h4>
+                    <h4 className="text-sm font-semibold text-foreground">{t("askPage.connectors")}</h4>
                     <p className="text-sm text-muted-foreground max-w-lg">
-                        Manage workspace-approved connectors for use with Ask Sourcebot.
+                        {t("askPage.accountConnectorsDescription")}
                     </p>
                 </div>
 
@@ -336,7 +340,7 @@ export function AccountAskAgentPage({
                     <div className="relative flex-1">
                         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
-                            placeholder="Search connectors..."
+                            placeholder={t("askPage.account.searchPlaceholder")}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="pl-9"
@@ -352,7 +356,7 @@ export function AccountAskAgentPage({
                                     : "text-muted-foreground hover:text-foreground",
                             )}
                         >
-                            All
+                            {t("askPage.account.all")}
                             <span className="ml-1.5 text-muted-foreground">{servers.length}</span>
                         </button>
                         <button
@@ -364,7 +368,7 @@ export function AccountAskAgentPage({
                                     : "text-muted-foreground hover:text-foreground",
                             )}
                         >
-                            Connected
+                            {t("askPage.account.connected")}
                             <span className="ml-1.5 text-muted-foreground">{connectedServers.length}</span>
                         </button>
                     </div>
@@ -392,10 +396,10 @@ export function AccountAskAgentPage({
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
                             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                Connected
+                                {t("askPage.account.connected")}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                                {connectedServers.length} {pluralize(connectedServers.length, "connector")}
+                                {t("askPage.account.connectorCount", { count: connectedServers.length })}
                             </p>
                         </div>
 
@@ -404,8 +408,8 @@ export function AccountAskAgentPage({
                                 <CardContent className="flex items-center justify-center py-8">
                                     <p className="text-sm text-muted-foreground">
                                         {searchQuery.trim()
-                                            ? "No connected connectors match your search."
-                                            : "No connectors connected yet."}
+                                            ? t("askPage.account.noConnectedMatch")
+                                            : t("askPage.account.noConnected")}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -434,10 +438,10 @@ export function AccountAskAgentPage({
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                    Suggested
+                                    {t("askPage.account.suggested")}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                    workspace-approved
+                                    {t("askPage.account.workspaceApproved")}
                                 </p>
                             </div>
 
@@ -446,8 +450,8 @@ export function AccountAskAgentPage({
                                     <CardContent className="flex items-center justify-center py-8">
                                         <p className="text-sm text-muted-foreground">
                                             {searchQuery.trim()
-                                                ? "No suggested connectors match your search."
-                                                : "All connectors are connected."}
+                                                ? t("askPage.account.noSuggestedMatch")
+                                                : t("askPage.account.allConnected")}
                                         </p>
                                     </CardContent>
                                 </Card>
@@ -472,13 +476,13 @@ export function AccountAskAgentPage({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Disconnect Connector</AlertDialogTitle>
+                        <AlertDialogTitle>{t("askPage.account.disconnectTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Are you sure you want to disconnect from <span className="font-semibold text-foreground">{confirmDisconnectServer?.name}</span>? Your stored credentials for this connector will be removed.
+                            {t("askPage.account.disconnectDescription", { name: confirmDisconnectServer?.name ?? "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={() => {
                                 if (confirmDisconnectServer) {
@@ -487,7 +491,7 @@ export function AccountAskAgentPage({
                             }}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            Disconnect
+                            {t("askPage.account.disconnect")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

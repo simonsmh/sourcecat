@@ -24,6 +24,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/hooks/use-toast';
+import { useTranslations } from '@/i18n/I18nProvider';
 import { updateMcpServerToolPermissions } from '@/ee/features/chat/mcp/actions';
 import {
     MCP_SERVER_TOOL_PERMISSION_OPTIONS,
@@ -36,7 +37,7 @@ import type {
     McpServerToolPermission,
     McpServerToolPermissionEntry,
 } from '@/ee/features/chat/mcp/types';
-import { formatCount, pluralize } from '@/features/chat/mcp/utils';
+import { formatCount } from '@/features/chat/mcp/utils';
 import { cn, isServiceError } from '@/lib/utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -85,13 +86,13 @@ function getVisiblePermissionSummary(
         if (isSamePermission) {
             const display = getMcpServerToolPermissionDisplay(firstPermission);
             return {
-                label: display.label,
+                label: display.labelKey,
                 icon: display.icon,
             };
         }
     }
 
-    return { label: 'Custom', icon: SlidersHorizontalIcon };
+    return { label: 'custom' as const, icon: SlidersHorizontalIcon };
 }
 
 function PermissionCount({
@@ -101,6 +102,7 @@ function PermissionCount({
     permission: McpServerToolPermission;
     count: number;
 }) {
+    const t = useTranslations('settings');
     const display = getMcpServerToolPermissionDisplay(permission);
     const Icon = display.icon;
 
@@ -112,7 +114,7 @@ function PermissionCount({
                     {formatCount(count)}
                 </span>
             </TooltipTrigger>
-            <TooltipContent>{display.label}</TooltipContent>
+            <TooltipContent>{t(`askPage.toolPermissions.${display.labelKey}`)}</TooltipContent>
         </Tooltip>
     );
 }
@@ -126,6 +128,7 @@ function PermissionToggleGroup({
     value: McpServerToolPermission;
     onChange: (permission: McpServerToolPermission) => void;
 }) {
+    const t = useTranslations('settings');
     return (
         <ToggleGroup
             type="single"
@@ -146,7 +149,7 @@ function PermissionToggleGroup({
                         <TooltipTrigger asChild>
                             <ToggleGroupItem
                                 value={option.value}
-                                aria-label={`${option.label} for ${toolName}`}
+                                aria-label={t('askPage.toolPermissions.permissionFor', { label: t(`askPage.toolPermissions.${option.labelKey}`), tool: toolName })}
                                 className={cn(
                                     "h-8 w-8 border bg-transparent text-muted-foreground opacity-55 transition-all hover:opacity-100",
                                     isSelected && option.selectedClassName,
@@ -155,7 +158,7 @@ function PermissionToggleGroup({
                                 <Icon className="h-4 w-4" />
                             </ToggleGroupItem>
                         </TooltipTrigger>
-                        <TooltipContent>{option.label}</TooltipContent>
+                        <TooltipContent>{t(`askPage.toolPermissions.${option.labelKey}`)}</TooltipContent>
                     </Tooltip>
                 );
             })}
@@ -172,6 +175,7 @@ function ToolRow({
     permission: McpServerToolPermission;
     onPermissionChange: (permission: McpServerToolPermission) => void;
 }) {
+    const t = useTranslations('settings');
     const displayName = getToolDisplayName(tool);
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
     const hasDescription = Boolean(tool.description);
@@ -187,7 +191,7 @@ function ToolRow({
                                 variant="ghost"
                                 size="icon"
                                 className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground"
-                                aria-label={`${isDescriptionOpen ? 'Hide' : 'Show'} description for ${displayName}`}
+                                aria-label={isDescriptionOpen ? t('askPage.toolPermissions.hideDescriptionFor', { tool: displayName }) : t('askPage.toolPermissions.showDescriptionFor', { tool: displayName })}
                                 aria-expanded={isDescriptionOpen}
                                 onClick={() => setIsDescriptionOpen((current) => !current)}
                             >
@@ -196,7 +200,7 @@ function ToolRow({
                                     : <ChevronRightIcon className="h-3.5 w-3.5" />}
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>{isDescriptionOpen ? 'Hide description' : 'Show description'}</TooltipContent>
+                        <TooltipContent>{isDescriptionOpen ? t('askPage.toolPermissions.hideDescription') : t('askPage.toolPermissions.showDescription')}</TooltipContent>
                     </Tooltip>
                 ) : (
                     <div className="h-5 w-5 shrink-0" />
@@ -213,8 +217,8 @@ function ToolRow({
                         <p className="break-words text-xs text-muted-foreground">{tool.description}</p>
                     )}
                     <p className="text-xs text-muted-foreground">
-                        {formatCount(tool.callCount)} {pluralize(tool.callCount, 'call')}
-                        {!tool.discovered && <span> - not in latest discovery</span>}
+                        {t('askPage.toolPermissions.callsCount', { count: tool.callCount })}
+                        {!tool.discovered && <span>{t('askPage.toolPermissions.notInDiscovery')}</span>}
                     </p>
                 </div>
             </div>
@@ -231,6 +235,8 @@ function ToolRow({
 
 export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps) {
     const { toast } = useToast();
+    const t = useTranslations('settings');
+    const tCommon = useTranslations('common');
     const queryClient = useQueryClient();
     const [searchInput, setSearchInput] = useState('');
     const [permissionFilter, setPermissionFilter] = useState<PermissionFilter>('ALL');
@@ -340,15 +346,15 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
     const filteredToolGroups = useMemo<ToolGroup[]>(() => [
         {
             id: 'read-only' as const,
-            label: 'Read-only tools',
+            label: t('askPage.toolPermissions.readOnlyTools'),
             tools: filteredTools.filter((tool) => tool.annotations?.readOnlyHint === true),
         },
         {
             id: 'write-delete' as const,
-            label: 'Write/delete tools',
+            label: t('askPage.toolPermissions.writeDeleteTools'),
             tools: filteredTools.filter((tool) => tool.annotations?.readOnlyHint !== true),
         },
-    ].filter((group) => group.tools.length > 0), [filteredTools]);
+    ].filter((group) => group.tools.length > 0), [filteredTools, t]);
 
     const rollbackPermissionChanges = (
         changes: ToolPermissionChange[],
@@ -371,14 +377,14 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
 
             if (isServiceError(result)) {
                 rollbackPermissionChanges(changes, previousPermissions);
-                toast({ title: 'Error', description: `Failed to update tool permissions: ${result.message}`, variant: 'destructive' });
+                toast({ title: t('askPage.error'), description: t('askPage.toolPermissions.updateFailed', { message: result.message }), variant: 'destructive' });
                 return;
             }
 
             void invalidateMcpConfigurationQueries(queryClient).catch(() => undefined);
         } catch {
             rollbackPermissionChanges(changes, previousPermissions);
-            toast({ title: 'Error', description: 'Failed to update tool permissions.', variant: 'destructive' });
+            toast({ title: t('askPage.error'), description: t('askPage.toolPermissions.updateFailedGeneric'), variant: 'destructive' });
         } finally {
             setPendingSaveCount((count) => Math.max(0, count - 1));
         }
@@ -457,15 +463,15 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
             <div className="flex flex-col gap-6">
                 <Link href="/settings/workspaceAskAgent" className="inline-flex w-fit items-center gap-1.5 text-sm text-link hover:underline">
                     <ArrowLeftIcon className="h-4 w-4" />
-                    Back to Ask Sourcebot
+                    {t('askPage.toolPermissions.back')}
                 </Link>
                 <div>
-                    <h3 className="text-lg font-medium">Tool permissions</h3>
-                    <p className="text-sm text-muted-foreground">Unable to load tool permissions.</p>
+                    <h3 className="text-lg font-medium">{t('askPage.toolPermissions.title')}</h3>
+                    <p className="text-sm text-muted-foreground">{t('askPage.toolPermissions.loadFailed')}</p>
                 </div>
                 <Button variant="outline" className="w-fit" onClick={() => { void refetch(); }}>
                     <RefreshCwIcon className="mr-2 h-4 w-4" />
-                    Retry
+                    {tCommon('retry')}
                 </Button>
             </div>
         );
@@ -477,7 +483,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
         <div className="flex flex-col gap-6">
             <Link href="/settings/workspaceAskAgent" className="inline-flex w-fit items-center gap-1.5 text-sm text-link hover:underline">
                 <ArrowLeftIcon className="h-4 w-4" />
-                Back to Ask Sourcebot
+                {t('askPage.toolPermissions.back')}
             </Link>
 
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -491,7 +497,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                     </div>
                     <p className="mt-1 truncate text-sm text-muted-foreground">{data.server.serverUrl}</p>
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                        <span>{formatCount(tools.length)} {pluralize(tools.length, 'tool')}</span>
+                        <span>{t('askPage.toolPermissions.toolsCount', { count: tools.length })}</span>
                         <PermissionCount permission="ALLOWED" count={permissionCounts.ALLOWED} />
                         <PermissionCount permission="NEEDS_APPROVAL" count={permissionCounts.NEEDS_APPROVAL} />
                         <PermissionCount permission="DISABLED" count={permissionCounts.DISABLED} />
@@ -500,7 +506,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                 {isSaving && (
                     <div className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
                         <Loader2Icon className="h-3.5 w-3.5 animate-spin" />
-                        Saving
+                        {t('askPage.toolPermissions.saving')}
                     </div>
                 )}
             </div>
@@ -510,8 +516,8 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
             {metadataStatus.status !== 'available' && (
                 <div className="rounded-md border bg-muted/40 p-3 text-sm text-muted-foreground">
                     {metadataStatus.status === 'not_connected'
-                        ? "Connect as an admin to refresh this connector's tool list."
-                        : 'The latest tool list could not be refreshed.'}
+                        ? t('askPage.toolPermissions.notConnected')
+                        : t('askPage.toolPermissions.refreshFailed')}
                 </div>
             )}
 
@@ -521,7 +527,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                     <Input
                         value={searchInput}
                         onChange={(event) => setSearchInput(event.target.value)}
-                        placeholder="Search tools"
+                        placeholder={t('askPage.toolPermissions.searchPlaceholder')}
                         className="pl-8"
                     />
                 </div>
@@ -531,9 +537,9 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="ALL">All permissions</SelectItem>
+                            <SelectItem value="ALL">{t('askPage.toolPermissions.allPermissions')}</SelectItem>
                             {MCP_SERVER_TOOL_PERMISSION_OPTIONS.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                                <SelectItem key={option.value} value={option.value}>{t(`askPage.toolPermissions.${option.labelKey}`)}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
@@ -543,7 +549,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
             <div className="space-y-4">
                 {filteredTools.length === 0 ? (
                     <div className="rounded-md border px-3 py-10 text-center text-sm text-muted-foreground">
-                        {tools.length === 0 ? 'No tools discovered yet.' : 'No matching tools.'}
+                        {tools.length === 0 ? t('askPage.toolPermissions.noTools') : t('askPage.toolPermissions.noMatchingTools')}
                     </div>
                 ) : (
                     filteredToolGroups.map((group) => {
@@ -577,10 +583,10 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                                             <Button
                                                 variant="ghost"
                                                 className="mr-2 h-8 shrink-0 px-2 text-xs"
-                                                aria-label={`Change permissions for visible ${group.label}`}
+                                                aria-label={t('askPage.toolPermissions.changeForGroup', { group: group.label })}
                                             >
                                                 <PermissionSummaryIcon className="mr-1 h-3.5 w-3.5" />
-                                                {permissionSummary.label}
+                                                {t(`askPage.toolPermissions.${permissionSummary.label}`)}
                                                 <ChevronDownIcon className="ml-1 h-3.5 w-3.5" />
                                             </Button>
                                         </DropdownMenuTrigger>
@@ -591,7 +597,7 @@ export function McpToolPermissionsPage({ serverId }: McpToolPermissionsPageProps
                                                 return (
                                                     <DropdownMenuItem key={option.value} onClick={() => handleApplyToTools(group.tools, option.value)}>
                                                         <Icon className="mr-2 h-4 w-4" />
-                                                        {option.label}
+                                                        {t(`askPage.toolPermissions.${option.labelKey}`)}
                                                     </DropdownMenuItem>
                                                 );
                                             })}

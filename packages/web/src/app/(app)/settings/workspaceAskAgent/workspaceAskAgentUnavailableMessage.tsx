@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CableIcon } from "lucide-react";
+import { getTranslations } from "@/i18n/server";
 
-export function WorkspaceAskAgentUnavailableMessage() {
+export async function WorkspaceAskAgentUnavailableMessage() {
+    const t = await getTranslations("settings");
     return (
         <div className="flex items-center justify-center min-h-[60vh] py-12">
             <Card className="w-full max-w-lg bg-card border-border p-2">
@@ -12,15 +14,15 @@ export function WorkspaceAskAgentUnavailableMessage() {
                         </div>
                     </div>
                     <CardTitle className="text-xl font-semibold text-card-foreground">
-                        Ask Sourcebot Connectors Are Unavailable
+                        {t("askPage.unavailable.title")}
                     </CardTitle>
                     <CardDescription className="text-muted-foreground mt-2">
-                        OAuth-backed connectors are not supported on this Sourcebot instance.
+                        {t("askPage.unavailable.description")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                     <p className="text-sm text-muted-foreground">
-                        Use Sourcebot API keys for agent access on this deployment.
+                        {t("askPage.unavailable.body")}
                     </p>
                 </CardContent>
             </Card>

@@ -3,6 +3,7 @@
 // @techdebt : this seems to be an unused copy
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 import {
     Command,
     CommandGroup,
@@ -36,6 +37,7 @@ export function PrefabConnectorPopover({
     onSelectPrefabServer,
     children,
 }: PrefabConnectorPopoverProps) {
+    const t = useTranslations("settings");
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
 
@@ -75,7 +77,7 @@ export function PrefabConnectorPopover({
         <Popover open={isOpen} onOpenChange={handleOpenChange}>
             <PopoverTrigger asChild>
                 {children ?? (
-                    <Button size="icon" variant="ghost" disabled={disabled} aria-label="Add connector">
+                    <Button size="icon" variant="ghost" disabled={disabled} aria-label={t("askPage.prefab.addConnectorAriaLabel")}>
                         <PlusIcon className="h-4 w-4" />
                     </Button>
                 )}
@@ -83,7 +85,7 @@ export function PrefabConnectorPopover({
             <PopoverContent className="w-[360px] p-0" align="end">
                 <Command shouldFilter={false}>
                     <CommandInput
-                        placeholder="Search connectors"
+                        placeholder={t("askPage.prefab.searchPlaceholder")}
                         value={search}
                         onValueChange={setSearch}
                     />
@@ -118,7 +120,7 @@ export function PrefabConnectorPopover({
                                 className="cursor-pointer"
                             >
                                 <PlusIcon className="h-4 w-4 text-muted-foreground" />
-                                <span>Custom URL...</span>
+                                <span>{t("askPage.prefab.customUrl")}</span>
                             </CommandItem>
                         </CommandGroup>
                     </CommandList>

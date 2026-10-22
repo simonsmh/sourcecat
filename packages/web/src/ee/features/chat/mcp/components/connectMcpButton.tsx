@@ -4,6 +4,7 @@ import { LoadingButton } from '@/components/ui/loading-button';
 import { ExternalLink } from 'lucide-react';
 import type { ButtonProps } from '@/components/ui/button';
 import { useConnectMcp } from '@/ee/features/chat/mcp/hooks/useConnectMcp';
+import { useTranslations } from '@/i18n/I18nProvider';
 
 interface ConnectMcpButtonProps {
     serverId: string;
@@ -17,10 +18,11 @@ interface ConnectMcpButtonProps {
 
 export function ConnectMcpButton({ serverId, isConnected, isAuthExpired, size, variant, returnTo, className }: ConnectMcpButtonProps) {
     const { connect, loadingServerId } = useConnectMcp({ returnTo });
+    const t = useTranslations("settings");
     const loading = loadingServerId === serverId;
 
     const isSuggested = !isConnected && !isAuthExpired;
-    const buttonLabel = isSuggested ? "Connect" : "Reconnect";
+    const buttonLabel = isSuggested ? t("askPage.account.connect") : t("askPage.account.reconnect");
     const defaultVariant = isConnected ? "outline" as const : undefined;
 
     return (

@@ -2,6 +2,8 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testi
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
 import type { ReactNode } from 'react';
 import type { SharedAgentSkillManagementItem } from '@/ee/features/chat/skills/types';
 
@@ -72,10 +74,12 @@ function renderWorkspaceAskAgentPage({
     return render(
         <QueryClientProvider client={queryClient}>
             <TooltipProvider>
+                <I18nProvider locale="en" messages={enMessages}>
                 <WorkspaceAskAgentPage
                     oauthRedirectUrl="http://localhost/api/oauth/callback"
                     initialOrgSkills={orgSkills}
                 />
+                </I18nProvider>
             </TooltipProvider>
         </QueryClientProvider>,
     );

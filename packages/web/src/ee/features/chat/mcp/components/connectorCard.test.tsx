@@ -1,7 +1,23 @@
 import { afterEach, describe, expect, test } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { ConnectorCard } from './connectorCard';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
+import type { ReactElement, ReactNode } from 'react';
 import type { McpServerToolUsageSummary, ServerToolsEntry } from '@/ee/features/chat/mcp/types';
+
+function i18nWrapper({ children }: { children: ReactNode }) {
+    return (
+        <I18nProvider locale="en" messages={enMessages}>
+            {children}
+        </I18nProvider>
+    );
+}
+
+function renderWithI18n(ui: ReactElement) {
+    return render(ui, { wrapper: i18nWrapper });
+}
+
 
 afterEach(() => {
     cleanup();
@@ -32,7 +48,7 @@ function usageSummary(): McpServerToolUsageSummary {
 
 describe('ConnectorCard', () => {
     test('shows only one expanded tools or usage panel at a time', () => {
-        render(
+        renderWithI18n(
             <ConnectorCard
                 faviconUrl={undefined}
                 name="Linear"
@@ -70,7 +86,7 @@ describe('ConnectorCard', () => {
     });
 
     test('hides usage disclosure for connectors with no tool calls', () => {
-        render(
+        renderWithI18n(
             <ConnectorCard
                 faviconUrl={undefined}
                 name="Linear"

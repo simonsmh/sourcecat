@@ -1,7 +1,23 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { ConnectorToolUsageList, ConnectorToolUsageTrigger } from './connectorToolUsageDisclosure';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
+import type { ReactElement, ReactNode } from 'react';
 import type { McpServerToolUsageSummary, ServerToolsEntry } from '@/ee/features/chat/mcp/types';
+
+function i18nWrapper({ children }: { children: ReactNode }) {
+    return (
+        <I18nProvider locale="en" messages={enMessages}>
+            {children}
+        </I18nProvider>
+    );
+}
+
+function renderWithI18n(ui: ReactElement) {
+    return render(ui, { wrapper: i18nWrapper });
+}
+
 
 afterEach(() => {
     cleanup();
@@ -34,7 +50,7 @@ function availableEntry(): Extract<ServerToolsEntry, { status: 'available' }> {
 describe('ConnectorToolUsageTrigger', () => {
     test('renders total tool calls and toggles open state', () => {
         const onOpenChange = vi.fn();
-        render(
+        renderWithI18n(
             <ConnectorToolUsageTrigger
                 toolUsage={usageSummary()}
                 isOpen={false}
@@ -50,7 +66,7 @@ describe('ConnectorToolUsageTrigger', () => {
 
 describe('ConnectorToolUsageList', () => {
     test('renders used tools with usage bars and footer', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolUsageList
                 toolUsage={usageSummary()}
                 toolEntry={availableEntry()}
@@ -65,7 +81,7 @@ describe('ConnectorToolUsageList', () => {
     });
 
     test('renders empty usage state', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolUsageList
                 toolUsage={usageSummary({ totalCalls: 0, usedToolCount: 0, tools: [] })}
             />,
@@ -75,7 +91,7 @@ describe('ConnectorToolUsageList', () => {
     });
 
     test('does not render when closed', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolUsageList
                 toolUsage={usageSummary()}
                 isOpen={false}

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMcpConfiguration, getMcpServersWithStatus } from "@/app/api/(client)/client";
 import { useToast } from "@/components/hooks/use-toast";
+import { useTranslations } from "@/i18n/I18nProvider";
 import {
     AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
     AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -29,7 +30,6 @@ import { ConnectorCard } from "@/ee/features/chat/mcp/components/connectorCard";
 import { useMcpToolMetadata } from "@/ee/features/chat/mcp/hooks/useMcpToolMetadata";
 import { invalidateMcpConfigurationQueries, mcpQueryKeys } from "@/ee/features/chat/mcp/queryKeys";
 import { buildMcpOAuthScopeEntries, getMcpRequestedOAuthScopes, normalizeMcpRequestedOAuthScopes, OFFLINE_ACCESS_SCOPE } from "@/ee/features/chat/mcp/oauthScopeUtils";
-import { pluralize } from "@/features/chat/mcp/utils";
 import { cn, isServiceError } from "@/lib/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertTriangleIcon, CableIcon, CopyIcon, InfoIcon, KeyRoundIcon, Loader2, MoreHorizontalIcon, PlusIcon, Trash2Icon, WrenchIcon } from "lucide-react";
@@ -93,6 +93,7 @@ function OAuthScopesInput({
     onCustomOAuthScopeInputChange,
     onRemoveOAuthScope,
 }: OAuthScopesInputProps) {
+    const t = useTranslations("settings");
     const [oauthScopeSearchInput, setOAuthScopeSearchInput] = useState("");
     const selectedOAuthScopeSet = new Set(selectedOAuthScopes);
     const requestedOAuthScopes = getMcpRequestedOAuthScopes(selectedOAuthScopes, customOAuthScopeInput);
@@ -129,17 +130,17 @@ function OAuthScopesInput({
         <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
                 <div>
-                    <Label>OAuth scopes</Label>
-                    <p className="text-xs text-muted-foreground">{requestedOAuthScopes.length} requested</p>
+                    <Label>{t("askPage.scopes.label")}</Label>
+                    <p className="text-xs text-muted-foreground">{t("askPage.scopes.requested", { count: requestedOAuthScopes.length })}</p>
                 </div>
                 <div className="flex items-center gap-1">
                     {discoveredOAuthScopes.length > 0 && (
                         <Button type="button" variant="ghost" size="sm" onClick={handleSelectAll} disabled={filteredOAuthScopes.length === 0}>
-                            {oauthScopeSearchInput.trim() ? "Select shown" : "Select all"}
+                            {oauthScopeSearchInput.trim() ? t("askPage.scopes.selectShown") : t("askPage.scopes.selectAll")}
                         </Button>
                     )}
                     <Button type="button" variant="ghost" size="sm" onClick={handleClear} disabled={requestedOAuthScopes.length === 0}>
-                        Clear
+                        {t("askPage.scopes.clear")}
                     </Button>
                 </div>
             </div>
@@ -149,7 +150,7 @@ function OAuthScopesInput({
                     <Input
                         value={oauthScopeSearchInput}
                         onChange={(event) => setOAuthScopeSearchInput(event.target.value)}
-                        placeholder="Search scopes"
+                        placeholder={t("askPage.scopes.searchPlaceholder")}
                         className="h-9"
                     />
                     <div className="max-h-56 overflow-y-auto overscroll-contain rounded-md border">
@@ -163,7 +164,7 @@ function OAuthScopesInput({
                                         <Checkbox
                                             checked={selectedOAuthScopeSet.has(scope)}
                                             onCheckedChange={(checked) => handleCheckedChange(scope, checked === true)}
-                                            aria-label={`Request ${scope}`}
+                                            aria-label={t("askPage.scopes.requestAriaLabel", { scope })}
                                         />
                                         <span className="break-all font-mono text-xs">{scope}</span>
                                         {scope === OFFLINE_ACCESS_SCOPE && (
@@ -174,7 +175,7 @@ function OAuthScopesInput({
                                                     </span>
                                                 </TooltipTrigger>
                                                 <TooltipContent className="max-w-64">
-                                                    Required for refresh tokens. Without this scope, users must re-authenticate whenever their access token expires, and some connectors reject authorization entirely.
+                                                    {t("askPage.scopes.offlineAccessTooltip")}
                                                 </TooltipContent>
                                             </Tooltip>
                                         )}
@@ -186,7 +187,7 @@ function OAuthScopesInput({
                                             size="icon"
                                             className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
                                             onClick={() => onRemoveOAuthScope(scope)}
-                                            aria-label={`Remove ${scope}`}
+                                            aria-label={t("askPage.scopes.removeAriaLabel", { scope })}
                                         >
                                             <Trash2Icon className="h-3.5 w-3.5" />
                                         </Button>
@@ -195,7 +196,7 @@ function OAuthScopesInput({
                             ))
                         ) : (
                             <div className="px-3 py-6 text-center text-sm text-muted-foreground">
-                                No matching scopes
+                                {t("askPage.scopes.noMatching")}
                             </div>
                         )}
                     </div>
@@ -203,12 +204,12 @@ function OAuthScopesInput({
             )}
 
             <div className="space-y-2">
-                <Label htmlFor={customOAuthScopesInputId}>Custom scopes</Label>
+                <Label htmlFor={customOAuthScopesInputId}>{t("askPage.scopes.custom")}</Label>
                 <Textarea
                     id={customOAuthScopesInputId}
                     value={customOAuthScopeInput}
                     onChange={(event) => onCustomOAuthScopeInputChange(event.target.value)}
-                    placeholder="e.g. repo, channels:read"
+                    placeholder={t("askPage.scopes.customPlaceholder")}
                     className="min-h-20 resize-y font-mono text-sm"
                 />
             </div>
@@ -217,8 +218,8 @@ function OAuthScopesInput({
                 <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
                     <AlertTriangleIcon className="h-3.5 w-3.5 shrink-0 text-yellow-600 dark:text-yellow-400" />
                     {isOfflineAccessOnly
-                        ? "Only offline_access is selected. Without any resource scopes, the connector may not be able to access anything."
-                        : "No scopes are selected. Without any resource scopes, the connector may not be able to access anything."}
+                        ? t("askPage.scopes.offlineOnlyWarning")
+                        : t("askPage.scopes.noneSelectedWarning")}
                 </p>
             )}
         </div>
@@ -256,6 +257,7 @@ function WorkspaceConnectorCard({
     onEditToolPermissions,
     onDelete,
 }: WorkspaceConnectorCardProps) {
+    const t = useTranslations("settings");
     const isConnected = status?.isConnected === true;
     const isAuthExpired = status?.isAuthExpired === true;
     const isStatusUnavailable = isAskAgentAvailable !== true || isStatusLoading || isStatusError || !status;
@@ -286,8 +288,8 @@ function WorkspaceConnectorCard({
                         server.savedConnectionCount > 0 ? "bg-green-500/80" : "bg-muted-foreground",
                     )} />
                     {server.savedConnectionCount > 0
-                        ? `${server.savedConnectionCount} ${pluralize(server.savedConnectionCount, "member")} connected`
-                        : "No members connected"}
+                        ? t("askPage.membersConnected", { count: server.savedConnectionCount })
+                        : t("askPage.noMembersConnected")}
                 </span>
             }
             actionButtons={
@@ -309,7 +311,7 @@ function WorkspaceConnectorCard({
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8"
-                                aria-label={`Open actions for ${serverLabel}`}
+                                aria-label={t("askPage.openActionsFor", { name: serverLabel })}
                             >
                                 <MoreHorizontalIcon className="h-4 w-4" />
                             </Button>
@@ -317,27 +319,27 @@ function WorkspaceConnectorCard({
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => onCopyUrl(server.serverUrl)}>
                                 <CopyIcon className="h-4 w-4 mr-2" />
-                                Copy URL
+                                {t("askPage.copyUrl")}
                             </DropdownMenuItem>
                             {isAskAgentAvailable && (
                                 <>
                                     <DropdownMenuItem onClick={() => onEditOAuthScopes(server)}>
                                         <KeyRoundIcon className="h-4 w-4 mr-2" />
-                                        Edit OAuth scopes
+                                        {t("askPage.editOAuthScopes")}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => onEditToolPermissions(server)}>
                                         <WrenchIcon className="h-4 w-4 mr-2" />
-                                        Edit tool permissions
+                                        {t("askPage.editToolPermissions")}
                                     </DropdownMenuItem>
                                 </>
                             )}
                             <DropdownMenuItem
                                 className="text-destructive focus:text-destructive"
                                 onClick={() => onDelete(server)}
-                                aria-label={`Remove ${serverLabel}`}
+                                aria-label={t("askPage.removeAriaLabel", { name: serverLabel })}
                             >
                                 <Trash2Icon className="h-4 w-4 mr-2" />
-                                Remove
+                                {t("askPage.remove")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -349,6 +351,8 @@ function WorkspaceConnectorCard({
 
 export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callbackMessage, oauthRedirectUrl, initialOrgSkills }: WorkspaceAskAgentPageProps) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const queryClient = useQueryClient();
     const router = useRouter();
     const didHandleCallbackRef = useRef(false);
@@ -359,11 +363,11 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
         }
         if (callbackStatus === 'connected') {
             didHandleCallbackRef.current = true;
-            toast({ description: `Successfully connected${callbackServer ? ` to ${callbackServer}` : ''}.` });
+            toast({ description: callbackServer ? t("askPage.connectedToToast", { server: callbackServer }) : t("askPage.connectedToast") });
             clearCallbackParams();
         } else if (callbackStatus === 'error') {
             didHandleCallbackRef.current = true;
-            toast({ title: "Connection failed", description: callbackMessage ?? 'Failed to connect connector.', variant: "destructive" });
+            toast({ title: t("askPage.connectionFailed"), description: callbackMessage ?? t("askPage.connectFailedFallback"), variant: "destructive" });
             clearCallbackParams();
         }
     }, [callbackStatus, callbackServer, callbackMessage, toast]);
@@ -523,14 +527,14 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
 
     const handleCreateStaticOAuthServer = async () => {
         if (!pendingClientCredentialsServer) {
-            toast({ title: "Error", description: "Missing connector details", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.missingDetails"), variant: "destructive" });
             return;
         }
 
         if (process.env.NODE_ENV === "production" && window.location.protocol !== "https:") {
             toast({
-                title: "HTTPS required",
-                description: "Static OAuth client credentials can only be submitted over HTTPS in production.",
+                title: t("askPage.httpsRequired"),
+                description: t("askPage.httpsRequiredDescription"),
                 variant: "destructive",
             });
             return;
@@ -547,14 +551,14 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 availableOAuthScopes: pendingClientCredentialsServer.discoveredOAuthScopes,
             });
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to add connector: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.addFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
 
             await invalidateMcpConfigurationQueries(queryClient);
             handleCloseClientCredentialsDialog();
         } catch {
-            toast({ title: "Error", description: "Failed to add connector.", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.addFailedGeneric"), variant: "destructive" });
         } finally {
             setIsCreating(false);
         }
@@ -562,7 +566,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
 
     const handleCreateDynamicOAuthServer = async () => {
         if (!pendingOAuthScopeSelectionServer) {
-            toast({ title: "Error", description: "Missing connector details", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.missingDetails"), variant: "destructive" });
             return;
         }
 
@@ -575,14 +579,14 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 pendingOAuthScopeSelectionServer.discoveredOAuthScopes,
             );
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to add connector: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.addFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
 
             await invalidateMcpConfigurationQueries(queryClient);
             handleCloseOAuthScopeSelectionDialog();
         } catch {
-            toast({ title: "Error", description: "Failed to add connector.", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.addFailedGeneric"), variant: "destructive" });
         } finally {
             setIsCreating(false);
         }
@@ -598,7 +602,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
         const normalizedServerUrl = serverUrl.trim();
 
         if (!displayName || !normalizedServerUrl) {
-            toast({ title: "Error", description: "Name and connector URL are required", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.nameAndUrlRequired"), variant: "destructive" });
             return;
         }
 
@@ -607,7 +611,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             if (options.checkDynamicClientRegistration) {
                 const dcrSupport = await checkMcpServerDynamicClientRegistration(normalizedServerUrl);
                 if (isServiceError(dcrSupport)) {
-                    toast({ title: "Error", description: `Failed to check connector: ${dcrSupport.message}`, variant: "destructive" });
+                    toast({ title: t("askPage.error"), description: t("askPage.checkFailed", { message: dcrSupport.message }), variant: "destructive" });
                     return;
                 }
 
@@ -639,14 +643,14 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
 
             const result = await createMcpServer(displayName, normalizedServerUrl);
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to add connector: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.addFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
 
             await invalidateMcpConfigurationQueries(queryClient);
             onSuccess?.();
         } catch (error) {
-            toast({ title: "Error", description: `Failed to add connector: ${error}`, variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.addFailed", { message: `${error}` }), variant: "destructive" });
         } finally {
             setIsCreating(false);
         }
@@ -666,7 +670,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
 
     const handleUpdateOAuthScopes = async () => {
         if (!serverToEditOAuthScopes) {
-            toast({ title: "Error", description: "Missing connector details", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.missingDetails"), variant: "destructive" });
             return;
         }
 
@@ -677,7 +681,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 editedOAuthScopeEntries,
             );
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to update OAuth scopes: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.updateScopesFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
 
@@ -685,11 +689,11 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             handleCloseEditOAuthScopesDialog();
             toast({
                 description: result.invalidatedConnectionCount > 0
-                    ? `OAuth scopes updated. ${result.invalidatedConnectionCount} saved ${pluralize(result.invalidatedConnectionCount, "connection")} will need to reconnect.`
-                    : "OAuth scopes updated.",
+                    ? t("askPage.scopesUpdatedWithReconnect", { count: result.invalidatedConnectionCount })
+                    : t("askPage.scopesUpdated"),
             });
         } catch {
-            toast({ title: "Error", description: "Failed to update OAuth scopes.", variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.updateScopesFailedGeneric"), variant: "destructive" });
         } finally {
             setIsUpdatingOAuthScopes(false);
         }
@@ -700,7 +704,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
         try {
             const result = await deleteMcpServer(serverId);
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to remove connector: ${result.message}`, variant: "destructive" });
+                toast({ title: t("askPage.error"), description: t("askPage.removeFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
 
@@ -717,7 +721,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 router.refresh();
             }
         } catch (error) {
-            toast({ title: "Error", description: `Failed to remove connector: ${error}`, variant: "destructive" });
+            toast({ title: t("askPage.error"), description: t("askPage.removeFailed", { message: `${error}` }), variant: "destructive" });
         } finally {
             setDeletingServerId(null);
         }
@@ -725,11 +729,11 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
 
     const handleCopyUrl = (serverUrl: string) => {
         navigator.clipboard.writeText(serverUrl);
-        toast({ title: "Copied", description: "Connector URL copied to clipboard." });
+        toast({ title: t("askPage.copied"), description: t("askPage.urlCopied") });
     };
 
     if (isError) {
-        return <div>Error loading Ask Sourcebot settings</div>;
+        return <div>{t("askPage.loadError")}</div>;
     }
 
     const prefabPopoverProps = {
@@ -743,9 +747,9 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
         <div className="flex flex-col gap-6">
             {/* Page header */}
             <div>
-                <h3 className="text-lg font-medium">Ask Sourcebot</h3>
+                <h3 className="text-lg font-medium">{t("askPage.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                    Configure what external tools Ask Sourcebot can use across this workspace.
+                    {t("askPage.workspaceDescription")}
                 </p>
             </div>
 
@@ -756,9 +760,9 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 <div className="flex items-start gap-3 rounded-lg border bg-muted/40 p-4">
                     <AlertTriangleIcon className="h-4 w-4 text-muted-foreground mt-0.5" />
                     <div>
-                        <p className="text-sm font-medium">Ask Sourcebot connectors are unavailable</p>
+                        <p className="text-sm font-medium">{t("askPage.unavailableTitle")}</p>
                         <p className="text-sm text-muted-foreground">
-                            You can remove existing approved connectors and stored credentials, but cannot add new connectors.
+                            {t("askPage.unavailableDescription")}
                         </p>
                     </div>
                 </div>
@@ -774,9 +778,9 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             {/* Connectors section */}
             <div className="space-y-6">
                 <div>
-                    <h4 className="text-sm font-semibold text-foreground">Connectors</h4>
+                    <h4 className="text-sm font-semibold text-foreground">{t("askPage.connectors")}</h4>
                     <p className="text-sm text-muted-foreground">
-                        Connectors are MCP servers that let Ask Sourcebot use approved external tools alongside your indexed code.
+                        {t("askPage.connectorsDescription")}
                     </p>
                 </div>
 
@@ -784,18 +788,18 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                 <div>
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <h4 className="text-sm font-semibold text-foreground">Allowed connectors</h4>
+                            <h4 className="text-sm font-semibold text-foreground">{t("askPage.allowedConnectors")}</h4>
                             <p className="text-sm text-muted-foreground">
                                 {isAskAgentUnavailable
-                                    ? "Remove existing connector approvals and their stored credentials."
-                                    : "Approve connector URLs that workspace members can connect to."}
+                                    ? t("askPage.allowedConnectorsUnavailableDescription")
+                                    : t("askPage.allowedConnectorsDescription")}
                             </p>
                         </div>
                         {canCreateConnectors && (
                             <PrefabConnectorPopover {...prefabPopoverProps}>
                                 <Button variant="outline" size="sm">
                                     <PlusIcon className="h-4 w-4 mr-1.5" />
-                                    Add connector
+                                    {t("askPage.addConnector")}
                                 </Button>
                             </PrefabConnectorPopover>
                         )}
@@ -822,11 +826,11 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                                     <div className="rounded-full bg-muted p-3 mb-4">
                                         <CableIcon className="h-6 w-6 text-muted-foreground" />
                                     </div>
-                                    <p className="text-sm font-medium mb-1">No connectors configured yet</p>
+                                    <p className="text-sm font-medium mb-1">{t("askPage.noConnectors")}</p>
                                     <p className="text-sm text-muted-foreground max-w-sm">
                                         {isAskAgentUnavailable
-                                            ? "Ask Sourcebot connectors are unavailable on this Sourcebot instance."
-                                            : "Add a workspace-approved connector so members can use it with Ask Sourcebot."}
+                                            ? t("askPage.noConnectorsUnavailable")
+                                            : t("askPage.noConnectorsDescription")}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -858,19 +862,19 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             <AlertDialog open={!!serverToDelete} onOpenChange={(open) => { if (!open) { setServerToDelete(null); } }}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Remove Connector</AlertDialogTitle>
+                        <AlertDialogTitle>{t("askPage.removeConnectorTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Are you sure you want to remove <span className="font-semibold text-foreground">{serverToDelete?.name || serverToDelete?.serverUrl}</span>? Workspace members will lose access and stored credentials for this connector.
+                            {t("askPage.removeConnectorDescription", { name: serverToDelete?.name || serverToDelete?.serverUrl || "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={() => { if (serverToDelete) { handleDelete(serverToDelete.id); } }}
                             disabled={deletingServerId !== null}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            {deletingServerId ? "Removing..." : "Remove"}
+                            {deletingServerId ? t("askPage.removing") : t("askPage.remove")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -880,23 +884,23 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             <Dialog open={isCreateDialogOpen} onOpenChange={handleCreateDialogOpenChange}>
                 <DialogContent className={cn(scrollableConnectorDialogContentClassName, "sm:max-w-md")}>
                     <DialogHeader className="shrink-0">
-                        <DialogTitle>Add Connector</DialogTitle>
+                        <DialogTitle>{t("askPage.addConnectorTitle")}</DialogTitle>
                         <DialogDescription>
-                            Add a workspace-approved connector that members can use with Ask Sourcebot.
+                            {t("askPage.addConnectorDescription")}
                         </DialogDescription>
                     </DialogHeader>
                     <div className={cn(scrollableConnectorDialogBodyClassName, "space-y-4")}>
                         <div className="space-y-2">
-                            <Label htmlFor="mcp-configuration-name">Name</Label>
+                            <Label htmlFor="mcp-configuration-name">{t("askPage.name")}</Label>
                             <Input
                                 id="mcp-configuration-name"
                                 value={newServerName}
                                 onChange={(event) => setNewServerName(event.target.value)}
-                                placeholder="e.g. Linear"
+                                placeholder={t("askPage.namePlaceholder")}
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="mcp-configuration-url">Connector URL</Label>
+                            <Label htmlFor="mcp-configuration-url">{t("askPage.connectorUrl")}</Label>
                             <Input
                                 id="mcp-configuration-url"
                                 value={newServerUrl}
@@ -906,10 +910,10 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                         </div>
                     </div>
                     <DialogFooter className="shrink-0 sm:justify-between">
-                        <Button variant="outline" onClick={handleCloseCreateDialog}>Cancel</Button>
+                        <Button variant="outline" onClick={handleCloseCreateDialog}>{tCommon("cancel")}</Button>
                         <Button onClick={handleCreate} disabled={isCreating || !newServerName.trim() || !newServerUrl.trim()}>
                             {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                            {isCreating ? "Checking..." : "Add"}
+                            {isCreating ? t("askPage.checking") : t("askPage.add")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -926,9 +930,9 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             }}>
                 <DialogContent className={cn(scrollableConnectorDialogContentClassName, "sm:max-w-lg")}>
                     <DialogHeader className="shrink-0">
-                        <DialogTitle>OAuth Scopes</DialogTitle>
+                        <DialogTitle>{t("askPage.oauthScopesTitle")}</DialogTitle>
                         <DialogDescription>
-                            Choose the OAuth scopes Sourcebot should request for this connector.
+                            {t("askPage.oauthScopesDescription")}
                         </DialogDescription>
                     </DialogHeader>
                     <div className={cn(scrollableConnectorDialogBodyClassName, "space-y-4")}>
@@ -948,10 +952,10 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                         />
                     </div>
                     <DialogFooter className="shrink-0 sm:justify-between">
-                        <Button variant="outline" onClick={handleCloseOAuthScopeSelectionDialog}>Cancel</Button>
+                        <Button variant="outline" onClick={handleCloseOAuthScopeSelectionDialog}>{tCommon("cancel")}</Button>
                         <Button onClick={handleCreateDynamicOAuthServer} disabled={isCreating}>
                             {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                            Add
+                            {t("askPage.add")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -966,9 +970,9 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             }}>
                 <DialogContent className={cn(scrollableConnectorDialogContentClassName, "sm:max-w-lg")}>
                     <DialogHeader className="shrink-0">
-                        <DialogTitle>Edit OAuth Scopes</DialogTitle>
+                        <DialogTitle>{t("askPage.editOAuthScopesTitle")}</DialogTitle>
                         <DialogDescription>
-                            Changing OAuth scopes clears saved member authorizations so users can reconnect with the updated scopes.
+                            {t("askPage.editOAuthScopesDescription")}
                         </DialogDescription>
                     </DialogHeader>
                     <div className={cn(scrollableConnectorDialogBodyClassName, "space-y-4")}>
@@ -991,16 +995,16 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                             <div className="flex items-start gap-2 rounded-md border bg-muted/40 p-3 text-sm text-muted-foreground">
                                 <AlertTriangleIcon className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
                                 <p>
-                                    Applying this change will require <span className="font-medium text-destructive">{oauthScopeUpdateReauthConnectionCount} saved {pluralize(oauthScopeUpdateReauthConnectionCount, "connection")}</span> to reconnect.
+                                    {t("askPage.reauthWarning", { count: oauthScopeUpdateReauthConnectionCount })}
                                 </p>
                             </div>
                         )}
                     </div>
                     <DialogFooter className="shrink-0 sm:justify-between">
-                        <Button variant="outline" onClick={handleCloseEditOAuthScopesDialog}>Cancel</Button>
+                        <Button variant="outline" onClick={handleCloseEditOAuthScopesDialog}>{tCommon("cancel")}</Button>
                         <Button onClick={handleUpdateOAuthScopes} disabled={isUpdatingOAuthScopes}>
                             {isUpdatingOAuthScopes && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                            Apply
+                            {tCommon("apply")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -1017,7 +1021,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             }}>
                 <DialogContent className={cn(scrollableConnectorDialogContentClassName, "sm:max-w-lg")}>
                     <DialogHeader className="shrink-0">
-                        <DialogTitle>OAuth Client Credentials Required</DialogTitle>
+                        <DialogTitle>{t("askPage.clientCredentialsTitle")}</DialogTitle>
                     </DialogHeader>
                     <div className={cn(scrollableConnectorDialogBodyClassName, "space-y-4")}>
                         <DialogDescription asChild>
@@ -1040,11 +1044,11 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                                                 <code className="bg-muted rounded px-1 py-0.5 text-xs break-all">{children}</code>
                                                 <button
                                                     type="button"
-                                                    aria-label="Copy redirect URL"
+                                                    aria-label={t("askPage.copyRedirectUrl")}
                                                     className="text-muted-foreground hover:text-foreground"
                                                     onClick={() => {
                                                         navigator.clipboard.writeText(String(children));
-                                                        toast({ title: "Copied", description: "Redirect URL copied to clipboard." });
+                                                        toast({ title: t("askPage.copied"), description: t("askPage.redirectUrlCopied") });
                                                     }}
                                                 >
                                                     <CopyIcon className="h-3 w-3" />
@@ -1064,24 +1068,24 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                             </div>
                         )}
                         <div className="space-y-2">
-                            <Label htmlFor="mcp-configuration-client-id">Client ID</Label>
+                            <Label htmlFor="mcp-configuration-client-id">{t("askPage.clientId")}</Label>
                             <Input
                                 id="mcp-configuration-client-id"
                                 value={clientId}
                                 autoComplete="off"
                                 onChange={(event) => setClientId(event.target.value)}
-                                placeholder="OAuth client ID"
+                                placeholder={t("askPage.clientIdPlaceholder")}
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="mcp-configuration-client-secret">Client Secret</Label>
+                            <Label htmlFor="mcp-configuration-client-secret">{t("askPage.clientSecret")}</Label>
                             <Input
                                 id="mcp-configuration-client-secret"
                                 type="password"
                                 value={clientSecret}
                                 autoComplete="new-password"
                                 onChange={(event) => setClientSecret(event.target.value)}
-                                placeholder="OAuth client secret"
+                                placeholder={t("askPage.clientSecretPlaceholder")}
                             />
                         </div>
                         <OAuthScopesInput
@@ -1094,13 +1098,13 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
                         />
                     </div>
                     <DialogFooter className="shrink-0 sm:justify-between">
-                        <Button variant="outline" onClick={handleCloseClientCredentialsDialog}>Cancel</Button>
+                        <Button variant="outline" onClick={handleCloseClientCredentialsDialog}>{tCommon("cancel")}</Button>
                         <Button
                             onClick={handleCreateStaticOAuthServer}
                             disabled={isCreating || !clientId.trim() || !clientSecret.trim()}
                         >
                             {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                            Add
+                            {t("askPage.add")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

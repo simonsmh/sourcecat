@@ -10,6 +10,21 @@ vi.mock('@/ee/features/chat/mcp/actions', () => ({
 }));
 
 const { AccountAskAgentEmptyState } = await import('./accountAskAgentPage');
+const { I18nProvider } = await import('@/i18n/I18nProvider');
+const enMessages = (await import('@/i18n/messages/en.json')).default;
+
+function i18nWrapper({ children }: { children: React.ReactNode }) {
+    return (
+        <I18nProvider locale="en" messages={enMessages}>
+            {children}
+        </I18nProvider>
+    );
+}
+
+function renderWithI18n(ui: React.ReactElement) {
+    return render(ui, { wrapper: i18nWrapper });
+}
+
 
 afterEach(() => {
     cleanup();
@@ -18,7 +33,7 @@ afterEach(() => {
 
 describe('AccountAskAgentEmptyState', () => {
     test('points owners to workspace Ask Sourcebot settings', () => {
-        render(<AccountAskAgentEmptyState canManageConnectors={true} />);
+        renderWithI18n(<AccountAskAgentEmptyState canManageConnectors={true} />);
 
         expect(screen.getByText('No connectors configured yet')).toBeTruthy();
         expect(screen.getByText('Open Workspace Ask Sourcebot to approve connectors for your workspace.')).toBeTruthy();
@@ -26,7 +41,7 @@ describe('AccountAskAgentEmptyState', () => {
     });
 
     test('tells members to contact an admin', () => {
-        render(<AccountAskAgentEmptyState canManageConnectors={false} />);
+        renderWithI18n(<AccountAskAgentEmptyState canManageConnectors={false} />);
 
         expect(screen.getByText('No connectors available')).toBeTruthy();
         expect(screen.getByText(/Contact your workspace admin/)).toBeTruthy();

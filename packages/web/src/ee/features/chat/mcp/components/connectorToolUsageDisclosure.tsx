@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 import {
     formatCount,
     formatUsageSharePercent,
-    pluralize,
 } from '@/features/chat/mcp/utils';
+import { useTranslations } from '@/i18n/I18nProvider';
 import type { McpServerToolUsageSummary, ServerToolsEntry } from '@/ee/features/chat/mcp/types';
 import { BarChart3Icon, ChevronDownIcon } from 'lucide-react';
 
@@ -22,6 +22,7 @@ export function ConnectorToolUsageTrigger({
     controlsId,
     onOpenChange,
 }: ConnectorToolUsageTriggerProps) {
+    const t = useTranslations('settings');
     return (
         <button
             type="button"
@@ -31,7 +32,7 @@ export function ConnectorToolUsageTrigger({
             className="inline-flex items-center gap-1 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
             <BarChart3Icon className="h-3 w-3" />
-            {formatCount(toolUsage.totalCalls)} {pluralize(toolUsage.totalCalls, 'tool call')}
+            {t('askPage.usageDisclosure.toolCalls', { count: toolUsage.totalCalls })}
             <ChevronDownIcon className={cn("h-3 w-3 transition-transform", isOpen ? "rotate-180" : "rotate-0")} />
         </button>
     );
@@ -50,6 +51,7 @@ export function ConnectorToolUsageList({
     isOpen = true,
     id,
 }: ConnectorToolUsageListProps) {
+    const t = useTranslations('settings');
     if (!isOpen) {
         return null;
     }
@@ -59,9 +61,9 @@ export function ConnectorToolUsageList({
 
     return (
         <div id={id} className="mt-3 border-t pt-3">
-            <p className="text-xs font-medium text-foreground">Lifetime tool usage</p>
+            <p className="text-xs font-medium text-foreground">{t('askPage.usageDisclosure.lifetime')}</p>
             {toolUsage.totalCalls === 0 || toolUsage.tools.length === 0 ? (
-                <p className="mt-1 text-xs text-muted-foreground">No tool calls yet.</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t('askPage.usageDisclosure.noCalls')}</p>
             ) : (
                 <>
                     <div className="mt-2 max-h-56 space-y-2 overflow-y-auto pr-1">
@@ -101,10 +103,9 @@ export function ConnectorToolUsageList({
                         })}
                     </div>
                     <p className="mt-2 text-xs text-muted-foreground">
-                        {formatCount(toolUsage.totalCalls)} total tool calls across{' '}
                         {toolEntry
-                            ? `${formatCount(toolUsage.usedToolCount)} of ${formatCount(toolEntry.tools.length)} ${pluralize(toolEntry.tools.length, 'tool')}`
-                            : `${formatCount(toolUsage.usedToolCount)} used ${pluralize(toolUsage.usedToolCount, 'tool')}`}
+                            ? t('askPage.usageDisclosure.across', { total: toolUsage.totalCalls, used: toolUsage.usedToolCount, available: toolEntry.tools.length })
+                            : t('askPage.usageDisclosure.acrossUsedOnly', { total: toolUsage.totalCalls, used: toolUsage.usedToolCount })}
                     </p>
                 </>
             )}

@@ -1,14 +1,30 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { ConnectorToolList, ConnectorToolTrigger } from './connectorToolDisclosure';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
+import type { ReactElement, ReactNode } from 'react';
 import type { ServerToolsEntry } from '@/ee/features/chat/mcp/types';
+
+function i18nWrapper({ children }: { children: ReactNode }) {
+    return (
+        <I18nProvider locale="en" messages={enMessages}>
+            {children}
+        </I18nProvider>
+    );
+}
+
+function renderWithI18n(ui: ReactElement) {
+    return render(ui, { wrapper: i18nWrapper });
+}
+
 
 afterEach(() => {
     cleanup();
 });
 
 function renderToolTrigger(props: React.ComponentProps<typeof ConnectorToolTrigger>) {
-    return render(<ConnectorToolTrigger {...props} />);
+    return renderWithI18n(<ConnectorToolTrigger {...props} />);
 }
 
 function availableEntry(overrides: Partial<Extract<ServerToolsEntry, { status: 'available' }>> = {}): Extract<ServerToolsEntry, { status: 'available' }> {
@@ -54,7 +70,7 @@ describe('ConnectorToolTrigger', () => {
     });
 
     test('renders actionable labels for disconnected and expired auth states', () => {
-        const { rerender } = render(
+        const { rerender } = renderWithI18n(
             <ConnectorToolTrigger isConnected={false} />,
         );
 
@@ -69,7 +85,7 @@ describe('ConnectorToolTrigger', () => {
 
     test('renders loading and retryable error states for connected servers', () => {
         const onRetry = vi.fn();
-        const { rerender } = render(
+        const { rerender } = renderWithI18n(
             <ConnectorToolTrigger isConnected={true} isLoading={true} />,
         );
 
@@ -100,7 +116,7 @@ describe('ConnectorToolTrigger', () => {
 
 describe('ConnectorToolList', () => {
     test('renders compact tool badges and expands detail on click', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolList toolEntry={availableEntry()} />,
         );
 
@@ -133,7 +149,7 @@ describe('ConnectorToolList', () => {
     });
 
     test('renders an empty-tools message for available servers with no tools', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolList toolEntry={availableEntry({ tools: [] })} />,
         );
 
@@ -141,7 +157,7 @@ describe('ConnectorToolList', () => {
     });
 
     test('clears selected tool detail when closed', () => {
-        const { rerender } = render(
+        const { rerender } = renderWithI18n(
             <ConnectorToolList toolEntry={availableEntry()} isOpen={true} />,
         );
 
@@ -159,7 +175,7 @@ describe('ConnectorToolList', () => {
     });
 
     test('does not render list content for non-available entries', () => {
-        render(
+        renderWithI18n(
             <ConnectorToolList toolEntry={{ status: 'error', serverId: 'server-1', reason: 'unknown' }} />,
         );
 

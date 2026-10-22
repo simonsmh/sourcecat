@@ -2,29 +2,31 @@
 
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { pluralize } from '@/features/chat/mcp/utils';
 import type { ServerToolsEntry, ToolMetadataErrorReason, ToolSummary } from '@/ee/features/chat/mcp/types';
 import { ToolHintBadges, ToolPermissionBadge } from '@/ee/features/chat/mcp/mcpToolPermissionDisplay';
+import { useTranslations } from '@/i18n/I18nProvider';
 import { ChevronDownIcon, RefreshCwIcon, WrenchIcon } from 'lucide-react';
 
-function getErrorLabel(reason: ToolMetadataErrorReason) {
+type SettingsTranslator = ReturnType<typeof useTranslations<'settings'>>;
+
+function getErrorLabel(reason: ToolMetadataErrorReason, t: SettingsTranslator) {
     switch (reason) {
         case 'timeout':
-            return 'Tools timed out';
+            return t('askPage.toolDisclosure.toolsTimedOut');
         case 'auth_failed':
-            return 'Reconnect to see tools';
+            return t('askPage.toolDisclosure.reconnectToSeeTools');
         case 'unsupported':
-            return 'Tools unsupported';
+            return t('askPage.toolDisclosure.toolsUnsupported');
         case 'connection_failed':
         case 'unknown':
-            return 'Tools unavailable';
+            return t('askPage.toolDisclosure.toolsUnavailable');
     }
 }
 
-function getToolCountLabel(entry: Extract<ServerToolsEntry, { status: 'available' }>) {
+function getToolCountLabel(entry: Extract<ServerToolsEntry, { status: 'available' }>, t: SettingsTranslator) {
     const countLabel = `${entry.tools.length}${entry.truncated ? '+' : ''}`;
     const nounCount = entry.truncated ? 2 : entry.tools.length;
-    return `${countLabel} ${pluralize(nounCount, 'tool')}`;
+    return t('askPage.toolDisclosure.countLabel', { countLabel, count: nounCount });
 }
 
 interface ConnectorToolTriggerProps {
@@ -54,6 +56,8 @@ export function ConnectorToolTrigger({
     onOpenChange,
     onRetry,
 }: ConnectorToolTriggerProps) {
+    const t = useTranslations('settings');
+    const tCommon = useTranslations('common');
     const availableEntry = toolEntry?.status === 'available' ? toolEntry : undefined;
     const errorEntry = toolEntry?.status === 'error' ? toolEntry : undefined;
     const canExpand = !!availableEntry;
@@ -68,28 +72,28 @@ export function ConnectorToolTrigger({
                 className="inline-flex items-center gap-1 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
                 <WrenchIcon className="h-3 w-3" />
-                {getToolCountLabel(availableEntry)}
+                {getToolCountLabel(availableEntry, t)}
                 <ChevronDownIcon className={cn("h-3 w-3 transition-transform", isOpen ? "rotate-180" : "rotate-0")} />
             </button>
         );
     }
 
-    let label = 'Tools unavailable';
+    let label = t('askPage.toolDisclosure.toolsUnavailable');
     let canRetry = false;
 
     if (!isAskAgentAvailable || isStatusUnavailable) {
-        label = 'Tools unavailable';
+        label = t('askPage.toolDisclosure.toolsUnavailable');
     } else if (!isConnected && isAuthExpired) {
-        label = 'Reconnect to see tools';
+        label = t('askPage.toolDisclosure.reconnectToSeeTools');
     } else if (!isConnected) {
-        label = 'Connect to see tools';
+        label = t('askPage.toolDisclosure.connectToSeeTools');
     } else if (isLoading) {
-        label = 'Loading tools...';
+        label = t('askPage.toolDisclosure.loadingTools');
     } else if (errorEntry) {
-        label = getErrorLabel(errorEntry.reason);
+        label = getErrorLabel(errorEntry.reason, t);
         canRetry = true;
     } else if (isToolsQueryError) {
-        label = 'Tools unavailable';
+        label = t('askPage.toolDisclosure.toolsUnavailable');
         canRetry = true;
     }
 
@@ -104,7 +108,7 @@ export function ConnectorToolTrigger({
                     className="ml-1 inline-flex items-center gap-0.5 rounded-sm text-muted-foreground underline-offset-2 hover:text-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 >
                     <RefreshCwIcon className="h-3 w-3" />
-                    Retry
+                    {tCommon('retry')}
                 </button>
             )}
         </span>
@@ -138,6 +142,7 @@ interface ConnectorToolListProps {
 }
 
 export function ConnectorToolList({ toolEntry, isOpen = true, id }: ConnectorToolListProps) {
+    const t = useTranslations('settings');
     const [selectedTool, setSelectedTool] = useState<string | null>(null);
 
     useEffect(() => {
@@ -155,7 +160,7 @@ export function ConnectorToolList({ toolEntry, isOpen = true, id }: ConnectorToo
     return (
         <div id={id} className="mt-3 border-t pt-3">
             {toolEntry.tools.length === 0 ? (
-                <p className="text-xs text-muted-foreground">No tools exposed by this connector.</p>
+                <p className="text-xs text-muted-foreground">{t('askPage.toolDisclosure.noToolsExposed')}</p>
             ) : (
                 <div className="space-y-2">
                     <div className="flex max-h-48 flex-wrap gap-1 overflow-y-auto pr-1">
