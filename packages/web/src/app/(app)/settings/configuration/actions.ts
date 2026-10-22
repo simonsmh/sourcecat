@@ -62,6 +62,26 @@ export const getConfigFile = async (): Promise<ConfigFileState | ServiceError> =
     )
 );
 
+// Validation-only counterpart of saveConfigFile: runs the exact same checks
+// (size, JSON syntax, config schema) without writing anything, so the editor
+// can report problems before the user commits to a save.
+export const validateConfigFile = async (content: string): Promise<{ success: true } | ServiceError> => sew(async () =>
+    withAuth(async ({ role }) =>
+        withMinimumOrgRole(role, OrgRole.OWNER, async () => {
+            const validation = validateConfigContent(content);
+            if (!validation.success) {
+                return serviceError(
+                    StatusCodes.BAD_REQUEST,
+                    validation.kind === "tooLarge" ? ErrorCode.CONFIG_FILE_TOO_LARGE : ErrorCode.CONFIG_FILE_INVALID,
+                    validation.error,
+                );
+            }
+
+            return { success: true };
+        })
+    )
+);
+
 export const saveConfigFile = async (content: string): Promise<{ success: true } | ServiceError> => sew(async () =>
     withAuth(async ({ role }) =>
         withMinimumOrgRole(role, OrgRole.OWNER, async () => {

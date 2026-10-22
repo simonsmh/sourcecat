@@ -8861,6 +8861,7 @@ __metadata:
     http-status-codes: "npm:^2.3.0"
     input-otp: "npm:^1.4.2"
     jsdom: "npm:^25.0.1"
+    jsonc-parser: "npm:^3.3.1"
     linguist-languages: "npm:^9.3.1"
     lucide-react: "npm:^1.7.0"
     mermaid: "npm:^11.16.0"

@@ -8,8 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/hooks/use-toast";
 import { isServiceError } from "@/lib/utils";
 import { useTranslations } from "@/i18n/I18nProvider";
-import { Info } from "lucide-react";
-import { getConfigFile, saveConfigFile } from "./actions";
+import { CheckCircle2, Info } from "lucide-react";
+import { getConfigFile, saveConfigFile, validateConfigFile } from "./actions";
+import { findJsonSyntaxError, formatConfigContent } from "./configFormat";
 
 interface ConfigurationPageProps {
     initialContent: string;
@@ -26,8 +27,64 @@ export function ConfigurationPage({ initialContent, isReadOnly }: ConfigurationP
     const [error, setError] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [isReloading, setIsReloading] = useState(false);
+    const [isValidating, setIsValidating] = useState(false);
+    const [validationPassed, setValidationPassed] = useState(false);
 
     const isDirty = content !== savedContent;
+
+    const handleContentChange = (nextContent: string) => {
+        setContent(nextContent);
+        // A previous validation result no longer describes the content.
+        setValidationPassed(false);
+    };
+
+    const showSyntaxError = () => {
+        const syntaxError = findJsonSyntaxError(content);
+        if (syntaxError) {
+            setError(t("configurationPage.invalidJsonAt", {
+                line: syntaxError.line,
+                column: syntaxError.column,
+                message: syntaxError.message,
+            }));
+        }
+    };
+
+    const handleValidate = async () => {
+        setError(null);
+        setValidationPassed(false);
+
+        // Syntax is checked locally so the error can point at the exact
+        // location; the schema check runs server-side with the same
+        // validator that gates saving.
+        if (findJsonSyntaxError(content)) {
+            showSyntaxError();
+            return;
+        }
+
+        setIsValidating(true);
+        try {
+            const result = await validateConfigFile(content);
+            if (isServiceError(result)) {
+                setError(result.message);
+                return;
+            }
+            setValidationPassed(true);
+        } finally {
+            setIsValidating(false);
+        }
+    };
+
+    const handleFormat = () => {
+        setError(null);
+        setValidationPassed(false);
+
+        const formatted = formatConfigContent(content);
+        if (formatted === null) {
+            showSyntaxError();
+            return;
+        }
+        setContent(formatted);
+    };
 
     const handleSave = async () => {
         setIsSaving(true);
@@ -56,6 +113,7 @@ export function ConfigurationPage({ initialContent, isReadOnly }: ConfigurationP
             }
             setContent(result.content);
             setSavedContent(result.content);
+            setValidationPassed(false);
         } finally {
             setIsReloading(false);
         }
@@ -77,7 +135,7 @@ export function ConfigurationPage({ initialContent, isReadOnly }: ConfigurationP
             const { selectionStart, selectionEnd, value } = textarea;
             const indent = "    ";
             const nextValue = value.slice(0, selectionStart) + indent + value.slice(selectionEnd);
-            setContent(nextValue);
+            handleContentChange(nextValue);
             requestAnimationFrame(() => {
                 textarea.selectionStart = textarea.selectionEnd = selectionStart + indent.length;
             });
@@ -102,7 +160,7 @@ export function ConfigurationPage({ initialContent, isReadOnly }: ConfigurationP
 
             <Textarea
                 value={content}
-                onChange={(event) => setContent(event.target.value)}
+                onChange={(event) => handleContentChange(event.target.value)}
                 onKeyDown={handleKeyDown}
                 readOnly={isReadOnly}
                 disabled={isSaving}
@@ -118,11 +176,35 @@ export function ConfigurationPage({ initialContent, isReadOnly }: ConfigurationP
                 </div>
             )}
 
+            {validationPassed && !error && (
+                <div role="status" className="flex items-center gap-2 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                    {t("configurationPage.validationPassed")}
+                </div>
+            )}
+
             <div className="flex items-center justify-between gap-4">
                 <span className="text-xs text-muted-foreground">
                     {isDirty && !isReadOnly ? t("configurationPage.unsavedChanges") : ""}
                 </span>
                 <div className="flex gap-2">
+                    <LoadingButton
+                        variant="outline"
+                        onClick={handleValidate}
+                        loading={isValidating}
+                        disabled={isSaving}
+                    >
+                        {t("configurationPage.validate")}
+                    </LoadingButton>
+                    {!isReadOnly && (
+                        <Button
+                            variant="outline"
+                            onClick={handleFormat}
+                            disabled={isSaving || isValidating}
+                        >
+                            {t("configurationPage.format")}
+                        </Button>
+                    )}
                     <Button
                         variant="outline"
                         onClick={handleReload}

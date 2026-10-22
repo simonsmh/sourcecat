@@ -16,6 +16,25 @@ export type ConfigValidationResult =
     | { success: true }
     | { success: false; kind: "tooLarge" | "invalid"; error: string };
 
+// JSON.parse error messages only sometimes carry a location. When a byte
+// position is present, translate it into a line/column against the
+// comment-stripped text — stripJsonComments preserves offsets, so the
+// location matches the original content.
+const describeJsonError = (content: string, message: string): string => {
+    if (message.includes("line ") && message.includes("column")) {
+        return message;
+    }
+    const positionMatch = /position (\d+)/.exec(message);
+    if (!positionMatch) {
+        return message;
+    }
+    const position = Number(positionMatch[1]);
+    const upToPosition = stripJsonComments(content).slice(0, position);
+    const line = upToPosition.split("\n").length;
+    const column = position - upToPosition.lastIndexOf("\n");
+    return `${message} (line ${line}, column ${column})`;
+};
+
 export const validateConfigContent = (content: string): ConfigValidationResult => {
     if (Buffer.byteLength(content, "utf-8") > MAX_CONFIG_CONTENT_BYTES) {
         return {
@@ -32,7 +51,7 @@ export const validateConfigContent = (content: string): ConfigValidationResult =
         return {
             success: false,
             kind: "invalid",
-            error: `Invalid JSON: ${error instanceof Error ? error.message : String(error)}`,
+            error: `Invalid JSON: ${describeJsonError(content, error instanceof Error ? error.message : String(error))}`,
         };
     }
 

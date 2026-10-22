@@ -108,7 +108,11 @@
             "reload": "Reload",
             "unsavedChanges": "Unsaved changes",
             "saved": "Configuration saved. Changes will be applied automatically.",
-            "loadFailed": "Failed to load the config file."
+            "loadFailed": "Failed to load the config file.",
+            "format": "Format",
+            "validate": "Validate",
+            "validationPassed": "The JSON syntax and config schema are valid.",
+            "invalidJsonAt": "Invalid JSON at line {line}, column {column}: {message}"
         }
     },
     "sidebar": {

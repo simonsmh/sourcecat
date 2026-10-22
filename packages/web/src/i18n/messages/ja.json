@@ -108,7 +108,11 @@
             "reload": "再読み込み",
             "unsavedChanges": "未保存の変更があります",
             "saved": "設定を保存しました。変更は自動的に適用されます。",
-            "loadFailed": "設定ファイルの読み込みに失敗しました。"
+            "loadFailed": "設定ファイルの読み込みに失敗しました。",
+            "format": "フォーマット",
+            "validate": "検証",
+            "validationPassed": "JSON 構文と設定スキーマは有効です。",
+            "invalidJsonAt": "JSON 構文エラー（{line} 行目 {column} 列目）：{message}"
         }
     },
     "sidebar": {
