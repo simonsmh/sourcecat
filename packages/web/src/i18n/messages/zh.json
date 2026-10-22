@@ -51,6 +51,68 @@
         "settings": "设置"
     },
     "search": {
+            "syntaxGuide": {
+                "title": "语法参考指南",
+                "description": "查询由空格分隔的搜索模式组成，与文件内容进行匹配。文件必须对每个表达式至少有一个匹配才会被包含。查询还可以包含搜索过滤器，以进一步缩小搜索结果范围。",
+                "hintLabel": "参考指南：",
+                "example": "示例",
+                "explanation": "说明",
+                "prefixHeader": "前缀",
+                "descriptionHeader": "描述",
+                "wordAnd": "且",
+                "wordOr": "或",
+                "wordAndNot": "且不包含",
+                "wordEither": "其中",
+                "wordOnly": "仅",
+                "matchContaining": "匹配包含",
+                "keyword": {
+                    "title": "关键词搜索（默认）",
+                    "introBefore": "关键词搜索会在文件内容中精确匹配搜索模式。将搜索模式用",
+                    "introAfter": "包裹，可将其组合为单个表达式。",
+                    "row1": "匹配包含关键词",
+                    "row2Before": "匹配同时包含",
+                    "row3": "匹配包含短语",
+                    "row4After": "的内容，完全一致（引号已转义）"
+                },
+                "regex": {
+                    "title": "正则表达式搜索",
+                    "introBefore": "切换",
+                    "introAfter": "按钮，可将搜索模式按正则表达式解释。",
+                    "rowPrefix": "匹配符合正则",
+                    "row2Suffix": "（foo 后跟任意字符，再跟 bar）",
+                    "row3Suffix": "（function 位于行首，后跟空白和单词字符）",
+                    "row4Suffix": "。引号不参与匹配。"
+                },
+                "filters": {
+                    "title": "搜索过滤器",
+                    "introBefore": "搜索查询（关键词或正则）可以包含多个搜索过滤器，以进一步缩小搜索结果范围。某些过滤器可以用",
+                    "introAfter": "前缀取反。",
+                    "fileDesc": "过滤出文件路径与正则匹配的结果。默认搜索所有文件。",
+                    "repoDesc": "过滤出仓库名与正则匹配的结果。默认搜索所有仓库。",
+                    "revDescBefore": "过滤出特定分支或标签的结果。默认",
+                    "revDescAfter": "搜索默认分支。",
+                    "langDescBefore": "按语言过滤结果（语言定义见",
+                    "langDescAfter": "）。默认搜索所有语言。",
+                    "symDescBefore": "匹配由",
+                    "symDescAfter": "在索引时创建的符号定义。",
+                    "fileTitle1": "将结果过滤到与正则 /README/ 匹配的文件路径",
+                    "fileTitle2": "将结果过滤到与正则 /my file/ 匹配的文件路径",
+                    "fileTitle3": "忽略与正则 /test\\.ts$/ 匹配的文件路径的结果",
+                    "repoTitle1": "将结果过滤到与正则 /linux/ 匹配的仓库",
+                    "repoTitle2": "忽略与正则 /^web\\/.*/ 匹配的仓库的结果",
+                    "revTitle1": "将结果过滤到与正则 /beta/ 匹配的分支",
+                    "langTitle1": "将结果过滤到 TypeScript 文件",
+                    "langTitle2": "忽略 YAML 文件的结果",
+                    "symTitle1": "将结果过滤到与正则 /\\bmain\\b/ 匹配的符号"
+                },
+                "boolean": {
+                    "title": "布尔运算符与分组",
+                    "intro1": "默认情况下，空格分隔的表达式以「且」组合。使用",
+                    "intro2": "关键字以及括号",
+                    "intro3": "可以构建更复杂的布尔逻辑。括号可以用",
+                    "intro4": "前缀取反。"
+                }
+            },
         "advanced": "高级",
         "filterResults": "筛选结果",
         "noResultsFor": "没有找到 “{query}” 的结果",

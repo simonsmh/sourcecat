@@ -51,6 +51,68 @@
         "settings": "Settings"
     },
     "search": {
+            "syntaxGuide": {
+                "title": "Syntax Reference Guide",
+                "description": "Queries consist of space-separated search patterns that are matched against file contents. A file must have at least one match for each expression to be included. Queries can optionally contain search filters to further refine the search results.",
+                "hintLabel": "Reference guide:",
+                "example": "Example",
+                "explanation": "Explanation",
+                "prefixHeader": "Prefix",
+                "descriptionHeader": "Description",
+                "wordAnd": "and",
+                "wordOr": "or",
+                "wordAndNot": "and not",
+                "wordEither": "either",
+                "wordOnly": "only",
+                "matchContaining": "Match files containing",
+                "keyword": {
+                    "title": "Keyword search (default)",
+                    "introBefore": "Keyword search matches search patterns exactly in file contents. Wrapping search patterns in",
+                    "introAfter": "combines them as a single expression.",
+                    "row1": "Match files containing the keyword",
+                    "row2Before": "Match files containing both",
+                    "row3": "Match files containing the phrase",
+                    "row4After": "exactly (escaped quotes)"
+                },
+                "regex": {
+                    "title": "Regex search",
+                    "introBefore": "Toggle the",
+                    "introAfter": "button to interpret search patterns as regular expressions.",
+                    "rowPrefix": "Match files with regex",
+                    "row2Suffix": "(foo followed by any characters, then bar)",
+                    "row3Suffix": "(function at start of line, followed by whitespace and word characters)",
+                    "row4Suffix": ". Quotes are not matched."
+                },
+                "filters": {
+                    "title": "Search filters",
+                    "introBefore": "Search queries (keyword or regex) can include multiple search filters to further refine the search results. Some filters can be negated using the",
+                    "introAfter": "prefix.",
+                    "fileDesc": "Filter results from filepaths that match the regex. By default all files are searched.",
+                    "repoDesc": "Filter results from repos that match the regex. By default all repos are searched.",
+                    "revDescBefore": "Filter results from a specific branch or tag. By default",
+                    "revDescAfter": "the default branch is searched.",
+                    "langDescBefore": "Filter results by language (as defined by",
+                    "langDescAfter": "). By default all languages are searched.",
+                    "symDescBefore": "Match symbol definitions created by",
+                    "symDescAfter": "at index time.",
+                    "fileTitle1": "Filter results to filepaths that match regex /README/",
+                    "fileTitle2": "Filter results to filepaths that match regex /my file/",
+                    "fileTitle3": "Ignore results from filepaths match regex /test\\.ts$/",
+                    "repoTitle1": "Filter results to repos that match regex /linux/",
+                    "repoTitle2": "Ignore results from repos that match regex /^web\\/.*/",
+                    "revTitle1": "Filter results to branches that match regex /beta/",
+                    "langTitle1": "Filter results to TypeScript files",
+                    "langTitle2": "Ignore results from YAML files",
+                    "symTitle1": "Filter results to symbols that match regex /\\bmain\\b/"
+                },
+                "boolean": {
+                    "title": "Boolean operators & grouping",
+                    "intro1": "By default, space-seperated expressions are and'd together. Using the",
+                    "intro2": "keyword as well as parantheses",
+                    "intro3": "can be used to create more complex boolean logic. Parantheses can be negated using the",
+                    "intro4": "prefix."
+                }
+            },
         "advanced": "Advanced",
         "filterResults": "Filter results",
         "noResultsFor": "No results for {query}",
