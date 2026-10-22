@@ -6,6 +6,7 @@ import { setMemberApprovalRequired } from "@/app/(app)/settings/security/actions
 import { isServiceError } from "@/lib/utils"
 import { useToast } from "@/components/hooks/use-toast"
 import { BasicSettingsCard } from "@/app/(app)/settings/components/settingsCard"
+import { useTranslations } from "@/i18n/I18nProvider"
 import { ManagedByScimBadge } from "@/features/membership/components/managedByScimBadge"
 
 interface MemberApprovalRequiredSettingsCardProps {
@@ -20,6 +21,7 @@ export const MemberApprovalRequiredSettingsCard = ({
     const [enabled, setEnabled] = useState(memberApprovalRequired)
     const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
+    const t = useTranslations("settings")
 
     const handleToggle = async (checked: boolean) => {
         setIsLoading(true)
@@ -28,7 +30,7 @@ export const MemberApprovalRequiredSettingsCard = ({
             
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
+                    title: t("securityPage.error"),
                     description: result.message,
                     variant: "destructive",
                 })
@@ -39,8 +41,8 @@ export const MemberApprovalRequiredSettingsCard = ({
         } catch (error) {
             console.error("Error updating member approval setting:", error)
             toast({
-                title: "Error",
-                description: "Failed to update member approval setting",
+                title: t("securityPage.error"),
+                description: t("securityPage.memberApproval.updateFailed"),
                 variant: "destructive",
             })
         } finally {
@@ -50,9 +52,9 @@ export const MemberApprovalRequiredSettingsCard = ({
 
     return (
         <BasicSettingsCard
-            name="Require approval for new members"
-            description="When enabled, new users will need approval from an organization owner before they can access your deployment."
-            badge={scimManaged ? <ManagedByScimBadge tooltip="Members are provisioned through your identity provider, so this setting has no effect while SCIM is enabled." /> : undefined}
+            name={t("securityPage.memberApproval.name")}
+            description={t("securityPage.memberApproval.description")}
+            badge={scimManaged ? <ManagedByScimBadge tooltip={t("securityPage.scimManagedTooltip")} /> : undefined}
         >
             <Switch
                 checked={enabled}

@@ -6,6 +6,7 @@ import { setAnonymousAccessStatus } from "@/app/(app)/settings/security/actions"
 import { isServiceError } from "@/lib/utils"
 import { useToast } from "@/components/hooks/use-toast"
 import { BasicSettingsCard } from "@/app/(app)/settings/components/settingsCard"
+import { useTranslations } from "@/i18n/I18nProvider"
 
 interface AnonymousAccessEnabledSettingsCardProps {
     anonymousAccessEnabled: boolean
@@ -15,6 +16,7 @@ export function AnonymousAccessEnabledSettingsCard({ anonymousAccessEnabled }: A
     const [enabled, setEnabled] = useState(anonymousAccessEnabled)
     const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
+    const t = useTranslations("settings")
 
     const handleToggle = async (checked: boolean) => {
         setIsLoading(true)
@@ -23,7 +25,7 @@ export function AnonymousAccessEnabledSettingsCard({ anonymousAccessEnabled }: A
             
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
+                    title: t("securityPage.error"),
                     description: result.message,
                     variant: "destructive",
                 })
@@ -34,8 +36,8 @@ export function AnonymousAccessEnabledSettingsCard({ anonymousAccessEnabled }: A
         } catch (error) {
             console.error("Error updating anonymous access setting:", error)
             toast({
-                title: "Error",
-                description: "Failed to update anonymous access setting",
+                title: t("securityPage.error"),
+                description: t("securityPage.anonymousAccess.updateFailed"),
                 variant: "destructive",
             })
         } finally {
@@ -45,8 +47,8 @@ export function AnonymousAccessEnabledSettingsCard({ anonymousAccessEnabled }: A
 
     return (
         <BasicSettingsCard
-            name="Enable anonymous access"
-            description="When enabled, users can access your deployment without logging in."
+            name={t("securityPage.anonymousAccess.name")}
+            description={t("securityPage.anonymousAccess.description")}
         >
             <Switch
                 checked={enabled}

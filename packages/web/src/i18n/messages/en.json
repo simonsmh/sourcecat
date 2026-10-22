@@ -113,6 +113,112 @@
             "validate": "Validate",
             "validationPassed": "The JSON syntax and config schema are valid.",
             "invalidJsonAt": "Invalid JSON at line {line}, column {column}: {message}"
+        },
+        "securityPage": {
+            "upgrade": "Upgrade",
+            "organizationAccess": "Organization access",
+            "organizationAccessDescription": "Configure how users can access your Sourcecat deployment.",
+            "learnMore": "Learn more",
+            "emailLogin": "Email login",
+            "singleSignOn": "Single Sign-On",
+            "ssoDescription": "Let users sign in with an external identity provider such as GitHub, Google, or Okta. Providers are managed in your config file.",
+            "noIdentityProviders": "No identity providers are configured. Add them in your config file.",
+            "scimProvisioning": "SCIM Provisioning",
+            "scimDescription": "Provision and deprovision members automatically from your identity provider (Okta, Entra). Configure your IdP with the base URL below and a SCIM token.",
+            "loginMessage": "Login message",
+            "loginMessageDescription": "Show access instructions or a registration link on your sign-in and sign-up pages.",
+            "error": "Error",
+            "managedByScim": "Managed by SCIM",
+            "scimDefaultTooltip": "Provisioned through your identity provider.",
+            "scimManagedTooltip": "Members are provisioned through your identity provider, so this setting has no effect while SCIM is enabled.",
+            "inviteLink": {
+                "name": "Enable invite links",
+                "description": "When enabled, team members can use the invite link to join your organization without requiring approval.",
+                "updateFailed": "Failed to update invite link setting",
+                "copyFailed": "Failed to copy invite link to clipboard",
+                "fetchFailed": "Failed to fetch invite link: org doesn't have inviteId property.",
+                "copyAriaLabel": "Copy invite link",
+                "copiedAriaLabel": "Invite link copied"
+            },
+            "memberApproval": {
+                "name": "Require approval for new members",
+                "description": "When enabled, new users will need approval from an organization owner before they can access your deployment.",
+                "updateFailed": "Failed to update member approval setting"
+            },
+            "anonymousAccess": {
+                "name": "Enable anonymous access",
+                "description": "When enabled, users can access your deployment without logging in.",
+                "updateFailed": "Failed to update anonymous access setting"
+            },
+            "credentialsLogin": {
+                "name": "Email & password login",
+                "description": "When enabled, users can sign in with an email and password.",
+                "updateFailed": "Failed to update email login setting"
+            },
+            "emailCodeLogin": {
+                "name": "Email code login",
+                "description": "When enabled, users can sign in with a one-time code sent to their email.",
+                "updateFailed": "Failed to update email code login setting",
+                "requiresEmail": "This setting requires transactional email to be configured."
+            },
+            "identityProvider": {
+                "configured": "Configured"
+            },
+            "ssoUpsell": {
+                "title": "Single sign-on is a paid feature",
+                "description": "Upgrade to let users authenticate with providers like GitHub, Google, and Okta."
+            },
+            "scimUpsell": {
+                "title": "SCIM provisioning is a paid feature",
+                "description": "Upgrade to provision and deprovision members automatically from your identity provider."
+            },
+            "scimEnabled": {
+                "name": "Enable SCIM provisioning",
+                "description": "When enabled, your identity provider can provision and deprovision members via SCIM.",
+                "updateFailed": "Failed to update SCIM provisioning setting",
+                "enableTitle": "Enable SCIM provisioning?",
+                "disableTitle": "Disable SCIM provisioning?",
+                "enableDescription": "Your identity provider will become the source of truth for membership. While SCIM is enabled, invite links, member approval, and join requests are disabled. Members can only be added or removed through your IdP.",
+                "disableDescription": "Members will no longer be synced from your identity provider. Existing members keep their access. Your SCIM tokens aren't revoked, but they'll stop working until you re-enable SCIM.",
+                "enable": "Enable",
+                "disable": "Disable"
+            },
+            "scimTokens": {
+                "baseUrl": "SCIM connector base URL",
+                "tokenCount": "{count, plural, one {# SCIM token} other {# SCIM tokens}}",
+                "tokenInfoAriaLabel": "SCIM token info",
+                "tokenInfo": "A SCIM token is a Bearer auth token used by your identity provider to call Sourcecat's SCIM API.",
+                "newToken": "New SCIM token",
+                "createTitle": "Create SCIM Token",
+                "createdTitle": "Your New SCIM Token",
+                "createdWarning": "This is the only time you'll see this token. Copy it now and paste it into your IdP.",
+                "namePlaceholder": "Enter a name for your SCIM token",
+                "empty": "No SCIM tokens yet.",
+                "createdAgo": "Created {time}",
+                "lastUsed": "last used {time}",
+                "neverUsed": "never used",
+                "revokeTitle": "Revoke SCIM Token",
+                "revokeDescription": "Are you sure you want to revoke {name}? Your IdP will no longer be able to provision or deprovision users with this token. This action cannot be undone.",
+                "revoke": "Revoke",
+                "copyBaseUrlFailed": "Failed to copy base URL",
+                "tokenNameEmpty": "Token name cannot be empty",
+                "createFailed": "Failed to create SCIM token: {message}",
+                "copyTokenFailed": "Failed to copy token to clipboard",
+                "revokeFailed": "Failed to revoke SCIM token: {message}",
+                "revoked": "SCIM token revoked"
+            },
+            "loginMessageCard": {
+                "saved": "Login message saved.",
+                "removed": "Login message removed.",
+                "saveFailed": "Failed to save the login message. Please try again.",
+                "editorAriaLabel": "Login message editor",
+                "write": "Write",
+                "preview": "Preview",
+                "placeholder": "Need access? [Request access](https://example.com/access) before signing in.",
+                "emptyPreview": "No message will be shown.",
+                "hint": "Use Markdown for formatting and links. Leave empty to hide the message.",
+                "saveChanges": "Save changes"
+            }
         }
     },
     "sidebar": {

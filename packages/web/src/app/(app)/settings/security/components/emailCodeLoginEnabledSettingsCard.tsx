@@ -8,6 +8,7 @@ import { setEmailCodeLoginEnabled } from "@/app/(app)/settings/security/actions"
 import { isServiceError } from "@/lib/utils"
 import { useToast } from "@/components/hooks/use-toast"
 import { BasicSettingsCard } from "@/app/(app)/settings/components/settingsCard"
+import { useTranslations } from "@/i18n/I18nProvider"
 
 interface EmailCodeLoginEnabledSettingsCardProps {
     isEmailCodeLoginEnabled: boolean
@@ -21,6 +22,7 @@ export function EmailCodeLoginEnabledSettingsCard({
     const [enabled, setEnabled] = useState(isEmailCodeLoginEnabled)
     const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
+    const t = useTranslations("settings")
 
     const handleToggle = async (checked: boolean) => {
         setIsLoading(true)
@@ -29,7 +31,7 @@ export function EmailCodeLoginEnabledSettingsCard({
 
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
+                    title: t("securityPage.error"),
                     description: result.message,
                     variant: "destructive",
                 })
@@ -40,8 +42,8 @@ export function EmailCodeLoginEnabledSettingsCard({
         } catch (error) {
             console.error("Error updating email code login setting:", error)
             toast({
-                title: "Error",
-                description: "Failed to update email code login setting",
+                title: t("securityPage.error"),
+                description: t("securityPage.emailCodeLogin.updateFailed"),
                 variant: "destructive",
             })
         } finally {
@@ -51,20 +53,20 @@ export function EmailCodeLoginEnabledSettingsCard({
 
     return (
         <BasicSettingsCard
-            name="Email code login"
-            description="When enabled, users can sign in with a one-time code sent to their email."
+            name={t("securityPage.emailCodeLogin.name")}
+            description={t("securityPage.emailCodeLogin.description")}
             footer={!isEmailServiceConfigured && (
                 <Alert className="mt-4 items-center">
                     <Info className="w-4 h-4 text-muted-foreground" />
                     <AlertDescription>
-                        This setting requires transactional email to be configured.{" "}
+                        {t("securityPage.emailCodeLogin.requiresEmail")}{" "}
                         <a
                             href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/transactional-emails.mdx"
                             target="_blank"
                             rel="noopener"
                             className="underline text-primary hover:text-primary/80 transition-colors"
                         >
-                            Learn more
+                            {t("securityPage.learnMore")}
                         </a>
                     </AlertDescription>
                 </Alert>

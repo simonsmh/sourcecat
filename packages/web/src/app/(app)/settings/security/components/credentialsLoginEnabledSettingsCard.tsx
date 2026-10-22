@@ -6,6 +6,7 @@ import { setCredentialsLoginEnabled } from "@/app/(app)/settings/security/action
 import { isServiceError } from "@/lib/utils"
 import { useToast } from "@/components/hooks/use-toast"
 import { BasicSettingsCard } from "@/app/(app)/settings/components/settingsCard"
+import { useTranslations } from "@/i18n/I18nProvider"
 
 interface CredentialsLoginEnabledSettingsCardProps {
     isCredentialsLoginEnabled: boolean
@@ -17,6 +18,7 @@ export function CredentialsLoginEnabledSettingsCard({
     const [enabled, setEnabled] = useState(isCredentialsLoginEnabled)
     const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
+    const t = useTranslations("settings")
 
     const handleToggle = async (checked: boolean) => {
         setIsLoading(true)
@@ -25,7 +27,7 @@ export function CredentialsLoginEnabledSettingsCard({
 
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
+                    title: t("securityPage.error"),
                     description: result.message,
                     variant: "destructive",
                 })
@@ -36,8 +38,8 @@ export function CredentialsLoginEnabledSettingsCard({
         } catch (error) {
             console.error("Error updating email login setting:", error)
             toast({
-                title: "Error",
-                description: "Failed to update email login setting",
+                title: t("securityPage.error"),
+                description: t("securityPage.credentialsLogin.updateFailed"),
                 variant: "destructive",
             })
         } finally {
@@ -47,8 +49,8 @@ export function CredentialsLoginEnabledSettingsCard({
 
     return (
         <BasicSettingsCard
-            name="Email & password login"
-            description="When enabled, users can sign in with an email and password."
+            name={t("securityPage.credentialsLogin.name")}
+            description={t("securityPage.credentialsLogin.description")}
         >
             <Switch
                 checked={enabled}

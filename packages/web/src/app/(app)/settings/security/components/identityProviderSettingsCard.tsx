@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { SettingsCard } from "@/app/(app)/settings/components/settingsCard";
 import { getAuthProviderInfo, cn } from "@/lib/utils";
 import { IdentityProvider } from "@/auth";
+import { getTranslations } from "@/i18n/server";
 
 interface IdentityProviderSettingsCardProps {
     provider: IdentityProvider;
 }
 
-export function IdentityProviderSettingsCard({ provider }: IdentityProviderSettingsCardProps) {
+export async function IdentityProviderSettingsCard({ provider }: IdentityProviderSettingsCardProps) {
+    const t = await getTranslations("settings");
     const providerInfo = getAuthProviderInfo(provider.type);
     const name = provider.displayName ?? providerInfo.displayName;
 
@@ -32,7 +34,7 @@ export function IdentityProviderSettingsCard({ provider }: IdentityProviderSetti
                         )}
                     </div>
                 </div>
-                <Badge className="flex-shrink-0">Configured</Badge>
+                <Badge className="flex-shrink-0">{t("securityPage.identityProvider.configured")}</Badge>
             </div>
         </SettingsCard>
     );

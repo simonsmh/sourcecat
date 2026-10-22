@@ -22,6 +22,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 import { isScimEnabled } from "@/features/scim/utils";
 import { ServiceErrorException } from "@/lib/serviceError";
+import { getTranslations } from "@/i18n/server";
 
 export default authenticatedPage(async ({ org }) => {
     const anonymousAccessEnabled = await isAnonymousAccessEnabled();
@@ -38,21 +39,22 @@ export default authenticatedPage(async ({ org }) => {
 
     const scimEnabled = await isScimEnabled(org)
 
+    const t = await getTranslations("settings");
 
     return (
         <div className="flex flex-col gap-6">
-            <h2 className="text-lg font-medium">Security</h2>
+            <h2 className="text-lg font-medium">{t("security")}</h2>
             <div className="space-y-6">
                 <div>
-                    <p className="text-md font-medium">Organization access</p>
-                    <p className="text-sm text-muted-foreground">Configure how users can access your Sourcecat deployment.{" "}
+                    <p className="text-md font-medium">{t("securityPage.organizationAccess")}</p>
+                    <p className="text-sm text-muted-foreground">{t("securityPage.organizationAccessDescription")}{" "}
                         <a
                             href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/access-settings.mdx"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"
                         >
-                            Learn more
+                            {t("securityPage.learnMore")}
                         </a>
                     </p>
                 </div>
@@ -72,7 +74,7 @@ export default authenticatedPage(async ({ org }) => {
                     />
                 </SettingsCardGroup>
 
-                <p className="text-md font-medium">Email login</p>
+                <p className="text-md font-medium">{t("securityPage.emailLogin")}</p>
 
                 <SettingsCardGroup>
                     <CredentialsLoginEnabledSettingsCard
@@ -86,17 +88,17 @@ export default authenticatedPage(async ({ org }) => {
 
                 <div>
                     <div className="flex items-center gap-2">
-                        <p className="text-md font-medium">Single Sign-On</p>
+                        <p className="text-md font-medium">{t("securityPage.singleSignOn")}</p>
                         {!hasSSOEntitlement && <UpgradeBadge />}
                     </div>
-                    <p className="text-sm text-muted-foreground">Let users sign in with an external identity provider such as GitHub, Google, or Okta. Providers are managed in your config file.{" "}
+                    <p className="text-sm text-muted-foreground">{t("securityPage.ssoDescription")}{" "}
                         <a
                             href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/idp.mdx"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"
                         >
-                            Learn more
+                            {t("securityPage.learnMore")}
                         </a>
                     </p>
                 </div>
@@ -113,14 +115,14 @@ export default authenticatedPage(async ({ org }) => {
                     <Alert className="items-center p-4">
                         <Info className="w-4 h-4 text-muted-foreground" />
                         <AlertDescription>
-                            No identity providers are configured. Add them in your config file.{" "}
+                            {t("securityPage.noIdentityProviders")}{" "}
                             <a
                                 href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/idp.mdx"
                                 target="_blank"
                                 rel="noopener"
                                 className="!text-link !no-underline hover:!underline"
                             >
-                                Learn more
+                                {t("securityPage.learnMore")}
                             </a>
                         </AlertDescription>
                     </Alert>
@@ -128,17 +130,17 @@ export default authenticatedPage(async ({ org }) => {
 
                 <div>
                     <div className="flex items-center gap-2">
-                        <p className="text-md font-medium">SCIM Provisioning</p>
+                        <p className="text-md font-medium">{t("securityPage.scimProvisioning")}</p>
                         {!hasScimEntitlement && <UpgradeBadge />}
                     </div>
-                    <p className="text-sm text-muted-foreground">Provision and deprovision members automatically from your identity provider (Okta, Entra). Configure your IdP with the base URL below and a SCIM token.{" "}
+                    <p className="text-sm text-muted-foreground">{t("securityPage.scimDescription")}{" "}
                         <a
                             href="https://github.com/simonsmh/sourcecat/blob/main/docs/docs/configuration/auth/scim.mdx"
                             target="_blank"
                             rel="noopener"
                             className="text-link hover:underline transition-colors"
                         >
-                            Learn more
+                            {t("securityPage.learnMore")}
                         </a>
                     </p>
                 </div>
@@ -158,8 +160,8 @@ export default authenticatedPage(async ({ org }) => {
 
                 <section aria-labelledby="login-message-heading" className="space-y-4">
                     <div>
-                        <h3 id="login-message-heading" className="text-md font-medium">Login message</h3>
-                        <p className="text-sm text-muted-foreground">Show access instructions or a registration link on your sign-in and sign-up pages.</p>
+                        <h3 id="login-message-heading" className="text-md font-medium">{t("securityPage.loginMessage")}</h3>
+                        <p className="text-sm text-muted-foreground">{t("securityPage.loginMessageDescription")}</p>
                     </div>
                     <LoginMessageSettingsCard loginMessage={org.loginMessage} />
                 </section>

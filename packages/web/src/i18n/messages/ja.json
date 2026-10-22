@@ -113,6 +113,112 @@
             "validate": "検証",
             "validationPassed": "JSON 構文と設定スキーマは有効です。",
             "invalidJsonAt": "JSON 構文エラー（{line} 行目 {column} 列目）：{message}"
+        },
+        "securityPage": {
+            "upgrade": "アップグレード",
+            "organizationAccess": "組織アクセス",
+            "organizationAccessDescription": "ユーザーが Sourcecat デプロイにアクセスする方法を設定します。",
+            "learnMore": "詳細を見る",
+            "emailLogin": "メールログイン",
+            "singleSignOn": "シングルサインオン",
+            "ssoDescription": "GitHub、Google、Okta などの外部 ID プロバイダーでユーザーがサインインできるようにします。プロバイダーは設定ファイルで管理されます。",
+            "noIdentityProviders": "ID プロバイダーが設定されていません。設定ファイルに追加してください。",
+            "scimProvisioning": "SCIM プロビジョニング",
+            "scimDescription": "ID プロバイダー（Okta、Entra）からメンバーを自動的にプロビジョニングおよびデプロビジョニングします。下記のベース URL と SCIM トークンで IdP を設定してください。",
+            "loginMessage": "ログインメッセージ",
+            "loginMessageDescription": "サインインおよびサインアップページにアクセス手順や登録リンクを表示します。",
+            "error": "エラー",
+            "managedByScim": "SCIM 管理",
+            "scimDefaultTooltip": "ID プロバイダーによってプロビジョニングされています。",
+            "scimManagedTooltip": "メンバーは ID プロバイダーによってプロビジョニングされるため、SCIM が有効な間、この設定は効果がありません。",
+            "inviteLink": {
+                "name": "招待リンクを有効化",
+                "description": "有効にすると、チームメンバーは承認なしで招待リンクから組織に参加できます。",
+                "updateFailed": "招待リンク設定の更新に失敗しました",
+                "copyFailed": "招待リンクのクリップボードへのコピーに失敗しました",
+                "fetchFailed": "招待リンクを取得できませんでした：組織に inviteId プロパティがありません。",
+                "copyAriaLabel": "招待リンクをコピー",
+                "copiedAriaLabel": "招待リンクをコピーしました"
+            },
+            "memberApproval": {
+                "name": "新規メンバーの承認を必須にする",
+                "description": "有効にすると、新規ユーザーは組織オーナーの承認を受けるまでデプロイにアクセスできません。",
+                "updateFailed": "メンバー承認設定の更新に失敗しました"
+            },
+            "anonymousAccess": {
+                "name": "匿名アクセスを有効化",
+                "description": "有効にすると、ユーザーはログインせずにデプロイにアクセスできます。",
+                "updateFailed": "匿名アクセス設定の更新に失敗しました"
+            },
+            "credentialsLogin": {
+                "name": "メールとパスワードでログイン",
+                "description": "有効にすると、ユーザーはメールアドレスとパスワードでサインインできます。",
+                "updateFailed": "メールログイン設定の更新に失敗しました"
+            },
+            "emailCodeLogin": {
+                "name": "メールコードログイン",
+                "description": "有効にすると、ユーザーはメールに送信されたワンタイムコードでサインインできます。",
+                "updateFailed": "メールコードログイン設定の更新に失敗しました",
+                "requiresEmail": "この設定にはトランザクションメールの設定が必要です。"
+            },
+            "identityProvider": {
+                "configured": "設定済み"
+            },
+            "ssoUpsell": {
+                "title": "シングルサインオンは有料機能です",
+                "description": "アップグレードすると、GitHub、Google、Okta などのプロバイダーでユーザーが認証できるようになります。"
+            },
+            "scimUpsell": {
+                "title": "SCIM プロビジョニングは有料機能です",
+                "description": "アップグレードすると、ID プロバイダーからメンバーを自動的にプロビジョニングおよびデプロビジョニングできます。"
+            },
+            "scimEnabled": {
+                "name": "SCIM プロビジョニングを有効化",
+                "description": "有効にすると、ID プロバイダーが SCIM 経由でメンバーをプロビジョニングおよびデプロビジョニングできます。",
+                "updateFailed": "SCIM プロビジョニング設定の更新に失敗しました",
+                "enableTitle": "SCIM プロビジョニングを有効にしますか？",
+                "disableTitle": "SCIM プロビジョニングを無効にしますか？",
+                "enableDescription": "ID プロバイダーがメンバーシップの正となります。SCIM が有効な間、招待リンク、メンバー承認、参加リクエストは無効になります。メンバーの追加と削除は IdP 経由でのみ可能です。",
+                "disableDescription": "メンバーは ID プロバイダーから同期されなくなります。既存のメンバーはアクセスを保持します。SCIM トークンは取り消されませんが、SCIM を再度有効にするまで機能しません。",
+                "enable": "有効にする",
+                "disable": "無効にする"
+            },
+            "scimTokens": {
+                "baseUrl": "SCIM コネクタのベース URL",
+                "tokenCount": "{count, plural, other {SCIM トークン # 件}}",
+                "tokenInfoAriaLabel": "SCIM トークン情報",
+                "tokenInfo": "SCIM トークンは、ID プロバイダーが Sourcecat の SCIM API を呼び出すために使用する Bearer 認証トークンです。",
+                "newToken": "新しい SCIM トークン",
+                "createTitle": "SCIM トークンを作成",
+                "createdTitle": "新しい SCIM トークン",
+                "createdWarning": "このトークンが表示されるのは今回だけです。今すぐコピーして IdP に貼り付けてください。",
+                "namePlaceholder": "SCIM トークンの名前を入力",
+                "empty": "SCIM トークンはまだありません。",
+                "createdAgo": "{time}に作成",
+                "lastUsed": "最終使用：{time}",
+                "neverUsed": "未使用",
+                "revokeTitle": "SCIM トークンを取り消す",
+                "revokeDescription": "{name} を取り消してもよろしいですか？IdP はこのトークンでユーザーをプロビジョニングおよびデプロビジョニングできなくなります。この操作は元に戻せません。",
+                "revoke": "取り消す",
+                "copyBaseUrlFailed": "ベース URL のコピーに失敗しました",
+                "tokenNameEmpty": "トークン名は必須です",
+                "createFailed": "SCIM トークンの作成に失敗しました：{message}",
+                "copyTokenFailed": "トークンのクリップボードへのコピーに失敗しました",
+                "revokeFailed": "SCIM トークンの取り消しに失敗しました：{message}",
+                "revoked": "SCIM トークンを取り消しました"
+            },
+            "loginMessageCard": {
+                "saved": "ログインメッセージを保存しました。",
+                "removed": "ログインメッセージを削除しました。",
+                "saveFailed": "ログインメッセージの保存に失敗しました。もう一度お試しください。",
+                "editorAriaLabel": "ログインメッセージエディター",
+                "write": "作成",
+                "preview": "プレビュー",
+                "placeholder": "アクセスが必要ですか？サインインする前に[アクセスを申請](https://example.com/access)してください。",
+                "emptyPreview": "メッセージは表示されません。",
+                "hint": "書式設定やリンクには Markdown を使用できます。空欄にするとメッセージは非表示になります。",
+                "saveChanges": "変更を保存"
+            }
         }
     },
     "sidebar": {

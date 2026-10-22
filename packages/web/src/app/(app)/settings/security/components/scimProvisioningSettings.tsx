@@ -22,6 +22,16 @@ import { useMemo, useState } from "react";
 import { useToast } from "@/components/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
+import { enUS, ja as jaDateLocale, ko as koDateLocale, zhCN } from "date-fns/locale";
+import { useLocale, useTranslations } from "@/i18n/I18nProvider";
+import type { Locale } from "@/i18n/config";
+
+const dateFnsLocales: Record<Locale, typeof enUS> = {
+    en: enUS,
+    zh: zhCN,
+    ja: jaDateLocale,
+    ko: koDateLocale,
+};
 
 interface ScimToken {
     name: string;
@@ -37,6 +47,9 @@ interface ScimProvisioningSettingsProps {
 export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSettingsProps) {
     const { toast } = useToast();
     const router = useRouter();
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
+    const dateFnsLocale = dateFnsLocales[useLocale()];
 
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const [newTokenName, setNewTokenName] = useState("");
@@ -52,13 +65,13 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                 setTimeout(() => setBaseUrlCopied(false), 2000);
             })
             .catch(() => {
-                toast({ title: "Error", description: "Failed to copy base URL", variant: "destructive" });
+                toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.copyBaseUrlFailed"), variant: "destructive" });
             });
     };
 
     const handleCreateToken = async () => {
         if (!newTokenName.trim()) {
-            toast({ title: "Error", description: "Token name cannot be empty", variant: "destructive" });
+            toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.tokenNameEmpty"), variant: "destructive" });
             return;
         }
 
@@ -66,14 +79,14 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
         try {
             const result = await generateScimToken(newTokenName.trim());
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to create SCIM token: ${result.message}`, variant: "destructive" });
+                toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.createFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
             setNewlyCreatedToken(result.token);
             router.refresh();
         } catch (error) {
             console.error(error);
-            toast({ title: "Error", description: `Failed to create SCIM token: ${error}`, variant: "destructive" });
+            toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.createFailed", { message: `${error}` }), variant: "destructive" });
         } finally {
             setIsCreatingToken(false);
         }
@@ -89,7 +102,7 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                 setTimeout(() => setCopySuccess(false), 2000);
             })
             .catch(() => {
-                toast({ title: "Error", description: "Failed to copy token to clipboard", variant: "destructive" });
+                toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.copyTokenFailed"), variant: "destructive" });
             });
     };
 
@@ -104,14 +117,14 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
         try {
             const result = await revokeScimToken(name);
             if (isServiceError(result)) {
-                toast({ title: "Error", description: `Failed to revoke SCIM token: ${result.message}`, variant: "destructive" });
+                toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.revokeFailed", { message: result.message }), variant: "destructive" });
                 return;
             }
             router.refresh();
-            toast({ description: "SCIM token revoked" });
+            toast({ description: t("securityPage.scimTokens.revoked") });
         } catch (error) {
             console.error(error);
-            toast({ title: "Error", description: `Failed to revoke SCIM token: ${error}`, variant: "destructive" });
+            toast({ title: t("securityPage.error"), description: t("securityPage.scimTokens.revokeFailed", { message: `${error}` }), variant: "destructive" });
         }
     };
 
@@ -123,7 +136,7 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-                <span className="text-sm font-medium">SCIM connector base URL</span>
+                <span className="text-sm font-medium">{t("securityPage.scimTokens.baseUrl")}</span>
                 <div className="flex items-center space-x-2">
                     <div className="bg-muted p-2 rounded-md text-sm flex-1 break-all font-mono">
                         {baseUrl}
@@ -138,20 +151,20 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                 <div className="flex items-center justify-between px-4 py-3">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span>
-                            {tokens.length} SCIM token{tokens.length !== 1 ? "s" : ""}
+                            {t("securityPage.scimTokens.tokenCount", { count: tokens.length })}
                         </span>
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <button
                                     type="button"
                                     className="inline-flex h-4 w-4 items-center justify-center rounded-full text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                    aria-label="SCIM token info"
+                                    aria-label={t("securityPage.scimTokens.tokenInfoAriaLabel")}
                                 >
                                     <Info className="h-3.5 w-3.5" />
                                 </button>
                             </TooltipTrigger>
                             <TooltipContent className="max-w-xs">
-                                A SCIM token is a Bearer auth token used by your identity provider to call Sourcebot&apos;s SCIM API.
+                                {t("securityPage.scimTokens.tokenInfo")}
                             </TooltipContent>
                         </Tooltip>
                     </div>
@@ -168,12 +181,12 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                                 }}
                             >
                                 <Plus className="h-4 w-4" />
-                                New SCIM token
+                                {t("securityPage.scimTokens.newToken")}
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-md">
                             <DialogHeader>
-                                <DialogTitle>{newlyCreatedToken ? 'Your New SCIM Token' : 'Create SCIM Token'}</DialogTitle>
+                                <DialogTitle>{newlyCreatedToken ? t("securityPage.scimTokens.createdTitle") : t("securityPage.scimTokens.createTitle")}</DialogTitle>
                             </DialogHeader>
 
                             {newlyCreatedToken ? (
@@ -181,7 +194,7 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                                     <div className="flex items-center gap-2 p-3 border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20 rounded-md text-yellow-700 dark:text-yellow-400">
                                         <AlertTriangle className="h-5 w-5 flex-shrink-0" />
                                         <p className="text-sm">
-                                            This is the only time you&apos;ll see this token. Copy it now and paste it into your IdP.
+                                            {t("securityPage.scimTokens.createdWarning")}
                                         </p>
                                     </div>
 
@@ -199,7 +212,7 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                                     <Input
                                         value={newTokenName}
                                         onChange={(e) => setNewTokenName(e.target.value)}
-                                        placeholder="Enter a name for your SCIM token"
+                                        placeholder={t("securityPage.scimTokens.namePlaceholder")}
                                         className="mb-2"
                                     />
                                 </div>
@@ -207,13 +220,13 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
 
                             <DialogFooter className="sm:justify-between">
                                 {newlyCreatedToken ? (
-                                    <Button onClick={handleCloseDialog}>Done</Button>
+                                    <Button onClick={handleCloseDialog}>{tCommon("done")}</Button>
                                 ) : (
                                     <>
-                                        <Button variant="outline" onClick={handleCloseDialog}>Cancel</Button>
+                                        <Button variant="outline" onClick={handleCloseDialog}>{tCommon("cancel")}</Button>
                                         <Button onClick={handleCreateToken} disabled={isCreatingToken || !newTokenName.trim()}>
                                             {isCreatingToken && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                                            Create
+                                            {tCommon("create")}
                                         </Button>
                                     </>
                                 )}
@@ -224,7 +237,7 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
 
                 {sortedTokens.length === 0 ? (
                     <div className="border-t border-border px-4 py-8 text-center text-sm text-muted-foreground">
-                        No SCIM tokens yet.
+                        {t("securityPage.scimTokens.empty")}
                     </div>
                 ) : (
                     <div className="border-t border-border">
@@ -239,11 +252,11 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                                 <div className="flex flex-col min-w-0 flex-1">
                                     <span className="text-sm font-medium truncate">{token.name}</span>
                                     <span className="text-xs text-muted-foreground">
-                                        Created {formatDistanceToNow(token.createdAt, { addSuffix: true })}
+                                        {t("securityPage.scimTokens.createdAgo", { time: formatDistanceToNow(token.createdAt, { addSuffix: true, locale: dateFnsLocale }) })}
                                         {" · "}
                                         {token.lastUsedAt
-                                            ? `last used ${formatDistanceToNow(token.lastUsedAt, { addSuffix: true })}`
-                                            : "never used"
+                                            ? t("securityPage.scimTokens.lastUsed", { time: formatDistanceToNow(token.lastUsedAt, { addSuffix: true, locale: dateFnsLocale }) })
+                                            : t("securityPage.scimTokens.neverUsed")
                                         }
                                     </span>
                                 </div>
@@ -259,18 +272,18 @@ export function ScimProvisioningSettings({ baseUrl, tokens }: ScimProvisioningSe
                                     </AlertDialogTrigger>
                                     <AlertDialogContent>
                                         <AlertDialogHeader>
-                                            <AlertDialogTitle>Revoke SCIM Token</AlertDialogTitle>
+                                            <AlertDialogTitle>{t("securityPage.scimTokens.revokeTitle")}</AlertDialogTitle>
                                             <AlertDialogDescription>
-                                                Are you sure you want to revoke <span className="font-semibold text-foreground">{token.name}</span>? Your IdP will no longer be able to provision or deprovision users with this token. This action cannot be undone.
+                                                {t("securityPage.scimTokens.revokeDescription", { name: token.name })}
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
                                             <AlertDialogAction
                                                 onClick={() => handleRevokeToken(token.name)}
                                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                             >
-                                                Revoke
+                                                {t("securityPage.scimTokens.revoke")}
                                             </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>

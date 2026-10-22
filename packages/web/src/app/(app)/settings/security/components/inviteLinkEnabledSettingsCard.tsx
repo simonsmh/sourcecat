@@ -9,6 +9,7 @@ import { useToast } from "@/components/hooks/use-toast"
 import { setInviteLinkEnabled } from "@/app/(app)/settings/security/actions"
 import { cn, isServiceError } from "@/lib/utils"
 import { BasicSettingsCard } from "@/app/(app)/settings/components/settingsCard"
+import { useTranslations } from "@/i18n/I18nProvider"
 import { ManagedByScimBadge } from "@/features/membership/components/managedByScimBadge"
 
 interface InviteLinkEnabledSettingsCardProps {
@@ -22,6 +23,7 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
     const [isLoading, setIsLoading] = useState(false)
     const [copied, setCopied] = useState(false)
     const { toast } = useToast()
+    const t = useTranslations("settings")
 
     const handleToggle = async (checked: boolean) => {
         setIsLoading(true)
@@ -30,8 +32,8 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
             
             if (isServiceError(result)) {
                 toast({
-                    title: "Error",
-                    description: "Failed to update invite link setting",
+                    title: t("securityPage.error"),
+                    description: t("securityPage.inviteLink.updateFailed"),
                     variant: "destructive",
                 })
                 return
@@ -42,8 +44,8 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
         } catch (error) {
             console.error("Error updating invite link setting:", error)
             toast({
-                title: "Error",
-                description: "Failed to update invite link setting",
+                title: t("securityPage.error"),
+                description: t("securityPage.inviteLink.updateFailed"),
                 variant: "destructive",
             })
         } finally {
@@ -61,8 +63,8 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
         } catch (err) {
             console.error("Failed to copy text: ", err)
             toast({
-                title: "Error",
-                description: "Failed to copy invite link to clipboard",
+                title: t("securityPage.error"),
+                description: t("securityPage.inviteLink.copyFailed"),
                 variant: "destructive",
             })
         }
@@ -70,9 +72,9 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
 
     return (
         <BasicSettingsCard
-            name="Enable invite links"
-            description="When enabled, team members can use the invite link to join your organization without requiring approval."
-            badge={scimManaged ? <ManagedByScimBadge tooltip="Members are provisioned through your identity provider, so this setting has no effect while SCIM is enabled." /> : undefined}
+            name={t("securityPage.inviteLink.name")}
+            description={t("securityPage.inviteLink.description")}
+            badge={scimManaged ? <ManagedByScimBadge tooltip={t("securityPage.scimManagedTooltip")} /> : undefined}
             footer={scimManaged ? undefined : (
                 <div className={cn(
                     "transition-all duration-300 ease-in-out",
@@ -84,7 +86,7 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
                         <div className="space-y-2">
                             <div className="flex gap-2">
                                 <Input
-                                    value={inviteLink || "Failed to fetch invite link: org doesn't have inviteId property."}
+                                    value={inviteLink || t("securityPage.inviteLink.fetchFailed")}
                                     readOnly
                                     className={cn("flex-1 bg-muted border-border", inviteLink ? "text-foreground" : "text-red-500")}
                                 />
@@ -94,7 +96,7 @@ export function InviteLinkEnabledSettingsCard({ inviteLinkEnabled, inviteLink, s
                                     size="icon"
                                     className="shrink-0 border-border hover:bg-muted"
                                     disabled={!inviteLink}
-                                    aria-label={copied ? "Invite link copied" : "Copy invite link"}
+                                    aria-label={copied ? t("securityPage.inviteLink.copiedAriaLabel") : t("securityPage.inviteLink.copyAriaLabel")}
                                 >
                                     {copied ? (
                                         <Check className="h-4 w-4 text-[var(--chart-2)]" />

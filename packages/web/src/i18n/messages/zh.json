@@ -113,6 +113,112 @@
             "validate": "校验",
             "validationPassed": "JSON 语法与配置 schema 均校验通过。",
             "invalidJsonAt": "JSON 语法错误（第 {line} 行第 {column} 列）：{message}"
+        },
+        "securityPage": {
+            "upgrade": "升级",
+            "organizationAccess": "组织访问",
+            "organizationAccessDescription": "配置用户如何访问你的 Sourcecat 部署。",
+            "learnMore": "了解更多",
+            "emailLogin": "邮箱登录",
+            "singleSignOn": "单点登录（SSO）",
+            "ssoDescription": "允许用户使用 GitHub、Google 或 Okta 等外部身份提供商登录。身份提供商在配置文件中管理。",
+            "noIdentityProviders": "尚未配置任何身份提供商。请在配置文件中添加。",
+            "scimProvisioning": "SCIM 预配",
+            "scimDescription": "从身份提供商（Okta、Entra）自动预配和取消预配成员。使用下方的基础 URL 和 SCIM 令牌配置你的 IdP。",
+            "loginMessage": "登录提示信息",
+            "loginMessageDescription": "在登录和注册页面显示访问说明或注册链接。",
+            "error": "错误",
+            "managedByScim": "由 SCIM 管理",
+            "scimDefaultTooltip": "通过你的身份提供商预配。",
+            "scimManagedTooltip": "成员通过你的身份提供商预配，因此启用 SCIM 期间此设置不生效。",
+            "inviteLink": {
+                "name": "启用邀请链接",
+                "description": "启用后，团队成员可通过邀请链接加入组织，无需审批。",
+                "updateFailed": "更新邀请链接设置失败",
+                "copyFailed": "复制邀请链接到剪贴板失败",
+                "fetchFailed": "获取邀请链接失败：组织没有 inviteId 属性。",
+                "copyAriaLabel": "复制邀请链接",
+                "copiedAriaLabel": "邀请链接已复制"
+            },
+            "memberApproval": {
+                "name": "新成员需要审批",
+                "description": "启用后，新用户需要组织所有者审批后才能访问你的部署。",
+                "updateFailed": "更新成员审批设置失败"
+            },
+            "anonymousAccess": {
+                "name": "启用匿名访问",
+                "description": "启用后，用户无需登录即可访问你的部署。",
+                "updateFailed": "更新匿名访问设置失败"
+            },
+            "credentialsLogin": {
+                "name": "邮箱密码登录",
+                "description": "启用后，用户可使用邮箱和密码登录。",
+                "updateFailed": "更新邮箱登录设置失败"
+            },
+            "emailCodeLogin": {
+                "name": "邮箱验证码登录",
+                "description": "启用后，用户可使用发送到邮箱的一次性验证码登录。",
+                "updateFailed": "更新邮箱验证码登录设置失败",
+                "requiresEmail": "此设置需要先配置事务邮件。"
+            },
+            "identityProvider": {
+                "configured": "已配置"
+            },
+            "ssoUpsell": {
+                "title": "单点登录是付费功能",
+                "description": "升级后，用户可通过 GitHub、Google、Okta 等提供商进行身份验证。"
+            },
+            "scimUpsell": {
+                "title": "SCIM 预配是付费功能",
+                "description": "升级后，可从身份提供商自动预配和取消预配成员。"
+            },
+            "scimEnabled": {
+                "name": "启用 SCIM 预配",
+                "description": "启用后，你的身份提供商可通过 SCIM 预配和取消预配成员。",
+                "updateFailed": "更新 SCIM 预配设置失败",
+                "enableTitle": "启用 SCIM 预配？",
+                "disableTitle": "禁用 SCIM 预配？",
+                "enableDescription": "你的身份提供商将成为成员资格的权威来源。启用 SCIM 期间，邀请链接、成员审批和加入请求将被禁用。成员只能通过 IdP 添加或移除。",
+                "disableDescription": "成员将不再从你的身份提供商同步。现有成员保留访问权限。SCIM 令牌不会被吊销，但在重新启用 SCIM 前将停止工作。",
+                "enable": "启用",
+                "disable": "禁用"
+            },
+            "scimTokens": {
+                "baseUrl": "SCIM 连接器基础 URL",
+                "tokenCount": "{count, plural, other {# 个 SCIM 令牌}}",
+                "tokenInfoAriaLabel": "SCIM 令牌说明",
+                "tokenInfo": "SCIM 令牌是 Bearer 身份验证令牌，供你的身份提供商调用 Sourcecat 的 SCIM API。",
+                "newToken": "新建 SCIM 令牌",
+                "createTitle": "创建 SCIM 令牌",
+                "createdTitle": "你的新 SCIM 令牌",
+                "createdWarning": "这是唯一一次看到此令牌的机会。请立即复制并粘贴到你的 IdP 中。",
+                "namePlaceholder": "为 SCIM 令牌输入名称",
+                "empty": "暂无 SCIM 令牌。",
+                "createdAgo": "创建于 {time}",
+                "lastUsed": "上次使用于 {time}",
+                "neverUsed": "从未使用",
+                "revokeTitle": "吊销 SCIM 令牌",
+                "revokeDescription": "确定要吊销 {name} 吗？你的 IdP 将无法再使用此令牌预配或取消预配用户。此操作无法撤销。",
+                "revoke": "吊销",
+                "copyBaseUrlFailed": "复制基础 URL 失败",
+                "tokenNameEmpty": "令牌名称不能为空",
+                "createFailed": "创建 SCIM 令牌失败：{message}",
+                "copyTokenFailed": "复制令牌到剪贴板失败",
+                "revokeFailed": "吊销 SCIM 令牌失败：{message}",
+                "revoked": "SCIM 令牌已吊销"
+            },
+            "loginMessageCard": {
+                "saved": "登录提示信息已保存。",
+                "removed": "登录提示信息已移除。",
+                "saveFailed": "保存登录提示信息失败，请重试。",
+                "editorAriaLabel": "登录提示信息编辑器",
+                "write": "编写",
+                "preview": "预览",
+                "placeholder": "需要访问权限？请在登录前[申请访问](https://example.com/access)。",
+                "emptyPreview": "不会显示任何信息。",
+                "hint": "可使用 Markdown 添加格式和链接。留空则隐藏该信息。",
+                "saveChanges": "保存更改"
+            }
         }
     },
     "sidebar": {
