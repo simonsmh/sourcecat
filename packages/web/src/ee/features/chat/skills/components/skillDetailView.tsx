@@ -38,6 +38,10 @@ import {
     type AgentSkillSourceStatus,
 } from "@/ee/features/chat/skills/types";
 import { unwrapServiceError } from "@/lib/utils";
+import { useLocale, useTranslations } from "@/i18n/I18nProvider";
+import type { Locale } from "@/i18n/config";
+
+const dateLocales: Record<Locale, string> = { en: "en-US", zh: "zh-CN", ja: "ja-JP", ko: "ko-KR" };
 
 interface SkillDetailViewProps {
     skill: DetailSkill;
@@ -62,6 +66,8 @@ export function SkillDetailView({
     onUpdateFromSource,
     onDelete,
 }: SkillDetailViewProps) {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const isShared = skill.scope === "SHARED";
     const canManage = skill.canManage;
     const sharedToggleDisabled = scopePending || (isShared && !canManage);
@@ -95,7 +101,7 @@ export function SkillDetailView({
                             org-wide command stays synced and the author/owners refresh
                             it from source. Name + command stay editable either way. */}
                         <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                            <span>Shared</span>
+                            <span>{t("skillsPage.sharedLabel")}</span>
                             {scopePending ? (
                                 <Loader2Icon className="h-4 w-4 animate-spin" />
                             ) : (
@@ -103,18 +109,18 @@ export function SkillDetailView({
                                     checked={isShared}
                                     disabled={sharedToggleDisabled}
                                     onCheckedChange={(checked) => onSharedToggle(checked)}
-                                    aria-label="Shared"
+                                    aria-label={t("skillsPage.sharedLabel")}
                                     className={SHARED_SKILL_SWITCH_CLASS_NAME}
                                 />
                             )}
                         </label>
                         <Button variant="outline" size="sm" onClick={onEdit}>
                             <PencilIcon className="mr-2 h-4 w-4" />
-                            Edit
+                            {tCommon("edit")}
                         </Button>
                         <DropdownMenu modal={false}>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label={`Actions for ${skill.name}`}>
+                                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label={t("skillsPage.detail.actionsFor", { name: skill.name })}>
                                     <MoreHorizontalIcon className="h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -123,7 +129,7 @@ export function SkillDetailView({
                                     <DropdownMenuItem asChild>
                                         <Link href={workspaceAdminHref}>
                                             <Building2Icon className="mr-2 h-4 w-4" />
-                                            View in workspace settings
+                                            {t("skillsPage.detail.viewInWorkspace")}
                                         </Link>
                                     </DropdownMenuItem>
                                 )}
@@ -132,7 +138,7 @@ export function SkillDetailView({
                                     onClick={onDelete}
                                 >
                                     <Trash2Icon className="mr-2 h-4 w-4" />
-                                    Delete
+                                    {tCommon("delete")}
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -158,7 +164,7 @@ export function SkillDetailView({
                 {tocItems.length > 0 && (
                     <div className="hidden w-48 shrink-0 overflow-y-auto @3xl:block">
                         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            On this page
+                            {t("skillsPage.detail.onThisPage")}
                         </p>
                         <TableOfContents tocItems={tocItems} activeId={activeId} />
                     </div>
@@ -175,7 +181,7 @@ export function SkillDetailView({
                                     <PopoverTrigger asChild>
                                         <Button variant="outline" size="sm" className="ml-auto h-7 gap-1.5 @3xl:hidden">
                                             <ListIcon className="h-3.5 w-3.5" />
-                                            On this page
+                                            {t("skillsPage.detail.onThisPage")}
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent align="end" className="max-h-80 w-64 overflow-y-auto p-2">
@@ -208,41 +214,45 @@ export function SkillDetailView({
 }
 
 function SkillMetaChips({ skill }: { skill: DetailSkill }) {
+    const t = useTranslations("settings");
+    const locale = useLocale();
     const isShared = skill.scope === "SHARED";
     const chipClass = "inline-flex items-center gap-1.5 rounded-md border bg-muted/40 px-2 py-1 text-xs text-muted-foreground";
     return (
         <>
             <span className={chipClass}>
                 {isShared ? <Building2Icon className="h-3.5 w-3.5" /> : <BookOpenIcon className="h-3.5 w-3.5" />}
-                {isShared ? "Shared · workspace" : "Personal · only you"}
+                {isShared ? t("skillsPage.detail.sharedWorkspace") : t("skillsPage.detail.personalOnlyYou")}
             </span>
             <span className={chipClass}>
                 <UserAvatar email={skill.addedByEmail} className="size-4" />
-                {skill.addedByEmail || "Unknown"}
+                {skill.addedByEmail || t("skillsPage.detail.unknown")}
             </span>
-            <span className={chipClass}>Updated {formatUpdatedAt(skill.updatedAt)}</span>
+            <span className={chipClass}>{t("skillsPage.detail.updatedWithDate", { date: formatUpdatedAt(skill.updatedAt, dateLocales[locale]) })}</span>
         </>
     );
 }
 
 function SkillDetailMetaFields({ skill }: { skill: DetailSkill }) {
+    const t = useTranslations("settings");
+    const locale = useLocale();
     const isShared = skill.scope === "SHARED";
     return (
         <>
-            <DetailMetaField label="Visibility">
+            <DetailMetaField label={t("skillsPage.detail.visibility")}>
                 <span className="inline-flex items-center gap-1.5">
                     {isShared ? <Building2Icon className="h-3.5 w-3.5" /> : <BookOpenIcon className="h-3.5 w-3.5" />}
-                    {isShared ? "Shared · workspace" : "Personal · only you"}
+                    {isShared ? t("skillsPage.detail.sharedWorkspace") : t("skillsPage.detail.personalOnlyYou")}
                 </span>
             </DetailMetaField>
-            <DetailMetaField label="Added by">
+            <DetailMetaField label={t("skillsPage.detail.addedBy")}>
                 <span className="inline-flex min-w-0 items-center gap-2">
                     <UserAvatar email={skill.addedByEmail} className="size-5" />
-                    <span className="truncate">{skill.addedByEmail || "Unknown"}</span>
+                    <span className="truncate">{skill.addedByEmail || t("skillsPage.detail.unknown")}</span>
                 </span>
             </DetailMetaField>
-            <DetailMetaField label="Updated">
-                {formatUpdatedAt(skill.updatedAt)}
+            <DetailMetaField label={t("skillsPage.detail.updatedLabel")}>
+                {formatUpdatedAt(skill.updatedAt, dateLocales[locale])}
             </DetailMetaField>
         </>
     );
@@ -277,6 +287,7 @@ function SkillSourceSyncBanner({
     updatePending: boolean;
     onUpdateFromSource: () => void;
 }) {
+    const t = useTranslations("settings");
     // Keyed on updatedAt so the check re-runs after an update bumps the skill. Only
     // runs for users who can act on it; there's no point surfacing staleness to an
     // adopter who can't refresh the org-wide command.
@@ -292,7 +303,7 @@ function SkillSourceSyncBanner({
         <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b bg-muted/20 px-6 py-3">
             <div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
                 <FolderGit2Icon className="h-4 w-4 shrink-0" />
-                <span className="shrink-0">Synced from</span>
+                <span className="shrink-0">{t("skillsPage.detail.syncedFrom")}</span>
                 <span className="truncate font-medium text-foreground">{source.repoName}</span>
                 <span className="shrink-0 text-muted-foreground/60">·</span>
                 <span className="truncate font-mono text-xs">{source.filePath}</span>
@@ -307,7 +318,7 @@ function SkillSourceSyncBanner({
                             ) : (
                                 <RefreshCwIcon className="mr-2 h-4 w-4" />
                             )}
-                            {updatePending ? "Updating..." : "Update from source"}
+                            {updatePending ? t("skillsPage.detail.updating") : t("skillsPage.detail.updateFromSource")}
                         </Button>
                     )}
                     {status === "in_sync" && (
@@ -317,7 +328,7 @@ function SkillSourceSyncBanner({
                             ) : (
                                 <RefreshCwIcon className="mr-2 h-4 w-4" />
                             )}
-                            {updatePending ? "Syncing..." : "Force sync"}
+                            {updatePending ? t("skillsPage.detail.syncing") : t("skillsPage.detail.forceSync")}
                         </Button>
                     )}
                 </div>
@@ -335,20 +346,21 @@ function SkillSourceStatusIndicator({
     isLoading: boolean;
     isError: boolean;
 }) {
+    const t = useTranslations("settings");
     if (isLoading) {
         return (
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Loader2Icon className="h-3.5 w-3.5 animate-spin" />
-                Checking…
+                {t("skillsPage.detail.checking")}
             </span>
         );
     }
     if (isError || status === "repo_unavailable" || status === "source_missing") {
         const label = status === "source_missing"
-            ? "Source file not found"
+            ? t("skillsPage.detail.sourceFileNotFound")
             : status === "repo_unavailable"
-                ? "Source repo unavailable"
-                : "Couldn't check for updates";
+                ? t("skillsPage.detail.sourceRepoUnavailable")
+                : t("skillsPage.detail.couldntCheck");
         return (
             <span className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-500">
                 <AlertTriangleIcon className="h-3.5 w-3.5" />
@@ -360,7 +372,7 @@ function SkillSourceStatusIndicator({
         return (
             <span className="flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-500">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                Update available
+                {t("skillsPage.detail.updateAvailable")}
             </span>
         );
     }
@@ -368,7 +380,7 @@ function SkillSourceStatusIndicator({
         return (
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <CheckCircle2Icon className="h-3.5 w-3.5 text-green-600" />
-                Up to date
+                {t("skillsPage.detail.upToDate")}
             </span>
         );
     }

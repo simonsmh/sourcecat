@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
 import { useState } from 'react';
 import type { RepositoryQuery } from '@/lib/types';
 import type { FileTreeItem } from '@/features/git';
@@ -53,6 +55,7 @@ function renderDialog(overrides: Partial<Parameters<typeof ImportFromRepoDialog>
 
     render(
         <QueryClientProvider client={queryClient}>
+            <I18nProvider locale="en" messages={enMessages}>
             <ImportFromRepoDialog
                 open
                 onOpenChange={onOpenChange}
@@ -60,6 +63,7 @@ function renderDialog(overrides: Partial<Parameters<typeof ImportFromRepoDialog>
                 onError={onError}
                 {...overrides}
             />
+            </I18nProvider>
         </QueryClientProvider>,
     );
 
@@ -203,7 +207,7 @@ describe('ImportFromRepoDialog', () => {
             return <ImportFromRepoDialog open={open} onOpenChange={setOpen} onImport={vi.fn()} onError={vi.fn()} />;
         }
         const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-        render(<QueryClientProvider client={queryClient}><Harness /></QueryClientProvider>);
+        render(<QueryClientProvider client={queryClient}><I18nProvider locale="en" messages={enMessages}><Harness /></I18nProvider></QueryClientProvider>);
 
         fireEvent.click(await screen.findByText('acme/widgets'));
         fireEvent.click(await screen.findByText('skill.md'));

@@ -13,6 +13,7 @@ import { parseAgentSkillMarkdown, type ParsedAgentSkillMarkdown } from "@/ee/fea
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import type { RepositoryQuery } from "@/lib/types";
 import { unwrapServiceError } from "@/lib/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const MAX_RESULTS = 100;
 const MARKDOWN_FILE_REGEX = /\.(md|markdown)$/i;
@@ -39,6 +40,8 @@ interface ImportFromRepoDialogProps {
 }
 
 export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: ImportFromRepoDialogProps) => {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const captureEvent = useCaptureEvent();
     const [selectedRepo, setSelectedRepo] = useState<RepositoryQuery | null>(null);
     const [repoQuery, setRepoQuery] = useState("");
@@ -129,7 +132,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                     success: false,
                     failureReason: 'missing_blob_sha',
                 });
-                onError("Couldn't determine the file version to sync. Please try again.");
+                onError(t("skillsPage.importDialog.versionError"));
                 return;
             }
             const parsed = parseAgentSkillMarkdown(result.source, name);
@@ -161,7 +164,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                 success: false,
                 failureReason: 'file_load_error',
             });
-            onError("Failed to load the selected file.");
+            onError(t("skillsPage.importDialog.loadFileError"));
         } finally {
             setIsImporting(false);
         }
@@ -173,32 +176,32 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                 className="overflow-hidden p-0 shadow-lg max-w-[90vw] sm:max-w-2xl top-[20%] translate-y-0"
                 hideCloseButton
             >
-                <DialogTitle className="sr-only">Import a skill from a repository</DialogTitle>
+                <DialogTitle className="sr-only">{t("skillsPage.importDialog.title")}</DialogTitle>
                 <DialogDescription className="sr-only">
-                    Browse your indexed repositories and import a markdown file as a skill.
+                    {t("skillsPage.importDialog.description")}
                 </DialogDescription>
                 <DialogClose className="absolute right-2 top-1.5 z-10 inline-flex h-8 w-8 items-center justify-center rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                     <XIcon className="h-4 w-4" />
-                    <span className="sr-only">Close</span>
+                    <span className="sr-only">{tCommon("close")}</span>
                 </DialogClose>
 
                 {selectedRepo === null ? (
                     <Command shouldFilter={false}>
                         <CommandInput
-                            placeholder="Search your indexed repositories..."
+                            placeholder={t("skillsPage.importDialog.searchReposPlaceholder")}
                             onValueChange={setRepoQuery}
                         />
                         <CommandList>
                             {isLoadingRepos ? (
                                 <ResultsSkeleton />
                             ) : isReposError ? (
-                                <p className="py-6 text-center text-sm text-muted-foreground">Error loading repositories.</p>
+                                <p className="py-6 text-center text-sm text-muted-foreground">{t("skillsPage.importDialog.reposError")}</p>
                             ) : (
                                 <>
                                     <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
-                                        No repositories found.
+                                        {t("skillsPage.importDialog.noRepos")}
                                     </CommandEmpty>
-                                    <CommandGroup heading="Repositories">
+                                    <CommandGroup heading={t("skillsPage.importDialog.repositories")}>
                                         {repos.map((repo) => (
                                             <CommandItem
                                                 key={repo.repoId}
@@ -230,14 +233,14 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                                 className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
                             >
                                 <ArrowLeftIcon className="h-3.5 w-3.5" />
-                                Repositories
+                                {t("skillsPage.importDialog.repositories")}
                             </button>
                             <span className="truncate text-xs font-medium text-foreground">
                                 {selectedRepo.repoDisplayName ?? selectedRepo.repoName}
                             </span>
                         </div>
                         <CommandInput
-                            placeholder="Search markdown files..."
+                            placeholder={t("skillsPage.importDialog.searchFilesPlaceholder")}
                             onValueChange={setFileQuery}
                             disabled={isLoadingFiles}
                         />
@@ -245,13 +248,13 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                             {isLoadingFiles ? (
                                 <ResultsSkeleton />
                             ) : isFilesError ? (
-                                <p className="py-6 text-center text-sm text-muted-foreground">Error loading files.</p>
+                                <p className="py-6 text-center text-sm text-muted-foreground">{t("skillsPage.importDialog.filesError")}</p>
                             ) : (
                                 <>
                                     <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
-                                        No markdown files found.
+                                        {t("skillsPage.importDialog.noFiles")}
                                     </CommandEmpty>
-                                    <CommandGroup heading="Markdown files">
+                                    <CommandGroup heading={t("skillsPage.importDialog.markdownFiles")}>
                                         {markdownFiles.map((file) => (
                                             <CommandItem
                                                 key={file.path}
@@ -274,7 +277,7 @@ export const ImportFromRepoDialog = ({ open, onOpenChange, onImport, onError }: 
                         {isImporting && (
                             <div className="flex items-center justify-center gap-2 border-t py-3 text-sm text-muted-foreground">
                                 <Loader2Icon className="h-4 w-4 animate-spin" />
-                                Importing...
+                                {t("skillsPage.importDialog.importing")}
                             </div>
                         )}
                     </Command>

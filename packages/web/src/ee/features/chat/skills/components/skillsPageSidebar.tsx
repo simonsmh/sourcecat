@@ -24,6 +24,7 @@ import {
     SkillAvatar,
 } from "@/ee/features/chat/skills/components/skillsPageShared";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface SkillsPageSidebarProps {
     filteredPersonal: AgentSkillListItem[];
@@ -58,12 +59,13 @@ export function SkillsPageSidebar({
     onSelectSkill,
     onAdoptionChange,
 }: SkillsPageSidebarProps) {
+    const t = useTranslations("settings");
     const hasSearchQuery = Boolean(searchQuery.trim());
 
     return (
         <aside className="flex w-[320px] shrink-0 flex-col border-r pr-5">
             <div className="flex shrink-0 items-center justify-between pb-3">
-                <h2 className="text-lg font-medium">Skills</h2>
+                <h2 className="text-lg font-medium">{t("skillsPage.title")}</h2>
                 <input
                     ref={markdownFileInputRef}
                     type="file"
@@ -77,7 +79,7 @@ export function SkillsPageSidebar({
                             variant="outline"
                             size="icon"
                             className="h-8 w-8"
-                            aria-label="Add skill"
+                            aria-label={t("skillsPage.addSkill")}
                         >
                             <PlusIcon className="h-4 w-4" />
                         </Button>
@@ -85,15 +87,15 @@ export function SkillsPageSidebar({
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={onStartCreate}>
                             <PlusIcon className="mr-2 h-4 w-4" />
-                            New skill
+                            {t("skillsPage.newSkill")}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={onTriggerMarkdownImport}>
                             <UploadIcon className="mr-2 h-4 w-4" />
-                            Import from file
+                            {t("skillsPage.importFromFile")}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={onOpenRepoImport}>
                             <FolderGit2Icon className="mr-2 h-4 w-4" />
-                            Import from repository
+                            {t("skillsPage.importFromRepo")}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -102,7 +104,7 @@ export function SkillsPageSidebar({
                 <div className="relative">
                     <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
-                        placeholder="Search skills..."
+                        placeholder={t("skillsPage.searchPlaceholder")}
                         value={searchQuery}
                         onChange={(event) => onSearchQueryChange(event.target.value)}
                         className="h-9 pl-9"
@@ -112,9 +114,9 @@ export function SkillsPageSidebar({
 
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pb-4">
                 <SkillListSection
-                    label="Personal"
+                    label={t("skillsPage.personal")}
                     count={filteredPersonal.length}
-                    emptyLabel={hasSearchQuery ? "No matches." : "No personal skills yet."}
+                    emptyLabel={hasSearchQuery ? t("skillsPage.noMatches") : t("skillsPage.noPersonal")}
                 >
                     {filteredPersonal.map((skill) => (
                         <SkillListRow
@@ -129,9 +131,9 @@ export function SkillsPageSidebar({
                 </SkillListSection>
 
                 <SkillListSection
-                    label="Shared"
+                    label={t("skillsPage.sharedLabel")}
                     count={filteredShared.length}
-                    emptyLabel={hasSearchQuery ? "No matches." : "No shared skills yet."}
+                    emptyLabel={hasSearchQuery ? t("skillsPage.noMatches") : t("skillsPage.noShared")}
                 >
                     {filteredShared.map((skill) => (
                         <SkillListRow
@@ -206,6 +208,7 @@ function SkillListRow({
     onToggleEnabled,
     onSelect,
 }: SkillListRowProps) {
+    const t = useTranslations("settings");
     return (
         <div
             className={cn(
@@ -238,7 +241,7 @@ function SkillListRow({
                     checked={!!enabled}
                     disabled={togglePending}
                     onCheckedChange={onToggleEnabled}
-                    aria-label={`Enable ${name}`}
+                    aria-label={t("skillsPage.enableSkill", { name })}
                     className={cn(
                         "mr-3 shrink-0",
                         SHARED_SKILL_SWITCH_CLASS_NAME,

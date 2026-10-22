@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
 import type { ReactNode } from 'react';
 import type { SharedAgentSkillManagementItem } from '@/ee/features/chat/skills/types';
 
@@ -46,7 +48,9 @@ function makeSkill(
 function renderManager(skills: SharedAgentSkillManagementItem[]) {
     return render(
         <TooltipProvider>
-            <WorkspaceSharedSkillsManager initialOrgSkills={skills} />
+            <I18nProvider locale="en" messages={enMessages}>
+                <WorkspaceSharedSkillsManager initialOrgSkills={skills} />
+            </I18nProvider>
         </TooltipProvider>,
     );
 }

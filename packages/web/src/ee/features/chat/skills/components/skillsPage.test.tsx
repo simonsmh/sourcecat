@@ -2,6 +2,8 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { I18nProvider } from '@/i18n/I18nProvider';
+import enMessages from '@/i18n/messages/en.json';
 import type { ReactNode } from 'react';
 import type { AgentSkillListItem, SharedAgentSkillCatalogItem } from '@/ee/features/chat/skills/types';
 
@@ -122,6 +124,7 @@ function renderSkillsPage({
     return render(
         <QueryClientProvider client={queryClient}>
             <TooltipProvider>
+                <I18nProvider locale="en" messages={enMessages}>
                 <SkillsPage
                     initialPersonalSkills={personalSkills}
                     initialSharedSkills={sharedSkills}
@@ -130,6 +133,7 @@ function renderSkillsPage({
                     initialSelectedId={initialSelectedId}
                     permissionSyncEnabled={permissionSyncEnabled}
                 />
+                </I18nProvider>
             </TooltipProvider>
         </QueryClientProvider>,
     );
@@ -212,7 +216,7 @@ describe('SkillsPage', () => {
         expect(skillActions.makeSharedAgentSkillPersonal).not.toHaveBeenCalled();
         const dialog = await screen.findByRole('alertdialog');
         expect(within(dialog).getByText('Make Shared Skill Personal')).toBeTruthy();
-        expect(within(dialog).getByText('/deploy-checklist')).toBeTruthy();
+        expect(within(dialog).getByText(/\/deploy-checklist/)).toBeTruthy();
 
         fireEvent.click(within(dialog).getByRole('button', { name: 'Make personal' }));
 
@@ -572,6 +576,7 @@ describe('SkillsPage', () => {
         const renderPage = (sharedSkills: SharedAgentSkillCatalogItem[]) => (
             <QueryClientProvider client={queryClient}>
                 <TooltipProvider>
+                    <I18nProvider locale="en" messages={enMessages}>
                     <SkillsPage
                         initialPersonalSkills={[]}
                         initialSharedSkills={sharedSkills}
@@ -579,6 +584,7 @@ describe('SkillsPage', () => {
                         isOwner={true}
                         permissionSyncEnabled={true}
                     />
+                    </I18nProvider>
                 </TooltipProvider>
             </QueryClientProvider>
         );

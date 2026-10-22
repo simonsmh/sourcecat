@@ -13,13 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { MarkdownRenderer } from "@/ee/features/chat/components/chatThread/markdownRenderer";
-import {
-    SKILL_COMMAND_PLACEHOLDER,
-    SKILL_DESCRIPTION_PLACEHOLDER,
-    SKILL_INSTRUCTIONS_PLACEHOLDER,
-    SKILL_INSTRUCTIONS_SYNCED_HELP,
-    SKILL_NAME_PLACEHOLDER,
-} from "@/ee/features/chat/skills/components/skillEditorCopy";
 import { SkillInstructionsEditor } from "@/ee/features/chat/skills/components/skillInstructionsEditor";
 import {
     INSTRUCTIONS_MAX_LENGTH,
@@ -32,6 +25,7 @@ import {
     type AgentSkillSourceRef,
 } from "@/ee/features/chat/skills/types";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 type InstructionsView = "write" | "split" | "preview";
 
@@ -63,6 +57,8 @@ export function SkillEditForm({
     onCancel,
     editorKey,
 }: SkillEditFormProps) {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     const [instructionsView, setInstructionsView] = useState<InstructionsView>("write");
     const [isSlugTouched, setIsSlugTouched] = useState(initialSlugTouched);
     const formRef = useRef<HTMLFormElement>(null);
@@ -161,18 +157,18 @@ export function SkillEditForm({
                 <div className="flex min-w-0 items-center gap-3">
                     <SkillAvatar name={name || "?"} />
                     <h3 className="truncate text-xl font-semibold tracking-tight text-foreground">
-                        {mode === "create" ? "New skill" : "Edit skill"}
+                        {mode === "create" ? t("skillsPage.newSkill") : t("skillsPage.editSkill")}
                     </h3>
                 </div>
                 <div className="flex shrink-0 items-center gap-3">
                     {formState.isDirty && !isSaving && (
                         <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                             <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                            Unsaved changes
+                            {t("skillsPage.form.unsavedChanges")}
                         </span>
                     )}
                     <Button type="button" variant="outline" size="sm" disabled={isSaving} onClick={onCancel}>
-                        Cancel
+                        {tCommon("cancel")}
                     </Button>
                     <Button type="submit" size="sm" disabled={isSaving}>
                         {isSaving ? (
@@ -180,7 +176,7 @@ export function SkillEditForm({
                         ) : (
                             <CheckIcon className="mr-2 h-4 w-4" />
                         )}
-                        {isSaving ? "Saving..." : mode === "create" ? "Create skill" : "Save skill"}
+                        {isSaving ? t("skillsPage.form.saving") : mode === "create" ? t("skillsPage.createSkill") : t("skillsPage.saveSkill")}
                         {!isSaving && (
                             <kbd className="ml-2 font-sans text-xs font-normal text-primary-foreground/60">⌘S</kbd>
                         )}
@@ -194,14 +190,14 @@ export function SkillEditForm({
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>{t("skillsPage.form.name")}</FormLabel>
                             <FormControl>
                                 <Input
                                     {...field}
                                     onChange={(event) => {
                                         handleNameChange(event.target.value);
                                     }}
-                                    placeholder={SKILL_NAME_PLACEHOLDER}
+                                    placeholder={t("skillsPage.form.namePlaceholder")}
                                     maxLength={80}
                                 />
                             </FormControl>
@@ -214,7 +210,7 @@ export function SkillEditForm({
                     name="slug"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Command</FormLabel>
+                            <FormLabel>{t("skillsPage.form.command")}</FormLabel>
                             <div className="relative">
                                 <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">/</span>
                                 <FormControl>
@@ -227,7 +223,7 @@ export function SkillEditForm({
                                             field.onBlur();
                                             handleSlugBlur();
                                         }}
-                                        placeholder={SKILL_COMMAND_PLACEHOLDER}
+                                        placeholder={t("skillsPage.form.commandPlaceholder")}
                                         className="pl-7 font-mono"
                                         maxLength={64}
                                     />
@@ -242,14 +238,14 @@ export function SkillEditForm({
                     name="description"
                     render={({ field }) => (
                         <FormItem className="sm:col-span-2">
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel>{t("skillsPage.form.description")}</FormLabel>
                             <FormControl>
                                 <Textarea
                                     {...field}
                                     onChange={(event) => {
                                         handleDescriptionChange(event.target.value);
                                     }}
-                                    placeholder={SKILL_DESCRIPTION_PLACEHOLDER}
+                                    placeholder={t("skillsPage.form.descriptionPlaceholder")}
                                     className="min-h-16 resize-y"
                                     maxLength={500}
                                 />
@@ -264,7 +260,7 @@ export function SkillEditForm({
                 <div className="mx-auto mb-3 flex w-full max-w-5xl flex-col gap-1 px-6">
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-3">
-                            <Label htmlFor="skill-instructions" className="text-sm font-semibold">Instructions</Label>
+                            <Label htmlFor="skill-instructions" className="text-sm font-semibold">{t("skillsPage.form.instructions")}</Label>
                             <ToggleGroup
                                 type="single"
                                 value={instructionsView}
@@ -276,19 +272,19 @@ export function SkillEditForm({
                                 className="gap-0.5 rounded-md border bg-muted/40 p-0.5"
                             >
                                 <ToggleGroupItem value="write" className="h-7 w-auto min-w-0 px-2.5 text-xs font-normal">
-                                    Write
+                                    {t("skillsPage.form.write")}
                                 </ToggleGroupItem>
                                 <ToggleGroupItem value="split" className="h-7 w-auto min-w-0 px-2.5 text-xs font-normal">
-                                    Split
+                                    {t("skillsPage.form.split")}
                                 </ToggleGroupItem>
                                 <ToggleGroupItem value="preview" className="h-7 w-auto min-w-0 px-2.5 text-xs font-normal">
-                                    Preview
+                                    {t("skillsPage.form.preview")}
                                 </ToggleGroupItem>
                             </ToggleGroup>
                             {syncedSource && (
                                 <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                     <FolderGit2Icon className="h-3.5 w-3.5" />
-                                    Synced from {syncedSource.repoName}
+                                    {t("skillsPage.form.syncedFromRepo", { repo: syncedSource.repoName })}
                                 </span>
                             )}
                         </div>
@@ -298,7 +294,7 @@ export function SkillEditForm({
                     </div>
                     {syncedSource && (
                         <p id={instructionsHelpId} className="text-xs text-muted-foreground">
-                            {SKILL_INSTRUCTIONS_SYNCED_HELP}
+                            {t("skillsPage.form.instructionsSyncedHelp")}
                         </p>
                     )}
                     {instructionsError?.message && (
@@ -324,7 +320,7 @@ export function SkillEditForm({
                                         onChange={(instructions) => {
                                             handleInstructionsChange(instructions);
                                         }}
-                                        placeholder={SKILL_INSTRUCTIONS_PLACEHOLDER}
+                                        placeholder={t("skillsPage.form.instructionsPlaceholder")}
                                         ariaDescribedBy={instructionsDescriptionIds}
                                         ariaInvalid={Boolean(instructionsError)}
                                         className="h-full resize-none font-mono text-sm leading-relaxed"
@@ -342,7 +338,7 @@ export function SkillEditForm({
                                     className="prose-sm max-w-none"
                                 />
                             ) : (
-                                <p className="text-sm text-muted-foreground">Nothing to preview yet.</p>
+                                <p className="text-sm text-muted-foreground">{t("skillsPage.form.nothingToPreview")}</p>
                             )}
                         </div>
                     )}

@@ -370,7 +370,7 @@ export function WorkspaceAskAgentPage({ callbackStatus, callbackServer, callback
             toast({ title: t("askPage.connectionFailed"), description: callbackMessage ?? t("askPage.connectFailedFallback"), variant: "destructive" });
             clearCallbackParams();
         }
-    }, [callbackStatus, callbackServer, callbackMessage, toast]);
+    }, [callbackStatus, callbackServer, callbackMessage, toast, t]);
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const [newServerName, setNewServerName] = useState("");
     const [newServerUrl, setNewServerUrl] = useState("");

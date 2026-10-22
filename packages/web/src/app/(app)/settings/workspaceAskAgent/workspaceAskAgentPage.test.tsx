@@ -190,7 +190,7 @@ describe('WorkspaceAskAgentPage', () => {
         fireEvent.click(skillBDeleteButton);
 
         const dialog = await screen.findByRole('alertdialog', { name: 'Delete Shared Skill' });
-        expect(within(dialog).getByText('Review B')).not.toBeNull();
+        expect(within(dialog).getByText(/Review B/)).not.toBeNull();
 
         await act(async () => {
             resolveUpdate({ ...skillA, autoEnrolled: true });

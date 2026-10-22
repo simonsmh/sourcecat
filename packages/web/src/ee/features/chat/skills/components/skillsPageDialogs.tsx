@@ -6,6 +6,7 @@ import {
 import { DeleteWorkspaceSkillDialog } from "@/ee/features/chat/skills/components/workspaceSkillShared";
 import { type DetailSkill } from "@/ee/features/chat/skills/components/skillsPageShared";
 import { type AgentSkillSyncField } from "@/ee/features/chat/skills/types";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface PendingDiscardTransition {
     run: () => void;
@@ -16,8 +17,10 @@ interface ConfirmSyncOverwrite {
     overwrittenFields: AgentSkillSyncField[];
 }
 
-const formatSyncFields = (fields: AgentSkillSyncField[]) =>
-    fields.length === 2 ? "description and instructions" : fields[0];
+type SkillsTranslator = ReturnType<typeof useTranslations<"settings">>;
+
+const formatSyncField = (field: AgentSkillSyncField, t: SkillsTranslator) =>
+    field === "description" ? t("skillsPage.dialogs.fieldDescription") : t("skillsPage.dialogs.fieldInstructions");
 
 interface SkillsPageDialogsProps {
     pendingDiscard: PendingDiscardTransition | null;
@@ -70,6 +73,8 @@ export function SkillsPageDialogs({
     onCloseDeleteShared,
     onConfirmDeleteShared,
 }: SkillsPageDialogsProps) {
+    const t = useTranslations("settings");
+    const tCommon = useTranslations("common");
     return (
         <>
             <AlertDialog
@@ -82,18 +87,18 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.discardTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            You have unsaved changes to this skill. If you continue, your progress will be lost.
+                            {t("skillsPage.dialogs.discardDescription")}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={onCancelPendingDiscard}>Keep editing</AlertDialogCancel>
+                        <AlertDialogCancel onClick={onCancelPendingDiscard}>{t("skillsPage.dialogs.keepEditing")}</AlertDialogCancel>
                         <AlertDialogAction
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             onClick={onConfirmPendingDiscard}
                         >
-                            Discard changes
+                            {t("skillsPage.dialogs.discardChanges")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -109,18 +114,18 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.discardTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            You have unsaved changes to this skill. If you leave now, your progress will be lost.
+                            {t("skillsPage.dialogs.discardNavDescription")}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={onCancelNavigation}>Keep editing</AlertDialogCancel>
+                        <AlertDialogCancel onClick={onCancelNavigation}>{t("skillsPage.dialogs.keepEditing")}</AlertDialogCancel>
                         <AlertDialogAction
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             onClick={onConfirmNavigation}
                         >
-                            Discard changes
+                            {t("skillsPage.dialogs.discardChanges")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -136,15 +141,15 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Overwrite local edits?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.syncOverwriteTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            The {confirmSyncOverwrite ? formatSyncFields(confirmSyncOverwrite.overwrittenFields) : ""} of{" "}
-                            <span className="font-semibold text-foreground">{confirmSyncOverwrite?.skill.name}</span>{" "}
-                            {confirmSyncOverwrite?.overwrittenFields.length === 2 ? "have" : "has"} been edited since the skill was last synced. Updating from source will replace those edits with the source file&apos;s content. This cannot be undone.
+                            {confirmSyncOverwrite && (confirmSyncOverwrite.overwrittenFields.length === 2
+                                ? t("skillsPage.dialogs.syncOverwriteDescriptionBoth", { name: confirmSyncOverwrite.skill.name })
+                                : t("skillsPage.dialogs.syncOverwriteDescriptionSingle", { field: formatSyncField(confirmSyncOverwrite.overwrittenFields[0], t), name: confirmSyncOverwrite.skill.name }))}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={onCloseSyncOverwrite}>Keep my edits</AlertDialogCancel>
+                        <AlertDialogCancel onClick={onCloseSyncOverwrite}>{t("skillsPage.dialogs.keepMyEdits")}</AlertDialogCancel>
                         <AlertDialogAction
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             onClick={(event) => {
@@ -154,7 +159,7 @@ export function SkillsPageDialogs({
                                 }
                             }}
                         >
-                            Overwrite and sync
+                            {t("skillsPage.dialogs.overwriteAndSync")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -170,13 +175,13 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Make Shared Skill Personal</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.makePersonalTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Make <span className="font-semibold text-foreground">{confirmMakePersonal?.name}</span> personal? This removes the <span className="font-mono text-foreground">/{confirmMakePersonal?.slug}</span> command from the shared catalog for everyone and keeps a personal copy for you.
+                            {t("skillsPage.dialogs.makePersonalDescription", { name: confirmMakePersonal?.name ?? "", slug: confirmMakePersonal?.slug ?? "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={scopePendingId !== null}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={scopePendingId !== null}>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={scopePendingId !== null}
                             onClick={(event) => {
@@ -187,7 +192,7 @@ export function SkillsPageDialogs({
                             }}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            {scopePendingId !== null ? "Making personal..." : "Make personal"}
+                            {scopePendingId !== null ? t("skillsPage.dialogs.makingPersonal") : t("skillsPage.dialogs.makePersonal")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -203,26 +208,19 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Share synced skill with your workspace?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.publishSyncedTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            <span className="font-semibold text-foreground">{confirmPublishSynced?.name}</span>{" "}
-                            is synced from{" "}
-                            <span className="font-medium text-foreground">{confirmPublishSynced?.source?.repoName}</span>
-                            . Sharing publishes the{" "}
-                            <span className="font-mono text-foreground">/{confirmPublishSynced?.slug}</span>{" "}
-                            command to your workspace and keeps it synced to the source file.
+                            {t("skillsPage.dialogs.publishSyncedDescription", { name: confirmPublishSynced?.name ?? "", repo: confirmPublishSynced?.source?.repoName ?? "", slug: confirmPublishSynced?.slug ?? "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <div className="flex gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-sm text-muted-foreground">
                         <AlertTriangleIcon className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-500" />
                         <p>
-                            Organization owners who don&apos;t have access to{" "}
-                            <span className="font-medium text-foreground">{confirmPublishSynced?.source?.repoName}</span>{" "}
-                            will still be able to see and manage this skill from workspace settings. Members without access to the repository won&apos;t see it.
+                            {t("skillsPage.dialogs.publishSyncedWarning", { repo: confirmPublishSynced?.source?.repoName ?? "" })}
                         </p>
                     </div>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={scopePendingId !== null}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={scopePendingId !== null}>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={scopePendingId !== null}
                             onClick={(event) => {
@@ -232,7 +230,7 @@ export function SkillsPageDialogs({
                                 }
                             }}
                         >
-                            {scopePendingId !== null ? "Sharing..." : "Share skill"}
+                            {scopePendingId !== null ? t("skillsPage.dialogs.sharing") : t("skillsPage.dialogs.shareSkill")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -248,13 +246,13 @@ export function SkillsPageDialogs({
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Skill</AlertDialogTitle>
+                        <AlertDialogTitle>{t("skillsPage.dialogs.deletePersonalTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Are you sure you want to delete <span className="font-semibold text-foreground">{confirmDeletePersonal?.name}</span>? This will remove the <span className="font-mono text-foreground">/{confirmDeletePersonal?.slug}</span> command.
+                            {t("skillsPage.dialogs.deletePersonalDescription", { name: confirmDeletePersonal?.name ?? "", slug: confirmDeletePersonal?.slug ?? "" })}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={deletingId !== null}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={deletingId !== null}>{tCommon("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                             disabled={deletingId !== null}
                             onClick={(event) => {
@@ -265,7 +263,7 @@ export function SkillsPageDialogs({
                             }}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            {deletingId !== null ? "Deleting..." : "Delete"}
+                            {deletingId !== null ? t("skillsPage.dialogs.deleting") : tCommon("delete")}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

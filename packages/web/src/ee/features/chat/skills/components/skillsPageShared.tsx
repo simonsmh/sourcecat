@@ -77,8 +77,8 @@ export function toDetailFromShared(skill: SharedAgentSkillCatalogItem, isOwner: 
     };
 }
 
-export function formatUpdatedAt(iso: string): string {
-    return new Date(iso).toLocaleDateString("en-US", {
+export function formatUpdatedAt(iso: string, locale: string = "en-US"): string {
+    return new Date(iso).toLocaleDateString(locale, {
         month: "short",
         day: "numeric",
         year: "numeric",

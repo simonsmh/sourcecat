@@ -10,6 +10,7 @@ import type { CustomElement, FileMentionData, MentionElement, RenderElementProps
 import { useCustomSlateEditor } from "@/features/chat/useCustomSlateEditor";
 import { fileReferenceToString, insertMention, isCustomTextElement, isMentionElement, isParagraphElement } from "@/features/chat/utils";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { computePosition, flip, offset, shift, type VirtualElement } from "@floating-ui/react";
 import { type KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type Descendant, insertText } from "slate";
@@ -162,6 +163,7 @@ const SkillInstructionsEditable = ({
     ariaInvalid,
     readOnly,
 }: Pick<SkillInstructionsEditorProps, "id" | "className" | "placeholder" | "ariaDescribedBy" | "ariaInvalid" | "readOnly">) => {
+    const t = useTranslations("settings");
     const suggestionsBoxRef = useRef<HTMLDivElement>(null);
     const [index, setIndex] = useState(0);
     const editor = useSlate();
@@ -284,7 +286,7 @@ const SkillInstructionsEditable = ({
                     </div>
                 )}
                 <Editable
-                    aria-label="Skill instructions"
+                    aria-label={t("skillsPage.form.instructionsAriaLabel")}
                     aria-describedby={ariaDescribedBy}
                     aria-invalid={ariaInvalid}
                     className={cn(

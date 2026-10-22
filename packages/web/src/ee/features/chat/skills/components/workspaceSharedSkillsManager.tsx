@@ -18,15 +18,14 @@ import {
     type OrgSkillFlagKey,
 } from "@/ee/features/chat/skills/components/workspaceSkillMutations";
 import {
-    AUTO_ENROLLED_SKILL_TOOLTIP,
     DeleteWorkspaceSkillDialog,
     SyncedSkillBadge,
     WorkspaceSkillsEmptyState,
 } from "@/ee/features/chat/skills/components/workspaceSkillShared";
 import { sortSharedAgentSkillManagementItems, type SharedAgentSkillManagementItem } from "@/ee/features/chat/skills/types";
-import { pluralize } from "@/features/chat/mcp/utils";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 // Synced = mirrors a repository file (has a source); Manual = created in-app or
 // imported from a local file (no source).
@@ -38,6 +37,7 @@ export function WorkspaceSharedSkillsManager({
     initialOrgSkills: SharedAgentSkillManagementItem[];
 }) {
     const { toast } = useToast();
+    const t = useTranslations("settings");
     const captureEvent = useCaptureEvent();
     const didCapturePageViewRef = useRef(false);
     const [orgSkills, setOrgSkills] = useState(() => sortSharedAgentSkillManagementItems(initialOrgSkills));
@@ -80,13 +80,13 @@ export function WorkspaceSharedSkillsManager({
                 updateOrgSkills: setOrgSkills,
             });
             if (error) {
-                toast({ title: "Error", description: error.message, variant: "destructive" });
+                toast({ title: t("skillsPage.error"), description: error.message, variant: "destructive" });
                 return;
             }
 
-            toast({ description: "Shared skill updated." });
+            toast({ description: t("skillsPage.manager.updatedToast") });
         } catch {
-            toast({ title: "Error", description: "Failed to update shared skill.", variant: "destructive" });
+            toast({ title: t("skillsPage.error"), description: t("skillsPage.manager.updateFailed"), variant: "destructive" });
         } finally {
             setFlagPendingSkills((current) => {
                 const next = { ...current };
@@ -105,14 +105,14 @@ export function WorkspaceSharedSkillsManager({
         try {
             const error = await deleteWorkspaceSkill({ skillId, updateOrgSkills: setOrgSkills });
             if (error) {
-                toast({ title: "Error", description: error.message, variant: "destructive" });
+                toast({ title: t("skillsPage.error"), description: error.message, variant: "destructive" });
                 return;
             }
 
             setSkillToDelete(null);
-            toast({ description: "Shared skill deleted." });
+            toast({ description: t("skillsPage.manager.deletedToast") });
         } catch {
-            toast({ title: "Error", description: "Failed to delete shared skill.", variant: "destructive" });
+            toast({ title: t("skillsPage.error"), description: t("skillsPage.manager.deleteFailed"), variant: "destructive" });
         } finally {
             setDeletingSkillId(null);
         }
@@ -138,11 +138,11 @@ export function WorkspaceSharedSkillsManager({
         <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
                 <div>
-                    <h4 className="text-sm font-semibold text-foreground">Shared skills</h4>
-                    <p className="text-sm text-muted-foreground">Available to everyone in your workspace.</p>
+                    <h4 className="text-sm font-semibold text-foreground">{t("skillsPage.manager.title")}</h4>
+                    <p className="text-sm text-muted-foreground">{t("skillsPage.manager.description")}</p>
                 </div>
                 <p className="shrink-0 text-xs text-muted-foreground">
-                    {orgSkills.length} {pluralize(orgSkills.length, "skill")}
+                    {t("skillsPage.manager.skillCount", { count: orgSkills.length })}
                 </p>
             </div>
 
@@ -156,9 +156,9 @@ export function WorkspaceSharedSkillsManager({
                             <Input
                                 value={search}
                                 onChange={(event) => setSearch(event.target.value)}
-                                placeholder="Search skills or commands..."
+                                placeholder={t("skillsPage.manager.searchPlaceholder")}
                                 className="h-9 pl-9"
-                                aria-label="Search skills or commands"
+                                aria-label={t("skillsPage.manager.searchAriaLabel")}
                             />
                         </div>
                         <ToggleGroup
@@ -171,27 +171,27 @@ export function WorkspaceSharedSkillsManager({
                             }}
                             className="shrink-0 gap-0.5 rounded-md border bg-muted/40 p-0.5"
                         >
-                            <ToggleGroupItem value="all" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">All</ToggleGroupItem>
-                            <ToggleGroupItem value="synced" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">Synced</ToggleGroupItem>
-                            <ToggleGroupItem value="manual" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">Manual</ToggleGroupItem>
+                            <ToggleGroupItem value="all" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">{t("skillsPage.manager.filterAll")}</ToggleGroupItem>
+                            <ToggleGroupItem value="synced" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">{t("skillsPage.shared.synced")}</ToggleGroupItem>
+                            <ToggleGroupItem value="manual" className="h-7 w-auto min-w-0 px-3 text-xs font-normal">{t("skillsPage.manager.filterManual")}</ToggleGroupItem>
                         </ToggleGroup>
                     </div>
 
                     <Table wrapperClassName="max-h-[22rem] overflow-y-auto rounded-lg border">
                         <TableHeader className="sticky top-0 z-10 bg-card">
                             <TableRow className="hover:bg-transparent">
-                                <TableHead className="h-10 w-1/2 px-4 text-xs uppercase tracking-wider">Skill</TableHead>
-                                <TableHead className="h-10 w-1/2 px-4 text-xs uppercase tracking-wider">Added by</TableHead>
+                                <TableHead className="h-10 w-1/2 px-4 text-xs uppercase tracking-wider">{t("skillsPage.manager.tableSkill")}</TableHead>
+                                <TableHead className="h-10 w-1/2 px-4 text-xs uppercase tracking-wider">{t("skillsPage.detail.addedBy")}</TableHead>
                                 <TableHead className="h-10 w-24 whitespace-nowrap px-4 text-xs uppercase tracking-wider">
                                     <span className="inline-flex items-center gap-1">
-                                        Auto
+                                        {t("skillsPage.shared.auto")}
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <span tabIndex={0} className="inline-flex cursor-help text-muted-foreground">
                                                     <InfoIcon className="h-3.5 w-3.5" />
                                                 </span>
                                             </TooltipTrigger>
-                                            <TooltipContent>{AUTO_ENROLLED_SKILL_TOOLTIP}</TooltipContent>
+                                            <TooltipContent>{t("skillsPage.shared.autoTooltip")}</TooltipContent>
                                         </Tooltip>
                                     </span>
                                 </TableHead>
@@ -202,7 +202,7 @@ export function WorkspaceSharedSkillsManager({
                             {filteredSkills.length === 0 ? (
                                 <TableRow className="hover:bg-transparent">
                                     <TableCell colSpan={4} className="py-10 text-center text-sm text-muted-foreground">
-                                        No skills match your search.
+                                        {t("skillsPage.manager.noMatch")}
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -216,7 +216,7 @@ export function WorkspaceSharedSkillsManager({
                                                     <Link
                                                         href={`/settings/skills?skill=${skill.id}`}
                                                         className="truncate font-medium text-foreground hover:underline"
-                                                        title={`Open ${skill.name} in skills`}
+                                                        title={t("skillsPage.manager.openInSkills", { name: skill.name })}
                                                     >
                                                         {skill.name}
                                                     </Link>
@@ -229,7 +229,7 @@ export function WorkspaceSharedSkillsManager({
                                                         {skill.createdByEmail}
                                                     </span>
                                                 ) : (
-                                                    <span className="text-sm text-muted-foreground">Unknown</span>
+                                                    <span className="text-sm text-muted-foreground">{t("skillsPage.detail.unknown")}</span>
                                                 )}
                                             </TableCell>
                                             <TableCell className="px-4 py-3">
@@ -237,7 +237,7 @@ export function WorkspaceSharedSkillsManager({
                                                     checked={skill.autoEnrolled}
                                                     disabled={isFlagPending}
                                                     onCheckedChange={(checked) => void handleFlagChange(skill, "autoEnrolled", checked)}
-                                                    aria-label="Auto"
+                                                    aria-label={t("skillsPage.shared.auto")}
                                                     className={cn(
                                                         "data-[state=unchecked]:bg-muted-foreground/40 data-[state=unchecked]:border-muted-foreground/70",
                                                         "data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600",
@@ -252,7 +252,7 @@ export function WorkspaceSharedSkillsManager({
                                                     className="h-8 w-8 text-muted-foreground hover:text-destructive"
                                                     disabled={isDeleting || isFlagPending}
                                                     onClick={() => setSkillToDelete(skill)}
-                                                    aria-label={`Delete ${skill.name}`}
+                                                    aria-label={t("skillsPage.manager.deleteSkill", { name: skill.name })}
                                                 >
                                                     {isDeleting ? (
                                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -269,7 +269,7 @@ export function WorkspaceSharedSkillsManager({
                     </Table>
 
                     <p className="text-xs text-muted-foreground">
-                        {filteredSkills.length} of {orgSkills.length} shared {pluralize(orgSkills.length, "skill")}
+                        {t("skillsPage.manager.showingCount", { filtered: filteredSkills.length, total: orgSkills.length })}
                     </p>
                 </>
             )}
