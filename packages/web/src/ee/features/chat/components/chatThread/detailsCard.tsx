@@ -12,6 +12,7 @@ import { useStickToBottom } from 'use-stick-to-bottom';
 import { Brain, ChevronDown, ChevronRight, Clock, InfoIcon, Loader2, ScanSearchIcon, ShieldQuestion, Wrench, Zap } from 'lucide-react';
 import { memo, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { usePrevious } from '@uidotdev/usehooks';
+import { useTranslations } from "@/i18n/I18nProvider";
 import { SBChatMessageMetadata, SBChatMessagePart, StepTokenUsageEntry } from '@/features/chat/types';
 import { SearchScopeIcon } from '@/features/chat/components/searchScopeIcon';
 import { MarkdownRenderer } from './markdownRenderer';
@@ -58,6 +59,8 @@ interface DetailsCardProps {
     metadata?: SBChatMessageMetadata;
 }
 
+type ChatTranslator = ReturnType<typeof useTranslations<"chat">>;
+
 const DetailsCardComponent = ({
     chatId,
     isExpanded,
@@ -70,6 +73,7 @@ const DetailsCardComponent = ({
     thinkingSteps,
     answerStepIndex,
 }: DetailsCardProps) => {
+    const t = useTranslations("chat");
     const captureEvent = useCaptureEvent();
 
     const toolCallCount = useMemo(() => thinkingSteps.flatMap(({ parts }) => parts).filter(part =>
@@ -125,17 +129,17 @@ const DetailsCardComponent = ({
                                     {isThinking ? (
                                         <>
                                             <Loader2 className="w-4 h-4 animate-spin mr-1 flex-shrink-0" />
-                                            Thinking...
+                                            {t("thread.thinking")}
                                         </>
                                     ) : isAwaitingToolApproval ? (
                                         <>
                                             <ShieldQuestion className="w-4 h-4 mr-1 flex-shrink-0" />
-                                            Awaiting permission...
+                                            {t("thread.awaitingPermission")}
                                         </>
                                     ) : (
                                         <>
                                             <InfoIcon className="w-4 h-4 mr-1 flex-shrink-0" />
-                                            Details
+                                            {t("thread.details")}
                                         </>
                                     )}
                                 </p>
@@ -147,7 +151,7 @@ const DetailsCardComponent = ({
                                                 <TooltipTrigger asChild>
                                                     <div className="flex items-center text-xs cursor-help">
                                                         <ScanSearchIcon className="w-3 h-3 mr-1 flex-shrink-0" />
-                                                        {metadata.selectedSearchScopes.length} search scope{metadata.selectedSearchScopes.length === 1 ? '' : 's'}
+                                                        {t("thread.searchScopes", { count: metadata.selectedSearchScopes.length })}
                                                     </div>
                                                 </TooltipTrigger>
                                                 <TooltipContent side="bottom">
@@ -176,21 +180,21 @@ const DetailsCardComponent = ({
                                                     <TooltipTrigger asChild>
                                                         <div className="flex items-center cursor-help">
                                                             <Zap className="w-3 h-3 mr-1 flex-shrink-0" />
-                                                            {getShortenedNumberDisplayString(metadata.totalTokens, 0)} tokens
+                                                            {getShortenedNumberDisplayString(metadata.totalTokens, 0)} {t("thread.tokens")}
                                                         </div>
                                                     </TooltipTrigger>
                                                     <TooltipContent side="bottom">
                                                         <div className="space-y-1 text-xs">
                                                             <div className="flex justify-between gap-4">
-                                                                <span className="text-muted-foreground">Input</span>
+                                                                <span className="text-muted-foreground">{t("thread.tokensInput")}</span>
                                                                 <span>{metadata.totalInputTokens?.toLocaleString() ?? '—'}</span>
                                                             </div>
                                                             <div className="flex justify-between gap-4">
-                                                                <span className="text-muted-foreground">Output</span>
+                                                                <span className="text-muted-foreground">{t("thread.tokensOutput")}</span>
                                                                 <span>{metadata.totalOutputTokens?.toLocaleString() ?? '—'}</span>
                                                             </div>
                                                             <div className="flex justify-between gap-4 border-t border-border pt-1">
-                                                                <span className="text-muted-foreground">Total</span>
+                                                                <span className="text-muted-foreground">{t("thread.tokensTotal")}</span>
                                                                 <span>{metadata.totalTokens.toLocaleString()}</span>
                                                             </div>
                                                         </div>
@@ -199,11 +203,11 @@ const DetailsCardComponent = ({
                                                 {cachedInputPercent > 0 && (
                                                     <Tooltip>
                                                         <TooltipTrigger asChild>
-                                                            <span className="text-muted-foreground cursor-help">({cachedInputPercent}% cached)</span>
+                                                            <span className="text-muted-foreground cursor-help">{t("thread.cachedPercent", { percent: cachedInputPercent })}</span>
                                                         </TooltipTrigger>
                                                         <TooltipContent side="bottom">
                                                             <div className="max-w-xs text-xs">
-                                                                {cacheReadTokens.toLocaleString()} of {inputTokens.toLocaleString()} input tokens were read from the model provider prompt cache. Cached tokens are typically billed at a fraction of the cost of regular input tokens, so the real cost is lower than the token count suggests.
+                                                                {t("thread.cachedTooltip", { cached: cacheReadTokens.toLocaleString(), total: inputTokens.toLocaleString() })}
                                                             </div>
                                                         </TooltipContent>
                                                     </Tooltip>
@@ -222,7 +226,7 @@ const DetailsCardComponent = ({
                                                 </TooltipTrigger>
                                                 <TooltipContent side="bottom">
                                                     <div className="max-w-xs text-xs">
-                                                        The most recent step&apos;s prompt used {currentContextTokens.toLocaleString()} of the model&apos;s {contextWindow.toLocaleString()}-token context window ({contextUsagePercent}%).
+                                                        {t("thread.contextTooltip", { current: currentContextTokens.toLocaleString(), window: contextWindow.toLocaleString(), percent: contextUsagePercent })}
                                                     </div>
                                                 </TooltipContent>
                                             </Tooltip>
@@ -230,13 +234,13 @@ const DetailsCardComponent = ({
                                         {metadata?.totalResponseTimeMs && (
                                             <div className="flex items-center text-xs">
                                                 <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
-                                                {Math.round(metadata.totalResponseTimeMs / 1000)} seconds
+                                                {t("thread.seconds", { seconds: Math.round(metadata.totalResponseTimeMs / 1000) })}
                                             </div>
                                         )}
                                         {toolCallCount > 0 && (
                                             <div className="flex items-center text-xs">
                                                 <Wrench className="w-3 h-3 mr-1 flex-shrink-0" />
-                                                {toolCallCount} tool call{toolCallCount === 1 ? '' : 's'}
+                                                {t("thread.toolCalls", { count: toolCallCount })}
                                             </div>
                                         )}
                                     </>
@@ -272,6 +276,7 @@ export const DetailsCard = memo(DetailsCardComponent, isEqual);
 
 
 const ThinkingSteps = ({ thinkingSteps, isNetworkActive, isThinking, toolTokenUsageMap, stepTokenUsage, answerStepIndex }: { thinkingSteps: ThinkingStep[], isNetworkActive: boolean, isThinking: boolean, toolTokenUsageMap?: Map<string, number>, stepTokenUsage?: StepTokenUsageEntry[], answerStepIndex?: number }) => {
+    const t = useTranslations("chat");
     const { scrollRef, contentRef, scrollToBottom } = useStickToBottom();
     const [shouldStick, setShouldStick] = useState(isThinking);
     const prevIsThinking = usePrevious(isThinking);
@@ -300,7 +305,7 @@ const ThinkingSteps = ({ thinkingSteps, isNetworkActive, isThinking, toolTokenUs
                     isNetworkActive ? (
                         <Skeleton className="h-24 w-full" />
                     ) : (
-                        <p className="text-sm text-muted-foreground">No thinking steps</p>
+                        <p className="text-sm text-muted-foreground">{t("thread.noThinkingSteps")}</p>
                     )
                 ) : (
                     <>
@@ -363,6 +368,7 @@ const ThinkingSteps = ({ thinkingSteps, isNetworkActive, isThinking, toolTokenUs
 // The provider-reported input/output token pair of a single agent step,
 // rendered at the end of the step's group of parts.
 const StepTokenUsage = ({ usage, label = 'step' }: { usage: StepTokenUsageEntry, label?: string }) => {
+    const t = useTranslations("chat");
     if (usage.inputTokens === undefined && usage.outputTokens === undefined) {
         return null;
     }
@@ -372,8 +378,8 @@ const StepTokenUsage = ({ usage, label = 'step' }: { usage: StepTokenUsageEntry,
         : 0;
 
     const compactParts = [
-        ...(usage.inputTokens !== undefined ? [`${getShortenedNumberDisplayString(usage.inputTokens, 0)} in`] : []),
-        ...(usage.outputTokens !== undefined ? [`${getShortenedNumberDisplayString(usage.outputTokens, 0)} out`] : []),
+        ...(usage.inputTokens !== undefined ? [t("thread.tokensIn", { value: getShortenedNumberDisplayString(usage.inputTokens, 0) })] : []),
+        ...(usage.outputTokens !== undefined ? [t("thread.tokensOut", { value: getShortenedNumberDisplayString(usage.outputTokens, 0) })] : []),
     ];
 
     return (
@@ -381,17 +387,17 @@ const StepTokenUsage = ({ usage, label = 'step' }: { usage: StepTokenUsageEntry,
             <Tooltip>
                 <TooltipTrigger asChild>
                     <span className="text-xs text-muted-foreground cursor-help whitespace-nowrap">
-                        {label} · {compactParts.join(' · ')}
+                        {label === 'answer' ? t("thread.answerLabel") : t("thread.stepLabel")} · {compactParts.join(' · ')}
                     </span>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                     <div className="space-y-1 text-xs">
                         <div className="flex justify-between gap-4">
-                            <span className="text-muted-foreground">Input</span>
-                            <span>{usage.inputTokens?.toLocaleString() ?? '—'}{cachedPercent > 0 ? ` (${cachedPercent}% cached)` : ''}</span>
+                            <span className="text-muted-foreground">{t("thread.tokensInput")}</span>
+                            <span>{usage.inputTokens?.toLocaleString() ?? '—'}{cachedPercent > 0 ? ` ${t("thread.cachedPercent", { percent: cachedPercent })}` : ''}</span>
                         </div>
                         <div className="flex justify-between gap-4">
-                            <span className="text-muted-foreground">Output</span>
+                            <span className="text-muted-foreground">{t("thread.tokensOutput")}</span>
                             <span>{usage.outputTokens?.toLocaleString() ?? '—'}</span>
                         </div>
                     </div>
@@ -416,6 +422,7 @@ const getContextUsageColorClass = (percent: number): string => {
 };
 
 const ContextWindowGauge = ({ total, percent }: { total: number, percent: number }) => {
+    const t = useTranslations("chat");
     const size = 14;
     const strokeWidth = 2;
     const radius = (size - strokeWidth) / 2;
@@ -451,7 +458,7 @@ const ContextWindowGauge = ({ total, percent }: { total: number, percent: number
                 />
             </svg>
             <span className={cn("font-semibold", colorClass)}>{percent}%</span>
-            <span className="text-muted-foreground">of {getShortenedNumberDisplayString(total, 0).toUpperCase()}</span>
+            <span className="text-muted-foreground">{t("thread.contextOf", { total: getShortenedNumberDisplayString(total, 0).toUpperCase() })}</span>
         </div>
     );
 }
@@ -476,21 +483,21 @@ type GuardedToolPart = Extract<SBChatMessagePart, { type: GuardedToolType }>;
 // The builtin tools that render through ToolOutputGuard, which differ only in
 // their loading text and output component. The `satisfies` mapped type checks
 // each entry's `render` against its own tool's output shape.
-const TOOL_GUARD_CONFIG = {
-    'tool-read_file': { loadingText: 'Reading file...', render: (output) => <ReadFileToolComponent {...output} /> },
-    'tool-grep': { loadingText: 'Searching...', render: (output) => <GrepToolComponent {...output} /> },
-    'tool-glob': { loadingText: 'Searching files...', render: (output) => <GlobToolComponent {...output} /> },
-    'tool-find_symbol_definitions': { loadingText: 'Resolving definitions...', render: (output) => <FindSymbolDefinitionsToolComponent {...output} /> },
-    'tool-find_symbol_references': { loadingText: 'Resolving references...', render: (output) => <FindSymbolReferencesToolComponent {...output} /> },
-    'tool-list_repos': { loadingText: 'Listing repositories...', render: (output) => <ListReposToolComponent {...output} /> },
-    'tool-list_branches': { loadingText: 'Listing branches...', render: (output) => <ListBranchesToolComponent {...output} /> },
-    'tool-list_commits': { loadingText: 'Listing commits...', render: (output) => <ListCommitsToolComponent {...output} /> },
-    'tool-get_diff': { loadingText: 'Comparing revisions...', render: (output) => <GetDiffToolComponent {...output} /> },
-    'tool-list_tree': { loadingText: 'Listing tree...', render: (output) => <ListTreeToolComponent {...output} /> },
-    'tool-create_skill': { loadingText: 'Creating skill...', render: (output) => <CreateSkillToolComponent {...output} /> },
-    'tool-update_skill': { loadingText: 'Updating skill...', render: (output) => <UpdateSkillToolComponent {...output} /> },
-    'tool-list_skills': { loadingText: 'Listing skills...', render: (output) => <ListSkillsToolComponent {...output} /> },
-} satisfies {
+const getToolGuardConfig = (t: ChatTranslator) => ({
+    'tool-read_file': { loadingText: t("thread.loadingReadingFile"), render: (output) => <ReadFileToolComponent {...output} /> },
+    'tool-grep': { loadingText: t("thread.loadingSearching"), render: (output) => <GrepToolComponent {...output} /> },
+    'tool-glob': { loadingText: t("thread.loadingSearchingFiles"), render: (output) => <GlobToolComponent {...output} /> },
+    'tool-find_symbol_definitions': { loadingText: t("thread.loadingResolvingDefinitions"), render: (output) => <FindSymbolDefinitionsToolComponent {...output} /> },
+    'tool-find_symbol_references': { loadingText: t("thread.loadingResolvingReferences"), render: (output) => <FindSymbolReferencesToolComponent {...output} /> },
+    'tool-list_repos': { loadingText: t("thread.loadingListingRepositories"), render: (output) => <ListReposToolComponent {...output} /> },
+    'tool-list_branches': { loadingText: t("thread.loadingListingBranches"), render: (output) => <ListBranchesToolComponent {...output} /> },
+    'tool-list_commits': { loadingText: t("thread.loadingListingCommits"), render: (output) => <ListCommitsToolComponent {...output} /> },
+    'tool-get_diff': { loadingText: t("thread.loadingComparingRevisions"), render: (output) => <GetDiffToolComponent {...output} /> },
+    'tool-list_tree': { loadingText: t("thread.loadingListingTree"), render: (output) => <ListTreeToolComponent {...output} /> },
+    'tool-create_skill': { loadingText: t("thread.loadingCreatingSkill"), render: (output) => <CreateSkillToolComponent {...output} /> },
+    'tool-update_skill': { loadingText: t("thread.loadingUpdatingSkill"), render: (output) => <UpdateSkillToolComponent {...output} /> },
+    'tool-list_skills': { loadingText: t("thread.loadingListingSkills"), render: (output) => <ListSkillsToolComponent {...output} /> },
+}) satisfies {
     [K in GuardedToolType]: {
         loadingText: string;
         render: (output: Extract<GuardedToolPart, { type: K, state: 'output-available' }>['output']) => ReactNode;
@@ -498,6 +505,7 @@ const TOOL_GUARD_CONFIG = {
 };
 
 export const StepPartRenderer = ({ part, toolTokenUsageMap }: { part: SBChatMessagePart, toolTokenUsageMap?: Map<string, number> }) => {
+    const t = useTranslations("chat");
     const estimatedOutputTokens = 'toolCallId' in part ? toolTokenUsageMap?.get(part.toolCallId) : undefined;
 
     switch (part.type) {
@@ -522,7 +530,7 @@ export const StepPartRenderer = ({ part, toolTokenUsageMap }: { part: SBChatMess
         case 'tool-create_skill':
         case 'tool-update_skill':
         case 'tool-list_skills': {
-            const { loadingText, render } = TOOL_GUARD_CONFIG[part.type];
+            const { loadingText, render } = getToolGuardConfig(t)[part.type];
             return (
                 <ToolOutputGuard
                     part={part}
@@ -540,18 +548,18 @@ export const StepPartRenderer = ({ part, toolTokenUsageMap }: { part: SBChatMess
         }
         case 'tool-tool_request_activation':
             if (part.state === 'output-error') {
-                return <span className="text-sm text-destructive">Tool activation failed: {part.errorText}</span>;
+                return <span className="text-sm text-destructive">{t("thread.toolActivationFailed", { error: part.errorText })}</span>;
             }
             if (part.state !== 'output-available') {
-                return <span className="text-sm text-muted-foreground animate-pulse">Activating tool...</span>;
+                return <span className="text-sm text-muted-foreground animate-pulse">{t("thread.activatingTool")}</span>;
             }
             return <ToolSearchToolComponent query={part.input.tool_to_activate_name} results={part.output.results ?? []} estimatedOutputTokens={estimatedOutputTokens} />;
         case 'tool-load_skill':
             if (part.state === 'output-error') {
-                return <span className="text-sm text-destructive">Loading skill failed: {part.errorText}</span>;
+                return <span className="text-sm text-destructive">{t("thread.loadingSkillFailed", { error: part.errorText })}</span>;
             }
             if (part.state !== 'output-available') {
-                return <span className="text-sm text-muted-foreground animate-pulse">Loading skill...</span>;
+                return <span className="text-sm text-muted-foreground animate-pulse">{t("thread.loadingSkill")}</span>;
             }
             return <LoadSkillToolComponent input={part.input} output={part.output} />;
         case 'dynamic-tool':

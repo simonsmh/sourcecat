@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from "@/i18n/I18nProvider";
+
 import { Separator } from "@/components/ui/separator";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
@@ -21,6 +23,7 @@ interface ToolSearchToolComponentProps {
 }
 
 export const ToolSearchToolComponent = ({ query, results, estimatedOutputTokens }: ToolSearchToolComponentProps) => {
+    const t = useTranslations("chat");
     const [isOpen, setIsOpen] = useState(false);
     const rawToolNames = useMcpToolNameMap();
     const displayQuery = getMcpToolDisplayParts(query, rawToolNames).displayName;
@@ -30,9 +33,9 @@ export const ToolSearchToolComponent = ({ query, results, estimatedOutputTokens 
             <CollapsibleTrigger className="w-full">
                 <div className="flex items-center gap-2 select-none cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors">
                     <ChevronRight className={cn("w-3 h-3 flex-shrink-0 transition-transform", isOpen && "rotate-90")} />
-                    <span className="flex-shrink-0">Searched connector tools: <span className="italic">{displayQuery}</span></span>
+                    <span className="flex-shrink-0">{t("tools.searchedConnectorTools")} <span className="italic">{displayQuery}</span></span>
                     <span className="flex-1" />
-                    <span className="text-xs flex-shrink-0">{results.length} result{results.length === 1 ? '' : 's'}</span>
+                    <span className="text-xs flex-shrink-0">{t("tools.resultStats", { count: results.length })}</span>
                     {estimatedOutputTokens !== undefined && (
                         <>
                             <Separator orientation="vertical" className="h-3 flex-shrink-0" />
@@ -59,7 +62,7 @@ export const ToolSearchToolComponent = ({ query, results, estimatedOutputTokens 
                         );
                     })}
                     {results.length === 0 && (
-                        <span className="text-xs text-muted-foreground">No tools found</span>
+                        <span className="text-xs text-muted-foreground">{t("tools.noToolsFound")}</span>
                     )}
                 </div>
             </CollapsibleContent>

@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from "@/i18n/I18nProvider";
+
 import { ReadFileMetadata, ToolResult } from "@/features/tools";
 import { VscodeFileIcon } from "@/app/components/vscodeFileIcon";
 import { getBrowsePath } from "@/app/(app)/browse/hooks/utils";
@@ -8,6 +10,7 @@ import Link from "next/link";
 import { RepoBadge } from "./repoBadge";
 
 export const ReadFileToolComponent = ({ metadata }: ToolResult<ReadFileMetadata>) => {
+    const t = useTranslations("chat");
     const fileName = metadata.path.split('/').pop() ?? metadata.path;
     const href = getBrowsePath({
         repoName: metadata.repo,
@@ -24,7 +27,7 @@ export const ReadFileToolComponent = ({ metadata }: ToolResult<ReadFileMetadata>
 
     return (
         <div className="flex items-center gap-2 select-none text-sm text-muted-foreground">
-            <span className="flex-shrink-0">Read</span>
+            <span className="flex-shrink-0">{t("tools.read")}</span>
             <Link
                 href={href}
                 className="inline-flex items-center gap-1 text-xs bg-muted hover:bg-accent px-1.5 py-0.5 rounded transition-colors min-w-0"
@@ -36,10 +39,10 @@ export const ReadFileToolComponent = ({ metadata }: ToolResult<ReadFileMetadata>
                     <span className="text-muted-foreground">L{metadata.startLine}-{metadata.endLine}</span>
                 )}
             </Link>
-            <span className="flex-shrink-0">in</span>
+            <span className="flex-shrink-0">{t("tools.in")}</span>
             <RepoBadge repo={metadata.repoInfo} />
             <span className="flex-1" />
-            <span className="text-xs flex-shrink-0">{linesRead} {linesRead === 1 ? 'line' : 'lines'}</span>
+            <span className="text-xs flex-shrink-0">{linesRead} {t("tools.lineWord", { count: linesRead })}</span>
             <Separator orientation="vertical" className="h-3 flex-shrink-0" />
         </div>
     );

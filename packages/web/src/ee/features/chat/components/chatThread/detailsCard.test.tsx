@@ -2,6 +2,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { DetailsCard } from './detailsCard';
+import { I18nProvider } from "@/i18n/I18nProvider";
+import enMessages from "@/i18n/messages/en.json";
 import type { SBChatMessagePart } from '@/features/chat/types';
 
 vi.mock('@/hooks/useCaptureEvent', () => ({
@@ -15,6 +17,7 @@ afterEach(() => {
 describe('DetailsCard', () => {
     test('shows an approval waiting state without final metadata while awaiting permission', () => {
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -32,6 +35,7 @@ describe('DetailsCard', () => {
                     }}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Awaiting permission...')).toBeTruthy();
@@ -45,6 +49,7 @@ describe('DetailsCard', () => {
 
     test('shows a spinner while thinking instead of the approval waiting icon', () => {
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -57,6 +62,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Thinking...')).toBeTruthy();
@@ -68,6 +74,7 @@ describe('DetailsCard', () => {
 
     test('shows final details metadata only after the turn is complete', () => {
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -85,6 +92,7 @@ describe('DetailsCard', () => {
                     }}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Details')).toBeTruthy();
@@ -102,6 +110,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -114,6 +123,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [failedActivationPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Tool activation failed: Activation failed')).toBeTruthy();
@@ -141,6 +151,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -153,6 +164,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [listBranchesPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('github.com/simonsmh/sourcecat')).toBeTruthy();
@@ -172,6 +184,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -184,6 +197,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [loadedSkillPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(container.textContent).toContain('Loaded skill:');
@@ -217,6 +231,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -229,6 +244,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [createSkillPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(container.textContent).toContain('Created skill');
@@ -260,6 +276,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -272,6 +289,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [updateSkillPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(container.textContent).toContain('Updated shared skill');
@@ -293,6 +311,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -305,6 +324,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [listSkillsPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Listed skills')).toBeTruthy();
@@ -326,6 +346,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -338,6 +359,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [approvalRequestedPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Waiting for approval')).toBeTruthy();
@@ -360,6 +382,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -372,6 +395,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [deniedPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(screen.queryByText('Create skill denied')).toBeTruthy();
@@ -388,6 +412,7 @@ describe('DetailsCard', () => {
         } satisfies SBChatMessagePart;
 
         const { container } = render(
+            <I18nProvider locale="en" messages={enMessages}>
             <TooltipProvider>
                 <DetailsCard
                     chatId="chat-id"
@@ -400,6 +425,7 @@ describe('DetailsCard', () => {
                     thinkingSteps={[{ stepIndex: 0, parts: [unavailableSkillPart] }]}
                 />
             </TooltipProvider>
+            </I18nProvider>
         );
 
         expect(container.textContent).toContain('ghost-skill');

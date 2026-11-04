@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from "@/i18n/I18nProvider";
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronRight, Sparkles } from "lucide-react";
 import { useState } from "react";
@@ -15,6 +17,7 @@ interface LoadSkillToolComponentProps {
 }
 
 export const LoadSkillToolComponent = ({ input, output }: LoadSkillToolComponentProps) => {
+    const t = useTranslations("chat");
     const [isOpen, setIsOpen] = useState(false);
 
     // The fail-closed path returns { error } as a normal (output-available)
@@ -23,7 +26,7 @@ export const LoadSkillToolComponent = ({ input, output }: LoadSkillToolComponent
         return (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Sparkles className="w-3 h-3 flex-shrink-0" />
-                <span>Skill <span className="font-mono text-xs">{input.skill_id}</span> was unavailable</span>
+                <span>{t("tools.skillUnavailableBefore")} <span className="font-mono text-xs">{input.skill_id}</span> {t("tools.skillUnavailableAfter")}</span>
             </div>
         );
     }
@@ -36,7 +39,7 @@ export const LoadSkillToolComponent = ({ input, output }: LoadSkillToolComponent
                 <div className="flex items-center gap-2 select-none cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors">
                     <ChevronRight className={cn("w-3 h-3 flex-shrink-0 transition-transform", isOpen && "rotate-90")} />
                     <Sparkles className="w-3 h-3 flex-shrink-0" />
-                    <span className="flex-shrink-0">Loaded skill: <span className="text-foreground font-medium">{skill.name}</span></span>
+                    <span className="flex-shrink-0">{t("tools.loadedSkill")} <span className="text-foreground font-medium">{skill.name}</span></span>
                     <span className="font-mono text-xs text-muted-foreground/70 flex-shrink-0">/{skill.slug}</span>
                     <span className="flex-1" />
                 </div>

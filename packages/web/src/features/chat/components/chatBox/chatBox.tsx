@@ -33,6 +33,7 @@ import { UpsellDialog } from "@/features/billing/upsellDialog";
 import { ASK_COMMAND_SOURCE_SHARED_SKILL, type AskCommandDefinition, type CommandMentionData } from "@/features/chat/commands/types";
 import { shouldUsePlainComposerEnterBehavior } from "./keyboard";
 import { SourceLabelBadge } from "./sourceLabelBadge";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export interface ChatBoxHandle {
     addFiles: (files: File[]) => void;
@@ -85,6 +86,7 @@ const ChatBoxComponent = ({
     maxImageBytes = ATTACHMENT_MAX_IMAGE_BYTES,
     askCommands,
 }: ChatBoxProps, ref: Ref<ChatBoxHandle>) => {
+    const t = useTranslations("chat");
     const suggestionsBoxRef = useRef<HTMLDivElement>(null);
     const [index, setIndex] = useState(0);
     const editor = useSlate();
@@ -181,15 +183,15 @@ const ChatBoxComponent = ({
             });
         } else {
             toast({
-                title: "Large paste added as an attachment",
+                title: t("chatBox.pasteTitle"),
                 duration: 5 * 1000,
                 className: "w-fit ml-auto",
-                description: `Use ${isMac ? "⌘+⇧+V" : "Ctrl+Shift+V"} to paste inline instead`,
+                description: t("chatBox.pasteDescription", { shortcut: isMac ? "⌘+⇧+V" : "Ctrl+Shift+V" }),
             });
         }
 
         ReactEditor.focus(editor);
-    }, [attachments, editor, toast, isMac, getOverBudgetWarning]);
+    }, [attachments, editor, toast, isMac, getOverBudgetWarning, t]);
 
     const onAddFiles = useCallback(async (files: File[]) => {
         if (files.length === 0) {
@@ -391,26 +393,26 @@ const ChatBoxComponent = ({
         if (isSubmitDisabled) {
             if (isSubmitDisabledReason === "no-language-model-selected") {
                 toast({
-                    description: "⚠️ You must select a language model",
+                    description: t("chatBox.selectModelWarning"),
                     variant: "destructive",
                 });
             } else if (isSubmitDisabledReason === "too-large") {
                 toast({
-                    description: `⚠️ Message and attachments exceed the ${Math.round(ATTACHMENT_MAX_TURN_TEXT_BYTES / 1024)}KB per-message limit. Remove a file or shorten the text.`,
+                    description: t("chatBox.tooLargeWarning", { kb: Math.round(ATTACHMENT_MAX_TURN_TEXT_BYTES / 1024) }),
                     variant: "destructive",
                 });
             }
 
             if (isSubmitDisabledReason === "uploading") {
                 toast({
-                    description: "⚠️ Please wait for image uploads to finish",
+                    description: t("chatBox.uploadingWarning"),
                     variant: "destructive",
                 });
             }
 
             if (isSubmitDisabledReason === "upload-error") {
                 toast({
-                    description: "⚠️ Remove failed image uploads before sending",
+                    description: t("chatBox.uploadErrorWarning"),
                     variant: "destructive",
                 });
             }
@@ -467,7 +469,8 @@ const ChatBoxComponent = ({
         toast,
         pathname,
         captureEvent,
-        attachments
+        attachments,
+        t
     ]);
 
     useEffect(() => {
@@ -659,12 +662,12 @@ const ChatBoxComponent = ({
                 )}
                 {attachments.some((attachment) => attachment.kind === 'image') && !supportsImages && (
                     <p className="mb-1.5 text-xs text-amber-600 dark:text-amber-500">
-                        Images won&apos;t be sent: the selected model doesn&apos;t support image input.
+                        {t("chatBox.imagesNotSent")}
                     </p>
                 )}
                 <Editable
                     className="w-full focus-visible:outline-none focus-visible:ring-0 bg-background text-base disabled:cursor-not-allowed disabled:opacity-50 md:text-sm max-h-64 overflow-y-auto"
-                    placeholder="Ask a question about your code. @mention files or select search scopes to refine your query."
+                    placeholder={t("chatBox.placeholder")}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={onKeyDown}
@@ -720,7 +723,7 @@ const ChatBoxComponent = ({
                                 onClick={onStop}
                             >
                                 <StopCircleIcon className="w-4 h-4" />
-                                Stop
+                                {t("chatBox.stop")}
                             </Button>
                         ) : (
                             <Tooltip>

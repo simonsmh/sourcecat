@@ -22,6 +22,7 @@ import { RepoSearchScope, RepoSetSearchScope, SearchScope } from "../../types";
 import { SearchScopeIcon } from "../searchScopeIcon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { SearchScopeInfoCard } from "./searchScopeInfoCard";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface SearchScopeSelectorProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     repos: RepositoryQuery[];
@@ -50,6 +51,7 @@ export const SearchScopeSelector = forwardRef<
         },
         ref
     ) => {
+        const t = useTranslations("chat");
         const scrollContainerRef = useRef<HTMLDivElement>(null);
         const scrollPosition = useRef<number>(0);
         const [searchQuery, setSearchQuery] = useState("");
@@ -232,9 +234,9 @@ export const SearchScopeSelector = forwardRef<
                                         className={cn("text-sm text-muted-foreground mx-1 font-medium")}
                                     >
                                         {
-                                            selectedSearchScopes.length === 0 ? `All repositories` :
+                                            selectedSearchScopes.length === 0 ? t("scopeSelector.allRepositories") :
                                                 selectedSearchScopes.length === 1 ? selectedSearchScopes[0].name :
-                                                    `${selectedSearchScopes.length} selected`
+                                                    t("scopeSelector.selected", { count: selectedSearchScopes.length })
                                         }
                                     </span>
                                     <ChevronDown className="h-4 cursor-pointer text-muted-foreground" />
@@ -253,7 +255,7 @@ export const SearchScopeSelector = forwardRef<
                         <div className="flex flex-col">
                             <div className="flex items-center border-b px-3">
                                 <Input
-                                    placeholder="Search scopes..."
+                                    placeholder={t("scopeSelector.searchPlaceholder")}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={handleInputKeyDown}
@@ -266,7 +268,7 @@ export const SearchScopeSelector = forwardRef<
                             >
                                 {sortedSearchScopeItems.length === 0 ? (
                                     <div className="py-6 text-center text-sm text-muted-foreground">
-                                        No results found.
+                                        {t("scopeSelector.noResults")}
                                     </div>
                                 ) : (
                                     <div className="p-1">
@@ -311,7 +313,7 @@ export const SearchScopeSelector = forwardRef<
                                                                     variant="default"
                                                                     className="text-[10px] px-1.5 py-0 h-4 bg-primary text-primary-foreground"
                                                                 >
-                                                                    {item.repoCount} repo{item.repoCount === 1 ? '' : 's'}
+                                                                    {t("scopeSelector.repoBadge", { count: item.repoCount })}
                                                                 </Badge>
                                                             )}
                                                         </div>
@@ -329,7 +331,7 @@ export const SearchScopeSelector = forwardRef<
                                         onClick={handleClear}
                                         className="flex items-center justify-center px-2 py-2 text-sm cursor-pointer hover:bg-accent hover:text-accent-foreground"
                                     >
-                                        Clear
+                                        {t("scopeSelector.clear")}
                                     </div>
                                 </>
                             )}

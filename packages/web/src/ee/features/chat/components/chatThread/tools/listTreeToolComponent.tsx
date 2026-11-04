@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from "@/i18n/I18nProvider";
+
 import { ListTreeMetadata, ToolResult } from "@/features/tools";
 import { RepoBadge } from "./repoBadge";
 import { Separator } from "@/components/ui/separator";
@@ -8,9 +10,10 @@ import { FolderIcon } from "lucide-react";
 import Link from "next/link";
 
 export const ListTreeToolComponent = ({ metadata }: ToolResult<ListTreeMetadata>) => {
+    const t = useTranslations("chat");
     return (
         <div className="flex items-center gap-2 select-none cursor-default text-sm text-muted-foreground">
-            <span className="flex-shrink-0">Listed</span>
+            <span className="flex-shrink-0">{t("tools.listed")}</span>
             <Link
                 href={getBrowsePath({
                     repoName: metadata.repo,
@@ -24,10 +27,10 @@ export const ListTreeToolComponent = ({ metadata }: ToolResult<ListTreeMetadata>
                 <FolderIcon className="h-3 w-3 flex-shrink-0" />
                 {metadata.path || '/'}
             </Link>
-            <span className="flex-shrink-0">in</span>
+            <span className="flex-shrink-0">{t("tools.in")}</span>
             <RepoBadge repo={metadata.repoInfo} />
             <span className="flex-shrink-0 ml-auto text-xs">
-                {metadata.totalReturned} {metadata.totalReturned === 1 ? 'entry' : 'entries'}{metadata.truncated ? ' (truncated)' : ''}
+                {metadata.totalReturned} {t("tools.entryWord", { count: metadata.totalReturned })}{metadata.truncated ? t("tools.truncatedSuffix") : ''}
             </span>
             <Separator orientation="vertical" className="h-3 flex-shrink-0" />
         </div>

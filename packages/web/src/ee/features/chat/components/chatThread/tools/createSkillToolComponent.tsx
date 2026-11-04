@@ -1,14 +1,17 @@
 'use client';
 
+import { useTranslations } from "@/i18n/I18nProvider";
+
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import { CreateSkillMetadata, ToolResult } from '@/features/tools';
 
 export const CreateSkillToolComponent = ({ metadata }: ToolResult<CreateSkillMetadata>) => {
+    const t = useTranslations("chat");
     return (
         <div className="flex items-center gap-2 select-none text-sm text-muted-foreground">
             <Sparkles className="w-3 h-3 flex-shrink-0" />
-            <span className="flex-shrink-0">Created skill</span>
+            <span className="flex-shrink-0">{t("tools.createdSkill")}</span>
             <Link
                 href={metadata.url}
                 className="truncate text-foreground font-medium hover:underline"
