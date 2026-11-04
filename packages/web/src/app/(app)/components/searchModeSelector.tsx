@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export type SearchMode = "precise" | "agentic";
 
@@ -26,6 +27,7 @@ export const SearchModeSelector = ({
     searchMode,
     className,
 }: SearchModeSelectorProps) => {
+    const t = useTranslations("search");
     const [focusedSearchMode, setFocusedSearchMode] = useState<SearchMode>(searchMode);
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
@@ -40,7 +42,7 @@ export const SearchModeSelector = ({
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Switch to agentic search",
+        description: t("modeSelector.switchToAgentic"),
     });
 
     useHotkeys("mod+p", (e) => {
@@ -49,7 +51,7 @@ export const SearchModeSelector = ({
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Switch to precise search",
+        description: t("modeSelector.switchToPrecise"),
     });
 
 
@@ -72,7 +74,7 @@ export const SearchModeSelector = ({
                         <MessageCircleIcon className="w-4 h-4 text-muted-foreground mr-1.5" />
                     )}
                     <SelectValue>
-                        {searchMode === "precise" ? "Code Search" : "Ask"}
+                        {searchMode === "precise" ? t("modeSelector.codeSearch") : t("modeSelector.ask")}
                     </SelectValue>
                 </SelectTrigger>
 
@@ -93,7 +95,7 @@ export const SearchModeSelector = ({
                                     className="cursor-pointer"
                                 >
                                     <div className="flex flex-row items-center justify-between w-full gap-1.5">
-                                        <span>Search</span>
+                                        <span>{t("modeSelector.search")}</span>
                                         <div className="flex flex-row items-center gap-2">
                                             <Separator orientation="vertical" className="h-4" />
                                             <KeyboardShortcutHint shortcut="mod+p" />
@@ -107,14 +109,14 @@ export const SearchModeSelector = ({
                                     sideOffset={8}
                                 >
                                     <div className="flex flex-col gap-2">
-                                        <p className="font-semibold">Code Search</p>
+                                        <p className="font-semibold">{t("modeSelector.codeSearch")}</p>
                                         <Separator orientation="horizontal" className="w-full my-0.5" />
-                                        <p>Search for exact matches using regular expressions and filters.</p>
+                                        <p>{t("modeSelector.preciseDescription")}</p>
                                         <Link
                                             href={PRECISE_SEARCH_DOCS_URL}
                                             className="text-link hover:underline"
                                         >
-                                            Docs
+                                            {t("modeSelector.docs")}
                                         </Link>
                                     </div>
                                 </TooltipContent>
@@ -132,7 +134,7 @@ export const SearchModeSelector = ({
                                     className="cursor-pointer"
                                 >
                                     <div className="flex flex-row items-center justify-between w-full gap-1.5">
-                                        <span>Ask</span>
+                                        <span>{t("modeSelector.ask")}</span>
 
                                         <div className="flex flex-row items-center gap-2">
                                             <Separator orientation="vertical" className="h-4" />
@@ -150,15 +152,15 @@ export const SearchModeSelector = ({
                         >
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-row items-center gap-2">
-                                    <p className="font-semibold">Ask Sourcecat</p>
+                                    <p className="font-semibold">{t("modeSelector.agenticTitle")}</p>
                                 </div>
                                 <Separator orientation="horizontal" className="w-full my-0.5" />
-                                <p>Use natural language to search, summarize and understand your codebase using a reasoning agent.</p>
+                                <p>{t("modeSelector.agenticDescription")}</p>
                                 <Link
                                     href={AGENTIC_SEARCH_DOCS_URL}
                                     className="text-link hover:underline"
                                 >
-                                    Docs
+                                    {t("modeSelector.docs")}
                                 </Link>
                             </div>
                         </TooltipContent>

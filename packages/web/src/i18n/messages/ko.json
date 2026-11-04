@@ -139,7 +139,18 @@
         "searchStatsForNerds": "검색 통계(너드용)",
         "searchBarPlaceholder": "리포지토리 검색(/)...",
         "filterHistoryPlaceholder": "기록 필터...",
-        "searchAssistPlaceholder": "찾고 있는 내용을 설명하세요..."
+        "searchAssistPlaceholder": "찾고 있는 내용을 설명하세요...",
+        "modeSelector": {
+            "codeSearch": "코드 검색",
+            "search": "검색",
+            "ask": "Ask",
+            "preciseDescription": "정규식과 필터를 사용해 정확히 일치하는 항목을 검색합니다。",
+            "agenticTitle": "Ask Sourcecat",
+            "agenticDescription": "추론 에이전트를 사용해 자연어로 코드베이스를 검색하고 요약하며 이해할 수 있습니다。",
+            "docs": "문서",
+            "switchToAgentic": "에이전트 검색으로 전환",
+            "switchToPrecise": "정밀 검색으로 전환"
+        }
     },
     "settings": {
         "account": "계정",
@@ -1045,7 +1056,9 @@
                 "selectModelWarning": "⚠️ 언어 모델을 선택해야 합니다",
                 "tooLargeWarning": "⚠️ 메시지와 첨부 파일이 메시지당 {kb}KB 제한을 초과했습니다. 파일을 삭제하거나 텍스트를 줄이세요。",
                 "uploadingWarning": "⚠️ 이미지 업로드가 끝날 때까지 기다리세요",
-                "uploadErrorWarning": "⚠️ 보내기 전에 실패한 이미지 업로드를 삭제하세요"
+                "uploadErrorWarning": "⚠️ 보내기 전에 실패한 이미지 업로드를 삭제하세요",
+                "mentionFilesName": "파일",
+                "mentionFilesDescription": "파일을 에이전트의 컨텍스트 윈도우에 포함합니다。"
             },
             "scopeSelector": {
                 "allRepositories": "모든 리포지토리",

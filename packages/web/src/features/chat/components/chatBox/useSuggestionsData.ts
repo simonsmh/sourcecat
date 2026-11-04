@@ -7,6 +7,7 @@ import { search } from "@/app/api/(client)/client";
 import { useMemo } from "react";
 import type { AskCommandDefinition } from "@/features/chat/commands/types";
 import { filterAskCommandDefinitions, toAskCommandSuggestion } from "@/features/chat/commands/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface Props {
     suggestionMode: SuggestionMode;
@@ -15,20 +16,20 @@ interface Props {
     askCommands: AskCommandDefinition[];
 }
 
-const refineSuggestions: RefineSuggestion[] = [
-    {
-        type: 'refine',
-        name: 'Files',
-        description: 'Include a file in the agent\'s context window.',
-    }
-]
-
 export const useSuggestionsData = ({
     suggestionMode,
     suggestionQuery,
     selectedRepos,
     askCommands,
 }: Props): { isLoading: boolean, suggestions: Suggestion[] } => {
+    const t = useTranslations("chat");
+    const refineSuggestions: RefineSuggestion[] = [
+        {
+            type: 'refine',
+            name: t("chatBox.mentionFilesName"),
+            description: t("chatBox.mentionFilesDescription"),
+        }
+    ];
     const { data: fileSuggestions, isLoading: _isLoadingFileSuggestions } = useQuery({
         queryKey: ["fileSuggestions-agentic", suggestionQuery, selectedRepos],
         queryFn: () => {

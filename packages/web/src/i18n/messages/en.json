@@ -139,7 +139,18 @@
         "searchStatsForNerds": "Search stats for nerds",
         "searchBarPlaceholder": "Search (/) through repos...",
         "filterHistoryPlaceholder": "Filter history...",
-        "searchAssistPlaceholder": "Describe what you're looking for..."
+        "searchAssistPlaceholder": "Describe what you're looking for...",
+        "modeSelector": {
+            "codeSearch": "Code Search",
+            "search": "Search",
+            "ask": "Ask",
+            "preciseDescription": "Search for exact matches using regular expressions and filters.",
+            "agenticTitle": "Ask Sourcecat",
+            "agenticDescription": "Use natural language to search, summarize and understand your codebase using a reasoning agent.",
+            "docs": "Docs",
+            "switchToAgentic": "Switch to agentic search",
+            "switchToPrecise": "Switch to precise search"
+        }
     },
     "settings": {
         "account": "Account",
@@ -1045,7 +1056,9 @@
                 "selectModelWarning": "⚠️ You must select a language model",
                 "tooLargeWarning": "⚠️ Message and attachments exceed the {kb}KB per-message limit. Remove a file or shorten the text.",
                 "uploadingWarning": "⚠️ Please wait for image uploads to finish",
-                "uploadErrorWarning": "⚠️ Remove failed image uploads before sending"
+                "uploadErrorWarning": "⚠️ Remove failed image uploads before sending",
+                "mentionFilesName": "Files",
+                "mentionFilesDescription": "Include a file in the agent's context window."
             },
             "scopeSelector": {
                 "allRepositories": "All repositories",

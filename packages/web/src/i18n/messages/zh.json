@@ -139,7 +139,18 @@
         "searchStatsForNerds": "搜索统计（极客版）",
         "searchBarPlaceholder": "搜索（/）仓库...",
         "filterHistoryPlaceholder": "筛选历史记录...",
-        "searchAssistPlaceholder": "描述你想找的内容..."
+        "searchAssistPlaceholder": "描述你想找的内容...",
+        "modeSelector": {
+            "codeSearch": "代码搜索",
+            "search": "搜索",
+            "ask": "Ask",
+            "preciseDescription": "使用正则表达式和过滤器搜索精确匹配。",
+            "agenticTitle": "Ask Sourcecat",
+            "agenticDescription": "使用自然语言搜索、总结和理解代码库，背后是一个推理智能体。",
+            "docs": "文档",
+            "switchToAgentic": "切换到智能搜索",
+            "switchToPrecise": "切换到精确搜索"
+        }
     },
     "settings": {
         "account": "账号",
@@ -1045,7 +1056,9 @@
                 "selectModelWarning": "⚠️ 请先选择语言模型",
                 "tooLargeWarning": "⚠️ 消息与附件超过每条消息 {kb}KB 的限制。请删除文件或缩短文本。",
                 "uploadingWarning": "⚠️ 请等待图片上传完成",
-                "uploadErrorWarning": "⚠️ 发送前请删除上传失败的图片"
+                "uploadErrorWarning": "⚠️ 发送前请删除上传失败的图片",
+                "mentionFilesName": "文件",
+                "mentionFilesDescription": "将文件纳入智能体的上下文窗口。"
             },
             "scopeSelector": {
                 "allRepositories": "全部仓库",

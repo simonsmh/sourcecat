@@ -139,7 +139,18 @@
         "searchStatsForNerds": "検索統計（マニア向け）",
         "searchBarPlaceholder": "リポジトリを検索（/）...",
         "filterHistoryPlaceholder": "履歴を絞り込む...",
-        "searchAssistPlaceholder": "探している内容を説明してください..."
+        "searchAssistPlaceholder": "探している内容を説明してください...",
+        "modeSelector": {
+            "codeSearch": "コード検索",
+            "search": "検索",
+            "ask": "Ask",
+            "preciseDescription": "正規表現とフィルターを使って完全一致を検索します。",
+            "agenticTitle": "Ask Sourcecat",
+            "agenticDescription": "推論エージェントを使って、自然言語でコードベースを検索、要約、理解できます。",
+            "docs": "ドキュメント",
+            "switchToAgentic": "エージェント検索に切り替え",
+            "switchToPrecise": "精密検索に切り替え"
+        }
     },
     "settings": {
         "account": "アカウント",
@@ -1045,7 +1056,9 @@
                 "selectModelWarning": "⚠️ 言語モデルを選択する必要があります",
                 "tooLargeWarning": "⚠️ メッセージと添付ファイルがメッセージあたり {kb}KB の上限を超えています。ファイルを削除するか、テキストを短くしてください。",
                 "uploadingWarning": "⚠️ 画像のアップロードが完了するまでお待ちください",
-                "uploadErrorWarning": "⚠️ 送信前に失敗した画像のアップロードを削除してください"
+                "uploadErrorWarning": "⚠️ 送信前に失敗した画像のアップロードを削除してください",
+                "mentionFilesName": "ファイル",
+                "mentionFilesDescription": "ファイルをエージェントのコンテキストウィンドウに含めます。"
             },
             "scopeSelector": {
                 "allRepositories": "すべてのリポジトリ",
