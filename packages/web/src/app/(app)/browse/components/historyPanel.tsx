@@ -8,12 +8,14 @@ import { isServiceError } from "@/lib/utils";
 import type { ListCommitsResponse } from "@/features/git";
 import { useBrowseParams } from "../hooks/useBrowseParams";
 import { HistoryRow } from "./historyRow";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const PER_PAGE = 25;
 
 type CommitsPage = ListCommitsResponse & { page: number };
 
 export const HistoryPanel = () => {
+    const t = useTranslations("codeNav");
     const { repoName, revisionName, path, pathType } = useBrowseParams();
 
     const {
@@ -77,7 +79,7 @@ export const HistoryPanel = () => {
                 )}
                 {status === 'error' && (
                     <div className="flex flex-col items-center justify-center py-8 gap-1 text-sm text-muted-foreground">
-                        <span>Failed to load commit history</span>
+                        <span>{t("history.failedToLoad")}</span>
                         {error instanceof Error && (
                             <span className="text-xs">{error.message}</span>
                         )}
@@ -85,7 +87,7 @@ export const HistoryPanel = () => {
                 )}
                 {status === 'success' && allCommits.length === 0 && (
                     <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
-                        No commits found
+                        {t("history.noCommits")}
                     </div>
                 )}
                 {status === 'success' && allCommits.map((commit) => (

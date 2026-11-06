@@ -17,6 +17,7 @@ import {
     TriangleAlert,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { DisplayDate } from "../../components/DisplayDate";
 import { LightweightCodeHighlighter } from "../../components/lightweightCodeHighlighter";
 import type { Repo } from "./reposTable";
@@ -34,6 +35,7 @@ export const SyncIssuePopover = ({
     canRetry,
     onRetryScheduled,
 }: SyncIssuePopoverProps) => {
+    const t = useTranslations("repos");
     const [isOpen, setIsOpen] = useState(false);
     const [isLogsOpen, setIsLogsOpen] = useState(false);
     const [isRetrying, setIsRetrying] = useState(false);
@@ -44,7 +46,7 @@ export const SyncIssuePopover = ({
     }
 
     const isWarning = annotation === "WARNING";
-    const label = isWarning ? "Warning" : "Failed";
+    const label = isWarning ? t("issue.warning") : t("issue.failed");
     const Icon = isWarning ? TriangleAlert : CircleX;
     const repoDisplayName = repo.displayName ?? repo.name;
 
@@ -56,7 +58,7 @@ export const SyncIssuePopover = ({
             if (isServiceError(response)) {
                 toast({
                     variant: "destructive",
-                    title: "Failed to retry sync",
+                    title: t("issue.retryFailedTitle"),
                     description: response.message,
                 });
                 return;
@@ -64,15 +66,15 @@ export const SyncIssuePopover = ({
 
             onRetryScheduled(repo.id, response.jobId);
             toast({
-                title: "Sync scheduled",
-                description: `${repoDisplayName} was queued for indexing.`,
+                title: t("issue.syncScheduledTitle"),
+                description: t("issue.syncScheduledDesc", { name: repoDisplayName }),
             });
             setIsOpen(false);
         } catch {
             toast({
                 variant: "destructive",
-                title: "Failed to retry sync",
-                description: "An unexpected error occurred while scheduling the sync.",
+                title: t("issue.retryFailedTitle"),
+                description: t("issue.retryFailedDesc"),
             });
         } finally {
             setIsRetrying(false);
@@ -95,7 +97,7 @@ export const SyncIssuePopover = ({
                                 isWarning
                                     && "border-amber-500/40 bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 dark:text-amber-400",
                             )}
-                            aria-label={`View ${label.toLowerCase()} details for ${repoDisplayName}`}
+                            aria-label={isWarning ? t("issue.viewWarningDetails", { name: repoDisplayName }) : t("issue.viewFailedDetails", { name: repoDisplayName })}
                         >
                             <Icon className="h-3 w-3" />
                             {label}
@@ -109,7 +111,7 @@ export const SyncIssuePopover = ({
                     </PopoverTrigger>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>View failure details</p>
+                    <p>{t("issue.viewFailureDetails")}</p>
                 </TooltipContent>
             </Tooltip>
             <PopoverContent
@@ -129,18 +131,18 @@ export const SyncIssuePopover = ({
                         <div className="space-y-1">
                             <p className="text-sm font-medium">
                                 {isWarning
-                                    ? "Latest sync failed"
-                                    : "Repository sync failed"}
+                                    ? t("issue.latestSyncFailed")
+                                    : t("issue.repoSyncFailed")}
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 {isWarning
-                                    ? "Search remains available using the last successful sync, but results may be stale."
-                                    : "This repository has not synced successfully, so its contents are not available in search."}
+                                    ? t("issue.staleDesc")
+                                    : t("issue.neverSyncedDesc")}
                             </p>
                         </div>
                         <div className="space-y-1.5">
                             <p className="text-xs font-medium text-muted-foreground">
-                                Error
+                                {t("issue.errorLabel")}
                             </p>
                             <div className="max-h-40 overflow-auto rounded-md bg-muted p-2">
                                 <LightweightCodeHighlighter
@@ -150,7 +152,7 @@ export const SyncIssuePopover = ({
                                     wrapLines={false}
                                 >
                                     {latestJob.errorMessage
-                                        ?? "No error details were reported."}
+                                        ?? t("issue.noErrorDetails")}
                                 </LightweightCodeHighlighter>
                             </div>
                         </div>
@@ -158,14 +160,14 @@ export const SyncIssuePopover = ({
                             {isWarning && repo.indexedAt && (
                                 <>
                                     <dt className="text-muted-foreground">
-                                        Last successful sync
+                                        {t("issue.lastSuccessfulSync")}
                                     </dt>
                                     <dd>
                                         <DisplayDate date={repo.indexedAt} />
                                     </dd>
                                 </>
                             )}
-                            <dt className="text-muted-foreground">Job ID</dt>
+                            <dt className="text-muted-foreground">{t("issue.jobId")}</dt>
                             <dd className="min-w-0 truncate">
                                 <code title={latestJob.id}>{latestJob.id}</code>
                             </dd>
@@ -181,7 +183,7 @@ export const SyncIssuePopover = ({
                                     }}
                                 >
                                     <ScrollText className="h-4 w-4" />
-                                    View logs
+                                    {t("issue.viewLogs")}
                                 </Button>
                                 <Button
                                     size="sm"
@@ -193,7 +195,7 @@ export const SyncIssuePopover = ({
                                     ) : (
                                         <RotateCw className="h-4 w-4" />
                                     )}
-                                    {isRetrying ? "Retrying…" : "Retry sync"}
+                                    {isRetrying ? t("issue.retrying") : t("issue.retrySync")}
                                 </Button>
                             </div>
                         )}

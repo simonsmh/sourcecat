@@ -2,6 +2,7 @@
 
 import { useBrowseParams } from "@/app/(app)/browse/hooks/useBrowseParams";
 import { useBrowseState } from "@/app/(app)/browse/hooks/useBrowseState";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { getTree } from "@/app/api/(client)/client";
 import { KeyboardShortcutHint } from "@/app/components/keyboardShortcutHint";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ const FILE_TREE_PANEL_MIN_SIZE = 10;
 const FILE_TREE_PANEL_MAX_SIZE = 30;
 
 export const FileTreePanel = ({ order }: FileTreePanelProps) => {
+    const t = useTranslations("codeNav");
     const {
         state: {
             isFileTreePanelCollapsed,
@@ -121,7 +123,7 @@ export const FileTreePanel = ({ order }: FileTreePanelProps) => {
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Toggle file tree panel",
+        description: t("fileTree.togglePanel"),
     });
 
     return (
@@ -157,10 +159,10 @@ export const FileTreePanel = ({ order }: FileTreePanelProps) => {
                             <TooltipContent side="bottom" className="flex flex-row items-center gap-2">
                                 <KeyboardShortcutHint shortcut="mod+b" />
                                 <Separator orientation="vertical" className="h-4" />
-                                <span>Close file tree</span>
+                                <span>{t("fileTree.close")}</span>
                             </TooltipContent>
                         </Tooltip>
-                        <p className="font-medium">File Tree</p>
+                        <p className="font-medium">{t("fileTree.title")}</p>
                         <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
@@ -177,7 +179,7 @@ export const FileTreePanel = ({ order }: FileTreePanelProps) => {
                             <TooltipContent side="bottom" className="flex flex-row items-center gap-2">
                                 <KeyboardShortcutHint shortcut="mod+p" />
                                 <Separator orientation="vertical" className="h-4" />
-                                <span>Search files</span>
+                                <span>{t("fileTree.searchFiles")}</span>
                             </TooltipContent>
                         </Tooltip>
                     </div>
@@ -187,7 +189,7 @@ export const FileTreePanel = ({ order }: FileTreePanelProps) => {
                     ) :
                         isError ? (
                             <div className="flex flex-col items-center justify-center h-full">
-                                <p>Error loading file tree</p>
+                                <p>{t("fileTree.errorLoading")}</p>
                             </div>
                         ) : (
                             <PureFileTreePanel
@@ -219,7 +221,7 @@ export const FileTreePanel = ({ order }: FileTreePanelProps) => {
                         <TooltipContent side="bottom" className="flex flex-row items-center gap-2">
                             <KeyboardShortcutHint shortcut="mod+b" />
                             <Separator orientation="vertical" className="h-4" />
-                            <span>Open file tree</span>
+                            <span>{t("fileTree.open")}</span>
                         </TooltipContent>
                     </Tooltip>
                 </div>

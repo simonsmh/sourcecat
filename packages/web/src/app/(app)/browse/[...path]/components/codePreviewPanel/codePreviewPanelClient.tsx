@@ -14,6 +14,7 @@ import Link from "next/link";
 import { ComponentProps } from "react";
 import { getBrowsePath } from "../../../hooks/utils";
 import { BlameAgeLegend } from "./blameAgeLegend";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { BlameViewToggle } from "./blameViewToggle";
 import { PureCodePreviewPanel } from "./pureCodePreviewPanel";
 
@@ -37,6 +38,7 @@ interface CodePreviewPanelClientProps {
 }
 
 export const CodePreviewPanelClient = ({ path, repoName, revisionName, previewRef, blame, repo }: CodePreviewPanelClientProps) => {
+    const t = useTranslations("codeNav");
     const contentRef = previewRef ?? revisionName;
 
     const { data: fileSourceResponse, isPending: isFileSourcePending } = useQuery({
@@ -150,13 +152,13 @@ export const CodePreviewPanelClient = ({ path, repoName, revisionName, previewRe
                                             path,
                                             pathType: 'blob',
                                         })}
-                                        aria-label="Close preview"
+                                        aria-label={t("preview.closePreview")}
                                     >
                                         <X className="h-4 w-4" />
                                     </Link>
                                 </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Close preview</TooltipContent>
+                            <TooltipContent>{t("preview.closePreview")}</TooltipContent>
                         </Tooltip>
                     </div>
                 )}
@@ -197,7 +199,7 @@ export const CodePreviewPanelClient = ({ path, repoName, revisionName, previewRe
                             alt={codeHostInfo.codeHostName}
                             className={cn('w-4 h-4 flex-shrink-0', codeHostInfo.iconClassName)}
                         />
-                        <span className="text-sm font-medium">Open in {codeHostInfo.codeHostName}</span>
+                        <span className="text-sm font-medium">{t("preview.openIn", { host: codeHostInfo.codeHostName })}</span>
                     </a>
                 ) : null}
             </div>
@@ -214,7 +216,7 @@ export const CodePreviewPanelClient = ({ path, repoName, revisionName, previewRe
                         <Skeleton className="h-4 w-32" />
                     ) : lineCount !== undefined ? (
                         <span className="text-sm text-muted-foreground">
-                            {lineCount.toLocaleString()} lines · {fileSize}
+                            {lineCount === 1 ? t("preview.lineSingular", { count: lineCount.toLocaleString() }) : t("preview.lines", { count: lineCount.toLocaleString() })} · {fileSize}
                         </span>
                     ) : null}
                     {blame && (

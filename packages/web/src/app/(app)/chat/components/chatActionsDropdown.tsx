@@ -2,6 +2,7 @@
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { CopyIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface ChatActionsDropdownProps {
     children: React.ReactNode;
@@ -20,6 +21,7 @@ export const ChatActionsDropdown = ({
     showDelete = true,
     align = "start",
 }: ChatActionsDropdownProps) => {
+    const t = useTranslations("chat");
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
@@ -37,7 +39,7 @@ export const ChatActionsDropdown = ({
                     }}
                 >
                     <PencilIcon className="w-4 h-4 mr-2" />
-                    Rename
+                    {t("rename")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     className="cursor-pointer"
@@ -47,7 +49,7 @@ export const ChatActionsDropdown = ({
                     }}
                 >
                     <CopyIcon className="w-4 h-4 mr-2" />
-                    Duplicate
+                    {t("duplicate")}
                 </DropdownMenuItem>
                 {showDelete && (
                     <DropdownMenuItem
@@ -58,7 +60,7 @@ export const ChatActionsDropdown = ({
                         }}
                     >
                         <TrashIcon className="w-4 h-4 mr-2" />
-                        Delete
+                        {t("delete")}
                     </DropdownMenuItem>
                 )}
             </DropdownMenuContent>

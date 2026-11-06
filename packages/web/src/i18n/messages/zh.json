@@ -948,6 +948,7 @@
         "newChatName": "新会话名称",
         "rename": "重命名",
         "duplicate": "复制",
+        "delete": "删除",
         "enterChatName": "输入会话名称",
         "searchPlaceholder": "搜索你的会话...",
         "newChat": "新建会话",
@@ -962,6 +963,14 @@
         "deleteFailed": "删除会话失败。原因：{reason}",
         "duplicatedSuccessfully": "会话复制成功",
         "duplicateFailed": "复制会话失败。原因：{reason}",
+            "answer": {
+                "title": "回答",
+                "copyAnswer": "复制回答",
+                "toggleToc": "切换目录",
+                "copied": "✅ 已复制到剪贴板",
+                "feedbackFailed": "❌ 反馈提交失败：{message}",
+                "feedbackSubmitted": "✅ 反馈已提交"
+            },
             "thread": {
                 "thinking": "思考中...",
                 "awaitingPermission": "等待授权...",
@@ -1075,6 +1084,138 @@
                 "infoReposetName": "仓库集",
                 "infoReposetDesc": "一组仓库，以文库图标表示。"
             }
+    },
+    "codeNav": {
+        "hover": {
+            "loading": "加载中...",
+            "noHoverInfo": "未找到悬停信息",
+            "noDefinition": "未找到定义",
+            "goToDefinition": "转到定义",
+            "goToDefinitions": "转到定义",
+            "findReferences": "查找引用",
+            "noDefinitionToast": "未找到该符号的定义",
+            "openExplorePanel": "打开探索面板",
+            "searchBased": "基于搜索",
+            "definitionTooltip": "使用启发式搜索推测找到的符号定义。",
+            "referencesTooltip": "使用启发式搜索推测找到的符号引用与定义。"
+        },
+        "explore": {
+            "loading": "加载中...",
+            "errorLoadingReferences": "加载引用失败",
+            "errorLoadingDefinitions": "加载定义失败",
+            "searchAll": "搜索全部仓库",
+            "references": "引用",
+            "definitions": "定义",
+            "noReferencesFound": "未找到引用",
+            "noDefinitionsFound": "未找到定义"
+        },
+        "bottomPanel": {
+            "history": "历史",
+            "explore": "探索",
+            "viewFullHistory": "查看完整历史",
+            "hide": "隐藏",
+            "notEnabledBefore": "代码导航未在",
+            "yourPlan": "当前方案",
+            "notEnabledAfter": "中启用。",
+            "learnMore": "了解更多",
+            "noSymbolSelected": "未选择符号",
+            "openHistoryPanel": "打开历史面板"
+        },
+        "fileTree": {
+            "togglePanel": "切换文件树面板",
+            "close": "关闭文件树",
+            "title": "文件树",
+            "searchFiles": "搜索文件",
+            "errorLoading": "文件树加载失败",
+            "open": "打开文件树"
+        },
+        "preview": {
+            "closePreview": "关闭预览",
+            "openIn": "在{host}中打开",
+            "lineSingular": "{count} 行",
+            "lines": "{count} 行",
+            "older": "更早",
+            "newer": "更新"
+        },
+        "blame": {
+            "code": "代码",
+            "blame": "追溯",
+            "viewSourceCode": "查看源代码",
+            "viewBlame": "查看追溯"
+        },
+        "history": {
+            "failedToLoad": "提交历史加载失败",
+            "noCommits": "未找到提交"
+        }
+    },
+    "repos": {
+        "title": "仓库",
+        "table": {
+            "name": "名称",
+            "lastSynced": "上次同步",
+            "lastSyncedTooltip": "该仓库上次成功同步的时间。",
+            "syncedCommit": "已同步提交",
+            "searchPlaceholder": "搜索仓库...",
+            "searchingAria": "正在搜索仓库",
+            "filterAria": "按状态筛选仓库",
+            "statusPlaceholder": "状态",
+            "filterByStatus": "按状态筛选",
+            "failedOption": "失败",
+            "warningOption": "警告",
+            "clearFilters": "清除筛选",
+            "retryAll": "全部重试（{count}）",
+            "retrying": "重试中…",
+            "retryAllTooltip": "重试所有最近一次同步失败的仓库。",
+            "emptyFailed": "没有失败的仓库。",
+            "emptyWarning": "没有带警告的仓库。",
+            "emptyNone": "未找到仓库。",
+            "completed": "已完成",
+            "pending": "等待中",
+            "syncing": "同步中",
+            "showing": "正在显示第 {first}-{last} 个，共 {total} 个",
+            "page": "第 {page} 页，共 {total} 页",
+            "previous": "上一页",
+            "next": "下一页",
+            "failedRetryTitle": "重试仓库同步失败",
+            "someFailedTitle": "部分仓库同步无法重试",
+            "someFailedDesc": "已安排 {scheduled} 个；{failed} 个安排失败。",
+            "syncsScheduledTitle": "同步已安排",
+            "syncsScheduledDesc": "{count} 个仓库已排队等待索引。",
+            "noRetriesTitle": "无需重试",
+            "noRetriesDesc": "当前没有同步失败的仓库。",
+            "retryFailedDesc": "安排同步时出现意外错误。"
+        },
+        "actions": {
+            "sync": "同步",
+            "openIn": "在{host}中打开",
+            "openActionsFor": "打开{name}的操作",
+            "syncFailedTitle": "同步仓库失败",
+            "syncScheduledTitle": "同步已安排",
+            "syncScheduledDesc": "{name} 已排队等待索引。",
+            "syncFailedDesc": "安排同步时出现意外错误。"
+        },
+        "issue": {
+            "warning": "警告",
+            "failed": "失败",
+            "viewWarningDetails": "查看{name}的警告详情",
+            "viewFailedDetails": "查看{name}的失败详情",
+            "viewFailureDetails": "查看失败详情",
+            "latestSyncFailed": "最近一次同步失败",
+            "repoSyncFailed": "仓库同步失败",
+            "staleDesc": "仍可使用上次成功同步的结果进行搜索，但结果可能已过期。",
+            "neverSyncedDesc": "该仓库从未成功同步，因此其内容无法在搜索中使用。",
+            "errorLabel": "错误",
+            "noErrorDetails": "未报告错误详情。",
+            "lastSuccessfulSync": "上次成功同步",
+            "jobId": "任务 ID",
+            "viewLogs": "查看日志",
+            "retrying": "重试中…",
+            "retrySync": "重试同步",
+            "retryFailedTitle": "重试同步失败",
+            "syncScheduledTitle": "同步已安排",
+            "syncScheduledDesc": "{name} 已排队等待索引。",
+            "retryFailedDesc": "安排同步时出现意外错误。"
+        }
     },
     "banners": {
         "viewFailed": "查看失败项",

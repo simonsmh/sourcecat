@@ -12,6 +12,7 @@ import { indexRepo } from "@/features/repos/actions";
 import { getCodeHostInfoForRepo, isServiceError } from "@/lib/utils";
 import { EllipsisVertical, ExternalLink, Loader2, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 import type { Repo } from "./reposTable";
 
 type RepoActionsMenuProps = {
@@ -27,6 +28,7 @@ export const RepoActionsMenu = ({
     isSyncing,
     onSyncScheduled,
 }: RepoActionsMenuProps) => {
+    const t = useTranslations("repos");
     const [isScheduling, setIsScheduling] = useState(false);
     const { toast } = useToast();
     const displayName = repo.displayName ?? repo.name;
@@ -45,7 +47,7 @@ export const RepoActionsMenu = ({
             if (isServiceError(response)) {
                 toast({
                     variant: "destructive",
-                    title: "Failed to sync repository",
+                    title: t("actions.syncFailedTitle"),
                     description: response.message,
                 });
                 return;
@@ -53,14 +55,14 @@ export const RepoActionsMenu = ({
 
             onSyncScheduled(repo.id, response.jobId);
             toast({
-                title: "Sync scheduled",
-                description: `${displayName} was queued for indexing.`,
+                title: t("actions.syncScheduledTitle"),
+                description: t("actions.syncScheduledDesc", { name: displayName }),
             });
         } catch {
             toast({
                 variant: "destructive",
-                title: "Failed to sync repository",
-                description: "An unexpected error occurred while scheduling the sync.",
+                title: t("actions.syncFailedTitle"),
+                description: t("actions.syncFailedDesc"),
             });
         } finally {
             setIsScheduling(false);
@@ -74,7 +76,7 @@ export const RepoActionsMenu = ({
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    aria-label={`Open actions for ${displayName}`}
+                    aria-label={t("actions.openActionsFor", { name: displayName })}
                 >
                     <EllipsisVertical className="h-4 w-4" />
                 </Button>
@@ -91,7 +93,7 @@ export const RepoActionsMenu = ({
                         ) : (
                             <RefreshCw className="h-4 w-4" />
                         )}
-                        Sync
+                        {t("actions.sync")}
                     </DropdownMenuItem>
                 )}
                 {codeHostInfo.externalWebUrl && (
@@ -102,7 +104,7 @@ export const RepoActionsMenu = ({
                             rel="noopener noreferrer"
                         >
                             <ExternalLink className="h-4 w-4" />
-                            Open in {codeHostInfo.codeHostName}
+                            {t("actions.openIn", { host: codeHostInfo.codeHostName })}
                         </a>
                     </DropdownMenuItem>
                 )}

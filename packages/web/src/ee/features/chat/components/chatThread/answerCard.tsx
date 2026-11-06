@@ -15,6 +15,7 @@ import { convertLLMOutputToPortableMarkdown } from "@/features/chat/utils";
 import { submitFeedback } from "@/features/chat/actions";
 import { isServiceError } from "@/lib/utils";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
+import { useTranslations } from "@/i18n/I18nProvider";
 import isEqual from "fast-deep-equal/react";
 import { FileSource } from "@/features/chat/types";
 
@@ -36,6 +37,7 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
     const { tocItems, activeId } = useExtractTOCItems({ target: markdownRendererRef.current });
     const [isTOCButtonToggled, setIsTOCButtonToggled] = useState(false);
     const { toast } = useToast();
+    const t = useTranslations("chat");
     const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
     const [feedback, setFeedback] = useState<'like' | 'dislike' | undefined>(undefined);
     const captureEvent = useCaptureEvent();
@@ -50,11 +52,11 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
         const markdownText = convertLLMOutputToPortableMarkdown(answerText, baseUrl, sources);
         navigator.clipboard.writeText(markdownText);
         toast({
-            description: "✅ Copied to clipboard",
+            description: t("answer.copied"),
         });
         captureEvent('wa_chat_copy_answer_pressed', { chatId });
         return true;
-    }, [answerText, sources, chatId, captureEvent, toast]);
+    }, [answerText, sources, chatId, captureEvent, toast, t]);
 
     const onFeedback = useCallback(async (feedbackType: 'like' | 'dislike') => {
         setIsSubmittingFeedback(true);
@@ -67,12 +69,12 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
 
         if (isServiceError(response)) {
             toast({
-                description: `❌ Failed to submit feedback: ${response.message}`,
+                description: t("answer.feedbackFailed", { message: response.message }),
                 variant: "destructive"
             });
         } else {
             toast({
-                description: `✅ Feedback submitted`,
+                description: t("answer.feedbackSubmitted"),
             });
             setFeedback(feedbackType);
             captureEvent('wa_chat_feedback_submitted', {
@@ -83,7 +85,7 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
         }
 
         setIsSubmittingFeedback(false);
-    }, [chatId, messageId, toast, captureEvent]);
+    }, [chatId, messageId, toast, captureEvent, t]);
 
     return (
         <div className="flex flex-row w-full relative scroll-mt-16">
@@ -97,7 +99,7 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
             <div className="flex flex-col w-full bg-[#fafafa] dark:bg-[#0e1320] px-4 py-2 rounded-lg shadow-sm">
                 <div className="flex flex-col z-10 bg-inherit py-2 sticky top-0">
                     <div className="flex items-center justify-between mb-2">
-                        <p className="font-semibold text-muted-foreground">Answer</p>
+                        <p className="font-semibold text-muted-foreground">{t("answer.title")}</p>
                         <div className="flex items-center gap-2">
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -109,7 +111,7 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
                                 <TooltipContent
                                     side="bottom"
                                 >
-                                    Copy answer
+                                    {t("answer.copyAnswer")}
                                 </TooltipContent>
                             </Tooltip>
                             {tocItems.length > 0 && (
@@ -129,7 +131,7 @@ const AnswerCardComponent = forwardRef<HTMLDivElement, AnswerCardProps>(({
                                     <TooltipContent
                                         side="bottom"
                                     >
-                                        Toggle table of contents
+                                        {t("answer.toggleToc")}
                                     </TooltipContent>
                                 </Tooltip>
                             )}

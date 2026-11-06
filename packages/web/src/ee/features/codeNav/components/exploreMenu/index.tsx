@@ -17,6 +17,7 @@ import { ReferenceList } from "./referenceList";
 import { KeyboardShortcutHint } from "@/app/components/keyboardShortcutHint";
 import { useHotkeys } from "react-hotkeys-hook";
 import useCaptureEvent from "@/hooks/useCaptureEvent";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface ExploreMenuProps {
     selectedSymbolInfo: {
@@ -30,6 +31,7 @@ interface ExploreMenuProps {
 export const ExploreMenu = ({
     selectedSymbolInfo,
 }: ExploreMenuProps) => {
+    const t = useTranslations("codeNav");
     const captureEvent = useCaptureEvent();
     const {
         state: { activeExploreMenuTab },
@@ -95,7 +97,7 @@ export const ExploreMenu = ({
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Search all repositories",
+        description: t("explore.searchAll"),
     });
 
     const isPending = isReferencesResponsePending || isDefinitionsResponsePending;
@@ -106,7 +108,7 @@ export const ExploreMenu = ({
         return (
             <div className="flex flex-row items-center justify-center h-full">
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                Loading...
+                {t("explore.loading")}
             </div>
         )
     }
@@ -114,7 +116,7 @@ export const ExploreMenu = ({
     if (isError) {
         return (
             <div className="flex flex-row items-center justify-center h-full">
-                <p>Error loading {activeExploreMenuTab}</p>
+                <p>{activeExploreMenuTab === "references" ? t("explore.errorLoadingReferences") : t("explore.errorLoadingDefinitions")}</p>
             </div>
         )
     }
@@ -146,14 +148,14 @@ export const ExploreMenu = ({
                                     variant="outline"
                                     className="w-fit h-fit flex-shrink-0 select-none"
                                 >
-                                    Search Based
+                                    {t("hover.searchBased")}
                                 </Badge>
                             </TooltipTrigger>
                             <TooltipContent
                                 side="top"
                                 align="center"
                             >
-                                Symbol references and definitions found using a best-guess search heuristic.
+                                {t("hover.referencesTooltip")}
                             </TooltipContent>
                         </Tooltip>
                         <Tooltip>
@@ -168,7 +170,7 @@ export const ExploreMenu = ({
                                 </span>
                             </TooltipTrigger>
                             <TooltipContent side="top" align="center">
-                                Search all repositories
+                                {t("explore.searchAll")}
                                 <KeyboardShortcutHint
                                     shortcut="shift+a"
                                     className="ml-2"
@@ -178,7 +180,7 @@ export const ExploreMenu = ({
                     </div>
                     <div className="flex flex-col gap-1 mt-4">
                         <Entry
-                            name="References"
+                            name={t("explore.references")}
                             isSelected={activeExploreMenuTab === "references"}
                             count={referencesResponse?.stats.matchCount}
                             onClicked={() => {
@@ -186,7 +188,7 @@ export const ExploreMenu = ({
                             }}
                         />
                         <Entry
-                            name="Definitions"
+                            name={t("explore.definitions")}
                             isSelected={activeExploreMenuTab === "definitions"}
                             count={definitionsResponse.stats.matchCount}
                             onClicked={() => {
@@ -206,7 +208,7 @@ export const ExploreMenu = ({
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                         <VscSymbolMisc className="w-6 h-6 mb-2" />
-                        <p className="text-sm">No {activeExploreMenuTab} found</p>
+                        <p className="text-sm">{activeExploreMenuTab === "references" ? t("explore.noReferencesFound") : t("explore.noDefinitionsFound")}</p>
                     </div>
                 )}
             </ResizablePanel>

@@ -52,9 +52,12 @@ import type { RepoIndexingStatusesResponse } from "../types";
 import { RepoActionsMenu } from "./repoActionsMenu";
 import { SyncIssuePopover } from "./syncIssuePopover";
 import { SyncingBadge } from "./syncingBadge";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const POLL_INTERVAL_MS = 5_000;
 const COMPLETED_BADGE_VISIBLE_MS = 5_000;
+
+type ReposTranslator = ReturnType<typeof useTranslations<"repos">>;
 
 export type Repo = {
     id: number;
@@ -151,12 +154,14 @@ const SyncAnnotationBadge = ({
     onRetryScheduled,
     showCompleted,
     showExplicitSyncing,
+    t,
 }: {
     repo: Repo;
     canRetry: boolean;
     onRetryScheduled: (repoId: number, jobId: string) => void;
     showCompleted: boolean;
     showExplicitSyncing: boolean;
+    t: ReposTranslator;
 }) => {
     const prefersReducedMotion = useReducedMotion();
     const completionKey = showCompleted
@@ -187,7 +192,7 @@ const SyncAnnotationBadge = ({
                 return (
                     <Badge className="shrink-0 gap-1 rounded-sm bg-green-600 text-white hover:bg-green-700">
                         <Check className="h-3 w-3" />
-                        Completed
+                        {t("table.completed")}
                     </Badge>
                 );
             case "SYNCING":
@@ -317,19 +322,21 @@ const getColumns = ({
     onSortChange,
     canRetry,
     onRetryScheduled,
+    t,
 }: {
     sortBy: SortBy;
     sortOrder: SortOrder;
     onSortChange: (column: SortBy) => void;
     canRetry: boolean;
     onRetryScheduled: (repoId: number, jobId: string) => void;
+    t: ReposTranslator;
 }): ColumnDef<DisplayedRepo>[] => [
         {
             id: "name",
             accessorFn: getRepoName,
             header: () => (
                 <SortableHeader
-                    label="Name"
+                    label={t("table.name")}
                     column="name"
                     sortBy={sortBy}
                     sortOrder={sortOrder}
@@ -390,6 +397,7 @@ const getColumns = ({
                             onRetryScheduled={onRetryScheduled}
                             showCompleted={repo.showCompleted}
                             showExplicitSyncing={repo.showExplicitSyncing}
+                            t={t}
                         />
                     </div>
                 );
@@ -399,12 +407,12 @@ const getColumns = ({
             accessorKey: "indexedAt",
             header: () => (
                 <SortableHeader
-                    label="Last synced"
+                    label={t("table.lastSynced")}
                     column="indexedAt"
                     sortBy={sortBy}
                     sortOrder={sortOrder}
                     onSortChange={onSortChange}
-                    tooltip="When this repository was last successfully synced."
+                    tooltip={t("table.lastSyncedTooltip")}
                 />
             ),
             cell: ({ row }) => {
@@ -414,7 +422,7 @@ const getColumns = ({
         },
         {
             accessorKey: "indexedCommitHash",
-            header: "Synced commit",
+            header: t("table.syncedCommit"),
             cell: ({ row }) => {
                 const hash = row.original.indexedCommitHash;
                 if (!hash) {
@@ -488,6 +496,7 @@ export const ReposTable = ({
     sortBy,
     sortOrder,
 }: ReposTableProps) => {
+    const t = useTranslations("repos");
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -604,7 +613,7 @@ export const ReposTable = ({
             if (isServiceError(response)) {
                 toast({
                     variant: "destructive",
-                    title: "Failed to retry repository syncs",
+                    title: t("table.failedRetryTitle"),
                     description: response.message,
                 });
                 return;
@@ -616,25 +625,25 @@ export const ReposTable = ({
             if (response.failedCount > 0) {
                 toast({
                     variant: "destructive",
-                    title: "Some repository syncs could not be retried",
-                    description: `${response.jobs.length} scheduled; ${response.failedCount} failed to schedule.`,
+                    title: t("table.someFailedTitle"),
+                    description: t("table.someFailedDesc", { scheduled: response.jobs.length, failed: response.failedCount }),
                 });
             } else if (response.jobs.length > 0) {
                 toast({
-                    title: "Syncs scheduled",
-                    description: `${response.jobs.length} ${response.jobs.length === 1 ? "repository was" : "repositories were"} queued for indexing.`,
+                    title: t("table.syncsScheduledTitle"),
+                    description: t("table.syncsScheduledDesc", { count: response.jobs.length }),
                 });
             } else {
                 toast({
-                    title: "No retries needed",
-                    description: "No repositories currently have failed syncs.",
+                    title: t("table.noRetriesTitle"),
+                    description: t("table.noRetriesDesc"),
                 });
             }
         } catch {
             toast({
                 variant: "destructive",
-                title: "Failed to retry repository syncs",
-                description: "An unexpected error occurred while scheduling the syncs.",
+                title: t("table.failedRetryTitle"),
+                description: t("table.retryFailedDesc"),
             });
         } finally {
             setIsRetryingAll(false);
@@ -798,6 +807,7 @@ export const ReposTable = ({
             onSortChange,
             canRetry,
             onRetryScheduled,
+            t,
         }),
         [
             canRetry,
@@ -805,6 +815,7 @@ export const ReposTable = ({
             onSortChange,
             sortBy,
             sortOrder,
+            t,
         ],
     );
     const table = useReactTable({
@@ -874,10 +885,10 @@ export const ReposTable = ({
     };
 
     const emptyMessage = statusFilter === "failed"
-        ? "No failed repositories."
+        ? t("table.emptyFailed")
         : statusFilter === "warning"
-            ? "No repositories with warnings."
-            : "No repositories found.";
+            ? t("table.emptyWarning")
+            : t("table.emptyNone");
 
     return (
         <div>
@@ -890,13 +901,13 @@ export const ReposTable = ({
                         ref={searchInputRef}
                         value={searchValue}
                         onChange={(event) => setSearchValue(event.target.value)}
-                        placeholder="Search repositories..."
+                        placeholder={t("table.searchPlaceholder")}
                     />
                     {isSearchPending && (
                         <InputGroupAddon align="inline-end">
                             <Loader2
                                 className="h-4 w-4 animate-spin"
-                                aria-label="Searching repositories"
+                                aria-label={t("table.searchingAria")}
                             />
                         </InputGroupAddon>
                     )}
@@ -908,14 +919,14 @@ export const ReposTable = ({
                 >
                     <SelectTrigger
                         className="h-9 w-40"
-                        aria-label="Filter repositories by status"
+                        aria-label={t("table.filterAria")}
                     >
-                        <SelectValue placeholder="Status" />
+                        <SelectValue placeholder={t("table.statusPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">Filter by status</SelectItem>
-                        <SelectItem value="failed">Failed</SelectItem>
-                        <SelectItem value="warning">Warning</SelectItem>
+                        <SelectItem value="all">{t("table.filterByStatus")}</SelectItem>
+                        <SelectItem value="failed">{t("table.failedOption")}</SelectItem>
+                        <SelectItem value="warning">{t("table.warningOption")}</SelectItem>
                     </SelectContent>
                 </Select>
                 {hasActiveFilters && (
@@ -926,7 +937,7 @@ export const ReposTable = ({
                         onClick={clearFilters}
                     >
                         <CircleX className="h-4 w-4" />
-                        Clear filters
+                        {t("table.clearFilters")}
                     </Button>
                 )}
                 {canRetry && displayedRetryableCount > 0 && (
@@ -944,12 +955,12 @@ export const ReposTable = ({
                                     <RotateCw className="h-4 w-4" />
                                 )}
                                 {isRetryingAll
-                                    ? "Retrying…"
-                                    : `Retry all (${displayedRetryableCount})`}
+                                    ? t("table.retrying")
+                                    : t("table.retryAll", { count: displayedRetryableCount })}
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent side="bottom">
-                            Retry all repositories whose latest sync failed.
+                            {t("table.retryAllTooltip")}
                         </TooltipContent>
                     </Tooltip>
                 )}
@@ -1018,11 +1029,11 @@ export const ReposTable = ({
             {totalCount > 0 && (
                 <div className="flex items-center justify-between py-4">
                     <p className="text-sm text-muted-foreground">
-                        Showing {firstVisibleRepo}-{lastVisibleRepo} of {totalCount}
+                        {t("table.showing", { first: firstVisibleRepo, last: lastVisibleRepo, total: totalCount })}
                     </p>
                     <div className="flex items-center gap-4">
                         <p className="text-sm text-muted-foreground">
-                            Page {currentPage} of {totalPages}
+                            {t("table.page", { page: currentPage, total: totalPages })}
                         </p>
                         <div className="flex gap-2">
                             <Button
@@ -1031,7 +1042,7 @@ export const ReposTable = ({
                                 onClick={() => goToPage(currentPage - 1)}
                                 disabled={!table.getCanPreviousPage()}
                             >
-                                Previous
+                                {t("table.previous")}
                             </Button>
                             <Button
                                 variant="outline"
@@ -1039,7 +1050,7 @@ export const ReposTable = ({
                                 onClick={() => goToPage(currentPage + 1)}
                                 disabled={!table.getCanNextPage()}
                             >
-                                Next
+                                {t("table.next")}
                             </Button>
                         </div>
                     </div>

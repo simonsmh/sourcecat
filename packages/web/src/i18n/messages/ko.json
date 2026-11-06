@@ -948,6 +948,7 @@
         "newChatName": "새 대화 이름",
         "rename": "이름 변경",
         "duplicate": "복제",
+        "delete": "삭제",
         "enterChatName": "대화 이름 입력",
         "searchPlaceholder": "대화 검색...",
         "newChat": "새 대화",
@@ -962,6 +963,14 @@
         "deleteFailed": "대화를 삭제하지 못했습니다. 이유: {reason}",
         "duplicatedSuccessfully": "대화가 복제되었습니다",
         "duplicateFailed": "대화를 복제하지 못했습니다. 이유: {reason}",
+            "answer": {
+                "title": "답변",
+                "copyAnswer": "답변 복사",
+                "toggleToc": "목차 표시 전환",
+                "copied": "✅ 클립보드에 복사했습니다",
+                "feedbackFailed": "❌ 피드백 전송 실패: {message}",
+                "feedbackSubmitted": "✅ 피드백이 전송되었습니다"
+            },
             "thread": {
                 "thinking": "생각 중...",
                 "awaitingPermission": "승인 대기 중...",
@@ -1075,6 +1084,138 @@
                 "infoReposetName": "리포지토리 세트",
                 "infoReposetDesc": "리포지토리 집합으로, 라이브러리 아이콘으로 표시됩니다."
             }
+    },
+    "codeNav": {
+        "hover": {
+            "loading": "로드 중...",
+            "noHoverInfo": "호버 정보를 찾을 수 없습니다",
+            "noDefinition": "정의를 찾을 수 없습니다",
+            "goToDefinition": "정의로 이동",
+            "goToDefinitions": "정의로 이동",
+            "findReferences": "참조 찾기",
+            "noDefinitionToast": "이 심볼의 정의를 찾을 수 없습니다",
+            "openExplorePanel": "탐색 패널 열기",
+            "searchBased": "검색 기반",
+            "definitionTooltip": "추측성 검색 휴리스틱으로 찾은 심볼 정의입니다。",
+            "referencesTooltip": "추측성 검색 휴리스틱으로 찾은 심볼 참조 및 정의입니다。"
+        },
+        "explore": {
+            "loading": "로드 중...",
+            "errorLoadingReferences": "참조를 불러오지 못했습니다",
+            "errorLoadingDefinitions": "정의를 불러오지 못했습니다",
+            "searchAll": "모든 리포지토리 검색",
+            "references": "참조",
+            "definitions": "정의",
+            "noReferencesFound": "참조를 찾을 수 없습니다",
+            "noDefinitionsFound": "정의를 찾을 수 없습니다"
+        },
+        "bottomPanel": {
+            "history": "기록",
+            "explore": "탐색",
+            "viewFullHistory": "전체 기록 보기",
+            "hide": "숨기기",
+            "notEnabledBefore": "코드 탐색은 ",
+            "yourPlan": "사용 중인 요금제",
+            "notEnabledAfter": "에서 사용할 수 없습니다。",
+            "learnMore": "자세히 알아보기",
+            "noSymbolSelected": "선택된 심볼이 없습니다",
+            "openHistoryPanel": "기록 패널 열기"
+        },
+        "fileTree": {
+            "togglePanel": "파일 트리 패널 전환",
+            "close": "파일 트리 닫기",
+            "title": "파일 트리",
+            "searchFiles": "파일 검색",
+            "errorLoading": "파일 트리를 불러오지 못했습니다",
+            "open": "파일 트리 열기"
+        },
+        "preview": {
+            "closePreview": "미리 보기 닫기",
+            "openIn": "{host}에서 열기",
+            "lineSingular": "{count}줄",
+            "lines": "{count}줄",
+            "older": "오래된",
+            "newer": "최근"
+        },
+        "blame": {
+            "code": "코드",
+            "blame": "Blame",
+            "viewSourceCode": "소스 코드 보기",
+            "viewBlame": "Blame 보기"
+        },
+        "history": {
+            "failedToLoad": "커밋 기록을 불러오지 못했습니다",
+            "noCommits": "커밋을 찾을 수 없습니다"
+        }
+    },
+    "repos": {
+        "title": "리포지토리",
+        "table": {
+            "name": "이름",
+            "lastSynced": "마지막 동기화",
+            "lastSyncedTooltip": "이 리포지토리가 마지막으로 성공적으로 동기화된 시간입니다。",
+            "syncedCommit": "동기화된 커밋",
+            "searchPlaceholder": "리포지토리 검색...",
+            "searchingAria": "리포지토리 검색 중",
+            "filterAria": "상태별로 리포지토리 필터링",
+            "statusPlaceholder": "상태",
+            "filterByStatus": "상태로 필터링",
+            "failedOption": "실패",
+            "warningOption": "경고",
+            "clearFilters": "필터 지우기",
+            "retryAll": "모두 다시 시도({count}개)",
+            "retrying": "다시 시도 중…",
+            "retryAllTooltip": "최근 동기화에 실패한 모든 리포지토리를 다시 시도합니다。",
+            "emptyFailed": "실패한 리포지토리가 없습니다.",
+            "emptyWarning": "경고가 있는 리포지토리가 없습니다.",
+            "emptyNone": "리포지토리를 찾을 수 없습니다.",
+            "completed": "완료됨",
+            "pending": "대기 중",
+            "syncing": "동기화 중",
+            "showing": "전체 {total}개 중 {first}-{last}개 표시",
+            "page": "{total}페이지 중 {page}페이지",
+            "previous": "이전",
+            "next": "다음",
+            "failedRetryTitle": "리포지토리 동기화 다시 시도 실패",
+            "someFailedTitle": "일부 리포지토리 동기화를 다시 시도할 수 없습니다",
+            "someFailedDesc": "{scheduled}개 예약됨, {failed}개 예약 실패.",
+            "syncsScheduledTitle": "동기화가 예약되었습니다",
+            "syncsScheduledDesc": "{count}개 리포지토리가 인덱싱 대기열에 추가되었습니다。",
+            "noRetriesTitle": "다시 시도할 필요가 없습니다",
+            "noRetriesDesc": "현재 동기화에 실패한 리포지토리가 없습니다.",
+            "retryFailedDesc": "동기화를 예약하는 중 예기치 않은 오류가 발생했습니다."
+        },
+        "actions": {
+            "sync": "동기화",
+            "openIn": "{host}에서 열기",
+            "openActionsFor": "{name} 작업 열기",
+            "syncFailedTitle": "리포지토리 동기화 실패",
+            "syncScheduledTitle": "동기화가 예약되었습니다",
+            "syncScheduledDesc": "{name}이(가) 인덱싱 대기열에 추가되었습니다。",
+            "syncFailedDesc": "동기화를 예약하는 중 예기치 않은 오류가 발생했습니다。"
+        },
+        "issue": {
+            "warning": "경고",
+            "failed": "실패",
+            "viewWarningDetails": "{name} 경고 세부 정보 보기",
+            "viewFailedDetails": "{name} 실패 세부 정보 보기",
+            "viewFailureDetails": "실패 세부 정보 보기",
+            "latestSyncFailed": "최근 동기화 실패",
+            "repoSyncFailed": "리포지토리 동기화 실패",
+            "staleDesc": "마지막으로 성공한 동기화 결과를 이용해 검색할 수 있지만 결과가 오래되었을 수 있습니다.",
+            "neverSyncedDesc": "이 리포지토리는 성공적으로 동기화된 적이 없어 검색에서 해당 내용을 사용할 수 없습니다.",
+            "errorLabel": "오류",
+            "noErrorDetails": "오류 세부 정보가 보고되지 않았습니다.",
+            "lastSuccessfulSync": "마지막 성공 동기화",
+            "jobId": "작업 ID",
+            "viewLogs": "로그 보기",
+            "retrying": "다시 시도 중…",
+            "retrySync": "동기화 다시 시도",
+            "retryFailedTitle": "동기화 다시 시도 실패",
+            "syncScheduledTitle": "동기화가 예약되었습니다",
+            "syncScheduledDesc": "{name}이(가) 인덱싱 대기열에 추가되었습니다。",
+            "retryFailedDesc": "동기화를 예약하는 중 예기치 않은 오류가 발생했습니다。"
+        }
     },
     "banners": {
         "viewFailed": "실패 항목 보기",

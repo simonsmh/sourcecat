@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useHotkeys } from "react-hotkeys-hook";
 import { SymbolDefinitionPreview } from "./symbolDefinitionPreview";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { useHoveredOverSymbolInfo } from "./useHoveredOverSymbolInfo";
 
 interface SymbolHoverPopupProps {
@@ -34,6 +35,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
     source,
 }) => {
     const ref = useRef<HTMLDivElement>(null);
+    const t = useTranslations("codeNav");
     const [isSticky, setIsSticky] = useState(false);
     const { toast } = useToast();
     const { navigateToPath } = useBrowseNavigation();
@@ -221,7 +223,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Open Explore Panel",
+        description: t("hover.openExplorePanel"),
     });
 
     useHotkeys('alt+f12', () => {
@@ -231,7 +233,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
 
         if (!symbolInfo.symbolDefinitions || symbolInfo.symbolDefinitions.length === 0) {
             toast({
-                description: "No definition found for this symbol",
+                description: t("hover.noDefinitionToast"),
             });
             return;
         }
@@ -240,7 +242,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Go to definition",
+        description: t("hover.goToDefinition"),
     })
 
     if (!symbolInfo) {
@@ -260,14 +262,14 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
             {symbolInfo.isSymbolDefinitionsLoading ? (
                 <div className="flex flex-row items-center gap-2 text-sm">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Loading...
+                    {t("hover.loading")}
                 </div>
             ) : previewedSymbolDefinition ? (
                 <SymbolDefinitionPreview
                     symbolDefinition={previewedSymbolDefinition}
                 />
             ) : (
-                <p className="text-sm font-medium text-muted-foreground">No hover info found</p>
+                <p className="text-sm font-medium text-muted-foreground">{t("hover.noHoverInfo")}</p>
             )}
             <Separator />
             <div className="flex flex-row gap-2 mt-2">
@@ -282,8 +284,8 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
                         >
                             {
                                 !symbolInfo.isSymbolDefinitionsLoading && !previewedSymbolDefinition ?
-                                    "No definition found" :
-                                    `Go to ${symbolInfo.symbolDefinitions && symbolInfo.symbolDefinitions.length > 1 ? "definitions" : "definition"}`
+                                    t("hover.noDefinition") :
+                                    t(symbolInfo.symbolDefinitions && symbolInfo.symbolDefinitions.length > 1 ? "hover.goToDefinitions" : "hover.goToDefinition")
                             }
                         </LoadingButton>
                     </TooltipTrigger>
@@ -293,7 +295,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
                     >
                         <KeyboardShortcutHint shortcut="alt+f12" />
                         <Separator orientation="vertical" className="h-4" />
-                        <span>{`Go to ${symbolInfo.symbolDefinitions && symbolInfo.symbolDefinitions.length > 1 ? "definitions" : "definition"}`}</span>
+                        <span>{t(symbolInfo.symbolDefinitions && symbolInfo.symbolDefinitions.length > 1 ? "hover.goToDefinitions" : "hover.goToDefinition")}</span>
                     </TooltipContent>
                 </Tooltip>
                 <Tooltip delayDuration={500}>
@@ -303,7 +305,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
                             size="sm"
                             onClick={onFindReferences}
                         >
-                            Find references
+                            {t("hover.findReferences")}
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent
@@ -312,7 +314,7 @@ export const SymbolHoverPopup: React.FC<SymbolHoverPopupProps> = ({
                     >
                         <KeyboardShortcutHint shortcut="alt+shift+f12" />
                         <Separator orientation="vertical" className="h-4" />
-                        <span>Find references</span>
+                        <span>{t("hover.findReferences")}</span>
                     </TooltipContent>
                 </Tooltip>
             </div>

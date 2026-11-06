@@ -948,6 +948,7 @@
         "newChatName": "New chat name",
         "rename": "Rename",
         "duplicate": "Duplicate",
+        "delete": "Delete",
         "enterChatName": "Enter chat name",
         "searchPlaceholder": "Search your chats...",
         "newChat": "New chat",
@@ -962,6 +963,14 @@
         "deleteFailed": "Failed to delete chat. Reason: {reason}",
         "duplicatedSuccessfully": "Chat duplicated successfully",
         "duplicateFailed": "Failed to duplicate chat. Reason: {reason}",
+            "answer": {
+                "title": "Answer",
+                "copyAnswer": "Copy answer",
+                "toggleToc": "Toggle table of contents",
+                "copied": "✅ Copied to clipboard",
+                "feedbackFailed": "❌ Failed to submit feedback: {message}",
+                "feedbackSubmitted": "✅ Feedback submitted"
+            },
             "thread": {
                 "thinking": "Thinking...",
                 "awaitingPermission": "Awaiting permission...",
@@ -1075,6 +1084,138 @@
                 "infoReposetName": "Reposet",
                 "infoReposetDesc": "A set of repositories, indicated by the library icon."
             }
+    },
+    "codeNav": {
+        "hover": {
+            "loading": "Loading...",
+            "noHoverInfo": "No hover info found",
+            "noDefinition": "No definition found",
+            "goToDefinition": "Go to definition",
+            "goToDefinitions": "Go to definitions",
+            "findReferences": "Find references",
+            "noDefinitionToast": "No definition found for this symbol",
+            "openExplorePanel": "Open Explore Panel",
+            "searchBased": "Search Based",
+            "definitionTooltip": "Symbol definition found using a best-guess search heuristic.",
+            "referencesTooltip": "Symbol references and definitions found using a best-guess search heuristic."
+        },
+        "explore": {
+            "loading": "Loading...",
+            "errorLoadingReferences": "Error loading references",
+            "errorLoadingDefinitions": "Error loading definitions",
+            "searchAll": "Search all repositories",
+            "references": "References",
+            "definitions": "Definitions",
+            "noReferencesFound": "No references found",
+            "noDefinitionsFound": "No definitions found"
+        },
+        "bottomPanel": {
+            "history": "History",
+            "explore": "Explore",
+            "viewFullHistory": "View full history",
+            "hide": "Hide",
+            "notEnabledBefore": "Code navigation is not enabled for ",
+            "yourPlan": "your plan",
+            "notEnabledAfter": ".",
+            "learnMore": "Learn more",
+            "noSymbolSelected": "No symbol selected",
+            "openHistoryPanel": "Open History Panel"
+        },
+        "fileTree": {
+            "togglePanel": "Toggle file tree panel",
+            "close": "Close file tree",
+            "title": "File Tree",
+            "searchFiles": "Search files",
+            "errorLoading": "Error loading file tree",
+            "open": "Open file tree"
+        },
+        "preview": {
+            "closePreview": "Close preview",
+            "openIn": "Open in {host}",
+            "lineSingular": "{count} line",
+            "lines": "{count} lines",
+            "older": "Older",
+            "newer": "Newer"
+        },
+        "blame": {
+            "code": "Code",
+            "blame": "Blame",
+            "viewSourceCode": "View source code",
+            "viewBlame": "View blame"
+        },
+        "history": {
+            "failedToLoad": "Failed to load commit history",
+            "noCommits": "No commits found"
+        }
+    },
+    "repos": {
+        "title": "Repositories",
+        "table": {
+            "name": "Name",
+            "lastSynced": "Last synced",
+            "lastSyncedTooltip": "When this repository was last successfully synced.",
+            "syncedCommit": "Synced commit",
+            "searchPlaceholder": "Search repositories...",
+            "searchingAria": "Searching repositories",
+            "filterAria": "Filter repositories by status",
+            "statusPlaceholder": "Status",
+            "filterByStatus": "Filter by status",
+            "failedOption": "Failed",
+            "warningOption": "Warning",
+            "clearFilters": "Clear filters",
+            "retryAll": "Retry all ({count})",
+            "retrying": "Retrying…",
+            "retryAllTooltip": "Retry all repositories whose latest sync failed.",
+            "emptyFailed": "No failed repositories.",
+            "emptyWarning": "No repositories with warnings.",
+            "emptyNone": "No repositories found.",
+            "completed": "Completed",
+            "pending": "Pending",
+            "syncing": "Syncing",
+            "showing": "Showing {first}-{last} of {total}",
+            "page": "Page {page} of {total}",
+            "previous": "Previous",
+            "next": "Next",
+            "failedRetryTitle": "Failed to retry repository syncs",
+            "someFailedTitle": "Some repository syncs could not be retried",
+            "someFailedDesc": "{scheduled} scheduled; {failed} failed to schedule.",
+            "syncsScheduledTitle": "Syncs scheduled",
+            "syncsScheduledDesc": "{count, plural, one {# repository was} other {# repositories were}} queued for indexing.",
+            "noRetriesTitle": "No retries needed",
+            "noRetriesDesc": "No repositories currently have failed syncs.",
+            "retryFailedDesc": "An unexpected error occurred while scheduling the syncs."
+        },
+        "actions": {
+            "sync": "Sync",
+            "openIn": "Open in {host}",
+            "openActionsFor": "Open actions for {name}",
+            "syncFailedTitle": "Failed to sync repository",
+            "syncScheduledTitle": "Sync scheduled",
+            "syncScheduledDesc": "{name} was queued for indexing.",
+            "syncFailedDesc": "An unexpected error occurred while scheduling the sync."
+        },
+        "issue": {
+            "warning": "Warning",
+            "failed": "Failed",
+            "viewWarningDetails": "View warning details for {name}",
+            "viewFailedDetails": "View failed details for {name}",
+            "viewFailureDetails": "View failure details",
+            "latestSyncFailed": "Latest sync failed",
+            "repoSyncFailed": "Repository sync failed",
+            "staleDesc": "Search remains available using the last successful sync, but results may be stale.",
+            "neverSyncedDesc": "This repository has not synced successfully, so its contents are not available in search.",
+            "errorLabel": "Error",
+            "noErrorDetails": "No error details were reported.",
+            "lastSuccessfulSync": "Last successful sync",
+            "jobId": "Job ID",
+            "viewLogs": "View logs",
+            "retrying": "Retrying…",
+            "retrySync": "Retry sync",
+            "retryFailedTitle": "Failed to retry sync",
+            "syncScheduledTitle": "Sync scheduled",
+            "syncScheduledDesc": "{name} was queued for indexing.",
+            "retryFailedDesc": "An unexpected error occurred while scheduling the sync."
+        }
     },
     "banners": {
         "viewFailed": "View failed",

@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const DURATION_UPDATE_INTERVAL_MS = 1_000;
 
@@ -26,6 +27,7 @@ type SyncingBadgeProps = {
 };
 
 export const SyncingBadge = ({ startedAt }: SyncingBadgeProps) => {
+    const t = useTranslations("repos");
     const [currentTime, setCurrentTime] = useState(() => Date.now());
 
     useEffect(() => {
@@ -44,10 +46,10 @@ export const SyncingBadge = ({ startedAt }: SyncingBadgeProps) => {
         <Badge variant="secondary" className="shrink-0 gap-1 rounded-sm">
             <Loader2 className="h-3 w-3 animate-spin" />
             {startedAt === null
-                ? <span>Pending</span>
+                ? <span>{t("table.pending")}</span>
                 : (
                     <>
-                        <span>Syncing</span>
+                        <span>{t("table.syncing")}</span>
                         <span aria-hidden="true">·</span>
                         <span className="tabular-nums">
                             {formatJobDuration(currentTime - startedAt)}

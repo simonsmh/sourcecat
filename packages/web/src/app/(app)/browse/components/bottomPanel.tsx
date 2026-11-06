@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { History } from "lucide-react";
 import type { BrowseState } from "../browseStateProvider";
 import { HistoryPanel } from "./historyPanel";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { LatestCommitInfo } from "./latestCommitInfo";
 
 export const BOTTOM_PANEL_MIN_SIZE = 35;
@@ -34,6 +35,7 @@ interface BottomPanelProps {
 type BottomPanelTab = BrowseState["activeBottomPanelTab"];
 
 export const BottomPanel = ({ order }: BottomPanelProps) => {
+    const t = useTranslations("codeNav");
     const panelRef = useRef<ImperativePanelHandle>(null);
     const hasCodeNavEntitlement = useHasEntitlement("code-nav");
     const router = useRouter();
@@ -77,7 +79,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Open Explore Panel",
+        description: t("hover.openExplorePanel"),
     });
 
     useHotkeys("shift+mod+h", (event) => {
@@ -86,7 +88,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
     }, {
         enableOnFormTags: true,
         enableOnContentEditable: true,
-        description: "Open History Panel",
+        description: t("bottomPanel.openHistoryPanel"),
     });
 
     // Empty value when collapsed so neither tab shows the active underline.
@@ -104,7 +106,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                         >
                             <span className="flex flex-row items-center gap-2">
                                 <History className="w-4 h-4" />
-                                History
+                                {t("bottomPanel.history")}
                                 <KeyboardShortcutHint shortcut="shift+mod+h" />
                             </span>
                         </LowProfileTabsTrigger>
@@ -115,7 +117,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                         >
                             <span className="flex flex-row items-center gap-2">
                                 <VscReferences className="w-4 h-4" />
-                                Explore
+                                {t("bottomPanel.explore")}
                                 <KeyboardShortcutHint shortcut="shift+mod+e" />
                             </span>
                         </LowProfileTabsTrigger>
@@ -134,7 +136,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                                     href={fullHistoryHref}
                                 >
                                     <History className="w-4 h-4" />
-                                    View full history
+                                    {t("bottomPanel.viewFullHistory")}
                                 </Link>
                             </Button>
                         )}
@@ -146,7 +148,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                             }}
                         >
                             <FaChevronDown className="w-4 h-4" />
-                            Hide
+                            {t("bottomPanel.hide")}
                         </Button>
                     </div>
                 )}
@@ -173,7 +175,7 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                         <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
                             <VscSymbolMisc className="w-6 h-6" />
                             <p className="text-sm">
-                                Code navigation is not enabled for <span className="text-blue-500 hover:underline cursor-pointer" onClick={() => router.push(`/settings/license`)}>your plan</span>.
+                                {t("bottomPanel.notEnabledBefore")}<span className="text-blue-500 hover:underline cursor-pointer" onClick={() => router.push(`/settings/license`)}>{t("bottomPanel.yourPlan")}</span>{t("bottomPanel.notEnabledAfter")}
                             </p>
 
                             <Link
@@ -181,19 +183,19 @@ export const BottomPanel = ({ order }: BottomPanelProps) => {
                                 target="_blank"
                                 className="text-sm text-blue-500 hover:underline"
                             >
-                                Learn more
+                                {t("bottomPanel.learnMore")}
                             </Link>
                         </div>
                     ) : !selectedSymbolInfo ? (
                         <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
                             <VscSymbolMisc className="w-6 h-6" />
-                            <p className="text-sm">No symbol selected</p>
+                            <p className="text-sm">{t("bottomPanel.noSymbolSelected")}</p>
                             <Link
                                 href={CODE_NAV_DOCS_URL}
                                 target="_blank"
                                 className="text-sm text-blue-500 hover:underline"
                             >
-                                Learn more
+                                {t("bottomPanel.learnMore")}
                             </Link>
                         </div>
                     ) : (

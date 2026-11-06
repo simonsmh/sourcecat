@@ -948,6 +948,7 @@
         "newChatName": "新しいチャット名",
         "rename": "名前を変更",
         "duplicate": "複製",
+        "delete": "削除",
         "enterChatName": "チャット名を入力",
         "searchPlaceholder": "チャットを検索...",
         "newChat": "新規チャット",
@@ -962,6 +963,14 @@
         "deleteFailed": "チャットの削除に失敗しました。理由：{reason}",
         "duplicatedSuccessfully": "チャットを複製しました",
         "duplicateFailed": "チャットの複製に失敗しました。理由：{reason}",
+            "answer": {
+                "title": "回答",
+                "copyAnswer": "回答をコピー",
+                "toggleToc": "目次を切り替え",
+                "copied": "✅ クリップボードにコピーしました",
+                "feedbackFailed": "❌ フィードバックの送信に失敗しました：{message}",
+                "feedbackSubmitted": "✅ フィードバックを送信しました"
+            },
             "thread": {
                 "thinking": "考え中...",
                 "awaitingPermission": "許可待ち...",
@@ -1075,6 +1084,138 @@
                 "infoReposetName": "リポジトリセット",
                 "infoReposetDesc": "リポジトリのセットで、ライブラリのアイコンで示されます。"
             }
+    },
+    "codeNav": {
+        "hover": {
+            "loading": "読み込み中...",
+            "noHoverInfo": "ホバー情報が見つかりませんでした",
+            "noDefinition": "定義が見つかりませんでした",
+            "goToDefinition": "定義へ移動",
+            "goToDefinitions": "定義へ移動",
+            "findReferences": "参照を検索",
+            "noDefinitionToast": "このシンボルの定義が見つかりませんでした",
+            "openExplorePanel": "探索パネルを開く",
+            "searchBased": "検索ベース",
+            "definitionTooltip": "推測的な検索ヒューリスティックで見つかったシンボル定義です。",
+            "referencesTooltip": "推測的な検索ヒューリスティックで見つかったシンボルの参照と定義です。"
+        },
+        "explore": {
+            "loading": "読み込み中...",
+            "errorLoadingReferences": "参照の読み込みに失敗しました",
+            "errorLoadingDefinitions": "定義の読み込みに失敗しました",
+            "searchAll": "すべてのリポジトリを検索",
+            "references": "参照",
+            "definitions": "定義",
+            "noReferencesFound": "参照が見つかりませんでした",
+            "noDefinitionsFound": "定義が見つかりませんでした"
+        },
+        "bottomPanel": {
+            "history": "履歴",
+            "explore": "探索",
+            "viewFullHistory": "全履歴を表示",
+            "hide": "非表示",
+            "notEnabledBefore": "コードナビゲーションは",
+            "yourPlan": "ご利用のプラン",
+            "notEnabledAfter": "では有効になっていません。",
+            "learnMore": "詳細を見る",
+            "noSymbolSelected": "シンボルが選択されていません",
+            "openHistoryPanel": "履歴パネルを開く"
+        },
+        "fileTree": {
+            "togglePanel": "ファイルツリーパネルを切り替え",
+            "close": "ファイルツリーを閉じる",
+            "title": "ファイルツリー",
+            "searchFiles": "ファイルを検索",
+            "errorLoading": "ファイルツリーの読み込みに失敗しました",
+            "open": "ファイルツリーを開く"
+        },
+        "preview": {
+            "closePreview": "プレビューを閉じる",
+            "openIn": "{host} で開く",
+            "lineSingular": "{count} 行",
+            "lines": "{count} 行",
+            "older": "古い",
+            "newer": "新しい"
+        },
+        "blame": {
+            "code": "コード",
+            "blame": "Blame",
+            "viewSourceCode": "ソースコードを表示",
+            "viewBlame": "Blame を表示"
+        },
+        "history": {
+            "failedToLoad": "コミット履歴の読み込みに失敗しました",
+            "noCommits": "コミットが見つかりませんでした"
+        }
+    },
+    "repos": {
+        "title": "リポジトリ",
+        "table": {
+            "name": "名前",
+            "lastSynced": "最終同期",
+            "lastSyncedTooltip": "このリポジトリが最後に正常に同期された日時です。",
+            "syncedCommit": "同期済みコミット",
+            "searchPlaceholder": "リポジトリを検索...",
+            "searchingAria": "リポジトリを検索中",
+            "filterAria": "ステータスでリポジトリを絞り込む",
+            "statusPlaceholder": "ステータス",
+            "filterByStatus": "ステータスで絞り込む",
+            "failedOption": "失敗",
+            "warningOption": "警告",
+            "clearFilters": "フィルターをクリア",
+            "retryAll": "すべて再試行（{count}）",
+            "retrying": "再試行中…",
+            "retryAllTooltip": "最新の同期が失敗したリポジトリをすべて再試行します。",
+            "emptyFailed": "失敗したリポジトリはありません。",
+            "emptyWarning": "警告のあるリポジトリはありません。",
+            "emptyNone": "リポジトリが見つかりませんでした。",
+            "completed": "完了",
+            "pending": "保留中",
+            "syncing": "同期中",
+            "showing": "{total} 件中 {first}-{last} 件を表示",
+            "page": "{total} ページ中 {page} ページ目",
+            "previous": "前へ",
+            "next": "次へ",
+            "failedRetryTitle": "リポジトリ同期の再試行に失敗しました",
+            "someFailedTitle": "一部のリポジトリ同期を再試行できませんでした",
+            "someFailedDesc": "{scheduled} 件をスケジュール済み；{failed} 件のスケジュールに失敗しました。",
+            "syncsScheduledTitle": "同期をスケジュールしました",
+            "syncsScheduledDesc": "{count} 件のリポジトリがインデックス作成のためにキューに入れられました。",
+            "noRetriesTitle": "再試行は不要です",
+            "noRetriesDesc": "現在、同期に失敗したリポジトリはありません。",
+            "retryFailedDesc": "同期のスケジュール中に予期しないエラーが発生しました。"
+        },
+        "actions": {
+            "sync": "同期",
+            "openIn": "{host} で開く",
+            "openActionsFor": "{name} のアクションを開く",
+            "syncFailedTitle": "リポジトリの同期に失敗しました",
+            "syncScheduledTitle": "同期をスケジュールしました",
+            "syncScheduledDesc": "{name} がインデックス作成のためにキューに入れられました。",
+            "syncFailedDesc": "同期のスケジュール中に予期しないエラーが発生しました。"
+        },
+        "issue": {
+            "warning": "警告",
+            "failed": "失敗",
+            "viewWarningDetails": "{name} の警告の詳細を表示",
+            "viewFailedDetails": "{name} の失敗の詳細を表示",
+            "viewFailureDetails": "失敗の詳細を表示",
+            "latestSyncFailed": "最新の同期に失敗しました",
+            "repoSyncFailed": "リポジトリの同期に失敗しました",
+            "staleDesc": "最後の正常な同期結果で検索は引き続き利用できますが、結果が古い可能性があります。",
+            "neverSyncedDesc": "このリポジトリは正常に同期されたことがないため、その内容は検索で利用できません。",
+            "errorLabel": "エラー",
+            "noErrorDetails": "エラーの詳細は報告されていません。",
+            "lastSuccessfulSync": "最後の正常な同期",
+            "jobId": "ジョブ ID",
+            "viewLogs": "ログを表示",
+            "retrying": "再試行中…",
+            "retrySync": "同期を再試行",
+            "retryFailedTitle": "同期の再試行に失敗しました",
+            "syncScheduledTitle": "同期をスケジュールしました",
+            "syncScheduledDesc": "{name} がインデックス作成のためにキューに入れられました。",
+            "retryFailedDesc": "同期のスケジュール中に予期しないエラーが発生しました。"
+        }
     },
     "banners": {
         "viewFailed": "失敗を表示",

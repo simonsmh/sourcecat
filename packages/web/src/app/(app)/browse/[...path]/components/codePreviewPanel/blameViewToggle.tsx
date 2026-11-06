@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { getBrowsePath } from "@/app/(app)/browse/hooks/utils";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface BlameViewToggleProps {
     repoName: string;
@@ -12,6 +13,7 @@ interface BlameViewToggleProps {
 }
 
 export const BlameViewToggle = ({ repoName, revisionName, path, blame }: BlameViewToggleProps) => {
+    const t = useTranslations("codeNav");
     const router = useRouter();
 
     const handleValueChange = (value: string) => {
@@ -48,17 +50,17 @@ export const BlameViewToggle = ({ repoName, revisionName, path, blame }: BlameVi
         >
             <ToggleGroupItem
                 value="code"
-                aria-label="View source code"
+                aria-label={t("blame.viewSourceCode")}
                 className={`${baseItemClass} rounded-r-none`}
             >
-                Code
+                {t("blame.code")}
             </ToggleGroupItem>
             <ToggleGroupItem
                 value="blame"
-                aria-label="View blame"
+                aria-label={t("blame.viewBlame")}
                 className={`${baseItemClass} rounded-l-none -ml-px`}
             >
-                Blame
+                {t("blame.blame")}
             </ToggleGroupItem>
         </ToggleGroup>
     );

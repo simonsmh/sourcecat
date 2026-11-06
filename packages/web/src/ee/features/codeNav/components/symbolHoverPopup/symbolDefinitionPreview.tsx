@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { LightweightCodeHighlighter } from "@/app/(app)/components/lightweightCodeHighlighter";
 import { useMemo } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 import { SourceRange } from "@/features/search";
 
 interface SymbolDefinitionPreviewProps {
@@ -17,6 +18,7 @@ interface SymbolDefinitionPreviewProps {
 export const SymbolDefinitionPreview = ({
     symbolDefinition,
 }: SymbolDefinitionPreviewProps) => {
+    const t = useTranslations("codeNav");
     const { lineContent, language, range } = symbolDefinition;
     const highlightRanges = useMemo(() => [range], [range]);
 
@@ -33,14 +35,14 @@ export const SymbolDefinitionPreview = ({
                         variant="outline"
                         className="w-fit h-fit flex-shrink-0 select-none"
                     >
-                        Search Based
+                        {t("hover.searchBased")}
                     </Badge>
                 </TooltipTrigger>
                 <TooltipContent
                     side="top"
                     align="start"
                 >
-                    Symbol definition found using a best-guess search heuristic.
+                    {t("hover.definitionTooltip")}
                 </TooltipContent>
             </Tooltip>
             <LightweightCodeHighlighter

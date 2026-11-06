@@ -12,6 +12,7 @@ import { isServiceError } from "@/lib/utils";
 import { OrgRole, type Prisma } from "@sourcecat/db";
 import { z } from "zod";
 import { ReposTable } from "./components/reposTable";
+import { getTranslations } from "@/i18n/server";
 
 const DEFAULT_PAGE_SIZE = 20;
 const pageSchema = z.coerce.number().int().positive();
@@ -34,6 +35,7 @@ export default authenticatedPage<
     OptionalAuthOptions
 >(async ({ org, prisma, role }, { searchParams }) => {
     const params = await searchParams;
+    const t = await getTranslations("repos");
     const page = pageSchema.safeParse(params.page).data ?? 1;
     const search = z.string().optional().safeParse(params.search).data?.trim() ?? "";
     const status = statusSchema.safeParse(params.status).data ?? "all";
@@ -110,7 +112,7 @@ export default authenticatedPage<
     return (
         <div className="flex flex-col h-full max-w-6xl mx-auto p-4">
             <div className="flex flex-col gap-4 p-6 pb-2 flex-shrink-0">
-                <h3 className="text-lg font-medium">Repositories</h3>
+                <h3 className="text-lg font-medium">{t("title")}</h3>
             </div>
             <div className="px-6">
                 <ReposTable
