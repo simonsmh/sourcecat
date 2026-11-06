@@ -971,6 +971,32 @@
                 "feedbackFailed": "❌ フィードバックの送信に失敗しました：{message}",
                 "feedbackSubmitted": "✅ フィードバックを送信しました"
             },
+            "approval": {
+                "createSkill": "エージェントはスキル {name} を作成しようとしています",
+                "updateSkill": "エージェントは{scope}スキル {name} を更新しようとしています",
+                "scopeShared": "共有の",
+                "scopeYour": "あなたの",
+                "useFrom": "エージェントは {server} の {tool} を使用しようとしています",
+                "use": "エージェントは {tool} を使用しようとしています",
+                "allow": "許可",
+                "deny": "拒否"
+            },
+            "errorBanner": {
+                "title": "エラーが発生しました"
+            },
+            "signInPrompt": {
+                "message": "チャット履歴を保存するにはサインインしてください。",
+                "signIn": "サインイン"
+            },
+            "mcp": {
+                "failedSingle": "コネクタ「{name}」のツールの読み込みに失敗しました",
+                "failedMultiple": "{count} 件のコネクタのツールの読み込みに失敗しました",
+                "reconnecting": "再接続中...",
+                "reconnect": "{name} を再接続",
+                "dismissFailedBanner": "読み込みに失敗したコネクタのバナーを閉じる",
+                "authFailed": "{server} の認証に失敗しました",
+                "reconnectToContinue": "{server} を再接続してツールの使用を続けてください。"
+            },
             "thread": {
                 "thinking": "考え中...",
                 "awaitingPermission": "許可待ち...",
@@ -1054,7 +1080,12 @@
                 "lineWord": "行",
                 "entryWord": "エントリ",
                 "changedFiles": "{count} 件の変更ファイル",
-                "resultStats": "{count} 件の結果"
+                "resultStats": "{count} 件の結果",
+                "mcp": {
+                    "needsReconnect": "{server} を再接続する必要があります。",
+                    "failed": "{name} に失敗しました：{error}",
+                    "deniedSuffix": " — 拒否されました"
+                }
             },
             "chatBox": {
                 "placeholder": "コードについて質問してください。@メンションでファイルを指定したり、検索スコープを選択してクエリを絞り込むことができます。",

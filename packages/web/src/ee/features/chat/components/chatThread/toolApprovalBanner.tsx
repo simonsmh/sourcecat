@@ -13,10 +13,13 @@ import { ChevronRight } from "lucide-react";
 import { ReactNode, useCallback, useState } from "react";
 import { getMcpToolDisplayParts } from "./tools/mcpToolComponent";
 import { JsonHighlighter } from "./tools/jsonHighlighter";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export type ApprovalRequestedToolPart = SBChatToolPart & {
     state: 'approval-requested';
 };
+
+type ChatTranslator = ReturnType<typeof useTranslations<"chat">>;
 
 interface ToolApprovalBannerProps {
     parts: ApprovalRequestedToolPart[];
@@ -54,14 +57,11 @@ export const ToolApprovalBanner = ({ parts }: ToolApprovalBannerProps) => {
 const getBuiltinApprovalSummary = (
     part: ApprovalRequestedToolPart,
     askCommands: AskCommandDefinition[],
+    t: ChatTranslator,
 ): ReactNode | undefined => {
     switch (part.type) {
         case 'tool-create_skill':
-            return (
-                <>
-                    Agent wants to create skill <span className="font-medium">{part.input.name}</span>
-                </>
-            );
+            return t("approval.createSkill", { name: part.input.name });
         case 'tool-update_skill': {
             const { slug, scope } = part.input;
             // Resolve the skill's display name from the chat page's command
@@ -69,12 +69,10 @@ const getBuiltinApprovalSummary = (
             // creator-owned shared skill the user has not adopted).
             const sourceId = scope === 'shared' ? ASK_COMMAND_SOURCE_SHARED_SKILL : ASK_COMMAND_SOURCE_PERSONAL_SKILL;
             const command = askCommands.find((candidate) => candidate.sourceId === sourceId && candidate.slug === slug);
-            return (
-                <>
-                    Agent wants to update {scope === 'shared' ? 'shared' : 'your'} skill{' '}
-                    <span className="font-medium">{command?.name ?? `/${slug}`}</span>
-                </>
-            );
+            return t("approval.updateSkill", {
+                scope: t(scope === 'shared' ? "approval.scopeShared" : "approval.scopeYour"),
+                name: command?.name ?? `/${slug}`,
+            });
         }
         default:
             return undefined;
@@ -94,11 +92,12 @@ const ToolApprovalItem = ({
     rawToolNames: McpToolNameMap;
     askCommands: AskCommandDefinition[];
 }) => {
+    const t = useTranslations("chat");
     const [isExpanded, setIsExpanded] = useState(false);
     const partToolName = getToolName(part);
     const display = getMcpToolDisplayParts(partToolName, rawToolNames);
     const faviconUrl = display.serverName ? iconMap[display.serverName] : undefined;
-    const builtinSummary = getBuiltinApprovalSummary(part, askCommands);
+    const builtinSummary = getBuiltinApprovalSummary(part, askCommands, t);
 
     const requestText = JSON.stringify(part.input, null, 2);
 
@@ -128,23 +127,19 @@ const ToolApprovalItem = ({
                         {builtinSummary ? (
                             builtinSummary
                         ) : display.serverName ? (
-                            <>
-                                Agent wants to use <span className="font-medium">{display.toolName}</span> from <span className="font-medium">{display.serverName}</span>
-                            </>
+                            t("approval.useFrom", { tool: display.toolName, server: display.serverName })
                         ) : (
-                            <>
-                                Agent wants to use <span className="font-medium">{display.toolName}</span>
-                            </>
+                            t("approval.use", { tool: display.toolName })
                         )}
                     </span>
                     <ChevronRight className={cn("w-3.5 h-3.5 flex-shrink-0 text-muted-foreground transition-transform", isExpanded && "rotate-90")} />
                 </button>
                 <div className="flex items-center gap-2 flex-shrink-0">
                     <Button size="sm" variant="default" onClick={onApprove}>
-                        Allow
+                        {t("approval.allow")}
                     </Button>
                     <Button size="sm" variant="ghost" onClick={onDeny}>
-                        Deny
+                        {t("approval.deny")}
                     </Button>
                 </div>
             </div>

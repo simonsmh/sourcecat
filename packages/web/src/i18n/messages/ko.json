@@ -971,6 +971,32 @@
                 "feedbackFailed": "❌ 피드백 전송 실패: {message}",
                 "feedbackSubmitted": "✅ 피드백이 전송되었습니다"
             },
+            "approval": {
+                "createSkill": "에이전트가 스킬 {name}을(를) 만들려고 합니다",
+                "updateSkill": "에이전트가 {scope} 스킬 {name}을(를) 업데이트하려고 합니다",
+                "scopeShared": "공유",
+                "scopeYour": "사용자의",
+                "useFrom": "에이전트가 {server}의 {tool}을(를) 사용하려고 합니다",
+                "use": "에이전트가 {tool}을(를) 사용하려고 합니다",
+                "allow": "허용",
+                "deny": "거부"
+            },
+            "errorBanner": {
+                "title": "오류가 발생했습니다"
+            },
+            "signInPrompt": {
+                "message": "채팅 기록을 저장하려면 로그인하세요.",
+                "signIn": "로그인"
+            },
+            "mcp": {
+                "failedSingle": "커넥터 \"{name}\"의 도구를 불러오지 못했습니다",
+                "failedMultiple": "{count}개의 커넥터가 도구를 불러오지 못했습니다",
+                "reconnecting": "다시 연결 중...",
+                "reconnect": "{name} 다시 연결",
+                "dismissFailedBanner": "로드에 실패한 커넥터 배너 닫기",
+                "authFailed": "{server} 인증 실패",
+                "reconnectToContinue": "{server}을(를) 다시 연결하여 도구를 계속 사용하세요."
+            },
             "thread": {
                 "thinking": "생각 중...",
                 "awaitingPermission": "승인 대기 중...",
@@ -1054,7 +1080,12 @@
                 "lineWord": "줄",
                 "entryWord": "항목",
                 "changedFiles": "{count}개 변경된 파일",
-                "resultStats": "{count}개 결과"
+                "resultStats": "{count}개 결과",
+                "mcp": {
+                    "needsReconnect": "{server}을(를) 다시 연결해야 합니다.",
+                    "failed": "{name} 실패: {error}",
+                    "deniedSuffix": " — 거부됨"
+                }
             },
             "chatBox": {
                 "placeholder": "코드에 대해 질문하세요. @멘션으로 파일을 지정하거나 검색 범위를 선택해 쿼리를 좁힐 수 있습니다。",

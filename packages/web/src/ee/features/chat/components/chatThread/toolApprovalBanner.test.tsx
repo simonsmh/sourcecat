@@ -1,6 +1,9 @@
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { ToolApprovalProvider } from '../../toolApprovalContext';
+
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
 import { AskCommandsContext } from '../../askCommandsContext';
 import { ApprovalRequestedToolPart, ToolApprovalBanner } from './toolApprovalBanner';
 import type { AskCommandDefinition } from '@/features/chat/commands/types';
@@ -33,11 +36,13 @@ const askCommands: AskCommandDefinition[] = [
 
 const renderBanner = (parts: ApprovalRequestedToolPart[]) =>
     render(
-        <ToolApprovalProvider value={vi.fn()}>
-            <AskCommandsContext.Provider value={askCommands}>
-                <ToolApprovalBanner parts={parts} />
-            </AskCommandsContext.Provider>
-        </ToolApprovalProvider>
+        <I18nProvider locale="en" messages={enMessages}>
+            <ToolApprovalProvider value={vi.fn()}>
+                <AskCommandsContext.Provider value={askCommands}>
+                    <ToolApprovalBanner parts={parts} />
+                </AskCommandsContext.Provider>
+            </ToolApprovalProvider>
+        </I18nProvider>
     );
 
 describe('ToolApprovalBanner', () => {

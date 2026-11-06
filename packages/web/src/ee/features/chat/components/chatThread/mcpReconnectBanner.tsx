@@ -3,8 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { useMcpReconnect } from '@/ee/features/chat/mcpReconnectContext';
 import { AlertCircle, Loader2 } from 'lucide-react';
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export const McpReconnectBanner = () => {
+    const t = useTranslations("chat");
     const reconnectContext = useMcpReconnect();
     const reconnectStates = Object.values(reconnectContext?.reconnectStates ?? {})
         .filter((state) => state.source !== 'tool-load' && state.status !== 'reconnected');
@@ -28,10 +30,10 @@ export const McpReconnectBanner = () => {
                                 <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-600 dark:text-red-400" />
                                 <div>
                                     <p className="text-sm font-medium text-red-800 dark:text-red-200">
-                                        {state.serverName} authentication failed
+                                        {t("mcp.authFailed", { server: state.serverName })}
                                     </p>
                                     <p className="text-sm text-red-700 dark:text-red-300">
-                                        Reconnect {state.serverName} to continue using its tools.
+                                        {t("mcp.reconnectToContinue", { server: state.serverName })}
                                     </p>
                                 </div>
                             </div>
@@ -44,10 +46,10 @@ export const McpReconnectBanner = () => {
                                 {isReconnecting ? (
                                     <>
                                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                                        Reconnecting...
+                                        {t("mcp.reconnecting")}
                                     </>
                                 ) : (
-                                    <>Reconnect {state.serverName}</>
+                                    <>{t("mcp.reconnect", { name: state.serverName })}</>
                                 )}
                             </Button>
                         </div>

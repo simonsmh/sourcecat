@@ -7,6 +7,9 @@ import {
 } from '@/ee/features/chat/mcpReconnectContext';
 import { McpReconnectBanner } from './mcpReconnectBanner';
 
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
+
 afterEach(cleanup);
 
 const createReconnectState = (overrides: Partial<McpReconnectState> = {}): McpReconnectState => ({
@@ -29,9 +32,11 @@ const createReconnectContext = (
 });
 
 const renderBanner = (contextValue: McpReconnectContextValue) => render(
-    <McpReconnectContext.Provider value={contextValue}>
-        <McpReconnectBanner />
-    </McpReconnectContext.Provider>
+    <I18nProvider locale="en" messages={enMessages}>
+        <McpReconnectContext.Provider value={contextValue}>
+            <McpReconnectBanner />
+        </McpReconnectContext.Provider>
+    </I18nProvider>
 );
 
 describe('McpReconnectBanner', () => {

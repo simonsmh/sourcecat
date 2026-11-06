@@ -11,6 +11,7 @@ import { CheckCircle, ChevronDown, XCircle } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { JsonHighlighter, unescapeJsonStrings } from "./jsonHighlighter";
 import { ToolTokenBadge } from "./toolTokenBadge";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export function parseMcpToolName(toolName: string): { serverName: string; toolName: string } | null {
     if (!toolName.startsWith('mcp_')) {
@@ -47,6 +48,7 @@ export function getMcpToolDisplayParts(
 }
 
 export const McpToolComponent = ({ part, estimatedOutputTokens }: { part: DynamicToolUIPart, estimatedOutputTokens?: number }) => {
+    const t = useTranslations("chat");
     const needsApproval = part.state === 'approval-requested';
     const [isExpanded, setIsExpanded] = useState(needsApproval);
     const onToggle = useCallback(() => setIsExpanded(v => !v), []);
@@ -100,14 +102,14 @@ export const McpToolComponent = ({ part, estimatedOutputTokens }: { part: Dynami
                 return (
                     <span className="text-sm flex-1 text-destructive flex items-center gap-1.5">
                         <McpFavicon faviconUrl={faviconUrl} className="w-3 h-3" />
-                        {reconnectState.serverName} needs to be reconnected.
+                        {t("tools.mcp.needsReconnect", { server: reconnectState.serverName })}
                     </span>
                 );
             }
             return (
                 <span className="text-sm flex-1 text-destructive flex items-center gap-1.5">
                     <McpFavicon faviconUrl={faviconUrl} className="w-3 h-3" />
-                    {display.displayName} failed: {part.errorText}
+                    {t("tools.mcp.failed", { name: display.displayName, error: part.errorText })}
                 </span>
             );
         }
@@ -116,7 +118,7 @@ export const McpToolComponent = ({ part, estimatedOutputTokens }: { part: Dynami
                 <span className="text-sm flex-1 text-muted-foreground flex items-center gap-1.5">
                     <McpFavicon faviconUrl={faviconUrl} className="w-3 h-3" />
                     <XCircle className="w-3.5 h-3.5 text-destructive flex-shrink-0" />
-                    {display.displayName} — denied
+                    {display.displayName}{t("tools.mcp.deniedSuffix")}
                 </span>
             );
         }
@@ -134,7 +136,7 @@ export const McpToolComponent = ({ part, estimatedOutputTokens }: { part: Dynami
                 <span className="text-sm flex-1 text-muted-foreground animate-pulse flex items-center gap-1.5">
                     <McpFavicon faviconUrl={faviconUrl} className="w-3 h-3" />
                     {approved ? <CheckCircle className="w-3.5 h-3.5 text-green-600 flex-shrink-0" /> : <XCircle className="w-3.5 h-3.5 text-destructive flex-shrink-0" />}
-                    {display.displayName}{approved ? '...' : ' — denied'}
+                    {display.displayName}{approved ? '...' : t("tools.mcp.deniedSuffix")}
                 </span>
             );
         }
@@ -172,20 +174,20 @@ export const McpToolComponent = ({ part, estimatedOutputTokens }: { part: Dynami
                         onClick={onToggle}
                         className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
                     >
-                        <span>Details</span>
+                        <span>{t("thread.guardDetails")}</span>
                         <ChevronDown className={cn("h-3 w-3 transition-transform -rotate-90", isExpanded && "rotate-0")} />
                     </button>
                 )}
             </div>
             {hasInput && isExpanded && (
                 <div className="rounded-lg border border-border text-xs overflow-y-auto max-h-72">
-                    <ResultSection label={`Request (${display.displayName})`} onCopy={onCopyRequest}>
+                    <ResultSection label={t("thread.guardRequest", { type: display.displayName })} onCopy={onCopyRequest}>
                         <JsonHighlighter text={requestText} />
                     </ResultSection>
                     {responseText !== undefined && (
                         <>
                             <div className="border-t border-border" />
-                            <ResultSection label="Response" onCopy={onCopyResponse}>
+                            <ResultSection label={t("thread.guardResponse")} onCopy={onCopyResponse}>
                                 <div className={cn(part.state === 'output-error' && "text-destructive")}>
                                     <JsonHighlighter text={responseText} />
                                 </div>

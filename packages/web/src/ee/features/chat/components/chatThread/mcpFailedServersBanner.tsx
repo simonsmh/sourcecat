@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useMcpReconnect } from '@/ee/features/chat/mcpReconnectContext';
 import { AlertTriangle, Loader2, X } from 'lucide-react';
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface FailedMcpServer {
     serverId: string;
@@ -16,6 +17,7 @@ interface McpFailedServersBannerProps {
 }
 
 export const McpFailedServersBanner = ({ servers, isVisible, onClose }: McpFailedServersBannerProps) => {
+    const t = useTranslations("chat");
     const reconnectContext = useMcpReconnect();
 
     if (!isVisible || servers.length === 0) {
@@ -23,8 +25,8 @@ export const McpFailedServersBanner = ({ servers, isVisible, onClose }: McpFaile
     }
 
     const message = servers.length === 1
-        ? `Connector "${servers[0].serverName}" failed to load tools`
-        : `${servers.length} connectors failed to load tools`;
+        ? t("mcp.failedSingle", { name: servers[0].serverName })
+        : t("mcp.failedMultiple", { count: servers.length });
     const isAnyReconnectStarting = Object.values(reconnectContext?.reconnectStates ?? {})
         .some((state) => state.status === 'reconnecting');
 
@@ -52,10 +54,10 @@ export const McpFailedServersBanner = ({ servers, isVisible, onClose }: McpFaile
                                 {isReconnecting ? (
                                     <>
                                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                                        Reconnecting...
+                                        {t("mcp.reconnecting")}
                                     </>
                                 ) : (
-                                    <>Reconnect {server.serverName}</>
+                                    <>{t("mcp.reconnect", { name: server.serverName })}</>
                                 )}
                             </Button>
                         );
@@ -65,7 +67,7 @@ export const McpFailedServersBanner = ({ servers, isVisible, onClose }: McpFaile
                         size="sm"
                         onClick={onClose}
                         className="h-6 w-6 p-0 text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-200"
-                        aria-label="Dismiss failed connectors banner"
+                        aria-label={t("mcp.dismissFailedBanner")}
                     >
                         <X className="h-4 w-4" />
                     </Button>

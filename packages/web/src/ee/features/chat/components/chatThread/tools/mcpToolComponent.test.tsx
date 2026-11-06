@@ -4,6 +4,14 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 import { McpToolNameContext } from '@/ee/features/chat/mcpDisplayMetadataContext';
 import { McpReconnectContext, McpReconnectContextValue, McpReconnectState } from '@/ee/features/chat/mcpReconnectContext';
 import { getMcpToolDisplayParts, McpToolComponent } from './mcpToolComponent';
+import type { ReactElement } from 'react';
+
+const { I18nProvider } = await import("@/i18n/I18nProvider");
+const enMessages = (await import("@/i18n/messages/en.json")).default;
+
+const renderWithI18n = (ui: ReactElement) => render(
+    <I18nProvider locale="en" messages={enMessages}>{ui}</I18nProvider>,
+);
 
 // React Testing Library's automatic cleanup relies on vitest globals, which
 // this project does not enable.
@@ -42,7 +50,7 @@ describe('McpToolComponent', () => {
             input: { filter: 'kind=component' },
         } as DynamicToolUIPart;
 
-        render(
+        renderWithI18n(
             <McpToolNameContext.Provider value={{
                 'mcp_backstage__catalog_query-catalog-entities': 'catalog.query-catalog-entities',
             }}>
@@ -88,7 +96,7 @@ describe('McpToolComponent reconnect recovery UI', () => {
     test('keeps the concise authentication error in details without duplicating the banner action', () => {
         const contextValue = createReconnectContext(createReconnectState());
 
-        render(
+        renderWithI18n(
             <McpReconnectContext.Provider value={contextValue}>
                 <McpToolComponent part={createErrorPart()} />
             </McpReconnectContext.Provider>
@@ -101,7 +109,7 @@ describe('McpToolComponent reconnect recovery UI', () => {
     test('keeps the technical error inside the expandable details section', () => {
         const contextValue = createReconnectContext(createReconnectState());
 
-        render(
+        renderWithI18n(
             <McpReconnectContext.Provider value={contextValue}>
                 <McpToolComponent part={createErrorPart()} />
             </McpReconnectContext.Provider>
@@ -115,7 +123,7 @@ describe('McpToolComponent reconnect recovery UI', () => {
     test('only decorates the tool result whose call failed authentication', () => {
         const contextValue = createReconnectContext(createReconnectState());
 
-        render(
+        renderWithI18n(
             <McpReconnectContext.Provider value={contextValue}>
                 <McpToolComponent part={createErrorPart('tool-call-other')} />
             </McpReconnectContext.Provider>
@@ -126,7 +134,7 @@ describe('McpToolComponent reconnect recovery UI', () => {
     });
 
     test('falls back to the plain error rendering without a reconnect provider', () => {
-        render(<McpToolComponent part={createErrorPart()} />);
+        renderWithI18n(<McpToolComponent part={createErrorPart()} />);
 
         expect(screen.queryByText('Linear needs to be reconnected.')).toBeNull();
         expect(screen.getByText(/failed:/)).toBeTruthy();

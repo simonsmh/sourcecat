@@ -971,6 +971,32 @@
                 "feedbackFailed": "❌ 反馈提交失败：{message}",
                 "feedbackSubmitted": "✅ 反馈已提交"
             },
+            "approval": {
+                "createSkill": "智能体想要创建技能 {name}",
+                "updateSkill": "智能体想要更新{scope}技能 {name}",
+                "scopeShared": "共享",
+                "scopeYour": "你的",
+                "useFrom": "智能体想要使用来自 {server} 的 {tool}",
+                "use": "智能体想要使用 {tool}",
+                "allow": "允许",
+                "deny": "拒绝"
+            },
+            "errorBanner": {
+                "title": "发生错误"
+            },
+            "signInPrompt": {
+                "message": "登录以保存对话记录。",
+                "signIn": "登录"
+            },
+            "mcp": {
+                "failedSingle": "连接器\"{name}\"未能加载工具",
+                "failedMultiple": "{count} 个连接器未能加载工具",
+                "reconnecting": "正在重新连接...",
+                "reconnect": "重新连接 {name}",
+                "dismissFailedBanner": "关闭加载失败的连接器横幅",
+                "authFailed": "{server} 身份验证失败",
+                "reconnectToContinue": "重新连接 {server} 以继续使用其工具。"
+            },
             "thread": {
                 "thinking": "思考中...",
                 "awaitingPermission": "等待授权...",
@@ -1054,7 +1080,12 @@
                 "lineWord": "行",
                 "entryWord": "条目",
                 "changedFiles": "{count} 个变更文件",
-                "resultStats": "{count} 个结果"
+                "resultStats": "{count} 个结果",
+                "mcp": {
+                    "needsReconnect": "{server} 需要重新连接。",
+                    "failed": "{name} 失败：{error}",
+                    "deniedSuffix": " — 已拒绝"
+                }
             },
             "chatBox": {
                 "placeholder": "向代码提问。@提及文件或选择搜索范围以缩小查询。",

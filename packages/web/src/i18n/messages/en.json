@@ -971,6 +971,32 @@
                 "feedbackFailed": "❌ Failed to submit feedback: {message}",
                 "feedbackSubmitted": "✅ Feedback submitted"
             },
+            "approval": {
+                "createSkill": "Agent wants to create skill {name}",
+                "updateSkill": "Agent wants to update {scope} skill {name}",
+                "scopeShared": "shared",
+                "scopeYour": "your",
+                "useFrom": "Agent wants to use {tool} from {server}",
+                "use": "Agent wants to use {tool}",
+                "allow": "Allow",
+                "deny": "Deny"
+            },
+            "errorBanner": {
+                "title": "Error occurred"
+            },
+            "signInPrompt": {
+                "message": "Sign in to save chat history.",
+                "signIn": "Sign in"
+            },
+            "mcp": {
+                "failedSingle": "Connector \"{name}\" failed to load tools",
+                "failedMultiple": "{count} connectors failed to load tools",
+                "reconnecting": "Reconnecting...",
+                "reconnect": "Reconnect {name}",
+                "dismissFailedBanner": "Dismiss failed connectors banner",
+                "authFailed": "{server} authentication failed",
+                "reconnectToContinue": "Reconnect {server} to continue using its tools."
+            },
             "thread": {
                 "thinking": "Thinking...",
                 "awaitingPermission": "Awaiting permission...",
@@ -1054,7 +1080,12 @@
                 "lineWord": "{count, plural, one {line} other {lines}}",
                 "entryWord": "{count, plural, one {entry} other {entries}}",
                 "changedFiles": "{count, plural, one {# changed file} other {# changed files}}",
-                "resultStats": "{count, plural, one {# result} other {# results}}"
+                "resultStats": "{count, plural, one {# result} other {# results}}",
+                "mcp": {
+                    "needsReconnect": "{server} needs to be reconnected.",
+                    "failed": "{name} failed: {error}",
+                    "deniedSuffix": " — denied"
+                }
             },
             "chatBox": {
                 "placeholder": "Ask a question about your code. @mention files or select search scopes to refine your query.",

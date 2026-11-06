@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useTranslations } from "@/i18n/I18nProvider";
 
 const DISMISSED_KEY = 'sb.chat-sign-in-prompt-dismissed';
 
@@ -25,6 +26,7 @@ export const SignInPromptBanner = ({
     isTurnInProgress,
 }: SignInPromptBannerProps) => {
     const pathname = usePathname();
+    const t = useTranslations("chat");
     const [isDismissed, setIsDismissed] = useState(true); // Start as true to avoid flash
     const [hasDisplayedEventFired, setHasDisplayedEventFired] = useState(false);
 
@@ -67,7 +69,7 @@ export const SignInPromptBanner = ({
     return (
         <div className="flex flex-row items-center justify-between gap-3 p-3 mb-4 border rounded-md bg-muted/50 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <p className="text-sm text-muted-foreground">
-                Sign in to save chat history.
+                {t("signInPrompt.message")}
             </p>
             <div className="flex flex-row items-center gap-2">
                 <Button
@@ -77,7 +79,7 @@ export const SignInPromptBanner = ({
                     onClick={handleSignInClick}
                 >
                     <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}>
-                        Sign in
+                        {t("signInPrompt.signIn")}
                     </Link>
                 </Button>
                 <Button
